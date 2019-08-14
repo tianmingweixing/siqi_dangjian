@@ -1,0 +1,49 @@
+.label_width_40 {
+    width: 40px
+}
+
+.label_width_100 {
+    width: 100px
+}
+
+.label_width_65 {
+    width: 65px
+}
+
+.label_width_150 {
+    width: 150px
+}
+
+.label_width_250 {
+    width: 250px
+}
+
+.text_center {
+    text-align: center;
+}
+
+.text_left {
+    text-align: left;
+}
+
+.text_column {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.container_div {
+    margin-left: 5%;
+    background-color: #F5F5F5;
+    padding-left: 30px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    margin-top: 10px
+}
+
+.bold_big_green_font {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5FB878;
+    margin-left: 3px;
+    margin-right: 3px;
+}

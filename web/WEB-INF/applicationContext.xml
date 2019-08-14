@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task-4.0.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+
+
+
+
+
+    <context:component-scan base-package="com.siqi_dangjian.service" />
+    <context:component-scan base-package="com.siqi_dangjian.dao" />
+    <!-- scanner redis properties  -->
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties" />
+    <task:annotation-driven/>
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxTotal" value="${redis.maxActive}" />
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>
+
+    <!--<bean class="com.util.SpringInital"/>-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:host-name="${redis.host}"
+          p:port="${redis.port}"
+          p:password="${redis.pass}"
+          p:pool-config-ref="poolConfig"/>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory"   ref="connectionFactory" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+    </bean>
+
+    <!--自定义redis工具类,在需要缓存的地方注入此类  -->
+    <bean id="redisrCacheManager" class="com.siqi_dangjian.util.RedisCacheManager">
+        <property name="redisTemplate" ref="redisTemplate" />
+    </bean>
+
+  <!--  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="username" value="dfch"/>
+        <property name="password" value="3zFmS3G7yJebHJLZ"/>
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="jdbc:mysql://118.190.151.241/dfch?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="minIdle" value="${jdbc.minPoolSize}" />
+        <property name="maxIdle" value="${jdbc.maxPoolSize}" />
+        <property name="initialSize" value="${jdbc.initialPoolSize}" />
+    </bean>-->
+
+    <!--测试数据库-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="username" value="root"/>
+        <property name="password" value="as"/>
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/dfch?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="minIdle" value="${jdbc.minPoolSize}" />
+        <property name="maxIdle" value="${jdbc.maxPoolSize}" />
+        <property name="initialSize" value="${jdbc.initialPoolSize}" />
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="false">
+        <!-- 注入datasource，给sessionfactoryBean内setdatasource提供数据源 -->
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.siqi_dangjian.bean"/>
+        <!-- 配置Hibernate 的常用属性 -->
+        <property name="hibernateProperties">
+            <props>
+                <!-- 数据库的方言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddlAuto}</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 配置事务管理器 -->
+        <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+           <property name="sessionFactory" ref="sessionFactory"/>
+        </bean>
+       <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
+
+</beans>
