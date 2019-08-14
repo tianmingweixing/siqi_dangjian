@@ -8,7 +8,7 @@ public class BaseBean {
 
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
 
     /**
      * 创建时间

@@ -23,8 +23,6 @@ public class Activities extends BaseBean{
     @Column(name="title",length = 100,nullable = true)
     private String title;
 
-
-
     /**
      * 活动内容
      */
