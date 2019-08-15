@@ -2,9 +2,12 @@ package com.siqi_dangjian.dao.impl;
 
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
+import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -17,8 +20,12 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     @Override
-    public void logicDeleteUser(User user) throws Exception {
-        logic_delete(user);
+    public void logicDeleteUser(List idList) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "update user set isUse = 0";
+        sql = CommonUtil.appendInSql(sql,idList,"id");
+        SQLQuery query = session.createSQLQuery(sql);
+        query.executeUpdate();
     }
 
     @Override

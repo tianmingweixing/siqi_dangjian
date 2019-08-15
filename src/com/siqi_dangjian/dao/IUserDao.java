@@ -9,7 +9,7 @@ public interface IUserDao {
 
     void inserOrUpdateUser(User user) throws Exception;
 
-    void logicDeleteUser(User user) throws Exception;
+    void logicDeleteUser(List idList) throws Exception;
 
     User selectUserById(Long id) throws Exception;
 
