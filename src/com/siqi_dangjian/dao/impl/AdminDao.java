@@ -1,7 +1,6 @@
 package com.siqi_dangjian.dao.impl;
 
 import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IAdminDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
@@ -26,8 +25,8 @@ public class AdminDao extends BaseDao<Admin> implements IAdminDao {
     }
 
     @Override
-    public User selectById(Long id) throws Exception {
-        return null;
+    public Admin selectById(Long id) throws Exception {
+        return getObjectById(id);
     }
 
     @Override

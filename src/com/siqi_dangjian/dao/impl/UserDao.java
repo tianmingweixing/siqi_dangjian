@@ -13,12 +13,12 @@ import java.util.Map;
 public class UserDao extends BaseDao<User> implements IUserDao {
 
     @Override
-    public void insertOrUpdateUser(User user) throws Exception {
+    public void insertOrUpdate(User user) throws Exception {
         saveOrUpdateObject(user);
     }
 
     @Override
-    public void logicDeleteUser(List idList) throws Exception {
+    public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
         String sql = "update user set isUse = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
@@ -26,6 +26,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         query.executeUpdate();
     }
 
+    @Override
     public void delete(List idList) throws Exception{
         session = sessionFactory.getCurrentSession();
         String sql = "delete user";
@@ -35,12 +36,12 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     @Override
-    public User selectUserById(Long id) throws Exception {
+    public User selectById(Long id) throws Exception {
         return getObjectById(id);
     }
 
     @Override
-    public Map selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
