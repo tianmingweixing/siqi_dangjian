@@ -4,7 +4,7 @@ import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Repository
@@ -27,7 +27,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     @Override
-    public List<User> selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
-        return getAll();
+    public Map selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+        return new HashMap();
     }
 }

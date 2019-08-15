@@ -13,5 +13,5 @@ public interface IUserDao {
 
     User selectUserById(Long id) throws Exception;
 
-    List<User> selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception;
+    Map selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception;
 }
