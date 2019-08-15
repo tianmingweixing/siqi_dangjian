@@ -29,7 +29,6 @@ public class CommonUtil {
 
     /**
      * 截取类名,ex:com.util.User,截取为User
-     *
      * @param className
      * @return
      */

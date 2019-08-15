@@ -11,6 +11,8 @@ public interface IUserDao {
 
     void logicDeleteUser(List idList) throws Exception;
 
+    void delete(List idList) throws Exception;
+
     User selectUserById(Long id) throws Exception;
 
     Map selectAllUser(Map blurParam, Map dateParam,

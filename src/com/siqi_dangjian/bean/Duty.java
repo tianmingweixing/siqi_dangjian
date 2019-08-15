@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 政治面貌；1：积极分子；2：预备党员；3：发展对象；4：正式党员；5：党委。。。
+ * 政治面貌；：积极分子；：预备党员；：发展对象；：正式党员；：党委。。。
  */
 @Entity
 @Table(name = "duty")
