@@ -9,7 +9,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "configuration")
-public class Configuration {
+public class Configuration extends BaseBean {
 
     /**
      * 支部ID
@@ -44,37 +44,37 @@ public class Configuration {
     /**
      * 图片1
      */
-    @Column(name="image_path_A",length = 100)
+    @Column(name="image_path_a",length = 100)
     private String imagePathA;
 
     /**
      * 图片2
      */
-    @Column(name="image_path_B",length = 100)
+    @Column(name="image_path_b",length = 100)
     private String imagePathB;
 
     /**
      * 图片3
      */
-    @Column(name="image_path_C",length =100)
+    @Column(name="image_path_c",length =100)
     private String imagePathC;
 
     /**
      * 图片4
      */
-    @Column(name="image_path_D",length = 100)
+    @Column(name="image_path_d",length = 100)
     private String imagePathD;
 
     /**
      * 图片5
      */
-    @Column(name="image_path_E",length = 100)
+    @Column(name="image_path_e",length = 100)
     private String imagePathE;
 
     /**
      * 图片6
      */
-    @Column(name="image_path_F",length = 100)
+    @Column(name="image_path_f",length = 100)
     private String imagePathF;
 
     public Long getPartyBranchId() {

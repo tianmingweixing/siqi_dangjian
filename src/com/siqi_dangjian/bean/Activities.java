@@ -53,20 +53,20 @@ public class Activities extends BaseBean{
     /**
      * 是否结束
      */
-    @Column(name="is_End",length = 8,nullable = true)
+    @Column(name="is_end",length = 8,nullable = true)
     public Integer isEnd;
 
 
     /**
      * 图片1
      */
-    @Column(name="image_path_A",length = 150)
+    @Column(name="image_path_a",length = 150)
     private String imagePathA;
 
     /**
      * 图片2
      */
-    @Column(name="image_path_B",length = 150)
+    @Column(name="image_path_b",length = 150)
     private String imagePathB;
 
     /**

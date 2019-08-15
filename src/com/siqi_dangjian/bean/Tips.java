@@ -1,11 +1,15 @@
 package com.siqi_dangjian.bean;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 心得表
  */
-public class Tips {
+@Entity
+@Table(name = "tips")
+public class Tips extends BaseBean{
     /**
      * 支部ID
      */
@@ -15,25 +19,25 @@ public class Tips {
     /**
      * 用户ID
      */
-    @Column(name="user_Id",length = 100)
+    @Column(name="user_id",length = 100)
     private Long userId;
 
     /**
      * 用户名
      */
-    @Column(name="user_Name",length = 100)
+    @Column(name="user_name",length = 100)
     private String userName;
 
     /**
      * 活动ID
      */
-    @Column(name="activity_Id",length =100)
+    @Column(name="activity_id",length =100)
     private Long activityId;
 
     /**
      * 会议ID
      */
-    @Column(name="meeting_Id",length = 100)
+    @Column(name="meeting_id",length = 100)
     private Long meetingId;
 
     /**

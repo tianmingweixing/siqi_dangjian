@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * 党务表
  */
 @Entity
-@Table(name = "partyWork")
+@Table(name = "party_work")
 public class PartyWork extends BaseBean{
 
 
@@ -40,13 +40,13 @@ public class PartyWork extends BaseBean{
     /**
      * 图片1
      */
-    @Column(name="image_path_A",length = 150)
+    @Column(name="image_path_a",length = 150)
     private String imagePathA;
 
     /**
      * 图片2
      */
-    @Column(name="image_path_B",length = 150)
+    @Column(name="image_path_b",length = 150)
     private String imagePathB;
 
     public String getImagePathA() {

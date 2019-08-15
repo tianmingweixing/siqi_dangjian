@@ -7,11 +7,12 @@ import java.util.Map;
 
 public interface IUserDao {
 
-    void inserOrUpdateUser(User user) throws Exception;
+    void insertOrUpdateUser(User user) throws Exception;
 
     void logicDeleteUser(List idList) throws Exception;
 
     User selectUserById(Long id) throws Exception;
 
-    Map selectAllUser(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception;
+    Map selectAllUser(Map blurParam, Map dateParam,
+                      Map intParam, int limit, int page) throws Exception;
 }

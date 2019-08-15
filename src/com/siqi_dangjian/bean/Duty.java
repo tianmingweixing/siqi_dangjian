@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * 政治面貌；1：积极分子；2：预备党员；3：发展对象；4：正式党员；5：党委。。。
  */
 @Entity
-@Table(name = "dangyuan")
+@Table(name = "duty")
 public class Duty extends BaseBean {
 
     @Column(name="name",nullable=true,length=30)

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 荣誉和违纪表
  */
 @Entity
-@Table(name = "disciplineOfHonor")
+@Table(name = "discipline_of_honor")
 public class DisciplineOfHonor extends BaseBean {
     /**
      * 支部ID
@@ -72,7 +72,7 @@ public class DisciplineOfHonor extends BaseBean {
     /**
      * 备注
      */
-    @Column(name="note",length = 100)
+    @Column(name="note",length = 300)
     private String note;
 
     public Long getPartyBranchId() {
