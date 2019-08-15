@@ -15,7 +15,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
 
     @Override
-    public void inserOrUpdateUser(User user) throws Exception {
+    public void insertOrUpdateUser(User user) throws Exception {
         saveOrUpdateObject(user);
     }
 
