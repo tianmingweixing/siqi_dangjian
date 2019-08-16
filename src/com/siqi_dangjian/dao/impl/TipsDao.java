@@ -1,7 +1,6 @@
 package com.siqi_dangjian.dao.impl;
 
 import com.siqi_dangjian.bean.Tips;
-import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.ITipsDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
@@ -30,7 +29,7 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
     @Override
     public void delete(List idList) throws Exception{
         session = sessionFactory.getCurrentSession();
-        String sql = "delete tips";
+        String sql = "delete from tips";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();

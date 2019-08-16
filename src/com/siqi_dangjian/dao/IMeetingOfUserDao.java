@@ -11,7 +11,9 @@ public interface IMeetingOfUserDao {
 
     void logicDelete(List idList) throws Exception;
 
-    User selectById(Long id) throws Exception;
+    void delete(List idList) throws Exception;
+
+    MeetingOfUser selectById(Long id) throws Exception;
 
     Map selectAll(Map blurParam, Map dateParam,
                   Map intParam, int limit, int page) throws Exception;

@@ -10,7 +10,9 @@ public interface IPartyTeamDao {
 
     void logicDelete(List idList) throws Exception;
 
-    User selectById(Long id) throws Exception;
+    PartyTeam selectById(Long id) throws Exception;
+
+    void delete(List idList) throws Exception;
 
     Map selectAll(Map blurParam, Map dateParam,
                   Map intParam, int limit, int page) throws Exception;

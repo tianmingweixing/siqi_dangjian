@@ -29,7 +29,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public void delete(List idList) throws Exception{
         session = sessionFactory.getCurrentSession();
-        String sql = "delete user";
+        String sql = "delete from user";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
