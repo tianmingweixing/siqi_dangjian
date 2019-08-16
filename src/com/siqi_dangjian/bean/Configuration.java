@@ -42,6 +42,18 @@ public class Configuration extends BaseBean {
     private String comName;
 
     /**
+     * 公司简介
+     */
+    @Column(name="com_info",length = 100)
+    private String comInfo;
+
+    /**
+     * 公司图片
+     */
+    @Column(name="com_img",length = 100)
+    private String comImg;
+
+    /**
      * 图片1
      */
     @Column(name="image_path_a",length = 100)
@@ -76,6 +88,22 @@ public class Configuration extends BaseBean {
      */
     @Column(name="image_path_f",length = 100)
     private String imagePathF;
+
+    public String getComInfo() {
+        return comInfo;
+    }
+
+    public void setComInfo(String comInfo) {
+        this.comInfo = comInfo;
+    }
+
+    public String getComImg() {
+        return comImg;
+    }
+
+    public void setComImg(String comImg) {
+        this.comImg = comImg;
+    }
 
     public Long getPartyBranchId() {
         return partyBranchId;

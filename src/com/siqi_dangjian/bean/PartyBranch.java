@@ -34,6 +34,17 @@ public class PartyBranch extends BaseBean {
     private String partyNo;
 
     /**
+     * 党支部简介
+     */
+    @Column(name="party_info",nullable=true,length=30)
+    private String partyInfo;
+    /**
+     * 党支部图片
+     */
+    @Column(name="party_img",nullable=true,length=30)
+    private String partyImg;
+
+    /**
      * 活动面积
      */
     @Column(name="activity_area",nullable=true,length=5)
@@ -50,6 +61,22 @@ public class PartyBranch extends BaseBean {
      */
     @Column(name="change_time",length = 1,nullable = true)
     private Timestamp changeTime;
+
+    public String getPartyInfo() {
+        return partyInfo;
+    }
+
+    public void setPartyInfo(String partyInfo) {
+        this.partyInfo = partyInfo;
+    }
+
+    public String getPartyImg() {
+        return partyImg;
+    }
+
+    public void setPartyImg(String partyImg) {
+        this.partyImg = partyImg;
+    }
 
     public String getName() {
         return name;
