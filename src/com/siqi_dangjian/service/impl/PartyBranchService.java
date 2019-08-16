@@ -1,31 +1,20 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.dao.impl.AdminDao;
-import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.bean.PartyBranch;
+import com.siqi_dangjian.dao.IPartyBranchDao;
+import com.siqi_dangjian.service.IPartyBranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService {
+public class PartyBranchService implements IPartyBranchService {
 
     @Autowired
-    private AdminDao adminDao;
-
-    @Override
-    public Admin Login(Long name) {
-        try {
-            return adminDao.selectById(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private IPartyBranchDao partyBranchDao;
 
     @Override
     public Map getUserNameByType(Integer type) throws Exception {
@@ -38,24 +27,29 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void insertOrUpdate(Admin admin) throws Exception {
-        adminDao.insertOrUpdate(admin);
+    public void insertOrUpdate(PartyBranch partyBranch) throws Exception {
+        partyBranchDao.insertOrUpdate(partyBranch);
     }
 
     @Override
     public void logicDelete(List idList) throws Exception {
-        adminDao.logicDelete(idList);
+        partyBranchDao.logicDelete(idList);
     }
 
     @Override
     public void delete(List idList) throws Exception {
-        adminDao.delete(idList);
+        partyBranchDao.delete(idList);
     }
 
+    @Override
+    public PartyBranch selectById(Long id) throws Exception {
+        PartyBranch partyBranch = partyBranchDao.selectById(id);
+        return partyBranch;
+    }
 
     @Override
     public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  adminDao.selectAll(blurMap,intMap,dateMap,limit, page);
+        Map map =  partyBranchDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
 }

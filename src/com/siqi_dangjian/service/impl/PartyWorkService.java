@@ -1,8 +1,8 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.dao.impl.AdminDao;
-import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.bean.PartyWork;
+import com.siqi_dangjian.dao.IPartyWorkDao;
+import com.siqi_dangjian.service.IPartyWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,20 +12,10 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService {
+public class PartyWorkService implements IPartyWorkService {
 
     @Autowired
-    private AdminDao adminDao;
-
-    @Override
-    public Admin Login(Long name) {
-        try {
-            return adminDao.selectById(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private IPartyWorkDao partyWorkDao;
 
     @Override
     public Map getUserNameByType(Integer type) throws Exception {
@@ -38,24 +28,29 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void insertOrUpdate(Admin admin) throws Exception {
-        adminDao.insertOrUpdate(admin);
+    public void insertOrUpdate(PartyWork partyWork) throws Exception {
+        partyWorkDao.insertOrUpdate(partyWork);
     }
 
     @Override
     public void logicDelete(List idList) throws Exception {
-        adminDao.logicDelete(idList);
+        partyWorkDao.logicDelete(idList);
     }
 
     @Override
     public void delete(List idList) throws Exception {
-        adminDao.delete(idList);
+        partyWorkDao.delete(idList);
     }
 
+    @Override
+    public PartyWork selectById(Long id) throws Exception {
+        PartyWork partyWork = partyWorkDao.selectById(id);
+        return partyWork;
+    }
 
     @Override
     public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  adminDao.selectAll(blurMap,intMap,dateMap,limit, page);
+        Map map =  partyWorkDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
 }

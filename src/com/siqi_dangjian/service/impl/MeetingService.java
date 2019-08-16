@@ -1,31 +1,20 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.dao.impl.AdminDao;
-import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.bean.Meeting;
+import com.siqi_dangjian.dao.IMeetingDao;
+import com.siqi_dangjian.service.IMeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService {
+public class MeetingService implements IMeetingService {
 
     @Autowired
-    private AdminDao adminDao;
-
-    @Override
-    public Admin Login(Long name) {
-        try {
-            return adminDao.selectById(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private IMeetingDao meetingDao;
 
     @Override
     public Map getUserNameByType(Integer type) throws Exception {
@@ -38,24 +27,30 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void insertOrUpdate(Admin admin) throws Exception {
-        adminDao.insertOrUpdate(admin);
+    public void insertOrUpdate(Meeting meeting) throws Exception {
+        meetingDao.insertOrUpdate(meeting);
     }
 
     @Override
     public void logicDelete(List idList) throws Exception {
-        adminDao.logicDelete(idList);
+        meetingDao.logicDelete(idList);
     }
 
     @Override
     public void delete(List idList) throws Exception {
-        adminDao.delete(idList);
+        meetingDao.delete(idList);
     }
 
+    @Override
+    public Meeting selectById(Long id) throws Exception {
+        Meeting meeting = meetingDao.selectById(id);
+        return meeting;
+
+    }
 
     @Override
     public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  adminDao.selectAll(blurMap,intMap,dateMap,limit, page);
+        Map map =  meetingDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
 }

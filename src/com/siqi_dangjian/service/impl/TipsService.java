@@ -1,31 +1,21 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.dao.impl.AdminDao;
-import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.bean.Tips;
+import com.siqi_dangjian.dao.IActivityOfUserDao;
+import com.siqi_dangjian.dao.ITipsDao;
+import com.siqi_dangjian.service.ITipsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService {
+public class TipsService implements ITipsService {
 
     @Autowired
-    private AdminDao adminDao;
-
-    @Override
-    public Admin Login(Long name) {
-        try {
-            return adminDao.selectById(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private ITipsDao tipsDao;
 
     @Override
     public Map getUserNameByType(Integer type) throws Exception {
@@ -38,24 +28,29 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void insertOrUpdate(Admin admin) throws Exception {
-        adminDao.insertOrUpdate(admin);
+    public void insertOrUpdate(Tips tips) throws Exception {
+        tipsDao.insertOrUpdate(tips);
     }
 
     @Override
     public void logicDelete(List idList) throws Exception {
-        adminDao.logicDelete(idList);
+        tipsDao.logicDelete(idList);
     }
 
     @Override
     public void delete(List idList) throws Exception {
-        adminDao.delete(idList);
+        tipsDao.delete(idList);
     }
 
+    @Override
+    public Tips selectById(Long id) throws Exception {
+        Tips tips = tipsDao.selectById(id);
+        return tips;
+    }
 
     @Override
     public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  adminDao.selectAll(blurMap,intMap,dateMap,limit, page);
+        Map map =  tipsDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
 }

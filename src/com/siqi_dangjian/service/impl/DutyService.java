@@ -1,31 +1,21 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.dao.impl.AdminDao;
-import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.bean.Duty;
+import com.siqi_dangjian.dao.IDutyDao;
+import com.siqi_dangjian.service.IDutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class AdminService implements IAdminService {
+public class DutyService implements IDutyService {
+
 
     @Autowired
-    private AdminDao adminDao;
-
-    @Override
-    public Admin Login(Long name) {
-        try {
-            return adminDao.selectById(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private IDutyDao dutyDao;
 
     @Override
     public Map getUserNameByType(Integer type) throws Exception {
@@ -38,24 +28,29 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void insertOrUpdate(Admin admin) throws Exception {
-        adminDao.insertOrUpdate(admin);
+    public void insertOrUpdate(Duty duty) throws Exception {
+        dutyDao.insertOrUpdate(duty);
     }
 
     @Override
     public void logicDelete(List idList) throws Exception {
-        adminDao.logicDelete(idList);
+        dutyDao.logicDelete(idList);
     }
 
     @Override
     public void delete(List idList) throws Exception {
-        adminDao.delete(idList);
+        dutyDao.delete(idList);
     }
 
+    @Override
+    public Duty selectById(Long id) throws Exception {
+        Duty duty = dutyDao.selectById(id);
+        return duty;
+    }
 
     @Override
     public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  adminDao.selectAll(blurMap,intMap,dateMap,limit, page);
+        Map map =  dutyDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
 }
