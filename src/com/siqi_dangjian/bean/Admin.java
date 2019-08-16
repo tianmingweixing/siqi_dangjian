@@ -29,6 +29,13 @@ public class Admin extends BaseBean {
     @Column(name="authority",nullable=true,length=300)
     private String authority;
 
+
+    /**
+     * 账号
+     */
+    @Column(name="account",nullable=true,length=300)
+    private String account;
+
     /**
      * 党支部id
      */
@@ -83,5 +90,13 @@ public class Admin extends BaseBean {
 
     public void setPartyBranchId(Long partyBranchId) {
         this.partyBranchId = partyBranchId;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }
