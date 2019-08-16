@@ -11,6 +11,8 @@ public interface IAdminDao {
 
     void logicDelete(List idList) throws Exception;
 
+    void delete(List idList) throws Exception;
+
     Admin selectById(Long id) throws Exception;
 
     Map selectAll(Map blurParam, Map dateParam,
