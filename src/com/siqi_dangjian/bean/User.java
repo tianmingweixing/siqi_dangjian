@@ -45,10 +45,16 @@ public class User extends BaseBean {
     private Long dutyId;
 
     /**
-     * 党小组id
+     * 班子id
      */
     @Column(name="party_groups_id",nullable=true,length=8)
     private Long partyGroupsId;
+
+    /**
+     * 党小组id
+     */
+    @Column(name="party_team_id",nullable=true,length=8)
+    private Long partyTeamId;
 
     /**
      * 单位
@@ -317,5 +323,13 @@ public class User extends BaseBean {
 
     public void setPartyBranchId(Long partyBranchId) {
         this.partyBranchId = partyBranchId;
+    }
+
+    public Long getPartyTeamId() {
+        return partyTeamId;
+    }
+
+    public void setPartyTeamId(Long partyTeamId) {
+        this.partyTeamId = partyTeamId;
     }
 }
