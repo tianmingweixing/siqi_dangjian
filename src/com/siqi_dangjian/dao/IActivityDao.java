@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface IActivityDao {
+
+    Map selectActivityContentById(Long id);
+
+    Map selectActivityContentByType(Integer type);
+
     void insertOrUpdate(Activities activities) throws Exception;
 
     void logicDelete(List idList) throws Exception;

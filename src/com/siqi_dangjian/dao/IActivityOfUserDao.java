@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface IActivityOfUserDao {
+
+    Map getUserNameById(Long id) throws Exception;
+
     void insertOrUpdate(ActivityOfUser activityOfUser) throws Exception;
 
     void logicDelete(List idList) throws Exception;

@@ -13,6 +13,11 @@ import java.util.Map;
 public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActivityOfUserDao {
 
     @Override
+    public Map getUserNameById(Long id) throws Exception {
+        return null;
+    }
+
+    @Override
     public void insertOrUpdate(ActivityOfUser activityOfUser) throws Exception {
         saveOrUpdateObject(activityOfUser);
     }
@@ -41,7 +46,7 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurMap, Map dateMap, Map intMap, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
@@ -53,12 +58,13 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
                 "FROM activity_of_user a where a.can_use = 1";
-        sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"a");
-        sql = CommonUtil.appendIntStr(sql,intParam,"a");
-        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"a");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
+
+        sql = CommonUtil.appendBlurStr(sql,blurMap);
+        sql = CommonUtil.appendDateStr(sql,dateMap,"a");
+        sql = CommonUtil.appendIntStr(sql,intMap,"a");
+        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"a");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"a");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
