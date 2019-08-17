@@ -1,7 +1,13 @@
 package com.siqi_dangjian.controller;
 
 import com.siqi_dangjian.bean.Admin;
+import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.service.IUserService;
 import com.siqi_dangjian.service.impl.AdminService;
+import com.siqi_dangjian.service.impl.UserService;
+import com.siqi_dangjian.util.MD5;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,39 +20,71 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 
 @Controller
 @RequestMapping("/login")
-public class LoginController extends BaseController
-
-{
+public class LoginController extends BaseController{
 
     @Autowired
-    private AdminService adminService;
+    IUserService userService;
+
+    @Autowired
+    private IAdminService adminService;
 
     Logger logger  = Logger.getRootLogger();
 
-    @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
+
+
+    @RequestMapping(value = "/admin_register", method = RequestMethod.GET)
     @ResponseBody
-    public ModelMap adminLogin(@RequestParam(value = "phone", required = false) Long phone, @RequestParam(value = "passWord", required = false) String passWord, HttpSession httpSession) {
+    public ModelMap adminRegister(@RequestParam(value = "account", required = false) String account,
+                               @RequestParam(value = "passWord", required = false) String passWord){
+        String md5Str;
         modelMap = new ModelMap();
-        String md5pwd = null;
-        Admin admin = null;
+        try {
 
+            Admin admin = adminService.getAdminByAccount(account);
 
+            if (admin != null) {
+                setMsg("该账户已被使用");
+                return modelMap;
+            } else {
+                if (StringUtils.isNotEmpty(passWord)) {
+                    md5Str = MD5.EncoderByMd5(passWord);
+                    admin = new Admin();
+                    admin.setAccount(account);
+                    admin.setPassword(md5Str);
+                    admin.setCanUse(1);
+                    adminService.insertOrUpdate(admin);
+                    setMsg("注册成功");
+                    return modelMap;
+                }
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            logger.error("register--->admin_register",e);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            logger.error("register--->admin_register",e);
+        }catch (Exception e) {
+            e.printStackTrace();
+            setMsg("注册失败");
 
-        if (admin != null)
-            setSuccess();
-        else setFail();
+        }
         return modelMap;
     }
 
 
-   /* @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
     @ResponseBody
-    public ModelMap adminLogin(@RequestParam(value = "phone", required = false) Long phone, @RequestParam(value = "passWord", required = false) String passWord, HttpSession httpSession) {
-        User u = null;
+    public ModelMap adminLogin(@RequestParam(value = "account", required = false) String account,
+                               @RequestParam(value = "passWord", required = false) String passWord,
+                               HttpSession httpSession) {
+        Admin admin = null;
         String md5Str = null;
         modelMap = new ModelMap();
         try {
@@ -61,19 +99,18 @@ public class LoginController extends BaseController
             logger.error("login--->admin_login",e);
         }
         try {
-            u = userService.getUserByPhone(phone);
+            admin = adminService.getAdminByAccount(account);
         }catch (Exception e){
             e.printStackTrace();
         }
-        if (u == null) {
+        if (admin == null) {
             setFail();
-            setMsg("电话不存在");
+            setMsg("账户不存在");
         } else {
-            if (u.getPassword().equals(md5Str)) {
+            if (admin.getPassword().equals(passWord)) {
                 setSuccess();
                 setMsg("登陆成功");
-                httpSession.setAttribute("userName", u.getUsername());
-                httpSession.setAttribute("phone", u.getPhone());
+                httpSession.setAttribute("account", admin.getAccount());
             } else {
                 setFail();
                 setMsg("用户密码不正确");
@@ -83,7 +120,7 @@ public class LoginController extends BaseController
     }
 
 
-    @RequestMapping("/reset_password")
+   /* @RequestMapping("/reset_password")
     @ResponseBody
     public ModelMap reset_password(@RequestParam(value = "new_password", required = false) String new_password, @RequestParam(value = "old_password", required = false) String old_password, HttpSession session) throws IOException {
         Long phone = (Long) session.getAttribute("phone");
@@ -133,7 +170,7 @@ public class LoginController extends BaseController
             return modelMap;
         }
         return modelMap;
-    }*/
+    }
 
     @RequestMapping("/logout")
     @ResponseBody
@@ -142,6 +179,6 @@ public class LoginController extends BaseController
         ModelAndView modelAndView =new ModelAndView();
         modelAndView.setViewName("/login");
         return modelAndView;
-    }
+    }*/
 
 }

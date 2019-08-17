@@ -39,7 +39,7 @@ public class BaseDao<T extends BaseBean> {
      */
     public void saveOrUpdateObject(T t){
         session = sessionFactory.getCurrentSession();
-        if(t.id==0) {
+        if(t.getId()==null || t.getId() == 0) {
             t.setCreateTime(getNowTimeStamp());
         } else {
             t.setUpdateTime(getNowTimeStamp());

@@ -2,11 +2,16 @@ package com.siqi_dangjian.dao;
 
 import com.siqi_dangjian.bean.Admin;
 import com.siqi_dangjian.bean.User;
+import org.springframework.ui.ModelMap;
+
 import java.util.List;
 import java.util.Map;
 
 
 public interface IAdminDao {
+
+    Admin selectAdminByAccount(String account);
+
     void insertOrUpdate(Admin admin) throws Exception;
 
     void logicDelete(List idList) throws Exception;

@@ -3,7 +3,9 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.Admin;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IAdminDao;
+import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -11,6 +13,19 @@ import java.util.Map;
 
 @Repository
 public class AdminDao extends BaseDao<Admin> implements IAdminDao {
+
+
+    @Override
+    public Admin selectAdminByAccount(String account) {
+        Admin admin;
+        session = sessionFactory.getCurrentSession();
+        String hql = "from Admin where can_use =1 and account = ?";
+        Query query = session.createQuery(hql);
+        query.setParameter(0,account);
+        admin = (Admin)query.uniqueResult();
+        return admin;
+    }
+
     @Override
     public void insertOrUpdate(Admin admin) throws Exception {
         saveOrUpdateObject(admin);

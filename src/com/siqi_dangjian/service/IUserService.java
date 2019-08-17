@@ -6,6 +6,7 @@ import java.util.Map;
 
 public interface IUserService {
 
+
     Map getUserByType(Integer type);
 
     Map getUserInfoById(Long id);
