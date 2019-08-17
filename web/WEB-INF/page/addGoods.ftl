@@ -6,11 +6,9 @@
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
     <link rel="stylesheet" href="/css/addGood.css">
-    <link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">
+
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
-    <!--引入JS-->
-    <script type="text/javascript" src="/WImageUpload/webuploader.js"></script>
 
 </head>
 <body>

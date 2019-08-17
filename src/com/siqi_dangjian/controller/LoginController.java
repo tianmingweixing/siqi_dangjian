@@ -1,7 +1,6 @@
 package com.siqi_dangjian.controller;
 
 import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.impl.AdminService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,11 @@ public class LoginController extends BaseController
     @ResponseBody
     public ModelMap adminLogin(@RequestParam(value = "phone", required = false) Long phone, @RequestParam(value = "passWord", required = false) String passWord, HttpSession httpSession) {
         modelMap = new ModelMap();
-        Admin admin = adminService.Login(phone);
+        String md5pwd = null;
+        Admin admin = null;
+
+
+
         if (admin != null)
             setSuccess();
         else setFail();
