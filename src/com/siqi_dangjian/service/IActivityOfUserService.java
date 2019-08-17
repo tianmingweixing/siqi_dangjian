@@ -1,12 +1,12 @@
-package com.siqi_dangjian.dao;
-
+package com.siqi_dangjian.service;
 
 import com.siqi_dangjian.bean.ActivityOfUser;
-
 import java.util.List;
 import java.util.Map;
 
-public interface IActivityOfUserDao {
+public interface IActivityOfUserService {
+
+    Map getUserNameByType(Integer type) throws Exception;
 
     Map getUserNameById(Long id) throws Exception;
 
@@ -18,6 +18,5 @@ public interface IActivityOfUserDao {
 
     ActivityOfUser selectById(Long id) throws Exception;
 
-    Map selectAll(Map blurParam, Map dateParam,
-                  Map intParam, int limit, int page) throws Exception;
+    Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 }

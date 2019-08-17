@@ -89,11 +89,12 @@ public class User extends BaseBean {
     @Column(name="address",nullable=true,length=100)
     private String address;
 
+
     /**
      * 困难状态；0：非困难；1：困难；2：特困难
      */
     @Column(name="difficulty_type",length=1,columnDefinition="INT default 0")
-    private String difficultyType;
+    private Integer difficultyType;
 
     /**
      * 用户编号
@@ -139,6 +140,15 @@ public class User extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+
+    public Integer getDifficultyType() {
+        return difficultyType;
+    }
+
+    public void setDifficultyType(Integer difficultyType) {
+        this.difficultyType = difficultyType;
+    }
 
 
     public String getUserName() {
@@ -253,13 +263,6 @@ public class User extends BaseBean {
         this.address = address;
     }
 
-    public String getDifficultyType() {
-        return difficultyType;
-    }
-
-    public void setDifficultyType(String difficultyType) {
-        this.difficultyType = difficultyType;
-    }
 
     public String getUserNo() {
         return userNo;

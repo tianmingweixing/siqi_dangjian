@@ -4,12 +4,52 @@ import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.dao.IActivityDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
+
+    /**
+     * 根据id查询活动
+     * @param id
+     * @return map
+     */
+    @Override
+    public Map selectActivityContentById(Long id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT *\n" +
+                "\tFROM activities\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setLong(0,id);
+        return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
+
+    }
+
+    /**
+     * 根据类型查询活动
+     * @param type
+     * @return
+     */
+    @Override
+    public Map selectActivityContentByType(Integer type) {
+        Map map = new HashMap();
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT *\n" +
+                "\tFROM activities\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and type = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setInteger(0,type);
+        map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
+        return map;
+    }
 
 
     @Override
@@ -35,11 +75,26 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         query.executeUpdate();
     }
 
+    /**
+     * 根据id查询活动
+     * @param id
+     * @return Activities
+     */
     @Override
     public Activities selectById(Long id) throws Exception {
         return getObjectById(id);
     }
 
+    /**
+     * 查询活动列表
+     * @param blurParam
+     * @param dateParam
+     * @param intParam
+     * @param limit
+     * @param page
+     * @return  Map
+     * @throws Exception
+     */
     @Override
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();

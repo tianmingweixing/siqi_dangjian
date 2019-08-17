@@ -4,13 +4,40 @@ import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class UserDao extends BaseDao<User> implements IUserDao {
+
+    @Override
+    public Map getUserByType(Integer type) throws Exception{
+        Map map = new HashMap();
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT *\n" +
+                "\tFROM user\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and type = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setInteger(0,type);
+        map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
+        return map;
+    }
+
+    @Override
+    public Map getUserInfoById(Long id) throws Exception{
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT *\n" +
+                "\tFROM user\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setLong(0,id);
+        return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
+    }
 
     @Override
     public void insertOrUpdate(User user) throws Exception {
