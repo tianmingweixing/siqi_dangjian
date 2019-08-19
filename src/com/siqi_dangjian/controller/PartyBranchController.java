@@ -9,9 +9,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 
 @Controller
@@ -20,6 +21,89 @@ public class PartyBranchController extends BaseController{
 
     @Autowired
     private IPartyBranchService partyBranchService;
+
+    /**
+     * 添加或更新党支部信息
+     * @param name
+     * @param party_member_count
+     * @param duty
+     * @param partyNo
+     * @param partyInfo
+     * @param partyImg
+     * @param activityArea
+     * @param foundingTime
+     * @param changeTime
+     */
+    @RequestMapping("/addPartBranch")
+    @ResponseBody
+    public ModelMap addPartBranch(@RequestParam(value = "name", required = false) String name,
+                              @RequestParam(value = "id", required = false) Long id,
+                              @RequestParam(value = "party_member_count", required = false) Integer party_member_count,
+                              @RequestParam(value = "duty", required = false) String duty,
+                              @RequestParam(value = "partyNo", required = false) String partyNo,
+                              @RequestParam(value = "partyInfo", required = false) String partyInfo,
+                              @RequestParam(value = "partyImg", required = false) String partyImg,
+                              @RequestParam(value = "activityArea", required = false) Double activityArea,
+                              @RequestParam(value = "foundingTime", required = false) String foundingTime,
+                              @RequestParam(value = "changeTime", required = false) String changeTime){
+
+
+         modelMap = new ModelMap();
+        try {
+            PartyBranch partyBranch = new PartyBranch();
+            partyBranch.setId(id);
+            partyBranch.setActivityArea(activityArea);
+            partyBranch.setPartyNo(partyNo);
+            partyBranch.setDuty(duty);
+            partyBranch.setFoundingTime(Timestamp.valueOf(foundingTime));
+            partyBranch.setChangeTime(Timestamp.valueOf(changeTime));
+            partyBranch.setName(name);
+            partyBranch.setPartyImg(partyImg);
+            partyBranch.setPartyInfo(partyInfo);
+            partyBranch.setPartyMemberCount(party_member_count);
+            partyBranchService.insertOrUpdate(partyBranch);
+            setSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail();
+            return modelMap;
+        }
+        return modelMap;
+
+    }
+
+
+    /**
+     * 编辑党支部
+     * @param id
+     * @return
+     */
+    @RequestMapping("/setPartBranch")
+    public ModelAndView setPartBranch(@RequestParam(value = "id", required = false) Long id) {
+        ModelAndView view = new ModelAndView();
+        PartyBranch  partyBranch;
+
+            try {
+                partyBranch = partyBranchService.selectById(id);
+                view.addObject("id", partyBranch.getId());
+                view.addObject("name", partyBranch.getName());
+                view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
+                view.addObject("partyInfo", partyBranch.getPartyInfo());
+                view.addObject("partyNo", partyBranch.getPartyNo());
+                view.addObject("partyImg", partyBranch.getPartyImg());
+                view.addObject("duty", partyBranch.getDuty());
+                view.addObject("activityArea", partyBranch.getActivityArea());
+                view.addObject("foundingTime", partyBranch.getFoundingTime());
+                view.addObject("changeTime", partyBranch.getChangeTime());
+
+                view.setViewName("redirect:/frame/partyBranch_Add");
+            } catch (Exception e) {
+                e.printStackTrace();
+                setMsg("获取数据错误");
+            }
+        return view;
+    }
+
 
     /**
      * 查询党支部信息

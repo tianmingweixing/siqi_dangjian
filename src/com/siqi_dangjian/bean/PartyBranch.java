@@ -16,7 +16,7 @@ public class PartyBranch extends BaseBean {
     private String name;
 
     /**
-     * 党员总数
+     * 成员总数
      */
     @Column(name="party_member_count",nullable=true,length=1,columnDefinition="INT default 0")
     private Integer partyMemberCount;

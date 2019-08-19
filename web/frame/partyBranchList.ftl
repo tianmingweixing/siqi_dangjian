@@ -127,7 +127,7 @@
             } else if(layEvent === 'edit'){
                 // console.log(data);
                 // layer.msg('操作');
-                    window.location.href='/frame/conclusionList.ftl?id='+data.id;
+                    window.location.href='/partyBranch/setPartBranch?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }

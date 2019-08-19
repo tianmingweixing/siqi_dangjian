@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -107,7 +104,7 @@ public class LoginController extends BaseController{
             setFail();
             setMsg("账户不存在");
         } else {
-            if (admin.getPassword().equals(passWord)) {
+            if (admin.getPassword().equals(md5Str)) {
                 setSuccess();
                 setMsg("登陆成功");
                 httpSession.setAttribute("account", admin.getAccount());
@@ -170,15 +167,16 @@ public class LoginController extends BaseController{
             return modelMap;
         }
         return modelMap;
-    }
-
-    @RequestMapping("/logout")
-    @ResponseBody
-    public ModelAndView logout(HttpServletRequest httpServletRequest)  {
-        httpServletRequest.getSession().invalidate();
-        ModelAndView modelAndView =new ModelAndView();
-        modelAndView.setViewName("/login");
-        return modelAndView;
     }*/
+
+//    @RequestMapping("/logout")
+//    @ResponseBody
+//    public ModelAndView logout(HttpServletRequest httpServletRequest,HttpServletResponse response)  {
+//        httpServletRequest.getSession().invalidate();
+//        ModelAndView modelAndView =new ModelAndView();
+//        modelAndView.setViewName("/login");
+//        response.setCharacterEncoding("UTF-8");
+//        return modelAndView;
+//    }
 
 }
