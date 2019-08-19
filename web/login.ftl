@@ -26,10 +26,10 @@
             <button class="button" id="submit" type="submit" onclick="login()">登录</button>
 
         </div>
-
         <div id="regis">
             <button class="button" id="register"><a href="frame/register.ftl">注册</a></button>
         </div>
+
         <div id="tip"></div>
         <div class="foot">
             Copyright © 2011-2015  All Rights Reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
@@ -49,7 +49,7 @@
                 if(data.result=="fail"){
                     alert(data.result)
                 } else if(data.result == "success"){
-                    window.location.href='mainMenu.goto1';
+                    window.location.href='/mainMenu/goto1';
                 }
             }
         })

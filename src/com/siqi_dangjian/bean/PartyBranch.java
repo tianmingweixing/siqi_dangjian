@@ -22,7 +22,7 @@ public class PartyBranch extends BaseBean {
     private Integer partyMemberCount;
 
     /**
-     * 党小组职责
+     * 党支部职责
      */
     @Column(name="duty",nullable=true,length=300)
     private String duty;

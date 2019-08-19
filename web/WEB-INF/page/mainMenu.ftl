@@ -11,7 +11,7 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <#include 'head.ftl'/>
+    <#include '../../frame/head.ftl'/>
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
@@ -94,7 +94,7 @@
 
     <div class="layui-body" style="overflow-y: hidden">
         <!-- 内容主体区域 -->
-        <iframe  style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="../frame/partyBranchList.ftl" frameborder="0" scrolling="auto" ></iframe>
+        <iframe  style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="/frame/partyBranchList.ftl" frameborder="0" scrolling="auto" ></iframe>
     </div>
 
 
@@ -105,6 +105,7 @@
     layui.use('element', function(){
         var element = layui.element;
     });
+    //支部班子
     function branch_1(){
         $("#mainIframe").attr("src", "/frame/partyBranchList.ftl");
     }

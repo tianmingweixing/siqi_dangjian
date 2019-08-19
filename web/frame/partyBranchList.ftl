@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-    <link rel="stylesheet" href="/css/addGood.css">
+    <!--<link rel="stylesheet" href="../css/addGood.css">-->
 
     <script src="/js/layui/layui.js"></script>
-    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
 </head>
 
@@ -40,9 +40,9 @@
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <style>
     .layui_open_fail{
@@ -77,18 +77,23 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/user/list' //数据接口
+            ,url: '/partyBranch/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
             ,toolbar: true  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '姓名', width:200}
-                ,{field: 'username', title: '用户昵称', width: 200}
-                ,{field: 'age', title: '年龄', width:200,sort: true}
-                ,{field: 'phone',title:'电话',width:200}
-                ,{field: 'has_consume',title:'总共消费',width:200,sort: true}
+                ,{field: 'name', title: '党支部名称', width:200}
+                ,{field: 'party_member_count', title: '党员总数', width: 100}
+                ,{field: 'duty', title: '党支部职责', width:150,sort: true}
+                ,{field: 'party_no',title:'党支部编号',width:200}
+                ,{field: 'party_info',title:'党支部简介',width:200,sort: true}
+                ,{field: 'founding_time',title:'成立时间',width:150,sort: true}
+                ,{field: 'change_time',title:'换届时间',width:150,sort: true}
+                ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
+                ,{field: 'party_img',title:'党支部图片',width:150}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo'}
             ]]
         });
         var $ = layui.$, active = {
@@ -97,17 +102,13 @@
                 var username=$("#user_name_search").val();
                 var maxCredit=$("#max_credit_search").val();
                 var minCredit =$("#min_credit_search").val();
-                var phone = $("#phone_search").val();
-                var member = $("#member_type").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
                         userName:username,
                         maxCredit:maxCredit,
-                        minCredit:minCredit,
-                        phone:phone,
-                        member:member
+                        minCredit:minCredit
                     }
                 });
             }
@@ -123,14 +124,12 @@
                     ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
-            } else if(layEvent === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del(); //删除对应行（tr）的DOM结构
-                    layer.close(index);
-                    //向服务端发送删除指令
-                });
             } else if(layEvent === 'edit'){
-                layer.msg('编辑操作');
+                // console.log(data);
+                // layer.msg('操作');
+                    window.location.href='/frame/conclusionList.ftl?id='+data.id;
+            }else if(layEvent === 'add'){
+                layer.msg('add');
             }
         });
 
