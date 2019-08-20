@@ -31,7 +31,7 @@ public class PartyTeam extends BaseBean{
      * 党小组编号
      */
     @Column(name="party_group_no",nullable=true,length=5)
-    private Double partyGroupNo;
+    private String partyGroupNo;
 
     /**
      * 成立时间
@@ -75,11 +75,11 @@ public class PartyTeam extends BaseBean{
         this.partyNo = partyNo;
     }
 
-    public Double getPartyGroupNo() {
+    public String getPartyGroupNo() {
         return partyGroupNo;
     }
 
-    public void setPartyGroupNo(Double partyGroupNo) {
+    public void setPartyGroupNo(String partyGroupNo) {
         this.partyGroupNo = partyGroupNo;
     }
 

@@ -26,26 +26,26 @@
             <input id="name" name="name" lay-verify="required" placeholder="请输入党支部名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
-        <!--<label class="layui-form-label" style="margin-left: 85px">成员数量</label>
+        <label class="layui-form-label" style="margin-left: 85px">成员数量</label>
         <div class="layui-input-inline">
             <input id="partyMemberCount" name="partyMemberCount" lay-verify="required" placeholder="请输入成员数量" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if partyMemberCount??>${partyMemberCount}<#else></#if>">
-        </div>-->
+        </div>
 
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党小组职责</label>
+        <label class="layui-form-label ">党支部职责</label>
         <div class="layui-input-inline">
-            <input id="duty" name="duty" lay-verify="required|String" placeholder="请输入党小组职责" maxlength="20"
+            <input id="duty" name="duty" lay-verify="required|String" placeholder="请输入党支部职责" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if duty??>${duty}<#else></#if>">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
-       <!-- <label class="layui-form-label " style="margin-left: 60px">活动面积</label>
+        <label class="layui-form-label " style="margin-left: 60px">活动面积</label>
         <div class="layui-input-inline">
             <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if activityArea??>${activityArea}<#else></#if>">
-        </div>-->
+        </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -55,15 +55,6 @@
             <input id="partyNo" name="partyNo" lay-verify="required" placeholder="请输入编号" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if partyNo??>${partyNo}<#else></#if>">
         </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-    <label class="layui-form-label ">党小组编号</label>
-    <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
-    <div class="layui-input-inline">
-        <input id="partyGroupNo" name="partyGroupNo" lay-verify="required" placeholder="请输入编号" maxlength="20"
-               autocomplete="off" class="layui-input" value="<#if partyGroupNo??>${partyGroupNo}<#else></#if>">
-    </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -81,13 +72,13 @@
     </div>
 
 
-<!--    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right: 1000px">
+    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right: 1000px">
         <label class="layui-form-label">党支部简介</label>
         <div class="layui-input-block">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
                       class="layui-textarea"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
-    </div>-->
+    </div>
 
     <div class="layui-form-item">
         <div class="input_row_margin_top">
@@ -255,20 +246,22 @@
                 // }
 
                 $.ajax({
-                    url: "/partyTeam/addPartyTeam",
+                    url: "/partyBranch/addPartBranch",
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
-                        partyGroupNo: $("#partyGroupNo").val(),
+                        partyMemberCount: $("#partyMemberCount").val(),
                         duty: $("#duty").val(),
                         partyNo: $("#partyNo").val(),
+                        partyInfo: $("#partyInfo").val(),
+                        activityArea: $("#activityArea").val(),
                         foundingTime: $("#foundingTime").val(),
                         changeTime: $("#changeTime").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = 'http://localhost:8080/frame/partyTeamList.ftl'
+                            window.location.href = '/frame/partyBranchList.ftl'
                         }, 1500);
                     }
                 });

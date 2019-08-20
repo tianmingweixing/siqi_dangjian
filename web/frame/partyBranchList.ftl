@@ -15,21 +15,21 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">用户姓名</label>
+        <label class="layui-form-label label_width_100">党支部名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="用户姓名" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="党支部名称" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">用户昵称</label>
+        <label class="layui-form-label ">党支部编号</label>
         <div class="layui-input-inline">
-            <input type="text" id="user_name_search"  placeholder="用户昵称" autocomplete="off" class="layui-input">
+            <input type="text" id="partyNo"  placeholder="党支部编号" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <!--<div class="layui-form-item">
         <label class="layui-form-label label_width_100">联系电话</label>
         <div class="layui-input-inline">
             <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
         </div>
-    </div>
+    </div>-->
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -99,14 +99,14 @@
         var $ = layui.$, active = {
             reload:function () {
                 var name = $("#name_search").val();
-                var username=$("#user_name_search").val();
+                var partyNo=$("#partyNo").val();
                 var maxCredit=$("#max_credit_search").val();
                 var minCredit =$("#min_credit_search").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
-                        userName:username,
+                        partyNo:partyNo,
                         maxCredit:maxCredit,
                         minCredit:minCredit
                     }
