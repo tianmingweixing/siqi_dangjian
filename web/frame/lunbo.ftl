@@ -20,26 +20,30 @@
     </blockquote>
 </div>
 <input type="hidden" id="img_path" name="img_path" value="" style="width: 800px;"/>
-<div style="width: 90%">
-    <div class="container_div">
-        <div class="layui-upload">
-            <div class="layui-upload-list">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th>文件名</th>
-                        <th>序号</th>
-                        <th>状态</th>
-                        <th>操作</th>
-                    </tr></thead>
-                    <tbody id="demoList"></tbody>
-                </table>
+
+
+    <div style="width: 90%">
+        <div class="container_div">
+            <div class="layui-upload">
+                <div class="layui-upload-list">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th>文件名</th>
+                            <th>序号</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr></thead>
+                        <tbody id="demoList"></tbody>
+                    </table>
+                </div>
+                <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                <button type="button" class="layui-btn" id="testListAction">开始上传</button>
             </div>
-            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
-            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
         </div>
     </div>
-</div>
+
+
 
 
 <script>

@@ -11,7 +11,7 @@ public class YuntingFilter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        if(StringUtils.isEmpty((String) httpServletRequest.getSession().getAttribute("userName"))) {
+        if(StringUtils.isEmpty((String) httpServletRequest.getSession().getAttribute("account"))) {
             httpServletResponse.sendRedirect("/login/logout");
             return false;
         }
