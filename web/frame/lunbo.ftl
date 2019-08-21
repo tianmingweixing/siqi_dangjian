@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>思齐党建后台</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/public.css">
 
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -12,238 +13,374 @@
 </head>
 <body>
 
-<form class="layui-form" action="">
-
-    <div class="layui-form-item input_row_margin_top" style="margin-top: 30px">
-        <label class="layui-form-label">商品类别</label>
-        <div class="layui-input-inline">
-            <select id="category_type" name="category_type" lay-filter="select_first_category">
-                <option value=''>请选择</option>
-            </select>
-        </div>
-        <div class="layui-input-inline" style="margin-left: 30px">
-            <select id="category_second_type" name="category_second_type">
-                <option value=''>请选择</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">商品名称</label>
-        <div class="layui-input-inline">
-            <input id="good_name" name="good_name" lay-verify="required" placeholder="请输入商品名称" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if goods_name??>${goods_name}<#else></#if>">
-        </div>
-        <label class="layui-form-label" style="margin-left: 85px">出品厂家</label>
-        <div class="layui-input-inline">
-            <input id="vender" name="vender" lay-verify="required" placeholder="请输入出品厂家" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if vender??>${vender}<#else></#if>">
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">库存数量</label>
-        <div class="layui-input-inline">
-            <input id="store_count" name="credit" lay-verify="number" placeholder="请输入库存" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if store_count??>${store_count}<#else></#if>">
-        </div>
-        <label class="layui-form-label " style="margin-left: 84px">保质期</label>
-        <div class="layui-input-inline">
-            <input id="period"  lay-verify="number" placeholder="请输入有效期" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if period??>${period}<#else></#if>">
-        </div>
-        <div class="layui-form-mid layui-word-aux">天</div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" >是否上架</label>
-        <div class="layui-input-inline">
-            <input type="radio" name="isSale" value="1" title="上架" <#if isSale??&&isSale==1>checked</#if>>
-            <input type="radio" name="isSale" value="0" title="不上架" <#if isSale??&&isSale==0>checked</#if>>
-        </div>
-        <label class="layui-form-label " style="margin-left: 84px">商品规格</label>
-        <div class="layui-input-inline">
-            <input id="format"   placeholder="请输入商品规格" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if format??>${format}<#else></#if>">
-        </div>
-    </div>
-
-    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right: 900px">
-        <label class="layui-form-label">使用须知</label>
-        <div class="layui-input-block">
-            <textarea name="desc" id="use_navigate" placeholder="请输入内容"
-                      class="layui-textarea"><#if use_navigate??>${use_navigate}<#else></#if></textarea>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <div class="input_row_margin_top">
-            <label class="layui-form-label">商品图片</label>
-            <div id="uploader">
-                <!--用来存放文件信息-->
-                <div id="thelist" class="uploader-list layui-input-inline" style="width: 1192px">
-                    <#if  imageList??>
-                        <#list imageList as image>
-                            <#if image_index==0>
-                              <div style="display:inline-block;float: left;margin-top: 5px;">
-                            <#else >
-                              <div style="display:inline-block;float: left;margin-top: 5px;margin-left:40px">
-                            </#if>
-                            <img src="<#if image??>${image.src}<#else >''</#if>" style="width: 100px;height: 100px;">
-                            <div style="font-size: 14px;text-align: center;width: 100px;">${image.name}</div>
-                        <div style="width: 100px;text-align: center;margin-top: 7px">
-                            <img id="delete_icon" onclick="deleteImg(${image.id})" style="width: 25px;height: 25px;"
-                                 src="/images/delete_icon.png"/>
-                        </div>
-                        </div>
-                        </#list>
-                    </#if>
-                </div>
-
-                </div>
+<div style="width: 90%">
+    <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
+                style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
+        设置轮播
+    </blockquote>
+</div>
+<input type="hidden" id="img_path" name="img_path" value="" style="width: 800px;"/>
+<div style="width: 90%">
+    <div class="container_div">
+        <div class="layui-upload">
+            <div class="layui-upload-list">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>序号</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr></thead>
+                    <tbody id="demoList"></tbody>
+                </table>
             </div>
+            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <div id="picker" style="display: inline-block;">选择文件</div>
-            </div>
-        </div>
-        <div class="layui-form-item input_row_margin_top">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
-        </div>
+    </div>
+</div>
 
-</form>
 
 <script>
-    <!--var count =<#if imageList??>${imageList?size}<#else >0</#if>;-->
 
-    layui.use('form', function () {
-            var form = layui.form;
-            //监听提交
-            form.on('select(select_first_category)', function (data) {
-                var first_catrgory = $("#category_type").val();
-                $.ajax({
-                    url: "/category/secondCategory",//请求地址
-                    type: "POST",//请求方式
-                    dataType: "JSON",//返回数据类型
-                    data: {Pcode: first_catrgory},//发送的参数
-                    success: function (data) {
-                        $("#category_second_type").empty();
-                        if (data.list.length == 0) {
-                            $("#category_second_type").append("<option>暂无数据</option>")
+
+    $().ready(function () {
+        //初始化信息//
+        initComInfo();
+
+    })
+
+    function deleteImg(obj,index) {
+        console.log(obj);
+        console.log(obj.parents('tr'));
+        var tr = obj.parents('tr')
+                ,tds = tr.children();
+        var delurl = tds.eq(0).html();
+        var index = tds.eq(1).html();
+        console.log(delurl);
+        console.log(index);
+        //删除数据库图片地址
+        $.ajax({
+            url: "/config/deleteImage",
+            method: "GET",
+            data: {
+                index: index
+            },
+            success: function (data) {
+                if (data.result == 'success') {
+                    $("#demoList").html("");
+                    initComInfo();
+                } else {
+                    layer.msg(data.result, {icon: 2});
+                }
+            }
+        })
+
+
+    }
+
+    function initComInfo (){
+
+        var imgObjPreview = $("#demoList");
+        $.ajax({
+            url: "/config/getConfig",
+            method: "GET",
+            data: {
+            },
+            success: function (data) {
+                if (data.result == 'success') {
+
+                    var urlArr = data.lunbo;
+
+                    // $("#demoList").html(data.comInfo.lunbo);
+                    if (urlArr) {
+                        var urlArrStr = "";
+
+                        for (var i = 0; i < urlArr.length; i++) {
+
+                            if (urlArr[i] != null && urlArr[i] != "") {
+                                urlArrStr = urlArrStr + "&" + urlArr[i];
+                                var numb = urlArr[i].lastIndexOf("/")+1;
+                                var length = urlArr[i].length;
+                                var fildName = urlArr[i].substring(numb,length);
+                                var tr = $(['<tr id="upload-'+ i +'">'
+                                    ,'<td>'+ fildName +'</td>'
+                                    ,'<td>'+ i + '</td>'
+                                    ,'<td><span style="color: #5FB878;">上传成功</span></td>'
+                                    ,'<td>'
+                                    ,'<button class="layui-btn layui-btn-xs layui-btn-danger img-delete" onclick="deleteImg($(this),'+ i + ')">删除</button>'
+                                    ,'</td>'
+                                    ,'</tr>'].join(''));
+
+                                imgObjPreview.append(tr);
+                            }
                         }
-                        $.each(data.list, function (index, item) {
-                            $("#category_second_type").append("<option  value='" + item.category_code + "'>" + item.name + "</option>")
-                        });
-                        form.render('select');
+                        $("#img_path").val(urlArrStr);
+                    }
+
+                } else {
+                    layer.msg(data.result, {icon: 2});
+                }
+            }
+        })
+    }
+
+
+    layui.use(['layer', 'element', 'upload', 'form' ], function(){
+        var $ = layui.jquery;
+        var layer = layui.layer //弹层
+            ,element = layui.element //元素操作
+            ,upload = layui.upload;
+
+
+
+        //多文件列表示例
+        var demoListView = $('#demoList')
+                ,uploadListIns = upload.render({
+            elem: '#testList'
+            ,url: '/upload/uploadImage'
+            ,accept: 'images'
+            ,multiple: true
+            ,auto: false
+            ,bindAction: '#testListAction'
+            ,choose: function(obj){
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function(index, file, result){
+                    var tr = $(['<tr id="upload-'+ index +'">'
+                        ,'<td>'+ file.name +'</td>'
+                        ,'<td>'+ index +'</td>'
+                        ,'<td>等待上传</td>'
+                        ,'<td>'
+                        ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        ,'</td>'
+                        ,'</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function(){
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function(){
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+
+                });
+            }
+            ,done: function(res, index, upload){
+                if(res.code == 0){ //上传成功
+                    var img_path = $("#img_path").val();
+                    img_path = img_path+"&"+res.src;
+                    $("#img_path").val(img_path);
+                    console.log(res);
+
+                    /*var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html('<button class="layui-btn layui-btn-xs layui-btn-danger img-delete" onclick="deleteImg($(this))">删除</button>'); //清空操作*/
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            ,allDone: function(obj){ //当文件全部被提交后，才触发
+                // console.log(obj.total); //得到总文件数
+                // console.log(obj.successful); //请求成功的文件数
+                // console.log(obj.aborted); //请求失败的文件数
+                var path = $("#img_path").val();
+                var pathArr = [];
+                if (path.length > 1) {
+                    path = path.substring(1,path.length);
+                    pathArr = path.split("&");
+                }
+                console.log(pathArr);
+                //保存路径
+
+                $.ajax({
+                    url: "/config/saveLunbo",
+                    method: "POST",
+                    data: {
+                        pathArr: pathArr
                     },
-                    error: function () {
-                        //失败执行的方法
-                        layer.msg("查询出错");
+                    success: function (data) {
+                        if (data.result=="success") {
+                            layer.msg('保存成功', {icon: 1});
+                            setTimeout(function () {
+                                location.reload();
+                                // window.location.href = '../frame/sysAdSet.ftl'
+                            }, 1000);
+                        }else {
+                            layer.msg('保存失败', {icon: 1});
+                        }
+
                     }
                 });
-            });
 
+
+            }
+            ,error: function(index, upload){
+                var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+   /* var filds = [];
+    $().ready(function () {
+        //初始化信息//
+        initComInfo();
+    })
+
+    function reset_search(){
+        window.location.reload();
+    }
+
+    function initComInfo (){
+
+        var imgObjPreview = $("#localImag");
+        $.ajax({
+            url: "/sysset/getConfig",
+            method: "GET",
+            data: {
+            },
+            success: function (data) {
+                if (data.result == 'success') {
+                    // console.log(data.comInfo);
+                    var $li;
+                    var urlArr = [];
+
+                    if (data.lunbo) {
+                        /!*var urlArrStr = data.comInfo.lunbo;
+                        if (urlArrStr.length > 1) {
+                            urlArrStr = urlArrStr.substring(1, urlArrStr.length - 1);
+                            urlArr = urlArrStr.split(',');
+                        }*!/
+                        urlArr = data.lunbo;
+                        imgObjPreview.html("");
+                        for (var i = 0; i < urlArr.length; i++) {
+                            var uri = urlArr[i].toString();
+                            var index = uri.lastIndexOf('/');
+                            var fname = uri.substring(index+1,uri.length);
+                            $li = $(
+                                    '<div class="img'+i+'" style="display:inline-block;margin-top: 5px; margin-left: 5px;">' +
+                                    '<img src="'+uri+'" style="width:100px; height: auto;"/>' +
+                                    '<div  style="font-size: 14px;text-align: center;width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">' + fname + '</div></div>'
+                            );
+                            imgObjPreview.append($li);
+                        }
+
+                    }
+
+                } else {
+                    layer.msg(data.result, {icon: 2});
+                }
+            }
+        })
+    }
+
+    function showImage(evt,show) {
+
+        var docObj = evt;
+        var imgObjPreview = show;
+        // var file = $this[0].files;
+        // var docObj = document.getElementById("input_file");
+        // var imgObjPreview = $("#localImag");
+        var $li;
+        var reader = new FileReader();
+
+        if (docObj.files) {
+
+            var html = "";
+            imgObjPreview.html(html);
+            for (var i=0; i < docObj.files.length; i++){
+                var path = window.URL.createObjectURL(docObj.files[i]);
+                var file = docObj.files[i];
+                filds.push(file.name);
+                console.log(filds);
+                $li = $(
+                        '<div id="' + docObj.files[i].name + '" style="display:inline-block;margin-top: 5px; margin-left: 5px;">' +
+                        '<img src="' + path + '" style="width:100px; height: auto;"/>' +
+                        '<div  style="font-size: 14px;text-align: center;width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">' + docObj.files[i].name + '</div></div>'
+                );
+                // var $img = $li.find('img');
+                // var $btns = $('<div style="width: 100px;text-align: center;margin-top: 7px"><img id="delete_icon" onclick="removeFile($(\'#input_file\'))" style="width: 25px;height: 25px;"/></div>').appendTo($li);
+                // $li.find('#delete_icon').attr("src", "/images/delete_icon.png");
+                imgObjPreview.append($li);
+            }
+
+            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+            // imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+        } else {
+            alert("文件不能为空！");
+        }
+        return true;
+    }
+
+
+    layui.use(['form','laydate', 'laypage', 'layer', 'element'], function () {
+        var form = layui.form;
+        var laydate = layui.laydate; //日期
+
+        laydate.render({
+            elem: '#valid_time', //指定元素
+            type: 'datetime'
+        });
+
+
+        form.on('submit(formDemo)', function (data) {
+            var formData = new FormData();
+
+            var fildlsize = $('#input_file')[0].files.length;
+            if (fildlsize <= 0){
+                return false;
+            }
+
+            for(var i=0; i<$('#input_file')[0].files.length; i++) {
+                formData.append('files',$('#input_file')[0].files[i]);  //添加其他参数
+            }
             $.ajax({
-                url: "/category/allCategory",
-                async: false,
+                url: "/sysset/filesUpload",
+                type: "POST",//请求方式
+                enctype: "multipart/form-data",
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                data: formData,
                 success: function (data) {
-                    $.each(data.list, function (i, item) {
-                        if (item.name == Pname)
-                            $("#category_type").append("<option selected='selected' value='" + item.category_code + "'>" + item.name + "</option>");
-                        else
-                            $("#category_type").append("<option  value='" + item.category_code + "'>" + item.name + "</option>");
-
-                    });
-                    $.ajax({
-                        url: "/category/secondCategory",//请求地址
-                        type: "POST",//请求方式
-                        dataType: "JSON",//返回数据类型
-                        data: {Pcode: Pcode},//发送的参数
-                        success: function (data) {
-                            $.each(data.list, function (index, item) {
-                                if (item.name == category)
-                                    $("#category_second_type").append("<option selected='selected' value='" + item.category_code + "'>" + item.name + "</option>")
-                                else
-                                    $("#category_second_type").append("<option  value='" + item.category_code + "'>" + item.name + "</option>")
-                            });
-                            form.render('select');
-                        },
-                        error: function () {
-                            //失败执行的方法
-                            layer.msg("查询出错");
-                        }
-                    });
-                }
-            });
-
-            form.on('submit(formDemo)', function (data) {
-                var formData = new FormData();
-                if(document.getElementById("chooseVedio").files[0]){
-                    formData.append("vedio", document.getElementById("chooseVedio").files[0]);
-                    formData.append("uuid", uuid);
-                    $.ajax({
-                        url: "/upload/uploadVedio",
-                        type: "POST",
-                        data: formData,
-                        /**
-                         *必须false才会自动加上正确的Content-Type
-                         */
-                        contentType: false,
-                        /**
-                         * 必须false才会避开jQuery对 formdata 的默认处理
-                         * XMLHttpRequest会对 formdata 进行正确的处理
-                         */
-                        processData: false,
-                        success: function (data) {
-                            if (data.status == "error") {
-                                layer.msg('视频上传失败', {icon: 2});
-
-                            }
-                        },
-                        error: function () {
-                            layer.msg('视频上传失败', {icon: 2});
-                        }
-                    });
-                }
-
-                $.ajax({
-                    url: "../good/addGoods",
-                    data: {
-                        category_type: $("#category_type").val(),
-                        good_name: $("#good_name").val(),
-                        vender: $("#vender").val(),
-                        good_code: $("#good_code").val(),
-                        unit: $("#unit").val(),
-                        normal_price: $("#normal_price").val(),
-                        credit: $("#credit").val(),
-                        isSale: $('input[name="isSale"]:checked').val(),
-                        desc: $("#brief").val(),
-                        id: $("#good_id").val(),
-                        price_id: $("#good_price_id").val(),
-                        create_time: $("#creat_time_hidden").val(),
-                        store_count: $("#store_count").val(),
-                        saled_count: $("#saled_count").val(),
-                        category_second_type: $("#category_second_type").val(),
-                        discount:$("#discount").val(),
-                        uuid: $("#uuid").val(),
-                        format:$("#format").val(),
-                        quality_period:$("#period").val(),
-                        use_navigate:$("#use_navigate").val()
-                    },
-                    success: function (data) {
+                    if (data.result=="success") {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '../mainMenu/gotoGoodList'
+                            window.location.href = '../frame/sysAdSet.ftl'
                         }, 1500);
+                    }else {
+                        layer.msg('保存失败', {icon: 1});
                     }
-                });
-                return false;
+
+                }
             });
+            return false;
         });
+
+    });*/
+
 
 </script>
 
