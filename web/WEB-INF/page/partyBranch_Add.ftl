@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 党支部后台</title>
-    <link rel="stylesheet" href="../js/layui/css/layui.css">
-    <script src="../js/layui/layui.js"></script>
-    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
+    <title> 党支部add页面后台</title>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css">
+    <script src="../../js/layui/layui.js"></script>
+    <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
     <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>

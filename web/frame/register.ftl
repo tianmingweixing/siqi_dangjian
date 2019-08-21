@@ -99,7 +99,7 @@
                         alert(data.msg)
                     } else if(data.msg=="注册成功"){
                         alert(data.msg)
-                        window.location.href='http://localhost:8080/login.ftl';
+                        window.location.href='../login.ftl';
                     }
                 }
             })

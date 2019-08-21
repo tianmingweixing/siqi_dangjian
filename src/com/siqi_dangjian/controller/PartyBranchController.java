@@ -70,7 +70,7 @@ public class PartyBranchController extends BaseController{
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
-            modelAndView.setViewName("WEB-INF/page/partyBranch_Add");
+            modelAndView.setViewName("partyBranch_Add");
             return modelAndView;
         }
         return modelAndView;

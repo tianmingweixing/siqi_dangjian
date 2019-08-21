@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title> 党支部后台</title>
-    <link rel="stylesheet" href="../js/layui/css/layui.css">
-    <script src="../js/layui/layui.js"></script>
-    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css">
+    <script src="../../js/layui/layui.js"></script>
+    <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
     <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
@@ -37,7 +37,7 @@
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">党小组职责</label>
         <div class="layui-input-inline">
-            <input id="duty" name="duty" lay-verify="required|String" placeholder="请输入党小组职责" maxlength="20"
+            <input id="duty" name="duty" lay-verify="required" placeholder="请输入党小组职责" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if duty??>${duty}<#else></#if>">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
@@ -52,7 +52,7 @@
         <label class="layui-form-label ">党支部编号</label>
         <!--<label class="layui-form-label " style="margin-left: 85px">党支部编号</label>-->
         <div class="layui-input-inline">
-            <input id="partyNo" name="partyNo" lay-verify="required" placeholder="请输入编号" maxlength="20"
+            <input id="partyNo" name="partyNo" lay-verify="number" placeholder="请输入编号" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if partyNo??>${partyNo}<#else></#if>">
         </div>
     </div>
@@ -61,7 +61,7 @@
     <label class="layui-form-label ">党小组编号</label>
     <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
     <div class="layui-input-inline">
-        <input id="partyGroupNo" name="partyGroupNo" lay-verify="required" placeholder="请输入编号" maxlength="20"
+        <input id="partyGroupNo" name="partyGroupNo" lay-verify="number" placeholder="请输入编号" maxlength="20"
                autocomplete="off" class="layui-input" value="<#if partyGroupNo??>${partyGroupNo}<#else></#if>">
     </div>
     </div>
@@ -268,7 +268,7 @@
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = 'http://localhost:8080/frame/partyTeamList.ftl'
+                            window.location.href = '/frame/partyTeamList.ftl'
                         }, 1500);
                     }
                 });

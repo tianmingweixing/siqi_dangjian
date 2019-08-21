@@ -3,7 +3,9 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.PartyTeam;
+import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IPartyTeamService;
+import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -20,18 +23,18 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/partyTeam")
-public class PartyTeamController extends BaseController{
+@RequestMapping("/user")
+public class UserController extends BaseController{
 
     @Autowired
-    private IPartyTeamService partyTeamService;
+    private IUserService userService;
 
 //    Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
     public ModelAndView gotoAdd(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView view = new ModelAndView();
-        view.setViewName("WEB-INF/page/partyTeam_Add");
+        view.setViewName("WEB-INF/page/user_Add");
         return view;
     }
 
@@ -47,7 +50,7 @@ public class PartyTeamController extends BaseController{
         Type type = new TypeToken<List<String>>() {}.getType();
         List<String> idList = gson.fromJson(deleteArray,type);
         try {
-            partyTeamService.logicDelete(idList);
+            userService.logicDeleteUser(idList);
         } catch (Exception e){
             setFail("删除失败");
 //            logger.error("partyTeam--->deletePartyTeam",e);
@@ -58,45 +61,55 @@ public class PartyTeamController extends BaseController{
     }
 
 
+
     /**
-     * 添加或更新党小组信息
-     * @param name
-     * @param partyGroupNo
-     * @param duty
-     * @param partyNo
-     * @param foundingTime
-     * @param changeTime
+     * 添加或更新
+     * @param id
+     * @param username
+     * @param sex
+     * @param education
+     * @param address
+     * @param company
+     * @param age
+     * @param dutyId
+     * @param joinTime
+     * @return
      */
-    @RequestMapping("/addPartyTeam")
+    @RequestMapping("/addUser")
     @ResponseBody
-    public ModelAndView addPartyTeam(@RequestParam(value = "id", required = false) Long id,
-                                      @RequestParam(value = "name", required = false) String name,
-                                      @RequestParam(value = "partyGroupNo", required = false) String partyGroupNo,
-                                      @RequestParam(value = "duty", required = false) String duty,
-                                      @RequestParam(value = "partyNo", required = false) String partyNo,
-                                      @RequestParam(value = "foundingTime", required = false) Timestamp foundingTime,
-                                      @RequestParam(value = "changeTime", required = false) Timestamp changeTime){
+    public ModelAndView addUser(@RequestParam(value = "id", required = false) Long id,
+                                      @RequestParam(value = "username", required = false) String username,
+                                      @RequestParam(value = "sex", required = false) Integer sex,
+                                      @RequestParam(value = "education", required = false) String education,
+                                      @RequestParam(value = "address", required = false) String address,
+                                      @RequestParam(value = "company", required = false) String company,
+                                      @RequestParam(value = "age", required = false) Integer age,
+                                      @RequestParam(value = "ID_cord", required = false) String ID_cord,
+                                      @RequestParam(value = "dutyId", required = false) Long dutyId,
+                                      @RequestParam(value = "joinTime", required = false) Timestamp joinTime){
 
         ModelAndView modelAndView = new ModelAndView();
 
 
         try {
-            PartyTeam partyTeam = new PartyTeam();
-            partyTeam.setId(id);
-            partyTeam.setPartyGroupNo(partyGroupNo);
-            partyTeam.setPartyNo(partyNo);
-            partyTeam.setDuty(duty);
-            partyTeam.setFoundingTime(foundingTime);
-            partyTeam.setChangeTime(changeTime);
-            partyTeam.setName(name);
-            partyTeam.setCanUse(1);
-            partyTeamService.insertOrUpdate(partyTeam);
+            User user = new User();
+            user.setId(id);
+            user.setIDCord(ID_cord);
+            user.setAddress(address);
+            user.setAge(age);
+            user.setCompany(company);
+            user.setDutyId(dutyId);
+            user.setEducation(education);
+            user.setSex(sex);
+            user.setUserName(username);
+            user.setJoinTime(joinTime);
+            user.setCanUse(1);
+            userService.addUser(user);
             setSuccess();
-            modelAndView.setViewName("frame/partyTeamList");
+            modelAndView.setViewName("frame/userList");
         } catch (Exception e) {
             e.printStackTrace();
-            setFail();
-            modelAndView.setViewName("WEB-INF/page/partyTeam_Add");
+            modelAndView.setViewName("WEB-INF/page/user_Add");
             return modelAndView;
         }
         return modelAndView;
@@ -109,22 +122,29 @@ public class PartyTeamController extends BaseController{
      * @param id
      * @return
      */
-    @RequestMapping("/setPartyTeam")
-    public ModelAndView setPartyTeam(@RequestParam(value = "id", required = false) Long id) {
+    @RequestMapping("/setUser")
+    public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView view = new ModelAndView();
-        PartyTeam  partyTeam;
+        User  user;
 
             try {
-                partyTeam = partyTeamService.selectById(id);
-                view.addObject("id", partyTeam.getId());
-                view.addObject("name", partyTeam.getName());
-                view.addObject("partyGroupNo", partyTeam.getPartyGroupNo());
-                view.addObject("partyNo", partyTeam.getPartyNo());
-                view.addObject("duty", partyTeam.getDuty());
-                view.addObject("foundingTime", partyTeam.getFoundingTime());
-                view.addObject("changeTime", partyTeam.getChangeTime());
+                user = userService.getUserById(id);
+                view.addObject("id", user.getId());
+                view.addObject("address", user.getAddress());
+                view.addObject("company", user.getCompany());
+                view.addObject("id", user.getDutyId());
+                view.addObject("ID_cord", user.getIDCord());
+                view.addObject("joinTime", user.getJoinTime());
+                view.addObject("sex", user.getSex());
+                view.addObject("username", user.getUserName());
+                view.addObject("phone", user.getPhone());
+                view.addObject("userno", user.getUserNo());
+                view.addObject("age", user.getAge());
+                view.addObject("education", user.getEducation());
+                view.addObject("dutyid", user.getDutyId());
 
-                view.setViewName("WEB-INF/page/partyTeam_Add");
+
+                view.setViewName("WEB-INF/page/user_Add");
 //                view.setViewName("frame/PartyTeam_Add");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,7 +156,7 @@ public class PartyTeamController extends BaseController{
 
     /**
      * 查询党小组信息
-     * @param name
+     * @param userName
      * @param founding_time
      * @param change_time
      * @param limit
@@ -145,8 +165,8 @@ public class PartyTeamController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getPartyTeamList(@RequestParam(value = "name",required = false)String name,
-                                      @RequestParam(value = "partyGroupNo",required = false)String partyGroupNo,
+    public ModelMap getUserList(@RequestParam(value = "userName",required = false)String userName,
+                                      @RequestParam(value = "company",required = false)String company,
                                       @RequestParam(value = "founding_time",required = false)String founding_time,
                                       @RequestParam(value = "change_time",required = false)String change_time,
                                       @RequestParam(value="limit", required=false)Integer limit,
@@ -159,12 +179,12 @@ public class PartyTeamController extends BaseController{
         Map intMap  = new HashMap<>();
 
 
-        if(StringUtils.isNotEmpty(partyGroupNo)) {
-            intMap.put("party_group_no", partyGroupNo);
+        if(StringUtils.isNotEmpty(company)) {
+            intMap.put("company", company);
         }
 
-        if(StringUtils.isNotEmpty(name)) {
-            blurMap.put("name", name);
+        if(StringUtils.isNotEmpty(userName)) {
+            blurMap.put("userName", userName);
         }
 
         if(StringUtils.isNotEmpty(founding_time)) {
@@ -174,7 +194,7 @@ public class PartyTeamController extends BaseController{
             dateMap.put("change_time", change_time);
         }
         try {
-            Map map = partyTeamService.selectAll(blurMap,intMap,dateMap,limit,page);
+            Map map = userService.getUserList(blurMap,intMap,dateMap,limit,page);
 
             List list = (List<PartyTeam>) map.get("list");
             Integer count = (int) map.get("count");

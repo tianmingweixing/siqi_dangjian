@@ -94,7 +94,7 @@
 
     <div class="layui-body" style="overflow-y: hidden">
         <!-- 内容主体区域 -->
-        <iframe  style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="/frame/partyBranchList.ftl" frameborder="0" scrolling="auto" ></iframe>
+        <iframe style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="/frame/partyBranchList.ftl" frameborder="0" scrolling="auto" ></iframe>
     </div>
 
 

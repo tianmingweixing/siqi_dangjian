@@ -47,7 +47,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "update user set isUse = 0";
+        String sql = "update user set can_use = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
@@ -72,14 +72,14 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
+        String sql = "\tSELECT u.id,u.username,u.sex,u.age,u.education,u.company,u.phone,u.ID_cord,u.join_time,u.address FROM \n" +
                 "\tuser u LEFT JOIN duty d ON u.dutyid = d.id\n" +
                 "\tWHERE\n" +
                 "\tu.can_use = 1 and d.can_use=1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
-                "FROM user u LEFT JOIN duty d ON u.dutyid = d.id  where u.can_use = 1 and d.can_use=1";
+                "FROM user u where u.can_use = 1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendDateStr(sql,dateParam,"u");
         sql = CommonUtil.appendIntStr(sql,intParam,"u");

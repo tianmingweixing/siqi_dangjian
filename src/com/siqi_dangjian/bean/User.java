@@ -21,11 +21,14 @@ public class User extends BaseBean {
     private String userName;
 
     /**
-     * 1代表男，2代表女
+     * 性别 1代表男，2代表女
      */
     @Column(name="sex",nullable=true,length=1,columnDefinition="INT default 1")
     private Integer sex;
 
+    /**
+     * 年龄
+     */
     @Column(name="age",nullable=true,length=3)
     private Integer age;
 
