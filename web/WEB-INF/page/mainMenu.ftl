@@ -35,7 +35,6 @@
                     <dl class="layui-nav-child">
                         <dd><a onclick="user_1()">用户列表</a></dd>
                         <dd><a onclick="user_2()">人员分类</a></dd>
-                        <dd><a onclick="user_3()">困难党员</a></dd>
                     </dl>
                 </li>
 
@@ -74,7 +73,8 @@
                     <dl class="layui-nav-child">
                         <dd><a onclick="partywork_1()">表彰奖励列表</a></dd>
                         <dd><a onclick="partywork_2()">违纪违法列表</a></dd>
-                        <dd><a onclick="partywork_3()">党内公示公告</a></dd>
+                        <dd><a onclick="partywork_3()">慰问情况列表</a></dd>
+                        <dd><a onclick="partywork_4()">党内公示公告</a></dd>
                     </dl>
                 </li>
 
@@ -120,10 +120,7 @@
         $("#mainIframe").attr("src", "/frame/userList.ftl");
     }
     function user_2() {
-        $("#mainIframe").attr("src", "/frame/userDutyList.ftl");
-    }
-    function user_3() {
-        $("#mainIframe").attr("src", "/frame/userDifficultyList.ftl");
+        $("#mainIframe").attr("src", "/frame/dutyList.ftl");
     }
 
     function activity_1() {
@@ -171,7 +168,12 @@
     function partywork_2() {
         $("#mainIframe").attr("src", "/frame/disciplineList.ftl");
     }
+
     function partywork_3() {
+        $("#mainIframe").attr("src", "/frame/sympathyList.ftl");
+    }
+
+    function partywork_4() {
         $("#mainIframe").attr("src", "/frame/noticeList.ftl");
     }
 

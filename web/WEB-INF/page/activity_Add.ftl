@@ -21,15 +21,15 @@
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">昵称</label>
+        <label class="layui-form-label ">活动标题</label>
         <div class="layui-input-inline">
-            <input id="username" name="username" lay-verify="required" placeholder="请输入昵称" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if username??>${username}<#else></#if>">
+            <input id="title" name="title" lay-verify="required" placeholder="请输入标题" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
         </div>
-        <label class="layui-form-label" style="margin-left: 85px">身份证</label>
+        <label class="layui-form-label" style="margin-left: 85px">活动类型</label>
         <div class="layui-input-inline">
-            <input id="ID_cord" name="ID_cord" lay-verify="required" placeholder="请输入身份证" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if ID_cord??>${ID_cord}<#else></#if>">
+            <input id="type" name="type" lay-verify="required" placeholder="请输入类型" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if type??>${type}<#else></#if>">
         </div>
 
     </div>
@@ -143,7 +143,7 @@
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/userList.ftl'
+                            window.location.href = 'userList.ftl'
                         }, 1500);
                     }
                 });

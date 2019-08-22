@@ -100,13 +100,13 @@
         });
         var $ = layui.$, active = {
             reload:function () {
-                var name = $("#name_search").val();
+                var username = $("#name_search").val();
                 var company=$("#company").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        name:name,
+                        username:username,
                         company:company
                     }
                 });

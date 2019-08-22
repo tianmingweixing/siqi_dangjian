@@ -5,17 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 政治面貌；：积极分子；：预备党员；：发展对象；：正式党员；：党委。。。
+ * 职务表
  */
 @Entity
 @Table(name = "duty")
 public class Duty extends BaseBean {
-
+    /**
+     * 政治面貌 ：1积极分子；2预备党员；3发展对象；4正式党员；5党委。。。
+     */
     @Column(name="name",nullable=true,length=30)
-    private String name;
+    private Integer name;
 
     /**
-     * 职责
+     * 党内职务
      */
     @Column(name="party_duty",nullable=true,length=300)
     private String partyDuty;
@@ -26,11 +28,11 @@ public class Duty extends BaseBean {
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
 
-    public String getName() {
+    public Integer getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Integer name) {
         this.name = name;
     }
 

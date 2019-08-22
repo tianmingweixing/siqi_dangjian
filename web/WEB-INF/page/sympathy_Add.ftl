@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 党支部后台</title>
+    <title> 慰问表后台</title>
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
@@ -21,26 +21,32 @@
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">昵称</label>
+        <label class="layui-form-label ">姓名</label>
         <div class="layui-input-inline">
-            <input id="username" name="username" lay-verify="required" placeholder="请输入昵称" maxlength="20"
+            <input id="username" name="username" lay-verify="required" placeholder="请输入姓名" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if username??>${username}<#else></#if>">
         </div>
-        <label class="layui-form-label" style="margin-left: 85px">身份证</label>
+        <label class="layui-form-label" style="margin-left: 85px">慰问品及信息</label>
         <div class="layui-input-inline">
-            <input id="ID_cord" name="ID_cord" lay-verify="required" placeholder="请输入身份证" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if ID_cord??>${ID_cord}<#else></#if>">
+            <input id="sympathy_product" name="sympathy_product" lay-verify="required" placeholder="请输入慰问品" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if sympathy_product??>${sympathy_product}<#else></#if>">
         </div>
 
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" style="margin-left: 85px">性别</label>
+        <label class="layui-form-label" style="margin-left: -7px">性别</label>
         <div class="layui-input-inline">
             <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
             <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==0>checked</#if>>
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
+        <label class="layui-form-label" style="margin-left: 85px">慰问人单位及职务</label>
+        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
+        <div class="layui-input-inline">
+            <input id="unit_and_position" name="unit_and_position" lay-verify="required" placeholder="请输入单位及职务" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if unit_and_position??>${unit_and_position}<#else></#if>">
+        </div>
     </div>
 
 
@@ -53,49 +59,46 @@
                    autocomplete="off" class="layui-input" value="<#if age??>${age}<#else></#if>">
         </div>
         <label class="layui-form-label" style="margin-left: 84px">手机号码</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党支部编号</label>-->
         <div class="layui-input-inline">
             <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
         </div>
     </div>
 
+    <!--<div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" style="margin-left: 84px">慰问人单位及职务</label>
+        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>&ndash;&gt;
+        <div class="layui-input-inline">
+            <input id="unit_and_position" name="unit_and_position" lay-verify="required" placeholder="请输入单位及职务" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if unit_and_position??>${unit_and_position}<#else></#if>">
+        </div>
+    </div>-->
+
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">学历</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
+        <label class="layui-form-label">困难情况</label>
         <div class="layui-input-inline">
-            <input id="education" name="education" lay-verify="number" placeholder="请输入学历" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">
+            <select name="difficult" id="difficult">
+                <option value="">全部</option>
+                <option value="0" <#if difficult?? && difficult==0>selected</#if>>非困难</option>
+                <option value="1" <#if difficult?? && difficult==1>selected</#if>>困难</option>
+                <option value="2" <#if difficult?? && difficult==2>selected</#if>>非常困难</option>
+            </select>
         </div>
-        <label class="layui-form-label" style="margin-left: 84px">单位</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
+
+        <label class="layui-form-label " style="margin-left: 84px">慰问时间</label>
         <div class="layui-input-inline">
-            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if company??>${company}<#else></#if>">
+            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if sympathy_time??>${sympathy_time}<#else></#if>">
         </div>
+        <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">职务</label>
-        <div class="layui-input-inline">
-            <select name="dutyid" id="dutyid">
-                <option value="">全部</option>
-                <option value="1" <#if dutyid?? && dutyid==1>selected</#if>>积极分子</option>
-                <option value="2" <#if dutyid?? && dutyid==2>selected</#if>>正式党员</option>
-                <option value="3" <#if dutyid?? && dutyid==3>selected</#if>>党委</option>
-            </select>
-        </div>
-        <!--<label class="layui-form-label ">职务</label>
-        <div class="layui-input-inline">
-            <input id="dutyid" name="dutyid" lay-verify="number" placeholder="请输入职务" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if dutyid??>${dutyid}<#else></#if>">
-        </div>-->
-        <label class="layui-form-label " style="margin-left: 84px">入党时间</label>
-        <div class="layui-input-inline">
-            <input id="joinTime" name="joinTime" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if joinTime??>${joinTime}<#else></#if>">
-        </div>
-        <div class="layui-form-mid layui-word-aux"></div>
+    <label class="layui-form-label" style="margin-left: -2px">备注</label>
+    <div class="layui-input-inline">
+        <input id="note" name="note" lay-verify="required" placeholder="请输入备注" maxlength="20"
+               autocomplete="off" class="layui-input" value="<#if note??>${note}<#else></#if>">
+    </div>
     </div>
 
 
@@ -126,24 +129,23 @@
                 // }
 
                 $.ajax({
-                    url: "/user/addUser",
+                    url: "/sympathy/addSympathy",
                     data: {
                         id: $("#id").val(),
                         username: $("#username").val(),
-                        sex: $("#sex").val(),
-                        education: $("#education").val(),
+                        sympathy_product: $("#sympathy_product").val(),
                         age: $("#age").val(),
-                        dutyId: $("#dutyid").val(),
-                        joinTime: $("#joinTime").val(),
+                        unit_and_position: $("#unit_and_position").val(),
+                        sympathy_time: $("#sympathy_time").val(),
                         sex: $('input[name="sex"]:checked').val(),
-                        ID_cord: $("#ID_cord").val(),
-                        company: $("#company").val(),
+                        note: $("#note").val(),
+                        difficult: $("#difficult").val(),
                         phone: $("#phone").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/userList.ftl'
+                            window.location.href = '/frame/sympathyList.ftl'
                         }, 1500);
                     }
                 });

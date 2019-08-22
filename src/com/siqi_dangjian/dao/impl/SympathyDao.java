@@ -44,14 +44,17 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        String sql = "\tSELECT * FROM sympathy t WHERE t.can_use = 1";
-        String sqlCount = "SELECT count(*) FROM sympathy t WHERE t.can_use = 1";
+        String sql = "SELECT s.id sympathyId,u.id userId,u.username,s.difficult,s.note,s.sympathy_product,s.sympathy_time,s.unit_and_position,u.age,u.sex,u.phone,u.company,u.join_time,u.ID_cord FROM sympathy s join user u on s.party_branch_id = u.party_branch_id WHERE s.can_use = 1 and u.can_use";
+        String sqlCount = "SELECT count(*)  " +
+                "FROM sympathy s " +
+                "JOIN user u ON s.party_branch_id = u.party_branch_id " +
+                "WHERE s.can_use = 1 and u.can_use=1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"t");
-        sql = CommonUtil.appendIntStr(sql,intParam,"t");
+        sql = CommonUtil.appendDateStr(sql,dateParam,"s");
+        sql = CommonUtil.appendIntStr(sql,intParam,"s");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"t");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"t");
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"s");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"s");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
     }

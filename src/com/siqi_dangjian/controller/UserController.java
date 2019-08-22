@@ -86,6 +86,7 @@ public class UserController extends BaseController{
                                       @RequestParam(value = "age", required = false) Integer age,
                                       @RequestParam(value = "ID_cord", required = false) String ID_cord,
                                       @RequestParam(value = "dutyId", required = false) Long dutyId,
+                                      @RequestParam(value = "phone", required = false) String phone,
                                       @RequestParam(value = "joinTime", required = false) Timestamp joinTime){
 
         ModelAndView modelAndView = new ModelAndView();
@@ -99,6 +100,7 @@ public class UserController extends BaseController{
             user.setAge(age);
             user.setCompany(company);
             user.setDutyId(dutyId);
+            user.setPhone(phone);
             user.setEducation(education);
             user.setSex(sex);
             user.setUserName(username);
@@ -132,7 +134,6 @@ public class UserController extends BaseController{
                 view.addObject("id", user.getId());
                 view.addObject("address", user.getAddress());
                 view.addObject("company", user.getCompany());
-                view.addObject("id", user.getDutyId());
                 view.addObject("ID_cord", user.getIDCord());
                 view.addObject("joinTime", user.getJoinTime());
                 view.addObject("sex", user.getSex());
@@ -156,7 +157,7 @@ public class UserController extends BaseController{
 
     /**
      * 查询党小组信息
-     * @param userName
+     * @param username
      * @param founding_time
      * @param change_time
      * @param limit
@@ -165,7 +166,7 @@ public class UserController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getUserList(@RequestParam(value = "userName",required = false)String userName,
+    public ModelMap getUserList(@RequestParam(value = "username",required = false)String username,
                                       @RequestParam(value = "company",required = false)String company,
                                       @RequestParam(value = "founding_time",required = false)String founding_time,
                                       @RequestParam(value = "change_time",required = false)String change_time,
@@ -180,11 +181,11 @@ public class UserController extends BaseController{
 
 
         if(StringUtils.isNotEmpty(company)) {
-            intMap.put("company", company);
+            blurMap.put("company", company);
         }
 
-        if(StringUtils.isNotEmpty(userName)) {
-            blurMap.put("userName", userName);
+        if(StringUtils.isNotEmpty(username)) {
+            blurMap.put("username", username);
         }
 
         if(StringUtils.isNotEmpty(founding_time)) {

@@ -20,7 +20,7 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
     @Override
     public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "update duty set isUse = 0";
+        String sql = "update duty set can_use = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
@@ -41,7 +41,7 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>用户列表管理</title>
+    <title>慰问表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
 
     <script src="/js/layui/layui.js"></script>
@@ -14,13 +14,18 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">活动标题</label>
+        <label class="layui-form-label label_width_100">姓名</label>
         <div class="layui-input-inline">
-            <input type="text" id="title"  placeholder="活动标题" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="姓名" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">活动类型</label>
+        <label class="layui-form-label">困难情况</label>
         <div class="layui-input-inline">
-            <input type="text" id="type"  placeholder="活动类型" autocomplete="off" class="layui-input">
+            <select name="difficult" id="difficult">
+                <option value="">全部</option>
+                <option value="0" <#if difficult?? && difficult==0>selected</#if>>非困难</option>
+                <option value="1" <#if difficult?? && difficult==1>selected</#if>>困难</option>
+                <option value="2" <#if difficult?? && difficult==2>selected</#if>>非常困难</option>
+            </select>
         </div>
     </div>
     <!--<div class="layui-form-item">
@@ -77,37 +82,37 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/activity/list' //数据接口
-            ,title: '用户表'
+            ,url: '/sympathy/list' //数据接口
+            ,title: '慰问表'
             ,page: true //开启分页
             ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'title', title: '活动标题', width:150}
-                ,{field: 'content',title:'活动内容',width:150}
-                ,{field: 'type',title:'活动类型',width:150}
-                ,{field: 'start_time',title:'开始时间',width:100,sort: true}
-                ,{field: 'end_time',title:'结束时间',width:200,sort: true}
-                ,{field: 'review',title:'点评',width:200,sort: true}
-                ,{field: 'image_path_a',title:'图片1',width:200,sort: true}
-                ,{field: 'image_path_b',title:'图片2',width:200,sort: true}
-                // ,{field: 'address',title:'地址',width:200,sort: true}
+                ,{field: 'sympathyId', title: '慰问ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'userId', title: '用户ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'username', title: '姓名', width:150}
+                ,{field: 'sex',title:'性别',width:150}
+                ,{field: 'age',title:'年龄',width:150}
+                ,{field: 'difficult',title:'困难情况',width:100,sort: true}
+                ,{field: 'sympathy_time',title:'慰问时间',width:200,sort: true}
+                ,{field: 'unit_and_position',title:'慰问人单位及职务',width:200,sort: true}
+                ,{field: 'sympathy_product',title:'慰问品及信息',width:200,sort: true}
+                ,{field: 'note',title:'备注',width:200,sort: true}
                 // ,{field: 'birth', title: '出生日期', width:200}
                 // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
-                var title = $("#title").val();
-                var type=$("#type").val();
+                var username = $("#name_search").val();
+                var difficult=$("#difficult").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        title:title,
-                        type:type
+                        username:username,
+                        difficult:difficult
                     }
                 });
             }
@@ -124,16 +129,17 @@
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                     window.location.href='/activity/gotoAdd';
+                     window.location.href='/sympathy/gotoAdd';
                     break;
                 case 'update':
+                    console.log(data[0])
                     if(data.length === 0){
                         layer.msg('请选择一行');
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('data[0].id');
-                    window.location.href='/activity/setActivity?id='+data[0].id;
+                    window.location.href='/sympathy/setSympathy?sympathyId='+data[0].sympathyId +'&userId='+data[0].userId;
                     }
                     break;
                 case 'delete':
@@ -149,7 +155,7 @@
                             });
 
                             $.ajax({
-                                url:"/activity/logicDelete",
+                                url:"/sympathy/logicDelete",
                                 data:{
                                     deleteArray:JSON.stringify(a)
                                 },
