@@ -67,7 +67,7 @@ public class SympathyController extends BaseController{
 
     /**
      * 添加或更新
-     * @param id
+     * @param sympathyId
      * @param sympathy_time 慰问时间
      * @param unit_and_position 慰问人单位及职务
      * @param sympathyProduct 慰问品及信息
@@ -77,7 +77,8 @@ public class SympathyController extends BaseController{
      */
     @RequestMapping("/addSympathy")
     @ResponseBody
-    public ModelAndView addSympathy(@RequestParam(value = "id", required = false) Long id,
+    public ModelAndView addSympathy(@RequestParam(value = "sympathyId", required = false) Long sympathyId,
+                                    @RequestParam(value = "userId", required = false) Long userId,
                                       @RequestParam(value = "sympathy_time", required = false) Timestamp sympathy_time,
                                       @RequestParam(value = "unit_and_position", required = false) String unit_and_position,
                                       @RequestParam(value = "sympathyProduct", required = false) String sympathyProduct,
@@ -89,25 +90,32 @@ public class SympathyController extends BaseController{
 
         ModelAndView modelAndView = new ModelAndView();
 
-
         try {
-            Sympathy sympathy = new Sympathy();
-            User user = new User();
-            sympathy.setId(id);
-            sympathy.setSympathyTime(sympathy_time);
-            sympathy.setUnitAndPosition(unit_and_position);
-            sympathy.setSympathyProduct(sympathyProduct);
-            sympathy.setNote(note);
-            sympathy.setDifficult(difficult);
-            sympathy.setCanUse(1);
-            sympathyService.insertOrUpdate(sympathy);
+            User user =  userService.getUserById(userId);
+            if (user != null){
 
-            user.setUserName(userName);
-            user.setAge(age);
-            user.setSex(sex);
-            userService.addUser(user);
-            setSuccess();
-            modelAndView.setViewName("frame/sympathyList");
+                Sympathy sympathy = new Sympathy();
+                sympathy.setId(sympathyId);
+                sympathy.setSympathyTime(sympathy_time);
+                sympathy.setUnitAndPosition(unit_and_position);
+                sympathy.setSympathyProduct(sympathyProduct);
+                sympathy.setNote(note);
+                sympathy.setDifficult(difficult);
+                sympathy.setCanUse(1);
+                sympathy.setUserId(userId);
+                sympathyService.insertOrUpdate(sympathy);
+
+                user.setUserName(userName);
+                user.setId(userId);
+                user.setAge(age);
+                user.setSex(sex);
+                user.setCanUse(1);
+                userService.addUser(user);
+                setSuccess();
+                modelAndView.setViewName("frame/sympathyList");
+            }else {
+                setFail("没有此用户");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             modelAndView.setViewName("WEB-INF/page/sympathy_Add");
@@ -133,7 +141,7 @@ public class SympathyController extends BaseController{
 
             try {
                 sympathy = sympathyService.selectById(sympathyId);
-                view.addObject("id", sympathy.getId());
+                view.addObject("sympathyId", sympathy.getId());
                 view.addObject("difficult", sympathy.getDifficult());
                 view.addObject("sympathy_time", sympathy.getSympathyTime());
                 view.addObject("unit_and_position", sympathy.getSympathyProduct());
@@ -143,6 +151,7 @@ public class SympathyController extends BaseController{
                 user = userService.getUserById(userId);
                 view.addObject("username", user.getUserName());
                 view.addObject("sex", user.getSex());
+                view.addObject("userId", user.getId());
                 view.addObject("age", user.getAge());
                 view.addObject("phone", user.getPhone());
 

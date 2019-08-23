@@ -20,7 +20,7 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
     @Override
     public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "update sympathy set isUse = 0";
+        String sql = "update sympathy set can_use = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
@@ -41,14 +41,19 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        String sql = "SELECT s.id sympathyId,u.id userId,u.username,s.difficult,s.note,s.sympathy_product,s.sympathy_time,s.unit_and_position,u.age,u.sex,u.phone,u.company,u.join_time,u.ID_cord FROM sympathy s join user u on s.party_branch_id = u.party_branch_id WHERE s.can_use = 1 and u.can_use";
-        String sqlCount = "SELECT count(*)  " +
-                "FROM sympathy s " +
-                "JOIN user u ON s.party_branch_id = u.party_branch_id " +
-                "WHERE s.can_use = 1 and u.can_use=1";
+        String sql = "SELECT\n\ts.id sympathyId,\n\tu.id userId,\n\tu.username,\n\ts.difficult,\n\ts.note,\n\ts.sympathy_product,\n\ts.sympathy_time,\n\ts.unit_and_position,\n\tu.age,\n\tu.sex,\n\tu.phone,\n\tu.company,\n\tu.join_time,\n\tu.ID_cord\nFROM\n\tsympathy s\nJOIN user u ON s.user_id = u.id\nWHERE\n\ts.can_use = 1\nAND u.can_use = 1";
+
+        String sqlCount = "SELECT\n" +
+                "\tcount(*)\n" +
+                "FROM\n" +
+                "\tsympathy s\n" +
+                "JOIN user u ON s.user_id = u.id\n" +
+                "WHERE\n" +
+                "\ts.can_use = 1\n" +
+                "AND u.can_use = 1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendDateStr(sql,dateParam,"s");
         sql = CommonUtil.appendIntStr(sql,intParam,"s");

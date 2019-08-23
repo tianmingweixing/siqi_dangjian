@@ -18,6 +18,12 @@ public class Sympathy  extends BaseBean{
 
 
     /**
+     * 用户ID
+     */
+    @Column(name = "user_id",length = 8)
+    private Long userId;
+
+    /**
      * 支部ID
      */
     @Column(name = "party_branch_id",length = 8)
@@ -55,6 +61,14 @@ public class Sympathy  extends BaseBean{
      */
     @Column(name = "note",length = 500)
     private String note;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Integer getDifficult() {
         return difficult;

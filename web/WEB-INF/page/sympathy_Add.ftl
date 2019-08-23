@@ -16,10 +16,21 @@
 
 <br>
     <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
-    <div class="layui-input-inline" style="display:none ">
-        <label class="layui-form-label" style="margin-left: 85px">Id</label>
-        <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+    <div class="layui-form-item input_row_margin_top" style="display:none ">
+        <label class="layui-form-label" style="margin-left: 85px">慰问ID</label>
+        <input id="sympathyId" name="sympathyId" type="hidden"  maxlength="20" value="<#if sympathyId??>${sympathyId}<#else></#if>"/>
     </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label">用户ID</label>
+        <div class="layui-input-inline">
+            <input id="userId" name="userId" type=""  maxlength="20" value="<#if userId??>${userId}<#else></#if>"/>
+        </div>
+    </div>
+
+
+
+
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">姓名</label>
         <div class="layui-input-inline">
@@ -117,8 +128,15 @@
 
     $(function() {
 
-        layui.use('form', function () {
+        layui.use(['laydate','form'], function () {
             var form = layui.form;
+
+            laydate.render({
+                elem: '#sympathy_time' //指定元素
+            });
+            laydate.render({
+                elem: '#end_time' //指定元素
+            });
 
             form.on('submit(formDemo)', function (data) {
 
@@ -131,7 +149,8 @@
                 $.ajax({
                     url: "/sympathy/addSympathy",
                     data: {
-                        id: $("#id").val(),
+                        sympathyId: $("#sympathyId").val(),
+                        userId: $("#userId").val(),
                         username: $("#username").val(),
                         sympathy_product: $("#sympathy_product").val(),
                         age: $("#age").val(),

@@ -1,9 +1,12 @@
 package com.siqi_dangjian.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 会议
@@ -40,22 +43,25 @@ public class Meeting extends BaseBean {
     private String imagesA;
 
     /**
-     * 会议图片1
+     * 会议图片2
      */
     @Column(name="images_b",nullable=true,length=100)
     private String imagesB;
 
     /**
-     * 成立时间
+     * 开始时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="start_time",length = 1,nullable = true)
-    private Timestamp startTime;
+    private Date startTime;
 
     /**
-     * 换届时间
+     * 结束时间
      */
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="end_time",length = 1,nullable = true)
-    private Timestamp endTime;
+    private Date endTime;
 
     /**
      * 党支部id
@@ -111,19 +117,19 @@ public class Meeting extends BaseBean {
         this.imagesB = imagesB;
     }
 
-    public Timestamp getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

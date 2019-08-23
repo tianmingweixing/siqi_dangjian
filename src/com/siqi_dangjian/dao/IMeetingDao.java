@@ -14,6 +14,6 @@ public interface IMeetingDao {
 
     Meeting selectById(Long id) throws Exception;
 
-    Map selectAll(Map blurParam, Map dateParam,
-                  Map intParam, int limit, int page) throws Exception;
+    Map selectAll(Map blurParam, Map intParam, Map dateParam,
+                   int limit, int page) throws Exception;
 }

@@ -22,9 +22,9 @@
         <div class="layui-input-inline">
             <select name="difficult" id="difficult">
                 <option value="">全部</option>
-                <option value="0" <#if difficult?? && difficult==0>selected</#if>>非困难</option>
-                <option value="1" <#if difficult?? && difficult==1>selected</#if>>困难</option>
-                <option value="2" <#if difficult?? && difficult==2>selected</#if>>非常困难</option>
+                <option value="0" >非困难</option>
+                <option value="1" >困难</option>
+                <option value="2" >非常困难</option>
             </select>
         </div>
     </div>
@@ -151,7 +151,7 @@
                         }, function () {
                             var a = [];
                             $.each(data,function(index,value){
-                                a.push(value.id)
+                                a.push(value.sympathyId)
                             });
 
                             $.ajax({
