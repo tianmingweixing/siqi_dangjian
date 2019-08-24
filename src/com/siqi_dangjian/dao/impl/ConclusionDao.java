@@ -18,7 +18,7 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
     @Override
     public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "update conclusion set isUse = 0";
+        String sql = "update conclusion set can_use = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
@@ -42,10 +42,29 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
-                "\tconclusion c \n" +
-                "\tWHERE\n" +
+//                "\tIFNULL(c.conclusion_type_id,\"暂无信息\") conclusion_type_id,\n" +
+        String sql = "SELECT\n" +
+                "\tIFNULL(\n" +
+                "\t\tc.conclusion_type_id,\n" +
+                "\t\t\"暂无信息\"\n" +
+                "\t) conclusion_type_id,\n" +
+                "\tc.id,\n" +
+                "\tc.plan_content,\n" +
+                "\tc.title,\n" +
+                "\t(\n" +
+                "\t\tCASE c.type\n" +
+                "\t\tWHEN 1 THEN\n" +
+                "\t\t\t'总结'\n" +
+                "\t\tWHEN 2 THEN\n" +
+                "\t\t\t'计划'\n" +
+                "\t\tELSE\n" +
+                "\t\t\t'空的'\n" +
+                "\t\tEND\n" +
+                "\t) type,\n" +
+                "\tc.year_limit\n" +
+                "FROM\n" +
+                "\tconclusion c\n" +
+                "WHERE\n" +
                 "\tc.can_use = 1";
 
         String sqlCount = "SELECT\n" +

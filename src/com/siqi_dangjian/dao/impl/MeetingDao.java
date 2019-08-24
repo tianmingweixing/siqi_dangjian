@@ -43,9 +43,29 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
+        String sql = "SELECT\n" +
+                "\tm.content,\n" +
+                "\tDATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
+                "\tDATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
+                "\tm.guide,\n" +
+                "\tm.id,\n" +
+                "\tm.images_a,\n" +
+                "\t(\n" +
+                "\t\tCASE m.meeting_type\n" +
+                "\t\tWHEN 1 THEN\n" +
+                "\t\t\t'支委会'\n" +
+                "\t\tWHEN 2 THEN\n" +
+                "\t\t\t'党员大会'\n" +
+                "\t\tWHEN 3 THEN\n" +
+                "\t\t\t'廉政'\n" +
+                "\t\tELSE\n" +
+                "\t\t\t'暂无信息'\n" +
+                "\t\tEND\n" +
+                "\t) meeting_type,\n" +
+                "\tm.name\n" +
+                "FROM\n" +
                 "\tmeeting m\n" +
-                "\tWHERE\n" +
+                "WHERE\n" +
                 "\tm.can_use = 1";
 
         String sqlCount = "SELECT\n" +

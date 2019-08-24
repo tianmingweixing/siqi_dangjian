@@ -3,9 +3,10 @@ package com.siqi_dangjian.bean;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
- * 总结表
+ * 工作总结（计划）表
  */
 @Entity
 @Table(name = "conclusion")
@@ -18,11 +19,12 @@ public class Conclusion extends BaseBean{
     @Column(name = "party_branch_id",length = 8)
     private Long partyBranchId;
 
+
     /**
      * 年限
      */
     @Column(name="year_limit",length = 30)
-    private Integer yearLimit;
+    private Date yearLimit;
 
     /**
      * 计划内容
@@ -38,20 +40,27 @@ public class Conclusion extends BaseBean{
 
     /**
      * 总结类型
-     * 0 总结  1 计划
      */
-    @Column(name="type",length = 8,columnDefinition = "INT default 0")
-    private Integer type;
+    @Column(name="conclusion_type_id",length = 8,columnDefinition = "INT default 1")
+    private Integer conclusionTypeId;
 
-
-
-    public Integer getYearLimit() {
+    public Date getYearLimit() {
         return yearLimit;
     }
 
-    public void setYearLimit(Integer yearLimit) {
+    public void setYearLimit(java.sql.Date yearLimit) {
         this.yearLimit = yearLimit;
     }
+
+
+    public Integer getConclusionTypeId() {
+        return conclusionTypeId;
+    }
+
+    public void setConclusionTypeId(Integer conclusionTypeId) {
+        this.conclusionTypeId = conclusionTypeId;
+    }
+
 
     public String getPlanContent() {
         return planContent;
@@ -69,13 +78,6 @@ public class Conclusion extends BaseBean{
         this.title = title;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
 
     public Long getPartyBranchId() {
         return partyBranchId;

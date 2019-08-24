@@ -31,10 +31,8 @@ public class MeetingController extends BaseController {
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "id", required = false) Long id) {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("WEB-INF/page/meeting_Add");
-        return view;
+    public String gotoAdd(@RequestParam(value = "id", required = false) Long id) {
+        return "WEB-INF/page/meeting_Add";
     }
 
     /**

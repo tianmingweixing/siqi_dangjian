@@ -59,12 +59,9 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">文档管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="conclusion_1()">年度工作计划</a></dd>
-                        <dd><a onclick="conclusion_2()">年度工作总结</a></dd>
-                        <dd><a onclick="conclusion_3()">半年度工作总结</a></dd>
-                        <dd><a onclick="conclusion_4()">月度工作总结</a></dd>
-                        <dd><a onclick="conclusion_5()">日度工作总结</a></dd>
-                        <dd><a onclick="conclusion_6()">文档分类</a></dd>
+                        <dd><a onclick="conclusion_1()">工作计划</a></dd>
+                        <dd><a onclick="conclusion_2()">工作总结</a></dd>
+                        <dd><a onclick="conclusion_3()">文档分类</a></dd>
                     </dl>
                 </li>
 
@@ -152,15 +149,7 @@
     function conclusion_3() {
         $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
     }
-    function conclusion_4() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
-    }
-    function conclusion_5() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
-    }
-    function conclusion_6() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
-    }
+
 
     function partywork_1() {
         $("#mainIframe").attr("src", "/frame/rewardList.ftl");

@@ -51,13 +51,13 @@
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label " style="margin-left: 84px">开始时间</label>
+        <label class="layui-form-label " style="margin-left: 1px">开始时间</label>
         <div class="layui-input-inline">
             <input id="start_time" name="start_time" lay-verify="required" placeholder="请输入开始时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if start_time??>${start_time}<#else></#if>">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
-        <label class="layui-form-label " style="margin-left: 84px">结束时间</label>
+        <label class="layui-form-label " style="margin-left: -10px">结束时间</label>
         <div class="layui-input-inline">
             <input id="end_time" name="end_time" lay-verify="required" placeholder="请输入结束时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if end_time??>${end_time}<#else></#if>">
@@ -65,27 +65,27 @@
 
     </div>
 
-
-
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">会议内容</label>
-            <div class="layui-input-block">
-                <textarea name="content" id="content" placeholder="请输入会议内容"  class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
-            </div>
-
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">会议指导</label>
-                <div class="layui-input-block">
-                    <textarea name="guide" id="guide" placeholder="请输入会议指导" class="layui-textarea"><#if guide??>${guide}<#else></#if></textarea>
-                </div>
-            </div>
-
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">会议内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" id="content" placeholder="请输入会议内容"
+                      class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
         </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">会议指导</label>
+        <div class="layui-input-block">
+                <textarea name="guide" id="guide" placeholder="请输入会议指导"
+                          class="layui-textarea"><#if guide??>${guide}<#else></#if></textarea>
+        </div>
+    </div>
+
 
     <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button  class="layui-btn layui-btn-normal"  lay-submit lay-filter="formDemo">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -110,12 +110,6 @@
             });
 
             form.on('submit(formDemo)', function (data) {
-
-                // if (state === 'uploading') {
-                //     uploader.stop();
-                // } else {
-                //     uploader.upload();
-                // }
 
                 $.ajax({
                     url: "/meeting/addMeeting",
