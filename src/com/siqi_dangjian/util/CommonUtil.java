@@ -76,9 +76,9 @@ public class CommonUtil {
         for (Object key : map.keySet()) {
             if (null != map.get(key) && "" != map.get(key)) {
                 if (key == "start_time" && StringUtils.isNotEmpty((String) map.get(key))) {
-                    builder.append(" " + table_alies + ".create_time>=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                    builder.append(" " + table_alies + ".year_limit>=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
                 } else if (key == "end_time" && StringUtils.isNotEmpty((String) map.get(key))) {
-                    builder.append(" " + table_alies + ".create_time<=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                    builder.append(" " + table_alies + ".year_limit<=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
                 }
             }
         }

@@ -26,6 +26,7 @@ public class Conclusion extends BaseBean{
     @Column(name="year_limit",length = 30)
     private Date yearLimit;
 
+
     /**
      * 计划内容
      */
@@ -44,11 +45,12 @@ public class Conclusion extends BaseBean{
     @Column(name="conclusion_type_id",length = 8,columnDefinition = "INT default 1")
     private Integer conclusionTypeId;
 
+
     public Date getYearLimit() {
         return yearLimit;
     }
 
-    public void setYearLimit(java.sql.Date yearLimit) {
+    public void setYearLimit(Date yearLimit) {
         this.yearLimit = yearLimit;
     }
 

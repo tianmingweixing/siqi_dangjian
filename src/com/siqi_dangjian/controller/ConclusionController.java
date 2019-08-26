@@ -3,9 +3,7 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Conclusion;
-import com.siqi_dangjian.bean.Meeting;
 import com.siqi_dangjian.service.IConclusionService;
-import com.siqi_dangjian.service.IMeetingService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.HashMap;
@@ -135,7 +132,7 @@ public class ConclusionController extends BaseController {
     /**
      * 查询会议表信息
      * @param title
-     * @param conclusion_type
+     * @param id
      * @param limit
      * @param page
      * @return
@@ -143,8 +140,10 @@ public class ConclusionController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public ModelMap getConclusionList(@RequestParam(value = "title", required = false) String title,
-                                      @RequestParam(value = "yearLimit", required = false) String yearLimit,
-                                      @RequestParam(value = "conclusion_type", required = false) Integer conclusion_type,
+                                      @RequestParam(value = "type", required = false) String type,
+                                      @RequestParam(value = "start_time_search", required = false) String start_time,
+                                      @RequestParam(value = "end_time_search", required = false) String end_time,
+                                      @RequestParam(value = "conclusion_type_id", required = false) String id,
                                       @RequestParam(value = "limit", required = false) Integer limit,
                                       @RequestParam(value = "page", required = false) Integer page) {
 
@@ -154,16 +153,24 @@ public class ConclusionController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-        if (StringUtils.isNotEmpty(String.valueOf(conclusion_type))) {
-            intMap.put("conclusion_type", conclusion_type);
+        if (StringUtils.isNotEmpty(id)) {
+            intMap.put("id", id);
+        }
+
+        if (StringUtils.isNotEmpty(type)) {
+            intMap.put("type", type);
         }
 
         if (StringUtils.isNotEmpty(title)) {
             blurMap.put("title", title);
         }
 
-        if (StringUtils.isNotEmpty(yearLimit)) {
-            dateMap.put("yearLimit", yearLimit);
+        if (StringUtils.isNotEmpty(start_time)) {
+            dateMap.put("start_time", start_time);
+        }
+
+        if (StringUtils.isNotEmpty(end_time)) {
+            dateMap.put("end_time", end_time);
         }
 
 

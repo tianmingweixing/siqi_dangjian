@@ -8,16 +8,16 @@ import javax.persistence.Table;
  * 总结（计划）类型表
  */
 @Entity
-@Table(name = "onclusion_type")
+@Table(name = "conclusion_type")
 public class ConclusionType extends BaseBean{
 
 
 
     /**
-     * 季度类型名称 : 1年度  2月度  3日度 或其他
+     * 季度类型名称 : 1.年度  2.半年度  3.月度 4.日度 或其他
      */
     @Column(name="type_name",length = 30)
-    private Integer typeName;
+    private String typeName;
 
     /**
      * 工作会议类型
@@ -33,11 +33,11 @@ public class ConclusionType extends BaseBean{
     private Long partyBranchId;
 
 
-    public Integer getTypeName() {
+    public String getTypeName() {
         return typeName;
     }
 
-    public void setTypeName(Integer typeName) {
+    public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
 

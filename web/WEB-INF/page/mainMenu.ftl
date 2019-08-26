@@ -144,10 +144,10 @@
         $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
     }
     function conclusion_2() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
+        $("#mainIframe").attr("src", "/frame/conclusionList_b.ftl");
     }
     function conclusion_3() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
+        $("#mainIframe").attr("src", "/frame/conclusionTypeList.ftl");
     }
 
 

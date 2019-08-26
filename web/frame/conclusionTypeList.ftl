@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>工作总结（计划）表管理</title>
+    <title>总结（计划）类型表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
 
     <script src="/js/layui/layui.js"></script>
@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<!--
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
         <label class="layui-form-label label_width_100">标题</label>
@@ -22,10 +23,10 @@
         <div class="layui-input-inline">
             <select name="conclusion_type_id" id="conclusion_type_id">
                 <option value="">全部</option>
-                <option value="5" >年度 </option>
-                <option value="6" >半年度</option>
-                <option value="7" >月度</option>
-                <option value="8" >日度</option>
+                <option value="1" >年度总结 </option>
+                <option value="2" >半年度总结</option>
+                <option value="3" >月度总结</option>
+                <option value="4" >日度总结</option>
             </select>
         </div>
     </div>
@@ -45,11 +46,12 @@
     </div>
 
 </form>
+
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
-
+-->
 
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
@@ -87,19 +89,19 @@
                 tips: 1
             });
         });
-
+/*
         laydate.render({
             elem: '#start_time_search' //指定元素
         });
         laydate.render({
             elem: '#end_time_search' //指定元素
-        });
+        });*/
 
         //执行一个 table 实例
         table.render({
             elem: '#demo'
             , height: 563
-            , url: '/conclusion/list?type='+1 //数据接口
+            , url: '/conclusionType/list' //数据接口
             , title: '会议表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
@@ -107,16 +109,14 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '总结名称', width: 150}
-                , {field: 'conclusion_type_id', title: '季度类型', width: 150}
-                , {field: 'type', title: '总结类型', width: 150}
-                , {field: 'plan_content', title: '内容', width: 550}
-                , {field: 'year_limit', title: '年限', width: 150,sort:true}
-                // ,{field: 'birth', title: '出生日期', width:200}
+                , {field: 'type_name', title: '季度类型名称', width: 150}
+                , {field: 'type', title: '工作会议类型', width: 150}
+                // ,{field: 'party_branch_id', title: '支部ID', width:200}
                 // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
-        var $ = layui.$, active = {
+     /*
+     var $ = layui.$, active = {
             reload:function () {
                 var title = $("#title").val();
                 var conclusion_type_id=$("#conclusion_type_id").val();
@@ -134,20 +134,22 @@
                 });
             }
         };
+        */
+     /*
         //??
         $('.search_div .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
 
-
+*/
         //头:工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/conclusion/gotoAdd';
+                    window.location.href = '/conclusionType/gotoAdd';
                     break;
                 case 'update':
                     console.log(data[0])
@@ -157,7 +159,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('data[0].id');
-                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id;
+                        window.location.href = '/conclusionType/setConclusionType?Id=' + data[0].id;
                     }
                     break;
                 case 'delete':
@@ -173,7 +175,7 @@
                             });
 
                             $.ajax({
-                                url: "/conclusion/logicDelete",
+                                url: "/conclusionType/logicDelete",
                                 data: {
                                     deleteArray: JSON.stringify(a)
                                 },
