@@ -1,5 +1,5 @@
 apidoc
 .idea
-applicationContext.xml
-jdbc.properties
+web/WEB-INF/applicationContext.xml
+src/jdbc.properties
 web/WEB-INF/web.xml
