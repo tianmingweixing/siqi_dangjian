@@ -13,7 +13,7 @@ public interface IAdminService {
 
     Map getUserNameByType(Integer type) throws Exception;
 
-    Map getUserNameById(Long id) throws Exception;
+    Admin selectById(Long id) throws Exception;
 
     void insertOrUpdate(Admin admin) throws Exception;
 

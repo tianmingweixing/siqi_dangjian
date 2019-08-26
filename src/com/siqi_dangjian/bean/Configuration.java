@@ -18,7 +18,7 @@ public class Configuration extends BaseBean {
     private Long partyBranchId;
 
     /**
-     * 微型AppId
+     * 微信AppId
      */
     @Column(name="wx_appId",length = 100)
     private String wxAppId;
@@ -30,7 +30,7 @@ public class Configuration extends BaseBean {
     private String wxAppSecret;
 
     /**
-     * 微型商户号
+     * 微信商户号
      */
     @Column(name="wx_much_id",length =100)
     private String wxMuchId;
@@ -44,13 +44,19 @@ public class Configuration extends BaseBean {
     /**
      * 公司简介
      */
-    @Column(name="com_info",length = 100)
+    @Column(name="com_info",length = 1000)
     private String comInfo;
+
+    /**
+     * 公司简介
+     */
+    @Column(name="com_phone",length = 20)
+    private String comPhone;
 
     /**
      * 公司图片
      */
-    @Column(name="com_img",length = 100)
+    @Column(name="com_img",length = 200)
     private String comImg;
 
     /**
@@ -95,6 +101,14 @@ public class Configuration extends BaseBean {
 
     public void setComInfo(String comInfo) {
         this.comInfo = comInfo;
+    }
+
+    public String getComPhone() {
+        return comPhone;
+    }
+
+    public void setComPhone(String comPhone) {
+        this.comPhone = comPhone;
     }
 
     public String getComImg() {

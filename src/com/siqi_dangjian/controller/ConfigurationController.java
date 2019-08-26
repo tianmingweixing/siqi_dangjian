@@ -38,10 +38,12 @@ public class ConfigurationController extends BaseController{
             lunbo[4] = comInfo.getImagePathE();
 
             setData("lunbo", lunbo);
+            setData("comInfo", comInfo);
             setSuccess();
+            setMsg("获取信息成功");
         }catch (Exception e){
             e.printStackTrace();
-            setFail();
+            setFail("获取信息异常");
             logger.error("config --> getConfig");
         }
         return modelMap;
@@ -73,6 +75,31 @@ public class ConfigurationController extends BaseController{
         }catch (Exception e){
             e.printStackTrace();
             setFail("设置轮播图失败");
+            logger.error("config --> getConfig");
+        }
+        return modelMap;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/setConfig", method = RequestMethod.POST)
+    public ModelMap setComInfo(@RequestParam(value = "com_name", required = false) String com_name
+                        ,@RequestParam(value = "com_phone", required = false) String com_phone
+                        ,@RequestParam(value = "com_info", required = false) String com_info
+                        ,@RequestParam(value = "com_img", required = false) String com_img) {
+        modelMap = new ModelMap();
+        try {
+            Configuration comInfo = configurationService.selectById(1L);
+            comInfo.setComName(com_name);
+            comInfo.setComInfo(com_info);
+            comInfo.setComImg(com_img);
+            comInfo.setComPhone(com_phone);
+
+            configurationService.insertOrUpdate(comInfo);
+            setSuccess();
+            setMsg("设置成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            setFail("设置失败");
             logger.error("config --> getConfig");
         }
         return modelMap;

@@ -1,7 +1,9 @@
 package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.Admin;
+import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.dao.IAdminDao;
+import com.siqi_dangjian.dao.impl.ConclusionDao;
 import com.siqi_dangjian.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,8 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Map getUserNameById(Long id) throws Exception {
-        return null;
+    public Admin selectById(Long id) throws Exception {
+        return adminDao.selectById(id);
     }
 
     @Override

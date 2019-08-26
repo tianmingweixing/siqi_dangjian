@@ -14,6 +14,9 @@ public class Admin extends BaseBean {
     @Column(name="username",nullable=true,length=15)
     private String userName;
 
+    @Column(name="head_img",nullable=true,length=300)
+    private String headImg;
+
     @Column(name="password",nullable=true,length=12)
     private String password;
 
@@ -42,22 +45,20 @@ public class Admin extends BaseBean {
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
 
-    public Admin(){}
-
-    public Admin(String userName, String password, Integer adminType, String authority, Long partyBranchId) {
-        this.userName = userName;
-        this.password = password;
-        this.adminType = adminType;
-        this.authority = authority;
-        this.partyBranchId = partyBranchId;
-    }
-
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 
     public String getPassword() {

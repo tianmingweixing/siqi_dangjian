@@ -19,6 +19,7 @@ public class MD5 {
         return newstr;
     }
 
+
     /**判断用户密码是否正确
      *newpasswd 用户输入的密码
      *oldpasswd 正确密码*/

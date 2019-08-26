@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - 注册</title>
     <link rel="stylesheet" href="../js/layui/css/layui.css">
-    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/public.css">
     <link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">
     <script src="../js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>

@@ -41,4 +41,9 @@ public class CommonString {
     public final static String ALI_DELIVER_APPSCRET = "459c8aa9e3d44de3bfdecb95070d2431";//阿里物流Appsret
     public final static String DELIVER_QUERY_EXCEPTION = "物流查询异常";
     public final static String WX_PAY_SING_KEY = "0ShiningVeins7FrightfulRuckusw21";
+
+    //日志
+    public final static boolean IS_OPEN_LOG = true;//1:打开；0：关闭
+
+
 }

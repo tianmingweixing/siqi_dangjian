@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layout 后台大布局 - Layui</title>
+    <title>思齐党建后台-修改密码</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-    <link rel="stylesheet" href="/css/addGood.css">
+    <link rel="stylesheet" href="/css/public.css">
 
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -82,7 +82,7 @@
                 return false;
             }
             $.ajax({
-                url: "../login/reset_password",
+                url: "../admin/reset_password",
                 method: "POST",
                 data: {
                     new_password: new_password,
@@ -92,7 +92,9 @@
                     if (data.result == 'success') {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.reload();
+                            // window.location.reload();
+                            // window.location.href='http://localhost:8080/login/logout';
+                            top.location.href='http://localhost:8080/login/logout';
                         }, 1500);
                     } else {
                         layer.msg(data.msg, {icon: 2});

@@ -1,9 +1,7 @@
 package com.siqi_dangjian.dao.impl;
 
 import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IAdminDao;
-import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -55,24 +53,28 @@ public class AdminDao extends BaseDao<Admin> implements IAdminDao {
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
-                "\tadmin a\n" +
+        String sql = "\tSELECT a.id," +
+                "a.username,a.account," +
+                "IF(a.admin_type=1,'超级管理员','普通管理员') admin_type," +
+                "a.authority,a.party_branch_id,p.name" +
+                " FROM \n" +
+                "\tadmin a inner join party_branch p on a.party_branch_id = p.id\n" +
                 "\tWHERE\n" +
-                "\ta.can_use = 1";
+                "\ta.can_use = 1 and p.can_use=1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
-                "FROM admin a where a.can_use=1";
+                "FROM admin a inner join party_branch p on a.party_branch_id = p.id where a.can_use = 1 and p.can_use=1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"u");
-        sql = CommonUtil.appendIntStr(sql,intParam,"u");
+        sql = CommonUtil.appendDateStr(sql,dateParam,"a");
+        sql = CommonUtil.appendIntStr(sql,intParam,"a");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"a");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-    <link rel="stylesheet" href="/css/addGood.css">
+    <link rel="stylesheet" href="/css/public.css">
 
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -15,19 +15,21 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">用户姓名</label>
+        <label class="layui-form-label label_width_100">账号</label>
         <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="用户姓名" autocomplete="off" class="layui-input">
+            <input type="text" id="account_search"  placeholder="管理员姓名" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">用户昵称</label>
+        <label class="layui-form-label ">昵称</label>
         <div class="layui-input-inline">
-            <input type="text" id="user_name_search"  placeholder="用户昵称" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="管理员昵称" autocomplete="off" class="layui-input">
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
+        <label class="layui-form-label ">类型</label>
         <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
+            <select id="type_search" name="type_search" lay-verify="">
+                <option value="0">全部</option>
+                <option value="1">超级管理员</option>
+                <option value="2">普通管理员</option>
+            </select>
         </div>
     </div>
 </form>
@@ -35,14 +37,15 @@
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">权限</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改密码</a>
 </script>
 <style>
     .layui_open_fail{
@@ -50,8 +53,6 @@
         border-radius: 5px;
     }
 </style>
-
-<script src="/js/layui/layui.js"></script>
 <script>
     layui.config({
         version: '1551352891272' //为了更新 js 缓存，可忽略
@@ -77,41 +78,37 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/user/list' //数据接口
+            ,url: '/admin/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
-            ,toolbar: true  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-            ,totalRow: true //开启合计行
+            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,cols: [[ //表头
-                {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '姓名', width:200}
-                ,{field: 'username', title: '用户昵称', width: 200}
-                ,{field: 'age', title: '年龄', width:200,sort: true}
-                ,{field: 'phone',title:'电话',width:200}
-                ,{field: 'has_consume',title:'总共消费',width:200,sort: true}
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'account', title: '账号', width:200}
+                ,{field: 'username', title: '昵称', width: 200}
+                ,{field: 'admin_type', title: '类型', width:200}
+                // ,{field: 'authority',title:'权限',width:200}
+                ,{field: 'name',title:'支部',width:200}
+                ,{field: 'id',title:'操作',width:200,fixed: 'right',toolbar: '#barDemo'}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
-                var name = $("#name_search").val();
-                var username=$("#user_name_search").val();
-                var maxCredit=$("#max_credit_search").val();
-                var minCredit =$("#min_credit_search").val();
-                var phone = $("#phone_search").val();
-                var member = $("#member_type").val();
+                var account = $("#account_search").val();
+                var userName=$("#name_search").val();
+                var adminType=$("#type_search").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        name:name,
-                        userName:username,
-                        maxCredit:maxCredit,
-                        minCredit:minCredit,
-                        phone:phone,
-                        member:member
+                        account:account,
+                        userName:userName,
+                        adminType:adminType
                     }
                 });
             }
         };
+
         $('.search_div .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
@@ -134,6 +131,61 @@
             }
         });
 
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                    ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    window.location.href='/admin/goto';
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        window.location.href='/admin/goto?id='+data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm("确认要删除吗", {
+                            icon:0
+                        }, function () {
+                            var idArr = [];
+                            $.each(data,function(index,value){
+                                idArr.push(value.id)
+                            });
+                            $.ajax({
+                                url:"/admin/delete",
+                                data:{
+                                    deleteArray:JSON.stringify(idArr)
+                                },
+                                success:function (data) {
+                                    if(data.result == "fail"){
+                                        layer.open({
+                                            icon: 2,
+                                            title: '消息提醒',
+                                            content: '删除失败',
+                                            skin:'layui_open_fail'
+                                        });
+                                    } else {
+                                        layer.msg('删除成功', {icon: 1});
+                                        setTimeout(function () {
+                                            location.reload()
+                                        },1000)
+                                    }
+                                }
+                            })
+                        })
+
+                    }
+                    break;
+            };
+        });
 
         //分页
         laypage.render({
