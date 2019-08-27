@@ -30,9 +30,13 @@ public class ConclusionController extends BaseController {
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "id", required = false) Long id) {
+    public ModelAndView gotoAdd(@RequestParam(value = "type", required = false) Integer type) {
         ModelAndView view = new ModelAndView();
-        view.setViewName("WEB-INF/page/conclusion_Add");
+        if (type == 1){
+            view.setViewName("WEB-INF/page/conclusion_Add");//跳转添加工作计划页面
+        }else if(type == 0){
+            view.setViewName("WEB-INF/page/conclusion_zj_Add");//跳转添加工作总结页面
+        }
         return view;
     }
 
@@ -66,18 +70,17 @@ public class ConclusionController extends BaseController {
      * @param year_limit .
      * @param title
      * @param plan_content .
-     * @param type .
-     * @return modelAndView
+     * @return
      */
     @RequestMapping("/addConclusion")
-    public ModelAndView addConclusion(@RequestParam(value = "id", required = false) Long id,
+    @ResponseBody
+    public ModelMap addConclusion(@RequestParam(value = "id", required = false) Long id,
                                       @RequestParam(value = "conclusion_type_id", required = false) Integer conclusionTypeId,
                                       @RequestParam(value = "year_limit", required = false) Date year_limit,
                                       @RequestParam(value = "title", required = false) String title,
-                                      @RequestParam(value = "plan_content", required = false) String plan_content,
-                                      @RequestParam(value = "type", required = false) Integer type) {
+                                      @RequestParam(value = "plan_content", required = false) String plan_content) {
 
-        ModelAndView modelAndView = new ModelAndView();
+        ModelMap modelMap = new ModelMap();
 
         try {
             Conclusion conclusion = new Conclusion();
@@ -88,16 +91,13 @@ public class ConclusionController extends BaseController {
             conclusion.setYearLimit(year_limit);
             conclusion.setCanUse(1);
             conclusionService.insertOrUpdate(conclusion);
-
             setSuccess();
-            modelAndView.setViewName("frame/conclusionList");
-
         } catch (Exception e) {
             e.printStackTrace();
-            modelAndView.setViewName("WEB-INF/page/conclusion_Add");
-            return modelAndView;
+            setFail();
+            return modelMap;
         }
-        return modelAndView;
+        return modelMap;
 
     }
 
@@ -107,7 +107,8 @@ public class ConclusionController extends BaseController {
      * @param  id
      */
     @RequestMapping("/setConclusion")
-    public ModelAndView setConclusion(@RequestParam(value = "Id", required = false) Long id){
+    public ModelAndView setConclusion(@RequestParam(value = "Id", required = false) Long id,
+                                      @RequestParam(value = "type", required = false) Long type){
 
         ModelAndView view = new ModelAndView();
         Conclusion  conclusion;
@@ -119,8 +120,11 @@ public class ConclusionController extends BaseController {
                 view.addObject("plan_content", conclusion.getPlanContent());
                 view.addObject("title", conclusion.getTitle());
                 view.addObject("conclusion_type_id", conclusion.getConclusionTypeId());
-
-                view.setViewName("WEB-INF/page/conclusion_Add");
+                if (type == 1){
+                    view.setViewName("WEB-INF/page/conclusion_Add");//跳转添加工作计划页面
+                }else if(type == 0){
+                    view.setViewName("WEB-INF/page/conclusion_zj_Add");//跳转添加工作总结页面
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 setMsg("获取数据错误");

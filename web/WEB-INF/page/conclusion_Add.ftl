@@ -11,7 +11,9 @@
     <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
-
+<div class="layui-progress">
+    <div class="layui-progress-bar " lay-percent="100%"></div>
+</div>
 <form class="layui-form" action="">
 
 <br>
@@ -29,10 +31,10 @@
         <div class="layui-input-inline">
             <select name="conclusion_type_id" id="conclusion_type_id">
                 <option value="">全部</option>
-                <option value="1" <#if conclusion_type_id?? && conclusion_type_id==1>selected</#if>>年度总结 </option>
-                <option value="2" <#if conclusion_type_id?? && conclusion_type_id==2>selected</#if>>半年度总结</option>
-                <option value="3" <#if conclusion_type_id?? && conclusion_type_id==3>selected</#if>>月度总结</option>
-                <option value="4" <#if conclusion_type_id?? && conclusion_type_id==4>selected</#if>>日度总结</option>
+                <option value="5" <#if conclusion_type_id?? && conclusion_type_id==5>selected</#if>>年度</option>
+                <option value="6" <#if conclusion_type_id?? && conclusion_type_id==6>selected</#if>>半年度</option>
+                <option value="7" <#if conclusion_type_id?? && conclusion_type_id==7>selected</#if>>月度</option>
+                <option value="8" <#if conclusion_type_id?? && conclusion_type_id==8>selected</#if>>日度</option>
             </select>
         </div>
 
@@ -55,7 +57,7 @@
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">计划(总结)内容</label>
+        <label class="layui-form-label">计划内容</label>
         <div class="layui-input-block">
             <textarea name="plan_content" id="plan_content" placeholder="请输入内容"
                       style="width: 1000px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
@@ -79,10 +81,11 @@
 
     $(function() {
 
-        layui.use(['laydate','form'], function () {
+        layui.use(['element','laydate','form'], function () {
             var form = layui.form;
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
+            var element = layui.element;
 
             laydate.render({
                 elem: '#year_limit' //指定元素
@@ -105,7 +108,7 @@
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/conclusionList.ftl'
+                            window.location.href = '/frame/conclusionList_jh.ftl'
                         }, 1500);
                     }
                 });

@@ -141,10 +141,10 @@
     }
 
     function conclusion_1() {
-        $("#mainIframe").attr("src", "/frame/conclusionList.ftl");
+        $("#mainIframe").attr("src", "/frame/conclusionList_jh.ftl");
     }
     function conclusion_2() {
-        $("#mainIframe").attr("src", "/frame/conclusionList_b.ftl");
+        $("#mainIframe").attr("src", "/frame/conclusionList_zj.ftl");
     }
     function conclusion_3() {
         $("#mainIframe").attr("src", "/frame/conclusionTypeList.ftl");
