@@ -152,7 +152,7 @@
 
 
     function partywork_1() {
-        $("#mainIframe").attr("src", "/frame/rewardList.ftl");
+        $("#mainIframe").attr("src", "/frame/honorList.ftl");
     }
     function partywork_2() {
         $("#mainIframe").attr("src", "/frame/disciplineList.ftl");

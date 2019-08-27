@@ -135,8 +135,8 @@ public class ConclusionController extends BaseController {
 
     /**
      * 查询会议表信息
-     * @param title
-     * @param id
+     * @param title 标题
+     * @param id  总结分类的id
      * @param limit
      * @param page
      * @return
