@@ -67,6 +67,7 @@ public class ConclusionTypeController extends BaseController {
      */
     @RequestMapping("/addConclusionType")
     public ModelAndView addConclusion(@RequestParam(value = "id", required = false) Long id,
+                                      @RequestParam(value = "type", required = false) Integer type,
                                       @RequestParam(value = "type_name", required = false) String typeName) {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -75,6 +76,7 @@ public class ConclusionTypeController extends BaseController {
             ConclusionType conclusionType = new ConclusionType();
             conclusionType.setId(id);
             conclusionType.setTypeName(typeName);
+            conclusionType.setType(type);
             conclusionType.setCanUse(1);
             conclusionTypeService.insertOrUpdate(conclusionType);
 

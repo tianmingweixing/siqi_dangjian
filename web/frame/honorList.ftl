@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>工作总结（计划）表管理</title>
+    <title>荣誉表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
 
     <script src="/js/layui/layui.js"></script>
@@ -12,22 +12,15 @@
 </head>
 
 <body>
+
 <form class="layui-form" style="margin-top: 10px">
+
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">标题</label>
+        <label class="layui-form-label label_width_100">荣誉名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="title"  placeholder="标题" autocomplete="off" class="layui-input">
+            <input type="text" id="name"  placeholder="荣誉名称" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">季度类型</label>
-        <div class="layui-input-inline">
-            <select name="conclusion_type_id" id="conclusion_type_id">
-                <option value="">全部</option>
-                <option value="5" >年度 </option>
-                <option value="6" >半年度</option>
-                <option value="7" >月度</option>
-                <option value="8" >日度</option>
-            </select>
-        </div>
+
     </div>
 
     <div class="layui-form-item">
@@ -99,35 +92,36 @@
         table.render({
             elem: '#demo'
             , height: 563
-            , url: '/conclusion/list?type='+1 //数据接口
-            , title: '会议表'
+            , url: '/disciplineOfHonor/list?type='+0 //数据接口
+            , title: '荣誉表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '总结名称', width: 150}
-                , {field: 'conclusion_type_id', title: '季度类型', width: 150}
-                , {field: 'type', title: '总结类型', width: 150}
-                , {field: 'plan_content', title: '内容', width: 550}
-                , {field: 'year_limit', title: '年限', width: 150,sort:true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
+                , {field: 'name', title: '荣誉名称', width: 150}
+                , {field: 'type', title: '类型', width: 150}
+                , {field: 'certificate', title: '荣誉凭证', width: 150}
+                , {field: 'unit', title: '授奖单位或个人', width: 250}
+                , {field: 'passive_unit', title: '被奖惩个人或单位', width: 250,sort:true}
+                , {field: 'amount', title: '金额', width: 150,sort:true}
+                , {field: 'time', title: '时间', width: 150,sort:true}
+                , {field: 'content', title: '奖惩内容', width: 150,sort:true}
+                , {field: 'note', title: '备注', width: 150,sort:true}
+                , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
-                var title = $("#title").val();
-                var conclusion_type_id=$("#conclusion_type_id").val();
+                var name=$("#name").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        title:title,
-                        conclusion_type_id:conclusion_type_id,
+                        name:name,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }
@@ -147,7 +141,7 @@
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/conclusion/gotoAdd';
+                    window.location.href = '/disciplineOfHonor/gotoAdd?type='+0;
                     break;
                 case 'update':
                     console.log(data[0])
@@ -156,8 +150,8 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.msg('data[0].id');
-                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id;
+                        layer.msg('layui-icon-ok');
+                        window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id+'&type='+0;
                     }
                     break;
                 case 'delete':
@@ -173,7 +167,7 @@
                             });
 
                             $.ajax({
-                                url: "/conclusion/logicDelete",
+                                url: "/disciplineOfHonor/logicDelete",
                                 data: {
                                     deleteArray: JSON.stringify(a)
                                 },

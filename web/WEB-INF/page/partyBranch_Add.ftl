@@ -71,8 +71,8 @@
         <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
-
-    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right: 1000px">
+    <br>
+    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right:1000px; width: 500px;height: 300px;">
         <label class="layui-form-label">党支部简介</label>
         <div class="layui-input-block">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
@@ -234,8 +234,9 @@
         //     count--;
         // }
 
-        layui.use('form', function () {
+        layui.use('element','form', function () {
             var form = layui.form;
+            var form = layui.element;
 
             form.on('submit(formDemo)', function (data) {
 

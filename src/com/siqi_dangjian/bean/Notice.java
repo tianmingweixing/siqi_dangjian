@@ -5,11 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 党务表
+ * 公示公告表
  */
 @Entity
-@Table(name = "party_work")
-public class PartyWork extends BaseBean{
+@Table(name = "notice")
+public class Notice extends BaseBean{
 
     /**
      * 支部ID
@@ -18,7 +18,7 @@ public class PartyWork extends BaseBean{
     private Long partyBranchId;
 
     /**
-     * 标题
+     * 公示标题
      */
     @Column(name="title",length = 300)
     private String title;
@@ -30,37 +30,18 @@ public class PartyWork extends BaseBean{
     private String content;
 
     /**
-     * 反馈
+     * 图片
      */
-    @Column(name="feedback",length = 500)
-    private String feedback;
+    @Column(name="image_path",length = 150)
+    private String imagePath;
 
-    /**
-     * 图片1
-     */
-    @Column(name="image_path_a",length = 150)
-    private String imagePathA;
 
-    /**
-     * 图片2
-     */
-    @Column(name="image_path_b",length = 150)
-    private String imagePathB;
-
-    public String getImagePathA() {
-        return imagePathA;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImagePathA(String imagePathA) {
-        this.imagePathA = imagePathA;
-    }
-
-    public String getImagePathB() {
-        return imagePathB;
-    }
-
-    public void setImagePathB(String imagePathB) {
-        this.imagePathB = imagePathB;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {
@@ -77,14 +58,6 @@ public class PartyWork extends BaseBean{
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
     }
 
     public Long getPartyBranchId() {

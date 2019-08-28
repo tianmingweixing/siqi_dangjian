@@ -21,7 +21,7 @@
         <input id="sympathyId" name="sympathyId" type="hidden"  maxlength="20" value="<#if sympathyId??>${sympathyId}<#else></#if>"/>
     </div>
 
-    <div class="layui-form-item input_row_margin_top">
+    <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label">用户ID</label>
         <div class="layui-input-inline">
             <input id="userId" name="userId" type=""  maxlength="20" value="<#if userId??>${userId}<#else></#if>"/>

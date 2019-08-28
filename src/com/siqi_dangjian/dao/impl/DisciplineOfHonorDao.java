@@ -21,7 +21,7 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
     @Override
     public void logicDelete(List idList) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "update discipline_of_honor set isUse = 0";
+        String sql = "update discipline_of_honor set can_use = 0";
         sql = CommonUtil.appendInSql(sql,idList,"id");
         SQLQuery query = session.createSQLQuery(sql);
         query.executeUpdate();
@@ -42,13 +42,34 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
+        String sql = "SELECT\n" +
+                "\td.amount,\n" +
+                "\td.certificate,\n" +
+                "\td.content,\n" +
+                "\td.create_time,\n" +
+                "\td.id,\n" +
+                "\td.`name`,\n" +
+                "\td.note,\n" +
+                "\td.passive_unit,\n" +
+                "\tDATE_FORMAT(d.time, '%Y-%m-%d')time,\n" +
+                "\t(\n" +
+                "\t\tCASE d.type\n" +
+                "\t\tWHEN 0 THEN\n" +
+                "\t\t\t'荣誉'\n" +
+                "\t\tWHEN 1 THEN\n" +
+                "\t\t\t'违纪'\n" +
+                "\t\tELSE\n" +
+                "\t\t\t'暂无数据'\n" +
+                "\t\tEND\n" +
+                "\t) type,\n" +
+                "\td.unit\n" +
+                "FROM\n" +
                 "\tdiscipline_of_honor d\n" +
-                "\tWHERE\n" +
+                "WHERE\n" +
                 "\td.can_use = 1";
 
         String sqlCount = "SELECT\n" +

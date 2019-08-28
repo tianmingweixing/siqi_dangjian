@@ -35,7 +35,7 @@
         </div>
 
 
-        <label class="layui-form-label " style="margin-left: 1px">季度类型名称</label>
+        <label class="layui-form-label " style="margin-left: 1px">类型名称</label>
         <div class="layui-input-inline">
             <input id="type_name" name="type_name" lay-verify="required" placeholder="请输入类型名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if type_name??>${type_name}<#else></#if>">
@@ -88,6 +88,7 @@
                     url: "/conclusionType/addConclusionType",
                     data: {
                         id: $("#id").val(),
+                        type: $("#type").val(),
                         type_name: $("#type_name").val()
                     },
                     success: function () {

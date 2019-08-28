@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>公示公告表</title>
+    <title>工作计划表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
+
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -12,13 +13,21 @@
 
 <body>
 <form class="layui-form" style="margin-top: 10px">
-
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">公告标题</label>
+        <label class="layui-form-label label_width_100">标题</label>
         <div class="layui-input-inline">
-            <input type="text" id="title" name="title"  placeholder="公告标题" autocomplete="off" class="layui-input">
+            <input type="text" id="title"  placeholder="标题" autocomplete="off" class="layui-input">
         </div>
-
+        <label class="layui-form-label">季度类型</label>
+        <div class="layui-input-inline">
+            <select name="conclusion_type_id" id="conclusion_type_id">
+                <option value="">全部</option>
+                <option value="5" >年度 </option>
+                <option value="6" >半年度</option>
+                <option value="7" >月度</option>
+                <option value="8" >日度</option>
+            </select>
+        </div>
     </div>
 
     <div class="layui-form-item">
@@ -48,6 +57,7 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
 </script>
 <style>
     .layui_open_fail{
@@ -89,23 +99,27 @@
         table.render({
             elem: '#demo'
             , height: 563
-            , url: '/notice/list'
-            , title: '公示公告表'
+            , url: '/conclusion/list?type='+1 //数据接口
+            , title: '会议表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '公示标题', width: 150}
-                , {field: 'content', title: '内容', width: 150}
-                , {field: 'image_path', title: '图片', width: 150}
-                , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
+                , {field: 'title', title: '总结名称', width: 150}
+                , {field: 'conclusion_type_id', title: '季度类型', width: 150}
+                , {field: 'type', title: '总结类型', width: 150}
+                , {field: 'plan_content', title: '内容', width: 550}
+                , {field: 'year_limit', title: '年限', width: 150,sort:true}
+                // ,{field: 'birth', title: '出生日期', width:200}
+                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var title = $("#title").val();
+                var conclusion_type_id=$("#conclusion_type_id").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
@@ -113,6 +127,7 @@
                     method:'get',
                     where:{
                         title:title,
+                        conclusion_type_id:conclusion_type_id,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }
@@ -132,7 +147,7 @@
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/notice/gotoAdd';
+                    window.location.href = '/conclusion/gotoAdd?type='+1;
                     break;
                 case 'update':
                     console.log(data[0])
@@ -142,7 +157,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('正在编辑中..');
-                        window.location.href = '/notice/setNotice?Id=' + data[0].id;
+                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&type='+1;
                     }
                     break;
                 case 'delete':
@@ -158,7 +173,7 @@
                             });
 
                             $.ajax({
-                                url: "/notice/logicDelete",
+                                url: "/conclusion/logicDelete",
                                 data: {
                                     deleteArray: JSON.stringify(a)
                                 },
@@ -181,7 +196,7 @@
                         })
 
                     }
-                break;
+                    break;
             }
         });
 
