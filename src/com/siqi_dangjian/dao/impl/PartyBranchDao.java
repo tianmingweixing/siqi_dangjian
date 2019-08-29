@@ -43,17 +43,17 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM party_branch u WHERE u.can_use = 1\n";
+        String sql = "\tSELECT * FROM party_branch p WHERE p.can_use = 1\n";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +
-                "FROM party_branch u WHERE u.can_use = 1";
+                "FROM party_branch p WHERE p.can_use = 1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"u");
-        sql = CommonUtil.appendIntStr(sql,intParam,"u");
+        sql = CommonUtil.appendDateStr(sql,dateParam,"p");
+        sql = CommonUtil.appendIntStr(sql,intParam,"p");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"p");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"p");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

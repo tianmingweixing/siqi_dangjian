@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -111,23 +111,25 @@
     <div class="layui-form-item input_row_margin_top">
 
         <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
-        <div class="layui-input-inline">
+        <div class="layui-input-inline" >
             <input id="title" name="title" lay-verify="required" placeholder="请输入标题" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
         </div>
 
     </div>
 
-    <div>
+    <div class="layui-form-item input_row_margin_top">
 
-        <!--单图片上传-->
-        <label for="fileinp">
-            <input type="button" id="btn" value="选择图片">
-            <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" src="" height="auto" width="300" alt="">
-        </label>
+        <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
+        <div class="layui-input-inline" style="padding-top: 10px">
+            <label for="fileinp" id="btn">选择图片</label>
+                <input type="file" id="fileinp" name="file" onchange="reads(this)">
+                <img id="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+        </div>
 
     </div>
+
+
 
     <div class="layui-form-item input_row_margin_top" style="display:none ">
 
@@ -184,14 +186,11 @@
 
                 if(file != null){
                     formData.append("file",file);
-                    formData.append("content",$("input[name='content']").val());
-                    formData.append("title",$("input[name='title']").val());
-                    formData.append("id",$("input[name='id']").val());
-                }else{
-                    formData.append("content",$("input[name='content']").val());
-                    formData.append("title",$("input[name='title']").val());
-                    formData.append("id",$("input[name='id']").val());
                 }
+                formData.append("content",document.fileForm.content.value);
+                formData.append("title",document.fileForm.title.value);
+                formData.append("id",document.fileForm.id.value);
+
 
                 $.ajax({
                     url: "/notice/addNotice",

@@ -6,18 +6,23 @@ import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.bean.Notice;
 import com.siqi_dangjian.service.IConclusionService;
 import com.siqi_dangjian.service.INoticeService;
+import com.siqi_dangjian.util.CommonString;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.Calendar;
@@ -78,7 +83,7 @@ public class NoticeController extends BaseController {
      */
     @RequestMapping("/addNotice")
     @ResponseBody
-    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile files,
+    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile file,HttpServletRequest request,
                               @RequestParam(value = "id", required = false) Long id,
                               @RequestParam(value = "title", required = false) String title,
                               @RequestParam(value = "content", required = false) String content) {
@@ -88,30 +93,15 @@ public class NoticeController extends BaseController {
         try {
             notice = new Notice();
 
-            if (files != null) {
-
-                String name = files.getOriginalFilename();
-                String path = "/home/up_load/";
-                Calendar now = Calendar.getInstance();
-                String year = String.valueOf(now.get(Calendar.YEAR));
-                String month = String.valueOf(now.get(Calendar.MONTH) + 1);
-                String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-                path = path + year + month + day;
-                File uploadFile = new File(path);
-                if (!uploadFile.exists()) {
-                    uploadFile.mkdirs();
-                }
-                String filePath = path + "/" + name;
-
-                files.transferTo(uploadFile);
-                notice.setImagePath(filePath);
+            if (file != null) {
+                String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
+                notice.setImagePath(path);
             }
 
             notice.setId(id);
             notice.setContent(content);
             notice.setTitle(title);
             notice.setCanUse(1);
-
             noticeService.insertOrUpdate(notice);
             setSuccess();
         } catch (Exception e) {
@@ -125,23 +115,27 @@ public class NoticeController extends BaseController {
     }
 
 
+
+
     /**
      * 编辑会议表
      * @param  id
      */
     @RequestMapping("/setNotice")
-    public ModelAndView setNotice(@RequestParam(value = "Id", required = false) Long id){
+    public ModelAndView setNotice(@RequestParam(value = "Id", required = false) Long id, HttpServletRequest request){
 
         ModelAndView view = new ModelAndView();
         Notice  notice;
 
             try {
                 notice = noticeService.selectById(id);
+                // 返回图片访问路径http://localhost:8080/upload/201986/ttt.jpg
+                String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + notice.getImagePath();
                 view.addObject("id", notice.getId());
                 view.addObject("content", notice.getContent());
                 view.addObject("title", notice.getTitle());
-                view.addObject("image_path", notice.getImagePath());
                 view.addObject("partyBranchId", notice.getPartyBranchId());
+                view.addObject("image_path", url);
 
                view.setViewName("WEB-INF/page/notice_Add");//跳转添加页面
 

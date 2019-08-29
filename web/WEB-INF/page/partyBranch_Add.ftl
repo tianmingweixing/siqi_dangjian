@@ -7,12 +7,97 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
+
+    <!--上传图片样式-->
+    <style type="text/css">
+        .body {
+            width: 800px;
+            margin: 0 auto 0 auto;
+        }
+        .layui-unselect {
+            width: 200px
+        }
+
+        #btn{
+            padding: 5px 10px;
+            background: #00b0f0;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+        }
+
+        label{
+            position: relative;
+        }
+
+        #fileinp{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        #btn{
+            margin-right: 5px;
+        }
+        #text{
+            color: #009688;
+        }
+
+        /* table 样式 */
+        table {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+        }
+        table td,
+        table th {
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            padding: 3px 5px;
+        }
+        table th {
+            border-bottom: 2px solid #ccc;
+            text-align: center;
+        }
+
+        /* blockquote 样式 */
+        blockquote {
+            display: block;
+            border-left: 8px solid #d0e5f2;
+            padding: 5px 10px;
+            margin: 10px 0;
+            line-height: 1.4;
+            font-size: 100%;
+            background-color: #f1f1f1;
+        }
+
+        /* code 样式 */
+        code {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+            padding: 3px 5px;
+            margin: 0 3px;
+        }
+        pre code {
+            display: block;
+        }
+
+        /* ul ol 样式 */
+        ul, ol {
+            margin: 10px 0 10px 20px;
+        }
+
+    </style>
+
 </head>
 <body>
+<div class="layui-progress">
+    <div class="layui-progress-bar " lay-percent="100%"></div>
+</div>
 
-<form class="layui-form" action="">
+<form class="layui-form" name="fileForm" action="">
 
 <br>
     <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
@@ -78,187 +163,72 @@
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
                       class="layui-textarea"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
+
+        <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">支部图片</label>
+        <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
+            <label for="fileinp" id="btn">选择图片</label>
+            <input type="file" id="fileinp" name="file" onchange="reads(this)">
+            <img id="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+        </div>
+
     </div>
 
-    <div class="layui-form-item">
-        <div class="input_row_margin_top">
-            <label class="layui-form-label">党支部图片</label>
-            <div id="uploader">
-                <!--用来存放文件信息-->
-                <div id="thelist"  class="uploader-list layui-input-inline" style="width: 1192px">
-                    <#if  imageList??>
-                        <#list imageList as image>
-                            <#if image_index==0>
-                              <div style="display:inline-block;float: left;margin-top: 5px;">
-                            <#else >
-                              <div style="display:inline-block;float: left;margin-top: 5px;margin-left:40px">
-                            </#if>
-                            <img src="<#if partyImg??>${partyImg.src}<#else >''</#if>" style="width: 100px;height: 100px;">
-                            <div style="font-size:14px;text-align:center;width: 100px;">${image.name}</div>
-                        <div style="width:100px;text-align: center;margin-top:7px">
-                            <img id="delete_icon" onclick="deleteImg(${image.id})" style="width: 25px;height: 25px;"
-                                 src="/images/delete_icon.png"/>
-                        </div>
-                        </div>
-                        </#list>
-                    </#if>
-                </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <div id="picker" style="display: inline-block;">选择文件</div>
-            </div>
-        </div>
-
+    <div class="layui-form-item input_row_margin_top>
         <div class="layui-form-item input_row_margin_top">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
+    </div>
+
 
 </form>
 
 <script>
 
     $(function() {
-       /* var $ = jQuery;
-        var $list = $("#thelist");
-        var $btn = $("#ctlBtn");
-        var state = 'pending'; // 上传文件初始化
-        // var uploader = WebUploader.create({
-        //     swf: '/WImageUpload/Uploader.swf',
-        //     server: 'https://wx.ankelife.com/upload/uploadImage',
-        //     pick: '#picker',
-        //     resize: false,
-        //     accept: {
-        //         title: 'Images',
-        //         extensions: 'gif,jpg,jpeg,bmp,png',
-        //         mimeTypes: 'image/!*'
-        //     }
-        // });
-
-
-        uploader.on('fileQueued', function (file) {
-            count++;
-            var $li;
-            if (count == 1 || count % 9 == 1) {
-                $li = $(
-                        '<div id="' + file.id + '" style="display:inline-block;float: left;margin-top: 5px">' +
-                        '<img>' +
-                        '<div  style="font-size: 14px;text-align: center;width: 100px;">' + file.name.substr(0, file.name.length - 4) + '</div></div>'
-                );
-            } else {
-                $li = $(
-                        '<div id="' + file.id + '" style="display:inline-block;float: left; margin-left: 40px;margin-top:5px">' +
-                        '<img >' +
-                        '<div  style="font-size: 14px;text-align: center;width: 100px;">' + file.name.substr(0, file.name.length - 4) + '</div></div>'
-                );
-            }
-            var $img = $li.find('img');
-            var $btns = $('<div style="width: 100px;text-align: center;margin-top: 7px"><  img id="delete_icon" style="width: 25px;height: 25px;"/><text style="font-size: 14px;margin-left: 3px">待上传</text></div>').appendTo($li);
-            $li.find('#delete_icon').attr("src", "/images/delete_icon.png");
-
-            // $list为容器jQuery实例
-            $list.append($li);
-            $btns.on('click', 'img', function () {
-                var index = $(this).index();
-                switch (index) {
-                    case 0:
-                        uploader.removeFile(file);
-                        removeFile(file);
-                        return;
-                }
-            });
-
-
-            //创建缩略图
-            //如果为非图片文件，可以不用调用此方法。
-            //thumbnailWidth x thumbnailHeight 为 100 x 100
-            uploader.makeThumb(file, function (error, src) {
-                if (error) {
-                    $img.replaceWith('<span>不能预览</span>');
-                    return;
-                }
-                $img.attr('src', src);
-            }, 100, 100);
-        });
-
-
-        uploader.on('uploadProgress',
-                function (file, percentage) {
-                    var $li = $('#' + file.id), $percent = $li
-                            .find('.progress .progress-bar');
-
-                    // 避免重复创建
-                    if (!$percent.length) {
-                        $percent = $(
-                                '<div class="progress progress-striped active" style="width: 100px;height: 15px;border-radius: 5px;background-color: #ee232a">'
-                                + '<div class="progress-bar" role="progressbar" style="width: 0%;background-color: #111111">'
-                                + '</div>' + '</div>')
-                                .appendTo($li).find('.progress-bar');
-                    }
-
-                    $li.find('text').text('上传中...');
-
-                    $percent.css('width', percentage * 100 + '%');
-                });
-
-        uploader.on('uploadBeforeSend', function (obj, data) {
-            //传入表单参数
-            data = $.extend(data, {
-                uuid: uuid
-            });
-        });
-        uploader.on('uploadSuccess', function (file) {
-            $('#' + file.id).find('text').text('已上传');
-        });
-
-        uploader.on('uploadError', function (file) {
-            $('#' + file.id).find('text').text('上传出错');
-        });
-
-        uploader.on('uploadComplete', function (file) {
-            $('#' + file.id).find('.progress').fadeOut();
-        });
-        $btn.on('click', function () {
-
-        });*/
-
-        // function removeFile(file) {
-        //     var $li = $('#' + file.id);
-        //     $li.off().find('.file-panel').off().end().remove();
-        //     count--;
-        // }
-
-        layui.use('element','form', function () {
+        layui.use(['element','laydate','form'], function () {
             var form = layui.form;
-            var form = layui.element;
+            var laydate = layui.laydate //日期
+                    ,layer = layui.layer; //弹层
+            var element = layui.element;
 
-            form.on('submit(formDemo)', function (data) {
+            laydate.render({
+                elem: '#changeTime' //指定元素
+            });
 
-                // if (state === 'uploading') {
-                //     uploader.stop();
-                // } else {
-                //     uploader.upload();
-                // }
+            laydate.render({
+            elem: '#foundingTime'
+        });
+
+            form.on('submit(formDemo)', function () {
+
+                var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+                var file = document.fileForm.file.files[0];
+
+                if(file != null){
+                    formData.append("file",file);
+                }
+
+                formData.append("id",document.fileForm.id.value);
+                formData.append("name",document.fileForm.name.value);
+                formData.append("partyMemberCount",document.fileForm.partyMemberCount.value);
+                formData.append("duty",document.fileForm.duty.value);
+                formData.append("partyNo",document.fileForm.partyNo.value);
+                formData.append("partyInfo",document.fileForm.partyInfo.value);
+                formData.append("activityArea",document.fileForm.activityArea.value);
+                formData.append("foundingTime",document.fileForm.foundingTime.value);
+                formData.append("changeTime",document.fileForm.changeTime.value);
+
 
                 $.ajax({
                     url: "/partyBranch/addPartBranch",
-                    data: {
-                        id: $("#id").val(),
-                        name: $("#name").val(),
-                        partyMemberCount: $("#partyMemberCount").val(),
-                        duty: $("#duty").val(),
-                        partyNo: $("#partyNo").val(),
-                        partyInfo: $("#partyInfo").val(),
-                        activityArea: $("#activityArea").val(),
-                        foundingTime: $("#foundingTime").val(),
-                        changeTime: $("#changeTime").val()
-                    },
+                    type: 'post',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
@@ -270,6 +240,19 @@
             });
         });
     });
+
+    function reads(obj) {
+        var file = obj.files[0];
+        if(file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+        var reader = new  FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#backimg").attr("src", ev.target.result);
+        }
+    }
 
 
 </script>

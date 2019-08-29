@@ -20,8 +20,8 @@ public class CommonString {
     public final static String BACK_ORDER_FAIL = "退货失败";
     public final static Integer FILETYPE_IMAGE = 1;//文件中的图片类型
     public final static Integer FILETYPE_VEDIO = 1;//文件中的视频类型
-    public final static String FILE_PARENT_PATH = "D:/home/up_load/";//文件上传的全局路径
-    public final static String FILE_IMAGE_PATH = "/image/";//文件上传的图片子路径
+    public final static String FILE_PARENT_PATH = "/home/up_load/";//文件上传的全局路径
+    public final static String FILE_IMAGE_PATH = "image/";//文件上传的图片子路径
     public final static String FILE_VEDIO_PATH = "/video/";//文件上传的视频子路径
     public final static String BILL_NO_PRE = "DFBILL";
     public final static String PAY_NO_PRE = "DFPAY";

@@ -1,6 +1,7 @@
 package com.siqi_dangjian.util;
 
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -8,8 +9,11 @@ import org.hibernate.transform.Transformers;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sun.misc.BASE64Encoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
@@ -25,6 +29,34 @@ public class CommonUtil {
         Date date = new Date();
         Timestamp tp = new Timestamp(date.getTime());
         return tp;
+    }
+
+
+    /**
+     * 上传单张图片
+     * @param file
+     * @return path 返回图片路径
+     * @throws IOException
+     */
+    public static String uploadImg(@RequestParam(value = "file", required = false) CommonsMultipartFile file,HttpServletRequest request) throws IOException {
+
+            String fileName = file.getOriginalFilename();
+            Calendar now = Calendar.getInstance();
+            String year = String.valueOf(now.get(Calendar.YEAR));
+            String month = String.valueOf(now.get(Calendar.MONTH) + 1);
+            String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
+            // 上传文件在服务器中的位置(目录绝对路径)
+//          String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH);
+            String saveServerPath = "F:/workspace/siqi_dangjian/web"+CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day;
+
+            File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
+            if (!filePath.getParentFile().exists()) {
+                filePath.getParentFile().mkdirs();
+            }
+            file.transferTo(filePath);
+            String path =CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day +"/"+ fileName;// 保存文件的相对路径
+            return path;
+
     }
 
     /**

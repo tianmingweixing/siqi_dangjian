@@ -3,14 +3,19 @@ package com.siqi_dangjian.controller;
 
 import com.siqi_dangjian.bean.PartyBranch;
 import com.siqi_dangjian.service.IPartyBranchService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -30,29 +35,32 @@ public class PartyBranchController extends BaseController{
      * @param duty
      * @param partyNo
      * @param partyInfo
-     * @param partyImg
      * @param activityArea
      * @param foundingTime
      * @param changeTime
      */
     @RequestMapping("/addPartBranch")
     @ResponseBody
-    public ModelAndView addPartBranch(@RequestParam(value = "name", required = false) String name,
-                              @RequestParam(value = "id", required = false) Long id,
-                              @RequestParam(value = "partyMemberCount", required = false) Integer partyMemberCount,
-                              @RequestParam(value = "duty", required = false) String duty,
-                              @RequestParam(value = "partyNo", required = false) String partyNo,
-                              @RequestParam(value = "partyInfo", required = false) String partyInfo,
-                              @RequestParam(value = "partyImg", required = false) String partyImg,
-                              @RequestParam(value = "activityArea", required = false) Double activityArea,
-                              @RequestParam(value = "foundingTime", required = false) Timestamp foundingTime,
-                              @RequestParam(value = "changeTime", required = false) Timestamp changeTime){
+    public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
+                                  @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "id", required = false) Long id,
+                                  @RequestParam(value = "partyMemberCount", required = false) Integer partyMemberCount,
+                                  @RequestParam(value = "duty", required = false) String duty,
+                                  @RequestParam(value = "partyNo", required = false) String partyNo,
+                                  @RequestParam(value = "partyInfo", required = false) String partyInfo,
+                                  @RequestParam(value = "activityArea", required = false) Double activityArea,
+                                  @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date foundingTime,
+                                  @RequestParam(value = "changeTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date changeTime){
 
-        ModelAndView modelAndView = new ModelAndView();
-
-
+        ModelMap modelMap = new ModelMap();
+        PartyBranch partyBranch;
         try {
-            PartyBranch partyBranch = new PartyBranch();
+             partyBranch = new PartyBranch();
+            if (file != null) {
+                String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
+                partyBranch.setPartyImg(path);
+            }
+
             partyBranch.setId(id);
             partyBranch.setActivityArea(activityArea);
             partyBranch.setPartyNo(partyNo);
@@ -60,20 +68,18 @@ public class PartyBranchController extends BaseController{
             partyBranch.setFoundingTime(foundingTime);
             partyBranch.setChangeTime(changeTime);
             partyBranch.setName(name);
-            partyBranch.setPartyImg(partyImg);
             partyBranch.setPartyInfo(partyInfo);
             partyBranch.setPartyMemberCount(partyMemberCount);
             partyBranch.setCanUse(1);
             partyBranchService.insertOrUpdate(partyBranch);
             setSuccess();
-            modelAndView.setViewName("frame/partyBranchList");
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
-            modelAndView.setViewName("partyBranch_Add");
-            return modelAndView;
+
+            return modelMap;
         }
-        return modelAndView;
+        return modelMap;
 
     }
 
@@ -84,18 +90,20 @@ public class PartyBranchController extends BaseController{
      * @return
      */
     @RequestMapping("/setPartBranch")
-    public ModelAndView setPartBranch(@RequestParam(value = "id", required = false) Long id) {
+    public ModelAndView setPartBranch(@RequestParam(value = "id", required = false) Long id,HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
         PartyBranch  partyBranch;
 
             try {
                 partyBranch = partyBranchService.selectById(id);
+                // 返回图片访问路径http://localhost:8080/upload/201986/ttt.jpg
+                String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + partyBranch.getPartyImg();
                 view.addObject("id", partyBranch.getId());
                 view.addObject("name", partyBranch.getName());
                 view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
                 view.addObject("partyInfo", partyBranch.getPartyInfo());
                 view.addObject("partyNo", partyBranch.getPartyNo());
-                view.addObject("partyImg", partyBranch.getPartyImg());
+                view.addObject("party_img",url );
                 view.addObject("duty", partyBranch.getDuty());
                 view.addObject("activityArea", partyBranch.getActivityArea());
                 view.addObject("foundingTime", partyBranch.getFoundingTime());
@@ -134,9 +142,7 @@ public class PartyBranchController extends BaseController{
         Map dateMap = new HashMap<>();
         Map intMap  = new HashMap<>();
 
-//        if(StringUtils.isNotEmpty(type)) {
-//            intMap.put("type", type);
-//        }
+
         if(StringUtils.isNotEmpty(party_no)) {
             intMap.put("party_no", party_no);
         }

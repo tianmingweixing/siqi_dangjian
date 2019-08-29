@@ -1,9 +1,12 @@
 package com.siqi_dangjian.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 党支部
@@ -53,14 +56,16 @@ public class PartyBranch extends BaseBean {
     /**
      * 成立时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="founding_time",length = 1,nullable = true)
-    private Timestamp foundingTime;
+    private Date foundingTime;
 
     /**
      * 换届时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="change_time",length = 1,nullable = true)
-    private Timestamp changeTime;
+    private Date changeTime;
 
     public String getPartyInfo() {
         return partyInfo;
@@ -110,19 +115,19 @@ public class PartyBranch extends BaseBean {
         this.activityArea = activityArea;
     }
 
-    public Timestamp getFoundingTime() {
+    public Date getFoundingTime() {
         return foundingTime;
     }
 
-    public void setFoundingTime(Timestamp foundingTime) {
+    public void setFoundingTime(Date foundingTime) {
         this.foundingTime = foundingTime;
     }
 
-    public Timestamp getChangeTime() {
+    public Date getChangeTime() {
         return changeTime;
     }
 
-    public void setChangeTime(Timestamp changeTime) {
+    public void setChangeTime(Date changeTime) {
         this.changeTime = changeTime;
     }
 

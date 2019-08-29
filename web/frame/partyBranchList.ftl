@@ -83,7 +83,8 @@
             ,toolbar: true  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
-                {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                 {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党支部名称', width:200}
                 ,{field: 'party_member_count', title: '党员总数', width: 100}
                 ,{field: 'duty', title: '党支部职责', width:150,sort: true}
@@ -100,15 +101,15 @@
             reload:function () {
                 var name = $("#name_search").val();
                 var partyNo=$("#partyNo").val();
-                var maxCredit=$("#max_credit_search").val();
-                var minCredit =$("#min_credit_search").val();
+                var start_time_search=$("#start_time_search").val();
+                var end_time_search=$("#end_time_search").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
                         partyNo:partyNo,
-                        maxCredit:maxCredit,
-                        minCredit:minCredit
+                        start_time_search:start_time_search,
+                        end_time_search:end_time_search
                     }
                 });
             }
