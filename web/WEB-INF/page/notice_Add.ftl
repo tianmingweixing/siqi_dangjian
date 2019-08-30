@@ -120,11 +120,11 @@
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
+        <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
         <div class="layui-input-inline" style="padding-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
                 <input type="file" id="fileinp" name="file" onchange="reads(this)">
-                <img id="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+                <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
         </div>
 
     </div>
@@ -187,6 +187,7 @@
                 if(file != null){
                     formData.append("file",file);
                 }
+                formData.append("img_path",document.fileForm.backimg.src);
                 formData.append("content",document.fileForm.content.value);
                 formData.append("title",document.fileForm.title.value);
                 formData.append("id",document.fileForm.id.value);

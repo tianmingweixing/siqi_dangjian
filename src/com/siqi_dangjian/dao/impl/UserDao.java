@@ -72,7 +72,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT u.id,u.username,u.sex,u.age,u.education,u.company,u.phone,u.ID_cord,u.join_time,u.address FROM \n" +
+        String sql = "\tSELECT u.id,u.username,u.head_img,u.sex,u.age,u.education,u.company,u.phone,u.ID_cord,u.join_time,u.address FROM \n" +
                 "\tuser u LEFT JOIN duty d ON u.dutyid = d.id\n" +
                 "\tWHERE\n" +
                 "\tu.can_use = 1 and d.can_use=1";

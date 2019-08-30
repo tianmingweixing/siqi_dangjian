@@ -126,7 +126,7 @@
                    autocomplete="off" class="layui-input" value="<#if duty??>${duty}<#else></#if>">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
-        <label class="layui-form-label " style="margin-left: 60px">活动面积</label>
+        <label class="layui-form-label " style="margin-left: 74px">活动面积</label>
         <div class="layui-input-inline">
             <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if activityArea??>${activityArea}<#else></#if>">
@@ -157,24 +157,31 @@
     </div>
 
     <br>
-    <div class="layui-form-item layui-form-text input_row_margin_top" style="padding-right:1000px; width: 500px;height: 300px;">
+    <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">党支部简介</label>
         <div class="layui-input-block">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
-                      class="layui-textarea"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
+                      style="width: 660px;border:1px solid #e6e6e6; font-size: 16px; line-height: 23px;max-width: 1500px;
+                       height: 300px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
+    </div>
+
+
+
+    <div class="layui-form-item input_row_margin_top">
 
         <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">支部图片</label>
         <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
             <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+            <img id="backimg" name ="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
         </div>
-
     </div>
 
-    <div class="layui-form-item input_row_margin_top>
-        <div class="layui-form-item input_row_margin_top">
+
+
+    <div class="layui-form-item input_row_margin_top">
+        <div class="layui-form-item" >
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -211,6 +218,7 @@
                     formData.append("file",file);
                 }
 
+                formData.append("img_path",document.fileForm.backimg.src);
                 formData.append("id",document.fileForm.id.value);
                 formData.append("name",document.fileForm.name.value);
                 formData.append("partyMemberCount",document.fileForm.partyMemberCount.value);

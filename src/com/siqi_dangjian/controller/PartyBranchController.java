@@ -3,6 +3,7 @@ package com.siqi_dangjian.controller;
 
 import com.siqi_dangjian.bean.PartyBranch;
 import com.siqi_dangjian.service.IPartyBranchService;
+import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
+import java.io.File;
 import java.util.*;
 
 
@@ -42,6 +44,7 @@ public class PartyBranchController extends BaseController{
     @RequestMapping("/addPartBranch")
     @ResponseBody
     public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
+                                  @RequestParam(value = "img_path", required = false) String img_path,
                                   @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "id", required = false) Long id,
                                   @RequestParam(value = "partyMemberCount", required = false) Integer partyMemberCount,
@@ -58,6 +61,9 @@ public class PartyBranchController extends BaseController{
              partyBranch = new PartyBranch();
             if (file != null) {
                 String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
+                partyBranch.setPartyImg(path);
+            }else{
+                String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
                 partyBranch.setPartyImg(path);
             }
 
@@ -92,28 +98,27 @@ public class PartyBranchController extends BaseController{
     @RequestMapping("/setPartBranch")
     public ModelAndView setPartBranch(@RequestParam(value = "id", required = false) Long id,HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        PartyBranch  partyBranch;
+        PartyBranch partyBranch;
 
-            try {
-                partyBranch = partyBranchService.selectById(id);
-                // 返回图片访问路径http://localhost:8080/upload/201986/ttt.jpg
-                String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + partyBranch.getPartyImg();
-                view.addObject("id", partyBranch.getId());
-                view.addObject("name", partyBranch.getName());
-                view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
-                view.addObject("partyInfo", partyBranch.getPartyInfo());
-                view.addObject("partyNo", partyBranch.getPartyNo());
-                view.addObject("party_img",url );
-                view.addObject("duty", partyBranch.getDuty());
-                view.addObject("activityArea", partyBranch.getActivityArea());
-                view.addObject("foundingTime", partyBranch.getFoundingTime());
-                view.addObject("changeTime", partyBranch.getChangeTime());
+        try {
+            partyBranch = partyBranchService.selectById(id);
 
-                view.setViewName("WEB-INF/page/partyBranch_Add");
-            } catch (Exception e) {
-                e.printStackTrace();
-                setMsg("获取数据错误");
-            }
+            view.addObject("id", partyBranch.getId());
+            view.addObject("name", partyBranch.getName());
+            view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
+            view.addObject("partyInfo", partyBranch.getPartyInfo());
+            view.addObject("partyNo", partyBranch.getPartyNo());
+            view.addObject("party_img", partyBranch.getPartyImg());
+            view.addObject("duty", partyBranch.getDuty());
+            view.addObject("activityArea", partyBranch.getActivityArea());
+            view.addObject("foundingTime", partyBranch.getFoundingTime());
+            view.addObject("changeTime", partyBranch.getChangeTime());
+
+            view.setViewName("WEB-INF/page/partyBranch_Add");
+        } catch (Exception e) {
+            e.printStackTrace();
+            setMsg("获取数据错误");
+        }
         return view;
     }
 
@@ -140,32 +145,29 @@ public class PartyBranchController extends BaseController{
 
         Map blurMap = new HashMap<>();
         Map dateMap = new HashMap<>();
-        Map intMap  = new HashMap<>();
+        Map intMap = new HashMap<>();
 
-
-        if(StringUtils.isNotEmpty(party_no)) {
+        if (StringUtils.isNotEmpty(party_no)) {
             intMap.put("party_no", party_no);
         }
-
-        if(StringUtils.isNotEmpty(name)) {
+        if (StringUtils.isNotEmpty(name)) {
             blurMap.put("name", name);
         }
-
-        if(StringUtils.isNotEmpty(founding_time)) {
+        if (StringUtils.isNotEmpty(founding_time)) {
             dateMap.put("founding_time", founding_time);
         }
-        if(StringUtils.isNotEmpty(change_time)) {
+        if (StringUtils.isNotEmpty(change_time)) {
             dateMap.put("change_time", change_time);
         }
         try {
-            Map map = partyBranchService.selectAll(blurMap,intMap,dateMap,limit,page);
+            Map map = partyBranchService.selectAll(blurMap, intMap, dateMap, limit, page);
 
             List list = (List<PartyBranch>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
             setSuccess();
-        }catch (Exception e){
+        } catch (Exception e) {
             setFail();
             e.printStackTrace();
         }

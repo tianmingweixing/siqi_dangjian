@@ -27,6 +27,12 @@ public class User extends BaseBean {
     private Integer sex;
 
     /**
+     * 用户头像
+     */
+    @Column(name="head_img",nullable=true,length=300)
+    private String headImg;
+
+    /**
      * 年龄
      */
     @Column(name="age",nullable=true,length=3)
@@ -143,6 +149,14 @@ public class User extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
 
 
     public Integer getDifficultyType() {

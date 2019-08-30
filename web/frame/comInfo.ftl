@@ -97,6 +97,7 @@
         upload.render({
             elem: '#test1'
             ,accept: 'file'
+            ,type: "POST"
             ,url: '/upload/uploadImage'
             ,auto: true
             ,choose: function(obj){

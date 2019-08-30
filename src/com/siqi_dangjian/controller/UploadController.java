@@ -1,7 +1,5 @@
 package com.siqi_dangjian.controller;
 
-
-
 import com.siqi_dangjian.util.CommonString;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -11,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
 
 @RequestMapping("/upload")
@@ -28,31 +25,31 @@ public class UploadController extends BaseController{
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     @ResponseBody
-    public ModelMap upload(@RequestParam("file")MultipartFile files, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ModelMap upload(@RequestParam("file")MultipartFile files, HttpServletRequest request){
         modelMap = new ModelMap();
 
-        try{
-            String name = files.getOriginalFilename();
+        try {
+            String fileName = UUID.randomUUID().toString() + files.getOriginalFilename();
             Calendar now = Calendar.getInstance();
             String year = String.valueOf(now.get(Calendar.YEAR));
-            String month = String.valueOf(now.get(Calendar.MONTH)+1);
+            String month = String.valueOf(now.get(Calendar.MONTH) + 1);
             String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-            String path = CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day;
-            File file = new File(path);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-//            path = path + File.separator + name;
-            path = path + "/" + name;
-            File uploadFile = new File(path);
-            files.transferTo(uploadFile);
+            String path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + fileName;
 
+            // 上传文件在服务器中的位置(目录绝对路径)
+            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
+            File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
+            if (!filePath.getParentFile().exists()) {
+                filePath.getParentFile().mkdirs();
+            }
+
+            files.transferTo(filePath);
             setSuccess();
-            setData("src",path);
-        }catch(Exception e){
-            setFail("后台异常");
+            setData("src", path);
+        } catch (IOException e) {
+            setFail("上传图片异常");
             e.printStackTrace();
-            logger.error("upload--->uploadImage",e);
+            logger.error("upload--->uploadImage", e);
         }
 
         return modelMap;

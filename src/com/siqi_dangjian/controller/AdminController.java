@@ -3,7 +3,6 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Admin;
-import com.siqi_dangjian.bean.PartyBranch;
 import com.siqi_dangjian.service.IAdminService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.MD5;
@@ -152,7 +151,7 @@ public class AdminController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getPartBranchList(@RequestParam(value = "account",required = false)String account,
+    public ModelMap getAdminList(@RequestParam(value = "account",required = false)String account,
                                       @RequestParam(value = "userName",required = false)String userName,
                                       @RequestParam(value = "adminType",required = false)Integer adminType,
                                       @RequestParam(value="limit", required=false)Integer limit,
@@ -178,7 +177,7 @@ public class AdminController extends BaseController{
         try {
             Map map = adminService.selectAll(blurMap,intMap,dateMap,limit,page);
 
-            List list = (List<PartyBranch>) map.get("list");
+            List list = (List<Admin>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);

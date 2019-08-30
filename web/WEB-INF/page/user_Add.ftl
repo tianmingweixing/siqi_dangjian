@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-input-inline" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">Id</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
@@ -35,25 +32,23 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" style="margin-left: 85px">性别</label>
+        <label class="layui-form-label" style="margin-left: 0px">性别</label>
         <div class="layui-input-inline">
             <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
             <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==0>checked</#if>>
         </div>
-        <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
 
 
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">年龄</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党支部编号</label>-->
         <div class="layui-input-inline">
             <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if age??>${age}<#else></#if>">
         </div>
+
         <label class="layui-form-label" style="margin-left: 84px">手机号码</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党支部编号</label>-->
         <div class="layui-input-inline">
             <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
@@ -62,13 +57,12 @@
 
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">学历</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
         <div class="layui-input-inline">
             <input id="education" name="education" lay-verify="number" placeholder="请输入学历" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">
         </div>
+
         <label class="layui-form-label" style="margin-left: 84px">单位</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党小组编号</label>-->
         <div class="layui-input-inline">
             <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if company??>${company}<#else></#if>">
@@ -85,17 +79,12 @@
                 <option value="3" <#if dutyid?? && dutyid==3>selected</#if>>党委</option>
             </select>
         </div>
-        <!--<label class="layui-form-label ">职务</label>
-        <div class="layui-input-inline">
-            <input id="dutyid" name="dutyid" lay-verify="number" placeholder="请输入职务" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if dutyid??>${dutyid}<#else></#if>">
-        </div>-->
+
         <label class="layui-form-label " style="margin-left: 84px">入党时间</label>
         <div class="layui-input-inline">
             <input id="joinTime" name="joinTime" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if joinTime??>${joinTime}<#else></#if>">
         </div>
-        <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
 
@@ -117,13 +106,8 @@
         layui.use('form', function () {
             var form = layui.form;
 
-            form.on('submit(formDemo)', function (data) {
 
-                // if (state === 'uploading') {
-                //     uploader.stop();
-                // } else {
-                //     uploader.upload();
-                // }
+            form.on('submit(formDemo)', function () {
 
                 $.ajax({
                     url: "/user/addUser",
