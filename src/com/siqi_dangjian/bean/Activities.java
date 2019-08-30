@@ -32,8 +32,8 @@ public class Activities extends BaseBean{
     /**
      * 活动类型
      */
-    @Column(name="type",length = 10,nullable = true,columnDefinition = "INT default 0")
-    private Integer type;
+    @Column(name="type_id",length = 8,nullable = true)
+    private Long typeId;
 
     /**
      * 开始时间
@@ -92,12 +92,12 @@ public class Activities extends BaseBean{
         this.content = content;
     }
 
-    public Integer getType() {
-        return type;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
     public Timestamp getStartTime() {
