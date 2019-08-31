@@ -41,9 +41,13 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
     @Override
     public Map selectAll(Map blurParam,Map intParam, Map dateParam,  int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(c.conclusion_type_id,\"暂无信息\") conclusion_type_id,\n" +
-        String sql = "SELECT * " +
+        String sql = "SELECT\n" +
+                "\tn.content,\n" +
+                "\tn.id,\n" +
+                "\tDATE_FORMAT(n.create_time, '%Y-%m-%d')create_time,\n" +
+                "\tn.image_path,\n" +
+                "\tn.party_branch_id,\n" +
+                "\tn.title\n" +
                 "FROM\n" +
                 "\tnotice n\n" +
                 "WHERE\n" +

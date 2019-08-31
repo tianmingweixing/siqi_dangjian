@@ -41,19 +41,30 @@ public class PartyTeamDao extends BaseDao<PartyTeam> implements IPartyTeamDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam ,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM party_team u WHERE u.can_use = 1\n";
+        String sql = "SELECT\n" +
+                "\tp.duty,\n" +
+                "\tDATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
+                "\tDATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
+                "\tp.id,\n" +
+                "\tp.`name`,\n" +
+                "\tp.party_branch_id,\n" +
+                "\tp.party_group_no,\n" +
+                "\tp.party_no,\n" +
+                "\tDATE_FORMAT(p.create_time, '%Y-%m-%d')create_time\n" +
+                "FROM\n" +
+                "\tparty_team p\n" +
+                "WHERE\n" +
+                "\tp.can_use = 1";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +
-                "FROM party_team u WHERE u.can_use = 1";
+                "FROM party_team p WHERE p.can_use = 1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"u");
-        sql = CommonUtil.appendIntStr(sql,intParam,"u");
+        sql = CommonUtil.appendDateStr(sql,dateParam,"p");
+        sql = CommonUtil.appendIntStr(sql,intParam,"p");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"p");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"p");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

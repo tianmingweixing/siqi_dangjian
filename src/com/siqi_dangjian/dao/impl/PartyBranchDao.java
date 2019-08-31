@@ -41,9 +41,22 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
     @Override
     public Map selectAll(Map blurParam,  Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM party_branch p WHERE p.can_use = 1\n";
+        String sql = "SELECT\n" +
+                "\tp.activity_area,\n" +
+                "\tDATE_FORMAT(p.change_time, '%Y-%m-%d') change_time,\n" +
+                "\tDATE_FORMAT(p.create_time, '%Y-%m-%d') create_time,\n" +
+                "\tp.id,\n" +
+                "\tp.`name`,\n" +
+                "\tp.duty,\n" +
+                "\tp.founding_time,\n" +
+                "\tp.party_img,\n" +
+                "\tp.party_info,\n" +
+                "\tp.party_no,\n" +
+                "\tp.party_member_count\n" +
+                "FROM\n" +
+                "\tparty_branch p\n" +
+                "WHERE\n" +
+                "\tp.can_use = 1";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +

@@ -44,7 +44,27 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        String sql = "SELECT\n\ts.id sympathyId,\n\tu.id userId,\n\tu.username,\n\ts.difficult,\n\ts.note,\n\ts.sympathy_product,\n\ts.sympathy_time,\n\ts.unit_and_position,\n\tu.age,\n\tu.sex,\n\tu.phone,\n\tu.company,\n\tu.join_time,\n\tu.ID_cord\nFROM\n\tsympathy s\nJOIN user u ON s.user_id = u.id\nWHERE\n\ts.can_use = 1\nAND u.can_use = 1";
+        String sql = "SELECT\n" +
+                "\ts.id sympathyId,\n" +
+                "\tu.id userId,\n" +
+                "\tu.username,\n" +
+                "\ts.difficult,\n" +
+                "\ts.note,\n" +
+                "\ts.sympathy_product,\n" +
+                "\tDATE_FORMAT(s.sympathy_time, '%Y-%m-%d') sympathy_time,\n" +
+                "\ts.unit_and_position,\n" +
+                "\tu.age,\n" +
+                "\tu.sex,\n" +
+                "\tu.phone,\n" +
+                "\tu.company,\n" +
+                "\tu.join_time,\n" +
+                "\tu.ID_cord\n" +
+                "FROM\n" +
+                "\tsympathy s\n" +
+                "JOIN USER u ON s.user_id = u.id\n" +
+                "WHERE\n" +
+                "\ts.can_use = 1\n" +
+                "AND u.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "\tcount(*)\n" +

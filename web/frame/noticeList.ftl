@@ -99,6 +99,7 @@
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '公示标题', width: 150}
                 , {field: 'content', title: '内容', width: 150}
+                , {field: 'create_time', title: '创建时间', width: 150}
                 , {field: 'image_path', title: '图片', width: 150}
                 , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
             ]]

@@ -41,7 +41,20 @@ public class PartyGroupDao extends BaseDao<PartyGroup> implements IPartyGroupDao
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "\tSELECT * FROM party_group p WHERE p.can_use = 1";
+        String sql = "SELECT\n" +
+                "\tp.duty,\n" +
+                "\tDATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
+                "\tDATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
+                "\tp.id,\n" +
+                "\tp.`name`,\n" +
+                "\tp.party_branch_id,\n" +
+                "\tp.party_group_no,\n" +
+                "\tp.party_no,\n" +
+                "\tDATE_FORMAT(p.create_time, '%Y-%m-%d')create_time\n" +
+                "FROM\n" +
+                "\tparty_group p\n" +
+                "WHERE\n" +
+                "\tp.can_use = 1";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +
