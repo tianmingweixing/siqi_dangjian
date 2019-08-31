@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 党小组添加页面</title>
+    <title> 支部班子添加页面</title>
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
@@ -18,11 +18,16 @@
         <input id="id" name="id" type="hidden" maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党小组名称</label>
+        <label class="layui-form-label ">支部班子名称</label>
         <div class="layui-input-inline">
-            <input id="name" name="name" lay-verify="required" placeholder="请输入党小组名称" maxlength="20"
+            <input id="name" name="name" lay-verify="required" placeholder="支部班子名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
+        <!--<label class="layui-form-label" style="margin-left: 85px">成员数量</label>
+        <div class="layui-input-inline">
+            <input id="partyMemberCount" name="partyMemberCount" lay-verify="required" placeholder="请输入成员数量" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if partyMemberCount??>${partyMemberCount}<#else></#if>">
+        </div>-->
 
     </div>
     <br>
@@ -101,7 +106,7 @@
 
             form.on('submit(formDemo)', function () {
                 $.ajax({
-                    url: "/partyTeam/addPartyTeam",
+                    url: "/partyGroup/addPartyGroup",
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
@@ -114,7 +119,7 @@
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/partyTeamList.ftl'
+                            window.location.href = '/frame/partyGroupList.ftl'
                         }, 1500);
                     }
                 });

@@ -4,19 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.PartyTeam;
 import com.siqi_dangjian.bean.User;
-import com.siqi_dangjian.service.IPartyTeamService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,14 +86,14 @@ public class UserController extends BaseController{
                                       @RequestParam(value = "ID_cord", required = false) String ID_cord,
                                       @RequestParam(value = "dutyId", required = false) Long dutyId,
                                       @RequestParam(value = "phone", required = false) String phone,
-                                      @RequestParam(value = "joinTime", required = false) Timestamp joinTime){
+                                      @RequestParam(value = "join_time", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime){
 
         ModelAndView modelAndView = new ModelAndView();
-
+        User  user;
 
         try {
-            User user = new User();
-            user.setId(id);
+            user = userService.getUserById(id);
+
             user.setIDCord(ID_cord);
             user.setAddress(address);
             user.setAge(age);
@@ -135,7 +134,7 @@ public class UserController extends BaseController{
                 view.addObject("address", user.getAddress());
                 view.addObject("company", user.getCompany());
                 view.addObject("ID_cord", user.getIDCord());
-                view.addObject("joinTime", user.getJoinTime());
+                view.addObject("join_time", user.getJoinTime());
                 view.addObject("sex", user.getSex());
                 view.addObject("username", user.getUserName());
                 view.addObject("phone", user.getPhone());
@@ -144,9 +143,7 @@ public class UserController extends BaseController{
                 view.addObject("education", user.getEducation());
                 view.addObject("dutyid", user.getDutyId());
 
-
                 view.setViewName("WEB-INF/page/user_Add");
-//                view.setViewName("frame/PartyTeam_Add");
             } catch (Exception e) {
                 e.printStackTrace();
                 setMsg("获取数据错误");

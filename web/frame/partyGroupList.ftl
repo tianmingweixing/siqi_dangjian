@@ -3,10 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layout 后台大布局 - Layui</title>
+    <title>支部班子</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-    <!--<link rel="stylesheet" href="../css/addGood.css">-->
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -15,21 +13,30 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">党支部名称</label>
+        <label class="layui-form-label label_width_100">支部班子名称</label>
         <div class="layui-input-inline">
             <input type="text" id="name_search"  placeholder="党支部名称" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">党支部编号</label>
+        <label class="layui-form-label ">班子编号</label>
         <div class="layui-input-inline">
-            <input type="text" id="partyNo"  placeholder="党支部编号" autocomplete="off" class="layui-input">
+            <input type="text" id="partyGroupNo"  placeholder="班子编号" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label " style="margin-left: 1px">开始时间</label>
         <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
+            <input id="start_time_search" name="start_time_search" lay-verify="required" placeholder="开始时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
         </div>
-    </div>-->
+
+        <label class="layui-form-label " style="margin-left: 1px">结束时间</label>
+        <div class="layui-input-inline">
+            <input id="end_time_search" name="end_time_search" lay-verify="required" placeholder="结束时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -40,9 +47,9 @@
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>-->
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+    <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="delete">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -65,7 +72,15 @@
                 ,laypage = layui.laypage //分页
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
-                ,element = layui.element //元素操作
+                ,element = layui.element; //元素操作
+
+        laydate.render({
+            elem:'#start_time_search'
+        });
+
+        laydate.render({
+            elem:'#end_time_search'
+        });
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -77,38 +92,37 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/partyBranch/list' //数据接口
-            ,title: '用户表'
+            ,url: '/partyGroup/list' //数据接口
+            ,title: '支部班子'
             ,page: true //开启分页
-            ,toolbar: true  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
-                {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '班子名称', width:200}
-                ,{field: 'party_member_count', title: '党员总数', width: 100}
-                ,{field: 'duty', title: '党支部职责', width:150,sort: true}
+                ,{field: 'duty', title: '班子职责', width:150,sort: true}
                 ,{field: 'party_no',title:'党支部编号',width:200}
-                ,{field: 'party_info',title:'党支部简介',width:200,sort: true}
+                ,{field: 'party_group_no',title:'班子编号',width:200,sort: true}
                 ,{field: 'founding_time',title:'成立时间',width:150,sort: true}
                 ,{field: 'change_time',title:'换届时间',width:150,sort: true}
+/*
                 ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
+                ,{field: 'party_branch_id',title:'党支部id',width:100,sort: true}
                 ,{field: 'party_img',title:'党支部图片',width:150}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo'}
+*/
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var name = $("#name_search").val();
-                var partyNo=$("#partyNo").val();
-                var maxCredit=$("#max_credit_search").val();
-                var minCredit =$("#min_credit_search").val();
+                var partyGroupNo=$("#partyGroupNo").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
-                        partyNo:partyNo,
-                        maxCredit:maxCredit,
-                        minCredit:minCredit
+                        partyGroupNo:partyGroupNo
                     }
                 });
             }
@@ -118,6 +132,65 @@
             active[type] ? active[type].call(this) : '';
         });
 
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                    ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    window.location.href='/partyGroup/gotoAdd';
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        layer.msg('data[0].id');
+                        window.location.href='/partyGroup/setPartyGroup?id='+data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm("确认要删除吗", {
+                            icon:0
+                        }, function () {
+                            var a = [];
+                            $.each(data,function(index,value){
+                                a.push(value.id)
+                            });
+
+                            $.ajax({
+                                url:"/partyGroup/logicDelete",
+                                data:{
+                                    deleteArray:JSON.stringify(a)
+                                },
+                                success:function (data) {
+                                    if(data.result == "fail"){
+                                        layer.open({
+                                            icon: 2,
+                                            title: '消息提醒',
+                                            content: '删除失败',
+                                            skin:'layui_open_fail'
+                                        });
+                                    } else {
+                                        layer.msg('删除成功', {icon: 1});
+                                        setTimeout(function () {
+                                            location.reload()
+                                        },1000)
+                                    }
+                                }
+                            })
+                        })
+
+                    }
+                    break;
+            };
+        });
+
         //监听行工具事件
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
@@ -125,8 +198,7 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                // console.log(data);
-                // layer.msg('操作');
+                 layer.msg('操作');
                     window.location.href='/partyBranch/setPartBranch?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');

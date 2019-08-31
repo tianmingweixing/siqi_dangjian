@@ -1,11 +1,9 @@
 package com.siqi_dangjian.bean;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -21,7 +19,7 @@ public class PartyBranch extends BaseBean {
     /**
      * 成员总数
      */
-    @Column(name="party_member_count",nullable=true,length=1,columnDefinition="INT default 0")
+    @Column(name="party_member_count",nullable=true,length=10,columnDefinition="INT default 0")
     private Integer partyMemberCount;
 
     /**
@@ -57,14 +55,14 @@ public class PartyBranch extends BaseBean {
      * 成立时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name="founding_time",length = 1,nullable = true)
+    @Column(name="founding_time",nullable = true)
     private Date foundingTime;
 
     /**
      * 换届时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name="change_time",length = 1,nullable = true)
+    @Column(name="change_time",nullable = true)
     private Date changeTime;
 
     public String getPartyInfo() {

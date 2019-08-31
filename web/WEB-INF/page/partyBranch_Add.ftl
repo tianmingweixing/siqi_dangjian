@@ -207,7 +207,7 @@
 
             laydate.render({
             elem: '#foundingTime'
-        });
+            });
 
             form.on('submit(formDemo)', function () {
 

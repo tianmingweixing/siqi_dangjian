@@ -4,10 +4,11 @@ import com.siqi_dangjian.bean.ActivitiesType;
 import com.siqi_dangjian.dao.impl.ActivityTypeDao;
 import com.siqi_dangjian.service.IActivityTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ActivityTypeService implements IActivityTypeService {
 
     @Autowired

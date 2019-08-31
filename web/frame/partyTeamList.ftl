@@ -23,6 +23,20 @@
             <input type="text" id="partyGroupNo" lay-verify="number"  placeholder="党小组编号" autocomplete="off" class="layui-input">
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label " style="margin-left: 1px">开始时间</label>
+        <div class="layui-input-inline">
+            <input id="start_time_search" name="start_time_search" lay-verify="required" placeholder="开始时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
+        </div>
+
+        <label class="layui-form-label " style="margin-left: 1px">结束时间</label>
+        <div class="layui-input-inline">
+            <input id="end_time_search" name="end_time_search" lay-verify="required" placeholder="结束时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
+        </div>
+    </div>
     <!--<div class="layui-form-item">
         <label class="layui-form-label label_width_100">联系电话</label>
         <div class="layui-input-inline">
@@ -65,7 +79,15 @@
                 ,laypage = layui.laypage //分页
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
-                ,element = layui.element //元素操作
+                ,element = layui.element; //元素操作
+
+        laydate.render({
+            elem:'#start_time_search'
+        });
+
+        laydate.render({
+            elem:'#end_time_search'
+        });
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -102,15 +124,15 @@
             reload:function () {
                 var name = $("#name_search").val();
                 var partyGroupNo=$("#partyGroupNo").val();
-                var foundingTime=$("#foundingTime").val();
-                var changeTime =$("#changeTime").val();
+                var start_time_search=$("#start_time_search").val();
+                var end_time_search =$("#end_time_search").val();
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
                         partyGroupNo:partyGroupNo,
-                        foundingTime:foundingTime,
-                        changeTime:changeTime
+                        start_time_search:start_time_search,
+                        end_time_search:end_time_search
                     }
                 });
             }
@@ -127,25 +149,6 @@
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                    // layer.msg('add');
-                    // $.ajax({
-                    //     url:"partyTeam/gotoAdd",
-                    //     success:function (data) {
-                    //         if(data.result == "fail"){
-                    //             layer.open({
-                    //                 icon: 2,
-                    //                 title: '消息提醒',
-                    //                 content: '删除失败',
-                    //                 skin:'layui_open_fail'
-                    //             });
-                    //         } else {
-                    //             layer.msg('删除成功', {icon: 1});
-                    //             setTimeout(function () {
-                    //                 location.reload()
-                    //             },1000)
-                    //         }
-                    //     }
-                    // })
                     window.location.href='/partyTeam/gotoAdd';
                     break;
                 case 'update':
@@ -169,7 +172,6 @@
                             $.each(data,function(index,value){
                                 a.push(value.id)
                             });
-                            // console.log(a);
 
                             $.ajax({
                                 url:"/partyTeam/logicDelete",

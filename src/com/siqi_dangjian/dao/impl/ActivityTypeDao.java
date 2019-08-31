@@ -1,7 +1,7 @@
 package com.siqi_dangjian.dao.impl;
 
 
-import com.siqi_dangjian.bean.Activities;
+
 import com.siqi_dangjian.bean.ActivitiesType;
 import com.siqi_dangjian.dao.IActivityTypeDao;
 import org.springframework.stereotype.Repository;
@@ -35,6 +35,8 @@ public class ActivityTypeDao extends BaseDao<ActivitiesType> implements IActivit
 
     @Override
     public Map selectAll(int limit, int page) throws Exception {
-        return selectAll(limit,page);
+                selectAll(limit,page);
+        return null;
+
     }
 }

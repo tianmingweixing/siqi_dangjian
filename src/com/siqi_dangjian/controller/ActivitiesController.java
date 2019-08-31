@@ -1,7 +1,7 @@
 package com.siqi_dangjian.controller;
 
 import com.siqi_dangjian.bean.PartyBranch;
-import com.siqi_dangjian.service.impl.ActivityTypeService;
+import com.siqi_dangjian.service.IActivityTypeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,16 +9,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/activities")
-public class ActivitiesConttroller extends BaseController{
+public class ActivitiesController extends BaseController{
 
     @Autowired
-    private ActivityTypeService activityTypeService;
+    private IActivityTypeService activityTypeService;
 
     Logger logger = Logger.getRootLogger();
 

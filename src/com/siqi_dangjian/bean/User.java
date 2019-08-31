@@ -1,10 +1,11 @@
 package com.siqi_dangjian.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 党员
@@ -117,38 +118,84 @@ public class User extends BaseBean {
     /**
      * 转正时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="official_time",length = 1,nullable = true)
-    private Timestamp officialTime;
+    private Date officialTime;
 
     /**
      * 入党时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="join_time",length = 1,nullable = true)
-    private Timestamp joinTime;
+    private Date joinTime;
+
 
     /**
      * 成为积极分子时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="activist_time",length = 1,nullable = true)
-    private Timestamp activistTime;
+    private Date activistTime;
 
     /**
      * 成为预备党员时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="ready_time",length = 1,nullable = true)
-    private Timestamp readyTime;
+    private Date readyTime;
 
     /**
      * 成为发展对象时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="develop_time",length = 1,nullable = true)
-    private Timestamp developTime;
+    private Date developTime;
 
     /**
      * 党支部id
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public Date getOfficialTime() {
+        return officialTime;
+    }
+
+    public void setOfficialTime(Date officialTime) {
+        this.officialTime = officialTime;
+    }
+
+    public Date getActivistTime() {
+        return activistTime;
+    }
+
+    public void setActivistTime(Date activistTime) {
+        this.activistTime = activistTime;
+    }
+
+    public Date getReadyTime() {
+        return readyTime;
+    }
+
+    public void setReadyTime(Date readyTime) {
+        this.readyTime = readyTime;
+    }
+
+    public Date getDevelopTime() {
+        return developTime;
+    }
+
+    public void setDevelopTime(Date developTime) {
+        this.developTime = developTime;
+    }
+
+    public Date getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(Date joinTime) {
+        this.joinTime = joinTime;
+    }
 
     public String getHeadImg() {
         return headImg;
@@ -280,7 +327,6 @@ public class User extends BaseBean {
         this.address = address;
     }
 
-
     public String getUserNo() {
         return userNo;
     }
@@ -295,46 +341,6 @@ public class User extends BaseBean {
 
     public void setOpenId(String openId) {
         this.openId = openId;
-    }
-
-    public Timestamp getOfficialTime() {
-        return officialTime;
-    }
-
-    public void setOfficialTime(Timestamp officialTime) {
-        this.officialTime = officialTime;
-    }
-
-    public Timestamp getJoinTime() {
-        return joinTime;
-    }
-
-    public void setJoinTime(Timestamp joinTime) {
-        this.joinTime = joinTime;
-    }
-
-    public Timestamp getActivistTime() {
-        return activistTime;
-    }
-
-    public void setActivistTime(Timestamp activistTime) {
-        this.activistTime = activistTime;
-    }
-
-    public Timestamp getReadyTime() {
-        return readyTime;
-    }
-
-    public void setReadyTime(Timestamp readyTime) {
-        this.readyTime = readyTime;
-    }
-
-    public Timestamp getDevelopTime() {
-        return developTime;
-    }
-
-    public void setDevelopTime(Timestamp developTime) {
-        this.developTime = developTime;
     }
 
     public Long getPartyBranchId() {

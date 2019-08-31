@@ -1,9 +1,10 @@
 package com.siqi_dangjian.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 支部班子
@@ -30,26 +31,44 @@ public class PartyGroup extends BaseBean {
     /**
      * 班子编号
      */
-    @Column(name="party_group_no",nullable=true,length=5)
-    private Double partyGroupNo;
+    @Column(name="party_group_no",nullable=true,length=30)
+    private String partyGroupNo;
 
     /**
      * 成立时间
      */
-    @Column(name="founding_time",length = 1,nullable = true)
-    private Timestamp foundingTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name="founding_time",nullable = true)
+    private Date foundingTime;
 
     /**
      * 换届时间
      */
-    @Column(name="change_time",length = 1,nullable = true)
-    private Timestamp changeTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name="change_time",nullable = true)
+    private Date changeTime;
 
     /**
      * 党支部id
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public Date getFoundingTime() {
+        return foundingTime;
+    }
+
+    public void setFoundingTime(Date foundingTime) {
+        this.foundingTime = foundingTime;
+    }
+
+    public Date getChangeTime() {
+        return changeTime;
+    }
+
+    public void setChangeTime(Date changeTime) {
+        this.changeTime = changeTime;
+    }
 
     public String getName() {
         return name;
@@ -75,29 +94,14 @@ public class PartyGroup extends BaseBean {
         this.partyNo = partyNo;
     }
 
-    public Double getPartyGroupNo() {
+    public String getPartyGroupNo() {
         return partyGroupNo;
     }
 
-    public void setPartyGroupNo(Double partyGroupNo) {
+    public void setPartyGroupNo(String partyGroupNo) {
         this.partyGroupNo = partyGroupNo;
     }
 
-    public Timestamp getFoundingTime() {
-        return foundingTime;
-    }
-
-    public void setFoundingTime(Timestamp foundingTime) {
-        this.foundingTime = foundingTime;
-    }
-
-    public Timestamp getChangeTime() {
-        return changeTime;
-    }
-
-    public void setChangeTime(Timestamp changeTime) {
-        this.changeTime = changeTime;
-    }
 
     public Long getPartyBranchId() {
         return partyBranchId;

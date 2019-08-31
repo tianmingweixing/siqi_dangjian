@@ -1,7 +1,6 @@
 package com.siqi_dangjian.service;
 
 import com.siqi_dangjian.bean.ActivitiesType;
-
 import java.util.List;
 import java.util.Map;
 

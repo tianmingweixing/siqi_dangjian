@@ -35,7 +35,7 @@
         <label class="layui-form-label" style="margin-left: 0px">性别</label>
         <div class="layui-input-inline">
             <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
-            <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==0>checked</#if>>
+            <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==2>checked</#if>>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">学历</label>
         <div class="layui-input-inline">
-            <input id="education" name="education" lay-verify="number" placeholder="请输入学历" maxlength="20"
+            <input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">
         </div>
 
@@ -82,8 +82,8 @@
 
         <label class="layui-form-label " style="margin-left: 84px">入党时间</label>
         <div class="layui-input-inline">
-            <input id="joinTime" name="joinTime" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if joinTime??>${joinTime}<#else></#if>">
+            <input id="join_time" name="join_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
     </div>
 
@@ -103,8 +103,16 @@
 
     $(function() {
 
-        layui.use('form', function () {
+        layui.use(['laydate', 'layer', 'table', 'carousel', 'element', 'form'], function () {
             var form = layui.form;
+
+            var laydate = layui.laydate //日期
+                    ,layer = layui.layer //弹层
+                    ,element = layui.element;//元素操作
+
+            laydate.render({
+                elem: '#join_time' //指定元素
+            });
 
 
             form.on('submit(formDemo)', function () {
@@ -118,7 +126,7 @@
                         education: $("#education").val(),
                         age: $("#age").val(),
                         dutyId: $("#dutyid").val(),
-                        joinTime: $("#joinTime").val(),
+                        join_time: $("#join_time").val(),
                         sex: $('input[name="sex"]:checked').val(),
                         ID_cord: $("#ID_cord").val(),
                         company: $("#company").val(),

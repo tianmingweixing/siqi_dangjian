@@ -2,8 +2,8 @@ package com.siqi_dangjian.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.siqi_dangjian.bean.PartyTeam;
-import com.siqi_dangjian.service.IPartyTeamService;
+import com.siqi_dangjian.bean.PartyGroup;
+import com.siqi_dangjian.service.IPartyGroupService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +21,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 支部班子控制器
+ */
 @Controller
-@RequestMapping("/partyTeam")
-public class PartyTeamController extends BaseController{
+@RequestMapping("/partyGroup")
+public class PartyGroupController extends BaseController{
 
     @Autowired
-    private IPartyTeamService partyTeamService;
+    private IPartyGroupService partyGroupService;
 
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "id", required = false) Long id) {
+    public ModelAndView gotoAdd() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("WEB-INF/page/partyTeam_Add");
+        view.setViewName("WEB-INF/page/partyGroup_Add");
         return view;
     }
 
@@ -50,10 +52,10 @@ public class PartyTeamController extends BaseController{
         Type type = new TypeToken<List<String>>() {}.getType();
         List<String> idList = gson.fromJson(deleteArray,type);
         try {
-            partyTeamService.logicDelete(idList);
+            partyGroupService.logicDelete(idList);
         } catch (Exception e){
             setFail("删除失败");
-            logger.error("partyTeam--->deletePartyTeam",e);
+            logger.error("partyGroup--->deletePartyGroup",e);
             return modelMap;
         }
         setSuccess();
@@ -62,7 +64,7 @@ public class PartyTeamController extends BaseController{
 
 
     /**
-     * 添加或更新党小组信息
+     * 添加或更新支部班子信息
      * @param name
      * @param partyGroupNo
      * @param duty
@@ -70,34 +72,33 @@ public class PartyTeamController extends BaseController{
      * @param foundingTime
      * @param changeTime
      */
-    @RequestMapping("/addPartyTeam")
+    @RequestMapping("/addPartyGroup")
     @ResponseBody
-    public ModelMap addPartyTeam(@RequestParam(value = "id", required = false) Long id,
+    public ModelMap addPartyGroup(@RequestParam(value = "id", required = false) Long id,
                                       @RequestParam(value = "name", required = false) String name,
                                       @RequestParam(value = "partyGroupNo", required = false) String partyGroupNo,
                                       @RequestParam(value = "duty", required = false) String duty,
                                       @RequestParam(value = "partyNo", required = false) String partyNo,
-                                      @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date foundingTime,
+                                      @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd")Date foundingTime,
                                       @RequestParam(value = "changeTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date changeTime){
 
         ModelMap modelMap = new ModelMap();
 
-
         try {
-            PartyTeam partyTeam = new PartyTeam();
-            partyTeam.setId(id);
-            partyTeam.setPartyGroupNo(partyGroupNo);
-            partyTeam.setPartyNo(partyNo);
-            partyTeam.setDuty(duty);
-            partyTeam.setFoundingTime(foundingTime);
-            partyTeam.setChangeTime(changeTime);
-            partyTeam.setName(name);
-            partyTeam.setCanUse(1);
-            partyTeamService.insertOrUpdate(partyTeam);
+            PartyGroup partyGroup = new PartyGroup();
+            partyGroup.setId(id);
+            partyGroup.setPartyGroupNo(partyGroupNo);
+            partyGroup.setPartyNo(partyNo);
+            partyGroup.setDuty(duty);
+            partyGroup.setFoundingTime(foundingTime);
+            partyGroup.setChangeTime(changeTime);
+            partyGroup.setName(name);
+            partyGroup.setCanUse(1);
+            partyGroupService.insertOrUpdate(partyGroup);
             setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            setFail();
+            setFail("addPartyGroup错误");
             return modelMap;
         }
         return modelMap;
@@ -106,27 +107,26 @@ public class PartyTeamController extends BaseController{
 
 
     /**
-     * 编辑党小组
+     * 编辑支部班子
      * @param id
      * @return
      */
-    @RequestMapping("/setPartyTeam")
-    public ModelAndView setPartyTeam(@RequestParam(value = "id", required = false) Long id) {
+    @RequestMapping("/setPartyGroup")
+    public ModelAndView setPartyGroup(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView view = new ModelAndView();
-        PartyTeam  partyTeam;
+        PartyGroup  partyGroup;
 
             try {
-                partyTeam = partyTeamService.selectById(id);
-                view.addObject("id", partyTeam.getId());
-                view.addObject("name", partyTeam.getName());
-                view.addObject("partyGroupNo", partyTeam.getPartyGroupNo());
-                view.addObject("partyNo", partyTeam.getPartyNo());
-                view.addObject("duty", partyTeam.getDuty());
-                view.addObject("foundingTime", partyTeam.getFoundingTime());
-                view.addObject("changeTime", partyTeam.getChangeTime());
+                partyGroup = partyGroupService.selectById(id);
+                view.addObject("id", partyGroup.getId());
+                view.addObject("name", partyGroup.getName());
+                view.addObject("partyGroupNo", partyGroup.getPartyGroupNo());
+                view.addObject("partyNo", partyGroup.getPartyNo());
+                view.addObject("duty", partyGroup.getDuty());
+                view.addObject("foundingTime", partyGroup.getFoundingTime());
+                view.addObject("changeTime", partyGroup.getChangeTime());
 
-                view.setViewName("WEB-INF/page/partyTeam_Add");
-//                view.setViewName("frame/PartyTeam_Add");
+                view.setViewName("WEB-INF/page/partyGroup_Add");
             } catch (Exception e) {
                 e.printStackTrace();
                 setMsg("获取数据错误");
@@ -136,7 +136,7 @@ public class PartyTeamController extends BaseController{
 
 
     /**
-     * 查询党小组信息
+     * 查询支部班子信息
      * @param name
      * @param founding_time
      * @param change_time
@@ -146,10 +146,10 @@ public class PartyTeamController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getPartyTeamList(@RequestParam(value = "name",required = false)String name,
+    public ModelMap getPartyGroupList(@RequestParam(value = "name",required = false)String name,
                                       @RequestParam(value = "partyGroupNo",required = false)String partyGroupNo,
-                                      @RequestParam(value = "founding_time",required = false)String founding_time,
-                                      @RequestParam(value = "change_time",required = false)String change_time,
+                                      @RequestParam(value = "founding_time",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd")Date founding_time,
+                                      @RequestParam(value = "change_time",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd")Date change_time,
                                       @RequestParam(value="limit", required=false)Integer limit,
                                       @RequestParam(value="page", required=false)Integer page){
 
@@ -168,16 +168,16 @@ public class PartyTeamController extends BaseController{
             blurMap.put("name", name);
         }
 
-        if(StringUtils.isNotEmpty(founding_time)) {
+        if(StringUtils.isNotEmpty(String.valueOf(founding_time))) {
             dateMap.put("founding_time", founding_time);
         }
-        if(StringUtils.isNotEmpty(change_time)) {
+        if(StringUtils.isNotEmpty(String.valueOf(change_time))) {
             dateMap.put("change_time", change_time);
         }
         try {
-            Map map = partyTeamService.selectAll(blurMap,intMap,dateMap,limit,page);
+            Map map = partyGroupService.selectAll(blurMap,intMap,dateMap,limit,page);
 
-            List list = (List<PartyTeam>) map.get("list");
+            List list = (List<PartyGroup>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);

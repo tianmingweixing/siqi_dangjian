@@ -70,12 +70,25 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT u.id,u.username,u.head_img,u.sex,u.age,u.education,u.company,u.phone,u.ID_cord,u.join_time,u.address FROM \n" +
-                "\tuser u LEFT JOIN duty d ON u.dutyid = d.id\n" +
-                "\tWHERE\n" +
-                "\tu.can_use = 1 and d.can_use=1";
+
+        String sql = " SELECT\n" +
+                "\tu.id,\n" +
+                "\tu.username,\n" +
+                "\tu.head_img,\n" +
+                "\tif(u.sex='1','男','女')sex,\n" +
+                "\tu.age,\n" +
+                "\tu.education,\n" +
+                "\tu.company,\n" +
+                "\tu.phone,\n" +
+                "\tu.ID_cord,\n" +
+                "\tDATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
+                "\tu.address\n" +
+                "FROM\n" +
+                "\tUSER u\n" +
+                "LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND d.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +

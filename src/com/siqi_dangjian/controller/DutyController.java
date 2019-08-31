@@ -50,7 +50,7 @@ public class DutyController extends BaseController{
             dutyService.logicDelete(idList);
         } catch (Exception e){
             setFail("删除失败");
-            logger.error("partyTeam--->deletePartyTeam",e);
+            logger.error("duty--->deleteDuty",e);
             return modelMap;
         }
         setSuccess();

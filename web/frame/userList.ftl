@@ -20,7 +20,7 @@
         </div>
         <label class="layui-form-label ">单位</label>
         <div class="layui-input-inline">
-            <input type="text" id="company"  placeholder="单位" autocomplete="off" class="layui-input">
+            <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
         </div>
     </div>
     <!--<div class="layui-form-item">
@@ -33,43 +33,70 @@
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
     <form class="layui-form" id="add-form" action="">
-        <input type="hidden" id="id" required value="" style="width: 240px" lay-verify="required" readonly
-               autocomplete="off" class="layui-input">
+        <input type="hidden" id="id"  value="" style="width: 240px">
 
-        <div class="layui-form-item center">
-            <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">用户头像</label>
-            <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
-                <img id="headImg" name ="headImg" src="" height="auto" width="100" alt="" style="margin-top: 10px">
+        <div class="layui-form-item center" style=" margin-top: 3px; padding: -145px;">
+            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">呢称</label>
+            <div class="layui-form-label" id="username" style="color: #a9f981;margin-top: 34px;margin-left: -27px;"></div>
+
+            <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">用户头像</label>
+            <div class="layui-input-inline" style="padding-top: 71px;margin-top: 11px;">
+                <img id="head_img" name ="head_img" src="" height="auto" width="100" alt="" style="margin-top: -63px;">
             </div>
         </div>
 
         <div class="layui-form-item center">
-            <label class="layui-form-label" style="width: 100px">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" id="username" required  style="width: 240px" lay-verify="required"
-                       readonly  autocomplete="off" class="layui-input">
-            </div>
+            <label class="layui-form-label" style="width: 60px">学历</label>
+            <div class="layui-form-label" id="education" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">年龄</label>
+            <div class="layui-form-label" id="age" style="color: #a9f981;margin-left: -27px;"></div>
+
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px">性别</label>
+            <div class="layui-form-label" id="sex" style="color: #a9f981;margin-left: -27px;"></div>
+
             <label class="layui-form-label" style="width: 100px">手机号码</label>
-            <div class="layui-input-block">
-                <input type="text" id="set_credit_phone" required style="width: 240px" lay-verify="required"
-                       readonly   autocomplete="off" class="layui-input">
-            </div>
+            <div class="layui-form-label" id="phone" style="color: #a9f981;margin-left: -27px;"></div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">地址</label>
-            <div class="layui-input-block">
-                <input type="text" id="set_credit_address" required style="width: 240px" lay-verify="required"
-                       readonly autocomplete="off" class="layui-input">
-            </div>
+            <label class="layui-form-label" style="width: 60px">单位</label>
+            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">入党时间</label>
+            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+
         </div>
+
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">申请理由</label>
-            <div class="layui-input-block">
-                <textarea id="set_appReason" readonly style="width:240px;height:100px;" ></textarea>
-            </div>
+            <label class="layui-form-label" style="width: 60px">单位</label>
+            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">入党时间</label>
+            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+
         </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px">单位</label>
+            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">入党时间</label>
+            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px">单位</label>
+            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">入党时间</label>
+            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+
+        </div>
+
+
 
     </form>
 </div>
@@ -106,17 +133,16 @@
     function reset_search(){
         window.location.reload();
     }
-//'<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">username</div>'
-    function onAddBtn(data){
 
-        $("#username").val(data.username);
-        $("#age").val(data.age);
-        $("#sex").val(data.sex);
-        $("#address").val(data.address);
-        $("#unit").val(data.unit);
-        $("#phone").val(data.phone);
-        $("#foundingTime").val(data.foundingTime);
-        $("#head_img").attr(src,data.headImg);
+    function onAddBtn(data){
+        $("#username").html(data.username);
+        $("#age").html(data.age);
+        $("#company").html(data.company);
+        $("#education").html(data.education);
+        $("#phone").html(data.phone);
+        $("#sex").html(data.sex);
+        $("#join_time").html(data.join_time);
+        $("#head_img").attr('src',data.head_img);
 
 
         //示范一个公告层
@@ -124,7 +150,7 @@
             type: 1
             ,title: false //不显示标题栏
             ,closeBtn: false
-            ,area: '1200px;'
+            ,area: 600
             ,shade: 0.8
             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
             ,btn: ['返回页面']
@@ -146,6 +172,11 @@
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
                 ,element = layui.element;//元素操作
+
+        laydate.render({
+            elem: '#join_time' //指定元素
+        });
+
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -183,7 +214,7 @@
         var $ = layui.$, active = {
             reload:function () {
                 var username = $("#name_search").val();
-                var company=$("#company").val();
+                var company=$("#company_search").val();
 
                 table.reload('demo',{
                     method:'get',
