@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 <div class="layui-progress">
@@ -17,19 +15,15 @@
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">荣誉ID</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
 
-
-    <div class="layui-form-item input_row_margin_top">
-
+    <div class="layui-form-item input_row_margin_top" style="display: none">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
             <select name="type" id="type">
-                <option value="">全部</option>
                 <option value="0" <#if type?? && type==0>selected</#if>>荣誉</option>
                 <option value="1" <#if type?? && type==1>selected</#if>>违纪</option>
             </select>

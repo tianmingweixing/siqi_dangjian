@@ -118,9 +118,30 @@ public class CommonUtil {
         for (Object key : map.keySet()) {
             if (null != map.get(key) && "" != map.get(key)) {
                 if (key == "start_time" && StringUtils.isNotEmpty((String) map.get(key))) {
-                    builder.append(" " + table_alies + ".year_limit>=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                    builder.append(" " + table_alies + ".create_time>=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
                 } else if (key == "end_time" && StringUtils.isNotEmpty((String) map.get(key))) {
-                    builder.append(" " + table_alies + ".year_limit<=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                    builder.append(" " + table_alies + ".create_time<=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                }
+            }
+        }
+        int str_length = builder.toString().length();
+        return builder.toString().substring(0, str_length - 4);
+        // here logon_time>=to_date('2018-04-19 00:00:00','yyyy-mm-dd hh24:mi:ss') and logon_time<to_date('2018-04-20 00:00:00','yyyy-mm-dd hh24:mi:ss')
+    }
+
+    /**
+     * 自定义时间查询
+     * timeName 字段名称
+     */
+    public static String appendCustomDateStr(String sql, Map map, String table_alies,String timeName) {
+        StringBuilder builder = new StringBuilder(sql);
+        builder.append(" and");
+        for (Object key : map.keySet()) {
+            if (null != map.get(key) && "" != map.get(key)) {
+                if (key == "start_time" && StringUtils.isNotEmpty((String) map.get(key))) {
+                    builder.append(" " + table_alies + "." + timeName + ">=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
+                } else if (key == "end_time" && StringUtils.isNotEmpty((String) map.get(key))) {
+                    builder.append(" " + table_alies + "." + timeName + "<=str_to_date('" + map.get(key) + "','%Y-%m-%d') and");
                 }
             }
         }

@@ -176,11 +176,12 @@ public class SympathyController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getSympathyList(@RequestParam(value = "username",required = false)String username,
-                                      @RequestParam(value = "difficult",required = false)String difficult,
-                                      @RequestParam(value = "sympathy_time",required = false)String sympathy_time,
-                                      @RequestParam(value="limit", required=false)Integer limit,
-                                      @RequestParam(value="page", required=false)Integer page){
+    public ModelMap getSympathyList(@RequestParam(value = "username", required = false) String username,
+                                    @RequestParam(value = "difficult", required = false) String difficult,
+                                    @RequestParam(value = "start_time_search", required = false) String start_time,
+                                    @RequestParam(value = "end_time_search", required = false) String end_time,
+                                    @RequestParam(value = "limit", required = false) Integer limit,
+                                    @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
 
@@ -197,8 +198,12 @@ public class SympathyController extends BaseController{
             blurMap.put("username", username);
         }
 
-        if(StringUtils.isNotEmpty(sympathy_time)) {
-            dateMap.put("sympathy_time", sympathy_time);
+        if (StringUtils.isNotEmpty(start_time)) {
+            dateMap.put("start_time", start_time);
+        }
+
+        if (StringUtils.isNotEmpty(end_time)) {
+            dateMap.put("end_time", end_time);
         }
 
         try {

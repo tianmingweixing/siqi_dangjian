@@ -22,9 +22,9 @@
         <div class="layui-input-inline">
             <select name="meeting_type" id="meeting_type">
                 <option value="">全部</option>
-                <option value="0" >支委会</option>
-                <option value="1" >党员大会</option>
-                <option value="2" >廉政</option>
+                <option value="1" >支委会</option>
+                <option value="2" >党员大会</option>
+                <option value="3" >廉政</option>
             </select>
         </div>
     </div>
@@ -41,7 +41,6 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
 </script>
 <style>
     .layui_open_fail{
@@ -93,14 +92,12 @@
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '会议名称', width:150}
                 ,{field: 'meeting_type',title:'会议类型',width:150}
-                ,{field: 'content',title:'会议内容',width:150}
-                ,{field: 'guide',title:'会议指导',width:100}
+                ,{field: 'content',title:'会议内容',width:350}
+                ,{field: 'guide',title:'会议指导',width:350}
                 ,{field: 'images_a',title:'会议图片1',width:200}
-                ,{field: 'images_b',title:'会议图片2',width:200}
-                ,{field: 'start_time',title:'开始时间',width:200,sort: true}
-                ,{field: 'end_time',title:'结束时间',width:200,sort: true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
+                ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
+                ,{field: 'start_time',title:'开始时间',width:150,sort: true}
+                ,{field: 'end_time',title:'结束时间',width:150,sort: true}
             ]]
         });
         var $ = layui.$, active = {

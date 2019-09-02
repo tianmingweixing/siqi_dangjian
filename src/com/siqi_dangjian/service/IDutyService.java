@@ -1,6 +1,8 @@
 package com.siqi_dangjian.service;
 
 import com.siqi_dangjian.bean.Duty;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +13,7 @@ public interface IDutyService {
 
     Map getUserNameById(Long id) throws Exception;
 
-    void insertOrUpdate(Duty duty) throws Exception;
+    BigInteger insertOrUpdate(Duty duty) throws Exception;
 
     void logicDelete(List idList) throws Exception;
 

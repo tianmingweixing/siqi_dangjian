@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-input-inline" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">Id</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
@@ -26,11 +23,6 @@
             <input id="party_duty" name="party_duty" lay-verify="required" placeholder="请输入党内职务" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
         </div>
-        <!--<label class="layui-form-label" style="margin-left: 85px">党内职务</label>
-        <div class="layui-input-inline">
-            <input id="party_duty" name="party_duty" lay-verify="required" placeholder="请输入身份证" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
-        </div>-->
 
     </div>
 
@@ -46,14 +38,7 @@
                 <option value="5" <#if name?? && name==5>selected</#if>>党委</option>
             </select>
         </div>
-        <!--
-        <label class="layui-form-label " style="margin-left: 84px">入党时间</label>
-        <div class="layui-input-inline">
-            <input id="joinTime" name="joinTime" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if joinTime??>${joinTime}<#else></#if>">
-        </div>
-        <div class="layui-form-mid layui-word-aux"></div>
-        -->
+
     </div>
 
 
@@ -77,21 +62,12 @@
 
             form.on('submit(formDemo)', function (data) {
 
-                // if (state === 'uploading') {
-                //     uploader.stop();
-                // } else {
-                //     uploader.upload();
-                // }
-
                 $.ajax({
                     url: "/duty/addDuty",
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
                         party_duty: $("#party_duty").val()
-                        /*age: $("#age").val(),
-                        dutyId: $("#dutyid").val(),
-                        phone: $("#phone").val()*/
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});

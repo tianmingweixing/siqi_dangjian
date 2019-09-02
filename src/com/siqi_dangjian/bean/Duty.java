@@ -11,13 +11,13 @@ import javax.persistence.Table;
 @Table(name = "duty")
 public class Duty extends BaseBean {
     /**
-     * 政治面貌 ：1积极分子；2预备党员；3发展对象；4正式党员；5党委。。。
+     * 政治面貌 ：1发展对象 2积极分子；3预备党员；；4正式党员；5。。。
      */
     @Column(name="name",nullable=true,length=30)
     private Integer name;
 
     /**
-     * 党内职务
+     * 党内职务: 宣传委员 组织委员 纪律委员 支部书记 党小组成员
      */
     @Column(name="party_duty",nullable=true,length=300)
     private String partyDuty;

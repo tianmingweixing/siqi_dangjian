@@ -6,6 +6,7 @@ import com.siqi_dangjian.bean.PartyTeam;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -28,10 +29,10 @@ public class UserController extends BaseController{
     @Autowired
     private IUserService userService;
 
-//    Logger logger = Logger.getRootLogger();
+    Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "id", required = false) Long id) {
+    public ModelAndView gotoAdd() {
         ModelAndView view = new ModelAndView();
         view.setViewName("WEB-INF/page/user_Add");
         return view;
@@ -52,7 +53,7 @@ public class UserController extends BaseController{
             userService.logicDeleteUser(idList);
         } catch (Exception e){
             setFail("删除失败");
-//            logger.error("partyTeam--->deletePartyTeam",e);
+            logger.error("user--->deleteUser",e);
             return modelMap;
         }
         setSuccess();
@@ -92,7 +93,11 @@ public class UserController extends BaseController{
         User  user;
 
         try {
-            user = userService.getUserById(id);
+            if(id != null){
+                user = userService.getUserById(id);
+            }else{
+                user = new User();
+            }
 
             user.setIDCord(ID_cord);
             user.setAddress(address);

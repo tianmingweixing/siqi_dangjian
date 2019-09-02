@@ -49,6 +49,26 @@ public class BaseDao<T extends BaseBean> {
     }
 
     /**
+     * 保存或更新对象
+     * 插入数据时返回id
+     * @param t
+     */
+    public BigInteger saveOrUpdateObjectReturnId(T t){
+        session = sessionFactory.getCurrentSession();
+        if(t.getId()==null || t.getId() == 0) {
+            t.setCreateTime(getNowTimeStamp());
+        } else {
+            t.setUpdateTime(getNowTimeStamp());
+        }
+        session.saveOrUpdate(t);
+        String sql = " SELECT LAST_INSERT_ID()";
+        Query query = session.createSQLQuery(sql);
+        return (BigInteger)query.uniqueResult();
+
+    }
+
+
+    /**
      * 逻辑删除
      * @param t
      * @throws Exception

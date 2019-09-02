@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
-        <label class="layui-form-label" style="margin-left: 85px">会议ID</label>
-        <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+    <div class="layui-form-item input_row_margin_top" style="display:none">
+        <label class="layui-form-label" style="margin-left: 85px">会议ID
+            <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
+
+        <label class="layui-form-label" style="margin-left: 85px">会议图片</label>
+            <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if images_a??>${images_a}<#else></#if>" style="width: 400px;"/></div>
     </div>
 
    <!-- <div class="layui-form-item input_row_margin_top">
@@ -41,9 +41,9 @@
         <div class="layui-input-inline">
             <select name="meeting_type" id="meeting_type">
                 <option value="">全部</option>
-                <option value="1" <#if meeting_type?? && meeting_type==0>selected</#if>>支委会</option>
-                <option value="2" <#if meeting_type?? && meeting_type==1>selected</#if>>党员大会</option>
-                <option value="3" <#if meeting_type?? && meeting_type==2>selected</#if>>廉政</option>
+                <option value="1" <#if meeting_type?? && meeting_type==1>selected</#if>>支委会</option>
+                <option value="2" <#if meeting_type?? && meeting_type==2>selected</#if>>党员大会</option>
+                <option value="3" <#if meeting_type?? && meeting_type==3>selected</#if>>廉政</option>
             </select>
         </div>
 
@@ -81,6 +81,16 @@
         </div>
     </div>
 
+    <div class="layui-form-item input_row_margin_top">
+        <div class="layui-upload" style="margin-left: 40px;">
+            <button type="button" class="layui-btn" id="uploadImg">上传图片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="images_a" src="<#if images_a??>${images_a}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 90px; height: 90px; border: 1px solid #CCCCCC;">
+                <p id="demoText"></p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
@@ -97,10 +107,14 @@
 
     $(function() {
 
-        layui.use(['laydate','form'], function () {
+        layui.use(['laydate','form','upload'], function () {
             var form = layui.form;
+            // var $ = layui.jQuery;
+
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
+            var upload = layui.upload;
+
 
             laydate.render({
                 elem: '#start_time' //指定元素
@@ -109,16 +123,50 @@
                 elem: '#end_time' //指定元素
             });
 
+            //上传头像
+            upload.render({
+                elem: '#uploadImg'
+                ,accept: 'file'
+                ,url: '/upload/uploadImage'
+                ,auto: true
+                ,choose: function(obj){
+                    //将每次选择的文件追加到文件队列
+                    // var files = obj.pushFile();
+
+                    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                    obj.preview(function(index, file, result){
+                        $('#images_a').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+                    //如果上传
+                    if(res.code == 0){
+                        $("#imgPath").val(res.src);
+                        layer.msg('上传成功');
+                    }
+                }
+                ,error: function(){
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
+                }
+            });
+
             form.on('submit(formDemo)', function (data) {
 
                 $.ajax({
                     url: "/meeting/addMeeting",
+                    type:'post',
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
                         meeting_type: $("#meeting_type").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
+                        imgPath: $("#imgPath").val(),
                         start_time: $("#start_time").val(),
                         end_time: $("#end_time").val()
                     },

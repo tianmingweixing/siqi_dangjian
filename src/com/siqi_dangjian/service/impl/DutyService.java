@@ -6,6 +6,8 @@ import com.siqi_dangjian.service.IDutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +30,9 @@ public class DutyService implements IDutyService {
     }
 
     @Override
-    public void insertOrUpdate(Duty duty) throws Exception {
-        dutyDao.insertOrUpdate(duty);
+    public BigInteger insertOrUpdate(Duty duty) throws Exception {
+        BigInteger lastId = dutyDao.insertOrUpdate(duty);
+        return lastId;
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.DisciplineOfHonor;
 import com.siqi_dangjian.dao.IDisciplineOfHonorDao;
 import com.siqi_dangjian.util.CommonUtil;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
@@ -44,8 +45,6 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "SELECT\n" +
                 "\td.amount,\n" +
                 "\td.certificate,\n" +
@@ -75,8 +74,10 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
                 "FROM discipline_of_honor d where d.can_use = 1";
+
+
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"d");
+        sql = CommonUtil.appendCustomDateStr(sql,dateParam,"d","time");//自定义时间查询
         sql = CommonUtil.appendIntStr(sql,intParam,"d");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"d");

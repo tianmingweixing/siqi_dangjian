@@ -75,7 +75,7 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
                 "\ts.can_use = 1\n" +
                 "AND u.can_use = 1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"s");
+        sql = CommonUtil.appendCustomDateStr(sql,dateParam,"s","sympathy_time");
         sql = CommonUtil.appendIntStr(sql,intParam,"s");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"s");

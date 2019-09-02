@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,32 +69,36 @@ public class DutyController extends BaseController{
      */
     @RequestMapping("/addDuty")
     @ResponseBody
-    public ModelAndView addDuty(@RequestParam(value = "id", required = false) Long id,
+    public ModelMap addDuty(@RequestParam(value = "id", required = false) Long id,
                                       @RequestParam(value = "name", required = false) Integer name,
                                       @RequestParam(value = "party_duty", required = false) String partyDuty
                                       ){
 
-        ModelAndView modelAndView = new ModelAndView();
+        modelMap = new ModelMap();
 
-
+        Duty duty;
         try {
-            Duty duty = new Duty();
+            if (id != null) {
+                duty = dutyService.selectById(id);
+            }else{
+              duty = new Duty();
+            }
             duty.setName(name);
             duty.setPartyDuty(partyDuty);
             duty.setId(id);
-         /*   user.setIDCord(ID_cord);
-            user.setUserName(username);
-            user.setJoinTime(joinTime);*/
             duty.setCanUse(1);
-            dutyService.insertOrUpdate(duty);
+            BigInteger bigInteger = dutyService.insertOrUpdate(duty);
+            long lastId = bigInteger.longValue();
+            setData("lastId",lastId);
             setSuccess();
-            modelAndView.setViewName("frame/dutyList");
+
         } catch (Exception e) {
             e.printStackTrace();
-            modelAndView.setViewName("WEB-INF/page/duty_Add");
-            return modelAndView;
+            setFail("添加职务信息失败");
+            logger.error("duty--->addDuty",e);
+            return modelMap;
         }
-        return modelAndView;
+        return modelMap;
 
     }
 

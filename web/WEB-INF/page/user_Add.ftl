@@ -32,10 +32,21 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" style="margin-left: 0px">性别</label>
+            <label class="layui-form-label" style="margin-left: 0px">性别</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
+                <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==2>checked</#if>>
+            </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
-            <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
-            <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==2>checked</#if>>
+            <select name="name" id="name">
+                <option value="">全部</option>
+                <option value="1" <#if name?? && name==1>selected</#if>>发展对象</option>
+                <option value="2" <#if name?? && name==2>selected</#if>>积极分子</option>
+                <option value="3" <#if name?? && name==3>selected</#if>>预备党员</option>
+                <option value="4" <#if name?? && name==4>selected</#if>>正式党员</option>
+            </select>
         </div>
     </div>
 
@@ -70,20 +81,16 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">职务</label>
+        <label class="layui-form-label ">入党时间</label>
         <div class="layui-input-inline">
-            <select name="dutyid" id="dutyid">
-                <option value="">全部</option>
-                <option value="1" <#if dutyid?? && dutyid==1>selected</#if>>积极分子</option>
-                <option value="2" <#if dutyid?? && dutyid==2>selected</#if>>正式党员</option>
-                <option value="3" <#if dutyid?? && dutyid==3>selected</#if>>党委</option>
-            </select>
+            <input id="join_time" name="join_time" lay-verify="" placeholder="请输入入党时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
 
-        <label class="layui-form-label " style="margin-left: 84px">入党时间</label>
+        <label class="layui-form-label " style="margin-left: 84px">党内职务</label>
         <div class="layui-input-inline">
-            <input id="join_time" name="join_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
+            <input id="party_duty" name="party_duty" lay-verify="" placeholder="请输入党内职务" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
         </div>
     </div>
 
@@ -118,25 +125,34 @@
             form.on('submit(formDemo)', function () {
 
                 $.ajax({
-                    url: "/user/addUser",
+                    url: "/duty/addDuty",
                     data: {
-                        id: $("#id").val(),
-                        username: $("#username").val(),
-                        sex: $("#sex").val(),
-                        education: $("#education").val(),
-                        age: $("#age").val(),
-                        dutyId: $("#dutyid").val(),
-                        join_time: $("#join_time").val(),
-                        sex: $('input[name="sex"]:checked').val(),
-                        ID_cord: $("#ID_cord").val(),
-                        company: $("#company").val(),
-                        phone: $("#phone").val()
+                        name: $("#name").val(),
+                        party_duty: $("#party_duty").val()
                     },
-                    success: function () {
-                        layer.msg('保存成功', {icon: 1});
-                        setTimeout(function () {
-                            window.location.href = '/frame/userList.ftl'
-                        }, 1500);
+                    success: function (data) {
+                        $.ajax({
+                            url: "/user/addUser",
+                            data: {
+                                id: $("#id").val(),
+                                username: $("#username").val(),
+                                sex: $("#sex").val(),
+                                education: $("#education").val(),
+                                age: $("#age").val(),
+                                dutyId: data.lastId,
+                                join_time: $("#join_time").val(),
+                                sex: $('input[name="sex"]:checked').val(),
+                                ID_cord: $("#ID_cord").val(),
+                                company: $("#company").val(),
+                                phone: $("#phone").val()
+                            },
+                            success: function () {
+                                layer.msg('保存成功', {icon: 1});
+                                setTimeout(function () {
+                                    window.location.href = '/frame/userList.ftl'
+                                }, 1500);
+                            }
+                        });
                     }
                 });
                 return false;

@@ -60,30 +60,22 @@
             <label class="layui-form-label" style="width: 100px">手机号码</label>
             <div class="layui-form-label" id="phone" style="color: #a9f981;margin-left: -27px;"></div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">单位</label>
-            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
 
-            <label class="layui-form-label" style="width: 100px">入党时间</label>
-            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px">党内职务</label>
+            <div class="layui-form-label" id="dutyid" style="color: #a9f981;margin-left: -27px;"></div>
+
+            <label class="layui-form-label" style="width: 100px">困难状态</label>
+            <div class="layui-form-label" id="difficulty_type" style="color: #a9f981;margin-left: -27px;"></div>
 
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">单位</label>
-            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">身份证</label>
+            <div class="layui-form-label" id="ID_cord" style="color: #a9f981;margin-left: -27px;"></div>
 
-            <label class="layui-form-label" style="width: 100px">入党时间</label>
-            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
-
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">单位</label>
-            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
-
-            <label class="layui-form-label" style="width: 100px">入党时间</label>
-            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">所属党支部</label>
+            <div class="layui-form-label" id="party_branch_name" style="color: #a9f981;margin-left: -27px;"></div>
 
         </div>
 
@@ -143,6 +135,12 @@
         $("#sex").html(data.sex);
         $("#join_time").html(data.join_time);
         $("#head_img").attr('src',data.head_img);
+        $("#dutyid").html(data.dutyid);
+        $("#nation").html(data.nation);
+        $("#ID_cord").html(data.ID_cord);
+        $("#difficulty_type").html(data.difficulty_type);
+        $("#party_branch_name").html(data.party_branch_name);
+
 
 
         //示范一个公告层
@@ -200,9 +198,10 @@
                 ,{field: 'sex',title:'性别',width:80}
                 ,{field: 'age',title:'年龄',width:80}
                 ,{field: 'education',title:'学历',width:100,sort: true}
-                ,{field: 'company',title:'单位',width:200,sort: true}
+                ,{field: 'company',title:'单位',width:150,sort: true}
                 ,{field: 'phone',title:'手机号码',width:200,sort: true}
                 ,{field: 'ID_cord',title:'身份证',width:200,sort: true}
+                ,{field: 'dutyid',title:'党内职务',width:125,sort: true}
                 ,{field: 'join_time',title:'入党时间',width:200,sort: true}
                 // ,{field: 'address',title:'地址',width:200,sort: true}
                 ,{field: 'head_img',title:'头像',width:200,sort: true}

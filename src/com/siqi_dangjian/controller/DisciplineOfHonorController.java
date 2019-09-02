@@ -197,15 +197,9 @@ public class DisciplineOfHonorController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-/*
-        if (StringUtils.isNotEmpty(id)) {
-            intMap.put("id", id);
-        }
-*/
         if (StringUtils.isNotEmpty(type)) {
             intMap.put("type", type);
         }
-
 
         if (StringUtils.isNotEmpty(name)) {
             blurMap.put("name", name);

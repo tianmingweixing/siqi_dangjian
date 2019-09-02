@@ -28,9 +28,6 @@
         </div>
     </div>
 
-
-
-
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">姓名</label>
         <div class="layui-input-inline">

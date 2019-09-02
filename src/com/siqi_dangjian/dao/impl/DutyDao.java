@@ -5,6 +5,8 @@ import com.siqi_dangjian.dao.IDutyDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +15,9 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
 
 
     @Override
-    public void insertOrUpdate(Duty duty) throws Exception {
-        saveOrUpdateObject(duty);
+    public BigInteger insertOrUpdate(Duty duty) throws Exception {
+        BigInteger lastId= saveOrUpdateObjectReturnId(duty);//插入数据时返回自增id
+        return lastId;
     }
 
     @Override
@@ -43,8 +46,6 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "\tSELECT * FROM \n" +
                 "\tduty d\n" +
                 "\tWHERE\n" +

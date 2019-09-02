@@ -73,7 +73,8 @@ public class MeetingController extends BaseController {
     public ModelAndView addMeeting(@RequestParam(value = "id", required = false) Long id,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
-                                    @RequestParam(value = "name", required = false) String name,
+                                   @RequestParam(value = "name", required = false) String name,
+                                   @RequestParam(value = "imgPath", required = false) String images_a,
                                     @RequestParam(value = "guide", required = false) String guide,
                                     @RequestParam(value = "content", required = false) String content,
                                     @RequestParam(value = "meeting_type", required = false) Integer meeting_type) {
@@ -87,6 +88,7 @@ public class MeetingController extends BaseController {
             meeting.setContent(content);
             meeting.setGuide(guide);
             meeting.setMeetingType(meeting_type);
+            meeting.setImagesA(images_a);
             meeting.setEndTime(Date.valueOf(start_time));
             meeting.setStartTime(Date.valueOf(end_time));
             meeting.setCanUse(1);
@@ -120,6 +122,7 @@ public class MeetingController extends BaseController {
                 view.addObject("meeting_type", meeting.getMeetingType());
                 view.addObject("content", meeting.getContent());
                 view.addObject("guide", meeting.getGuide());
+                view.addObject("images_a", meeting.getImagesA());
                 view.addObject("name", meeting.getName());
                 view.addObject("start_time", meeting.getStartTime());
                 view.addObject("end_time", meeting.getEndTime());

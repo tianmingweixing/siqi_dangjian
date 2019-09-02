@@ -28,6 +28,20 @@
             </select>
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label " style="margin-left: 1px">开始时间</label>
+        <div class="layui-input-inline">
+            <input id="start_time_search" name="start_time_search" lay-verify="required" placeholder="开始时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
+        </div>
+
+        <label class="layui-form-label " style="margin-left: 1px">结束时间</label>
+        <div class="layui-input-inline">
+            <input id="end_time_search" name="end_time_search" lay-verify="required" placeholder="结束时间" maxlength="20"
+                   autocomplete="off" class="layui-input" >
+        </div>
+    </div>
     <!--<div class="layui-form-item">
         <label class="layui-form-label label_width_100">联系电话</label>
         <div class="layui-input-inline">
@@ -70,7 +84,14 @@
                 ,laypage = layui.laypage //分页
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
-                ,element = layui.element //元素操作
+                ,element = layui.element; //元素操作
+
+        laydate.render({
+            elem: '#start_time_search' //指定元素
+        });
+        laydate.render({
+            elem: '#end_time_search' //指定元素
+        });
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -99,20 +120,22 @@
                 ,{field: 'unit_and_position',title:'慰问人单位及职务',width:200,sort: true}
                 ,{field: 'sympathy_product',title:'慰问品及信息',width:200,sort: true}
                 ,{field: 'note',title:'备注',width:200,sort: true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var username = $("#name_search").val();
                 var difficult=$("#difficult").val();
+                var start_time_search=$("#start_time_search").val();
+                var end_time_search=$("#end_time_search").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         username:username,
-                        difficult:difficult
+                        difficult:difficult,
+                        start_time_search:start_time_search,
+                        end_time_search:end_time_search
                     }
                 });
             }
@@ -123,7 +146,7 @@
         });
 
 
-        //监听头工具栏事件
+        //监听头事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
                     ,data = checkStatus.data; //获取选中的数据
@@ -182,7 +205,7 @@
             };
         });
 
-        //监听行工具事件
+        //监听行事件
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                     ,layEvent = obj.event; //获得 lay-event 对应的值

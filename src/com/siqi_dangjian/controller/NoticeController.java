@@ -56,16 +56,17 @@ public class NoticeController extends BaseController {
      */
     @RequestMapping("/logicDelete")
     @ResponseBody
-    public ModelMap logicDelete(@RequestParam(value="deleteArray", required=false)String deleteArray){
+    public ModelMap logicDelete(@RequestParam(value = "deleteArray", required = false) String deleteArray) {
         modelMap = new ModelMap();
         Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {}.getType();
-        List<String> idList = gson.fromJson(deleteArray,type);
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> idList = gson.fromJson(deleteArray, type);
         try {
             noticeService.logicDelete(idList);
-        } catch (Exception e){
+        } catch (Exception e) {
             setFail("删除失败");
-            logger.error("notice--->deleteNotice",e);
+            logger.error("notice--->deleteNotice", e);
             return modelMap;
         }
         setSuccess();
@@ -83,7 +84,7 @@ public class NoticeController extends BaseController {
      */
     @RequestMapping("/addNotice")
     @ResponseBody
-    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile file,HttpServletRequest request,
+    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
                               @RequestParam(value = "img_path", required = false) String img_path,
                               @RequestParam(value = "id", required = false) Long id,
                               @RequestParam(value = "title", required = false) String title,
@@ -92,17 +93,19 @@ public class NoticeController extends BaseController {
         ModelMap modelMap = new ModelMap();
         Notice notice;
         try {
-
-            notice = new Notice();
+            if (id != null) {
+                notice = noticeService.selectById(id);
+            } else {
+                notice = new Notice();
+            }
             if (file != null) {
-                String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法,返回图片相对路径
+                String path = CommonUtil.uploadImg(file, request);//调用公共的上传单张图片方法,返回图片相对路径
                 notice.setImagePath(path);
-            }else{
+            } else {
                 String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
                 notice.setImagePath(path);
             }
 
-            notice.setId(id);
             notice.setContent(content);
             notice.setTitle(title);
             notice.setCanUse(1);
@@ -111,7 +114,7 @@ public class NoticeController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
-            logger.error("addNotice",e);
+            logger.error("addNotice", e);
             return modelMap;
         }
         return modelMap;
@@ -129,25 +132,23 @@ public class NoticeController extends BaseController {
     public ModelAndView setNotice(@RequestParam(value = "Id", required = false) Long id, HttpServletRequest request){
 
         ModelAndView view = new ModelAndView();
-        Notice  notice;
+        Notice notice;
 
-            try {
-                notice = noticeService.selectById(id);
-                // 返回图片访问路径http://localhost:8080/upload/201986/ttt.jpg
-                String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + notice.getImagePath();
-                view.addObject("id", notice.getId());
-                view.addObject("content", notice.getContent());
-                view.addObject("title", notice.getTitle());
-                view.addObject("partyBranchId", notice.getPartyBranchId());
-                view.addObject("image_path", url);
+        try {
+            notice = noticeService.selectById(id);
+            view.addObject("id", notice.getId());
+            view.addObject("content", notice.getContent());
+            view.addObject("title", notice.getTitle());
+            view.addObject("partyBranchId", notice.getPartyBranchId());
+            view.addObject("image_path", notice.getImagePath());
 
-               view.setViewName("WEB-INF/page/notice_Add");//跳转添加页面
+            view.setViewName("WEB-INF/page/notice_Add");//跳转添加页面
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                logger.error("setConclusion",e);
-                setMsg("获取数据错误");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("setConclusion", e);
+            setMsg("获取数据错误");
+        }
         return view;
     }
 

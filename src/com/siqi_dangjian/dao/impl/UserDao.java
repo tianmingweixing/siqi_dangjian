@@ -80,8 +80,15 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.education,\n" +
                 "\tu.company,\n" +
                 "\tu.phone,\n" +
+                "\t(case u.dutyid \n" +
+                "            when 1 then '积极分子' \n" +
+                "            when 2 then '发展党员' \n" +
+                "            when 3 then '预备党员' \n" +
+                "            when 4 then '正式党员' \n" +
+                "            when 5 then '党委' else '暂无数据' end)dutyid,\n" +
                 "\tu.ID_cord,\n" +
                 "\tDATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
+                "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
                 "\tu.address\n" +
                 "FROM\n" +
                 "\tUSER u\n" +
