@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.service.IConclusionService;
+import com.siqi_dangjian.service.IConclusionTypeService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,18 @@ public class ConclusionController extends BaseController {
     @Autowired
     private IConclusionService conclusionService;
 
+    @Autowired
+    private IConclusionTypeService conclusionTypeService;
+
+
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "type", required = false) Integer type) {
+    public ModelAndView gotoAdd(@RequestParam(value = "type_name", required = false) String type_name) {
         ModelAndView view = new ModelAndView();
-        if (type == 1){
+        if (type_name.equals("计划")){
             view.setViewName("WEB-INF/page/conclusion_Add");//跳转添加工作计划页面
-        }else if(type == 0){
+        }else if(type_name.equals("总结")){
             view.setViewName("WEB-INF/page/conclusion_zj_Add");//跳转添加工作总结页面
         }
         return view;
@@ -62,7 +67,38 @@ public class ConclusionController extends BaseController {
         return modelMap;
     }
 
+    /**
+     * 查询文档分类
+     * @param limit
+     * @param page
+     * @return
+     */
+    @RequestMapping("/allCategory")
+    @ResponseBody
+    public ModelMap getAllCategoryList(@RequestParam(value = "type_name", required = false) String type_name,
+                                       @RequestParam(value = "limit", required = false) Integer limit,
+                                       @RequestParam(value = "page", required = false) Integer page) {
+        modelMap = new ModelMap();
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
 
+        if (StringUtils.isNotEmpty(type_name)) {
+            blurMap.put("type_name", type_name);
+        }
+
+        try {
+            Map map = conclusionTypeService.selectAll(blurMap, intMap, dateMap, 10, 1);
+            setData("list", map.get("list"));
+        } catch (Exception e) {
+            setFail("查询失败");
+            e.printStackTrace();
+            logger.error("conclusionType--->allCategory", e);
+            return modelMap;
+        }
+        setSuccess();
+        return modelMap;
+    }
 
     /**
      * 添加或更新
@@ -136,7 +172,6 @@ public class ConclusionController extends BaseController {
     /**
      * 查询会议表信息
      * @param title 标题
-     * @param id  总结分类的id
      * @param limit
      * @param page
      * @return
@@ -144,10 +179,10 @@ public class ConclusionController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public ModelMap getConclusionList(@RequestParam(value = "title", required = false) String title,
-                                      @RequestParam(value = "type", required = false) String type,
+                                      @RequestParam(value = "type_name", required = false) String type_name,
+                                      @RequestParam(value = "default_type", required = false) String default_type,
                                       @RequestParam(value = "start_time_search", required = false) String start_time,
                                       @RequestParam(value = "end_time_search", required = false) String end_time,
-                                      @RequestParam(value = "conclusion_type_id", required = false) String id,
                                       @RequestParam(value = "limit", required = false) Integer limit,
                                       @RequestParam(value = "page", required = false) Integer page) {
 
@@ -157,12 +192,13 @@ public class ConclusionController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-        if (StringUtils.isNotEmpty(id)) {
-            intMap.put("id", id);
+
+        if (type_name == null) {
+            type_name = default_type;
         }
 
-        if (StringUtils.isNotEmpty(type)) {
-            intMap.put("type", type);
+        if (StringUtils.isNotEmpty(type_name)) {
+            blurMap.put("type_name", type_name);
         }
 
         if (StringUtils.isNotEmpty(title)) {

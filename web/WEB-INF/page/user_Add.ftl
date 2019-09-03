@@ -13,16 +13,22 @@
 <form class="layui-form" action="">
 
 <br>
-    <div class="layui-input-inline" style="display:none ">
+    <div class="layui-input-inline" style="display: ">
         <label class="layui-form-label" style="margin-left: 85px">Id</label>
-        <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+        <input id="id" name="id"   maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
+    <div class="layui-input-inline" style="display: ">
+        <label class="layui-form-label"  style="margin-left: 85px">职务id</label>
+        <input id="dutyid" name="dutyid" maxlength="20" value="<#if dutyid??>${dutyid}<#else></#if>"/>
+    </div>
+
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">昵称</label>
         <div class="layui-input-inline">
             <input id="username" name="username" lay-verify="required" placeholder="请输入昵称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if username??>${username}<#else></#if>">
         </div>
+
         <label class="layui-form-label" style="margin-left: 85px">身份证</label>
         <div class="layui-input-inline">
             <input id="ID_cord" name="ID_cord" lay-verify="required" placeholder="请输入身份证" maxlength="20"
@@ -127,19 +133,26 @@
                 $.ajax({
                     url: "/duty/addDuty",
                     data: {
+                        id: $("#dutyid").val(),
                         name: $("#name").val(),
                         party_duty: $("#party_duty").val()
                     },
                     success: function (data) {
+                        var dutyid =  $("#dutyid").val();
+
+                        if (dutyid == ""){
+                            var dutyid = data.lastId;
+                        }
+
                         $.ajax({
                             url: "/user/addUser",
                             data: {
                                 id: $("#id").val(),
                                 username: $("#username").val(),
-                                sex: $("#sex").val(),
+                                age: $("#age").val(),
                                 education: $("#education").val(),
                                 age: $("#age").val(),
-                                dutyId: data.lastId,
+                                dutyid : dutyid,
                                 join_time: $("#join_time").val(),
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),

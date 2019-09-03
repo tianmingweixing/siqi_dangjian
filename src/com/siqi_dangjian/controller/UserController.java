@@ -2,8 +2,10 @@ package com.siqi_dangjian.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.siqi_dangjian.bean.Duty;
 import com.siqi_dangjian.bean.PartyTeam;
 import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.service.IDutyService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +30,9 @@ public class UserController extends BaseController{
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IDutyService dutyService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -71,25 +76,25 @@ public class UserController extends BaseController{
      * @param address
      * @param company
      * @param age
-     * @param dutyId
+     * @param dutyid
      * @param joinTime
      * @return
      */
     @RequestMapping("/addUser")
     @ResponseBody
-    public ModelAndView addUser(@RequestParam(value = "id", required = false) Long id,
-                                      @RequestParam(value = "username", required = false) String username,
-                                      @RequestParam(value = "sex", required = false) Integer sex,
-                                      @RequestParam(value = "education", required = false) String education,
-                                      @RequestParam(value = "address", required = false) String address,
-                                      @RequestParam(value = "company", required = false) String company,
-                                      @RequestParam(value = "age", required = false) Integer age,
-                                      @RequestParam(value = "ID_cord", required = false) String ID_cord,
-                                      @RequestParam(value = "dutyId", required = false) Long dutyId,
-                                      @RequestParam(value = "phone", required = false) String phone,
-                                      @RequestParam(value = "join_time", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime){
+    public ModelMap addUser(@RequestParam(value = "id", required = false) Long id,
+                            @RequestParam(value = "dutyid", required = false) Long dutyid,
+                            @RequestParam(value = "username", required = false) String username,
+                            @RequestParam(value = "sex", required = false) Integer sex,
+                            @RequestParam(value = "education", required = false) String education,
+                            @RequestParam(value = "address", required = false) String address,
+                            @RequestParam(value = "company", required = false) String company,
+                            @RequestParam(value = "age", required = false) Integer age,
+                            @RequestParam(value = "ID_cord", required = false) String ID_cord,
+                            @RequestParam(value = "phone", required = false) String phone,
+                            @RequestParam(value = "join_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime) {
 
-        ModelAndView modelAndView = new ModelAndView();
+        modelMap = new ModelMap();
         User  user;
 
         try {
@@ -98,12 +103,12 @@ public class UserController extends BaseController{
             }else{
                 user = new User();
             }
-
+            user.setDutyId(dutyid);
+            user.setId(id);
             user.setIDCord(ID_cord);
             user.setAddress(address);
             user.setAge(age);
             user.setCompany(company);
-            user.setDutyId(dutyId);
             user.setPhone(phone);
             user.setEducation(education);
             user.setSex(sex);
@@ -112,13 +117,13 @@ public class UserController extends BaseController{
             user.setCanUse(1);
             userService.addUser(user);
             setSuccess();
-            modelAndView.setViewName("frame/userList");
         } catch (Exception e) {
             e.printStackTrace();
-            modelAndView.setViewName("WEB-INF/page/user_Add");
-            return modelAndView;
+            logger.error("user-->userAdd",e);
+            setFail("用户添加失败");
+            return modelMap;
         }
-        return modelAndView;
+        return modelMap;
 
     }
 
@@ -129,13 +134,19 @@ public class UserController extends BaseController{
      * @return
      */
     @RequestMapping("/setUser")
-    public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id) {
+    public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id,
+                                @RequestParam(value = "dutyid", required = false) Long dutyid) {
         ModelAndView view = new ModelAndView();
         User  user;
+        Duty duty;
 
             try {
                 user = userService.getUserById(id);
+                duty = dutyService.selectById(dutyid);
                 view.addObject("id", user.getId());
+                view.addObject("dutyid", user.getDutyId());
+                view.addObject("party_duty", duty.getPartyDuty());
+                view.addObject("name", duty.getName());
                 view.addObject("address", user.getAddress());
                 view.addObject("company", user.getCompany());
                 view.addObject("ID_cord", user.getIDCord());
@@ -146,11 +157,11 @@ public class UserController extends BaseController{
                 view.addObject("userno", user.getUserNo());
                 view.addObject("age", user.getAge());
                 view.addObject("education", user.getEducation());
-                view.addObject("dutyid", user.getDutyId());
 
                 view.setViewName("WEB-INF/page/user_Add");
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.error("user-->setUser",e);
                 setMsg("获取数据错误");
             }
         return view;
@@ -207,6 +218,8 @@ public class UserController extends BaseController{
         }catch (Exception e){
             setFail();
             e.printStackTrace();
+            logger.error("user-->list",e);
+
         }
 
         return modelMap;

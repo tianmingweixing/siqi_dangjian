@@ -70,9 +70,9 @@ public class DutyController extends BaseController{
     @RequestMapping("/addDuty")
     @ResponseBody
     public ModelMap addDuty(@RequestParam(value = "id", required = false) Long id,
-                                      @RequestParam(value = "name", required = false) Integer name,
-                                      @RequestParam(value = "party_duty", required = false) String partyDuty
-                                      ){
+                            @RequestParam(value = "name", required = false) Integer name,
+                            @RequestParam(value = "party_duty", required = false) String partyDuty
+    ) {
 
         modelMap = new ModelMap();
 
@@ -80,8 +80,8 @@ public class DutyController extends BaseController{
         try {
             if (id != null) {
                 duty = dutyService.selectById(id);
-            }else{
-              duty = new Duty();
+            } else {
+                duty = new Duty();
             }
             duty.setName(name);
             duty.setPartyDuty(partyDuty);
@@ -89,13 +89,13 @@ public class DutyController extends BaseController{
             duty.setCanUse(1);
             BigInteger bigInteger = dutyService.insertOrUpdate(duty);
             long lastId = bigInteger.longValue();
-            setData("lastId",lastId);
+            setData("lastId", lastId);
             setSuccess();
 
         } catch (Exception e) {
             e.printStackTrace();
             setFail("添加职务信息失败");
-            logger.error("duty--->addDuty",e);
+            logger.error("duty--->addDuty", e);
             return modelMap;
         }
         return modelMap;
@@ -111,19 +111,19 @@ public class DutyController extends BaseController{
     @RequestMapping("/setDuty")
     public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView view = new ModelAndView();
-        Duty  duty;
+        Duty duty;
 
-            try {
-                duty = dutyService.selectById(id);
-                view.addObject("id", duty.getId());
-                view.addObject("name", duty.getName());
-                view.addObject("party_duty", duty.getPartyDuty());
+        try {
+            duty = dutyService.selectById(id);
+            view.addObject("id", duty.getId());
+            view.addObject("name", duty.getName());
+            view.addObject("party_duty", duty.getPartyDuty());
 
-                view.setViewName("WEB-INF/page/duty_Add");
-            } catch (Exception e) {
-                e.printStackTrace();
-                setMsg("获取数据错误");
-            }
+            view.setViewName("WEB-INF/page/duty_Add");
+        } catch (Exception e) {
+            e.printStackTrace();
+            setMsg("获取数据错误");
+        }
         return view;
     }
 
@@ -138,41 +138,35 @@ public class DutyController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getDutyrList(@RequestParam(value = "party_duty",required = false)String party_duty,
-                                      @RequestParam(value = "name",required = false)String name,
-                                      @RequestParam(value="limit", required=false)Integer limit,
-                                      @RequestParam(value="page", required=false)Integer page){
+    public ModelMap getDutyrList(@RequestParam(value = "party_duty", required = false) String party_duty,
+                                 @RequestParam(value = "name", required = false) String name,
+                                 @RequestParam(value = "limit", required = false) Integer limit,
+                                 @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
 
         Map blurMap = new HashMap<>();
         Map dateMap = new HashMap<>();
-        Map intMap  = new HashMap<>();
+        Map intMap = new HashMap<>();
 
 
-        if(StringUtils.isNotEmpty(party_duty)) {
+        if (StringUtils.isNotEmpty(party_duty)) {
             blurMap.put("party_duty", party_duty);
         }
 
-        if(StringUtils.isNotEmpty(name)) {
+        if (StringUtils.isNotEmpty(name)) {
             intMap.put("name", name);
         }
 
-      /*  if(StringUtils.isNotEmpty(founding_time)) {
-            dateMap.put("founding_time", founding_time);
-        }
-        if(StringUtils.isNotEmpty(change_time)) {
-            dateMap.put("change_time", change_time);
-        }*/
         try {
-            Map map = dutyService.selectAll(blurMap,intMap,dateMap,limit,page);
+            Map map = dutyService.selectAll(blurMap, intMap, dateMap, limit, page);
 
             List list = (List<Duty>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
             setSuccess();
-        }catch (Exception e){
+        } catch (Exception e) {
             setFail();
             e.printStackTrace();
         }

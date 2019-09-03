@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "duty")
 public class Duty extends BaseBean {
     /**
-     * 政治面貌 ：1发展对象 2积极分子；3预备党员；；4正式党员；5。。。
+     * 政治面貌 ：1 发展对象 2 积极分子；3 预备党员；；4 正式党员；5。。。
      */
     @Column(name="name",nullable=true,length=30)
     private Integer name;

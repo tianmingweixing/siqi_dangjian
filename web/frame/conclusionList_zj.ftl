@@ -21,12 +21,12 @@
         </div>
         <label class="layui-form-label">季度类型</label>
         <div class="layui-input-inline">
-            <select name="conclusion_type_id" id="conclusion_type_id">
+            <select name="type_name" id="type_name">
                 <option value="">全部</option>
-                <option value="1" >年度 </option>
-                <option value="2" >半年度</option>
-                <option value="3" >月度</option>
-                <option value="4" >日度</option>
+                <option value="年度总结" >年度总结 </option>
+                <option value="半年度总结" >半年度总结</option>
+                <option value="月度总结" >月度总结</option>
+                <option value="日度总结" >日度总结</option>
             </select>
         </div>
     </div>
@@ -100,7 +100,7 @@
         table.render({
             elem: '#demo'
             , height: 563
-            , url: '/conclusion/list?type='+0 //数据接口
+            , url: '/conclusion/list?default_type=总结' //数据接口
             , title: '总结表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
@@ -109,18 +109,15 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '总结名称', width: 150}
-                , {field: 'conclusion_type_id', title: '季度类型', width: 150}
-                , {field: 'type', title: '总结类型', width: 150}
+                , {field: 'type_name', title: '类型', width: 150}
                 , {field: 'plan_content', title: '内容', width: 550}
                 , {field: 'year_limit', title: '年限', width: 150,sort:true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var title = $("#title").val();
-                var conclusion_type_id=$("#conclusion_type_id").val();
+                var type_name=$("#type_name").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
@@ -128,7 +125,7 @@
                     method:'get',
                     where:{
                         title:title,
-                        conclusion_type_id:conclusion_type_id,
+                        type_name:type_name,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }
@@ -148,7 +145,7 @@
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/conclusion/gotoAdd?type='+0;
+                    window.location.href = '/conclusion/gotoAdd?type_name=总结';
                     break;
                 case 'update':
                     console.log(data[0])
@@ -158,7 +155,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('layui-icon-ok');
-                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&type='+0;
+                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&type_name=总结';
                     }
                     break;
                 case 'delete':

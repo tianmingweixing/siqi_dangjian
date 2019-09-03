@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 <div class="layui-progress">
@@ -17,7 +15,6 @@
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">总结（计划）ID</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
@@ -29,12 +26,8 @@
 
         <label class="layui-form-label">季度类型</label>
         <div class="layui-input-inline">
-            <select name="conclusion_type_id" id="conclusion_type_id">
+            <select name="conclusion_type" id="conclusion_type">
                 <option value="">全部</option>
-                <option value="5" <#if conclusion_type_id?? && conclusion_type_id==5>selected</#if>>年度</option>
-                <option value="6" <#if conclusion_type_id?? && conclusion_type_id==6>selected</#if>>半年度</option>
-                <option value="7" <#if conclusion_type_id?? && conclusion_type_id==7>selected</#if>>月度</option>
-                <option value="8" <#if conclusion_type_id?? && conclusion_type_id==8>selected</#if>>日度</option>
             </select>
         </div>
 
@@ -82,6 +75,8 @@
     $(function() {
 
         layui.use(['element','laydate','form'], function () {
+            var $ = jQuery;
+
             var form = layui.form;
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
@@ -91,9 +86,19 @@
                 elem: '#year_limit' //指定元素
             });
 
+            //查询计划种类
+            $.ajax({
+                url: "allCategory?type_name=计划",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                    });
+                    form.render('select');
+                }
+            });
 
-            form.on('submit(formDemo)', function (data) {
-
+            form.on('submit(formDemo)', function () {
                 $.ajax({
                     url: "/conclusion/addConclusion",
                     type: 'post',
@@ -101,7 +106,7 @@
                         id: $("#id").val(),
                         title: $("#title").val(),
                         plan_content: $("#plan_content").val(),
-                        conclusion_type_id: $("#conclusion_type_id").val(),
+                        conclusion_type_id: $("#conclusion_type").val(),
                         type: $("#type").val(),
                         year_limit: $("#year_limit").val()
                     },

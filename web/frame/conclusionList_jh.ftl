@@ -20,12 +20,12 @@
         </div>
         <label class="layui-form-label">季度类型</label>
         <div class="layui-input-inline">
-            <select name="conclusion_type_id" id="conclusion_type_id">
+            <select name="type_name" id="type_name">
                 <option value="">全部</option>
-                <option value="5" >年度 </option>
-                <option value="6" >半年度</option>
-                <option value="7" >月度</option>
-                <option value="8" >日度</option>
+                <option value="年度计划" >年度计划 </option>
+                <option value="半年度计划" >半年度计划</option>
+                <option value="月度计划" >月度计划</option>
+                <option value="日度计划" >日度计划</option>
             </select>
         </div>
     </div>
@@ -57,7 +57,6 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
 </script>
 <style>
     .layui_open_fail{
@@ -99,7 +98,7 @@
         table.render({
             elem: '#demo'
             , height: 563
-            , url: '/conclusion/list?type='+1 //数据接口
+            , url: '/conclusion/list?default_type=计划' //数据接口
             , title: '会议表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
@@ -108,18 +107,15 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '总结名称', width: 150}
-                , {field: 'conclusion_type_id', title: '季度类型', width: 150}
-                , {field: 'type', title: '总结类型', width: 150}
+                , {field: 'type_name', title: '类型', width: 150}
                 , {field: 'plan_content', title: '内容', width: 550}
                 , {field: 'year_limit', title: '年限', width: 150,sort:true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var title = $("#title").val();
-                var conclusion_type_id=$("#conclusion_type_id").val();
+                var type_name=$("#type_name").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
@@ -127,7 +123,7 @@
                     method:'get',
                     where:{
                         title:title,
-                        conclusion_type_id:conclusion_type_id,
+                        type_name:type_name,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }
@@ -147,7 +143,7 @@
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/conclusion/gotoAdd?type='+1;
+                    window.location.href = '/conclusion/gotoAdd?type_name=计划';
                     break;
                 case 'update':
                     console.log(data[0])
@@ -157,7 +153,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('正在编辑中..');
-                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&type='+1;
+                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id +'&type_name=计划';
                     }
                     break;
                 case 'delete':

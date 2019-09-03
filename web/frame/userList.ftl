@@ -193,21 +193,20 @@
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:50, sort: true, fixed: 'left'}
                 ,{field: 'username', title: '昵称', width:80}
                 ,{field: 'sex',title:'性别',width:80}
                 ,{field: 'age',title:'年龄',width:80}
                 ,{field: 'education',title:'学历',width:100,sort: true}
                 ,{field: 'company',title:'单位',width:150,sort: true}
-                ,{field: 'phone',title:'手机号码',width:200,sort: true}
-                ,{field: 'ID_cord',title:'身份证',width:200,sort: true}
-                ,{field: 'dutyid',title:'党内职务',width:125,sort: true}
-                ,{field: 'join_time',title:'入党时间',width:200,sort: true}
-                // ,{field: 'address',title:'地址',width:200,sort: true}
+                ,{field: 'phone',title:'手机号码',width:150,sort: true}
+                ,{field: 'ID_cord',title:'身份证',width:180,sort: true}
+                ,{field: 'dutyid',title:'职务ID',width:80,sort: true}
+                ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
+                ,{field: 'name',title:'政治面貌',width:125,sort: true}
+                ,{field: 'join_time',title:'入党时间',width:150,sort: true}
                 ,{field: 'head_img',title:'头像',width:200,sort: true}
-                ,{field: 'look',title:'查看详情',width:150,templet:'#barDemo'}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
+                ,{field: 'look',title:'查看详情',width:100,templet:'#barDemo'}
             ]]
         });
         var $ = layui.$, active = {
@@ -244,8 +243,8 @@
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.msg('data[0].id');
-                        window.location.href='/user/setUser?id='+data[0].id;
+                        console.log(data[0]);
+                        window.location.href='/user/setUser?id='+data[0].id+'&dutyid='+data[0].dutyid;
                     }
                     break;
                 case 'delete':

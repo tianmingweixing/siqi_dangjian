@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 </head>
 <body>
 
 <form class="layui-form" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">总结（计划）ID</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
@@ -41,18 +38,6 @@
                    autocomplete="off" class="layui-input" value="<#if type_name??>${type_name}<#else></#if>">
         </div>
 
-<!--
-        <label class="layui-form-label">季度类型</label>
-        <div class="layui-input-inline">
-            <select name="conclusion_type_id" id="conclusion_type_id">
-                <option value="">全部</option>
-                <option value="1" <#if conclusion_type_id?? && conclusion_type_id==1>selected</#if>>年度总结 </option>
-                <option value="2" <#if conclusion_type_id?? && conclusion_type_id==2>selected</#if>>半年度总结</option>
-                <option value="3" <#if conclusion_type_id?? && conclusion_type_id==3>selected</#if>>月度总结</option>
-                <option value="4" <#if conclusion_type_id?? && conclusion_type_id==4>selected</#if>>日度总结</option>
-            </select>
-        </div>
--->
     </div>
 
 

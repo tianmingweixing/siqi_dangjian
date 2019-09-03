@@ -41,8 +41,6 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
     @Override
     public Map selectAll(Map blurParam,Map intParam, Map dateParam,  int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(c.conclusion_type_id,\"暂无信息\") conclusion_type_id,\n" +
         String sql = "SELECT\n" +
                 "\t(\n" +
                 "\t\tCASE c.conclusion_type_id\n" +
@@ -67,6 +65,7 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
                 "\t\tEND\n" +
                 "\t) conclusion_type_id,\n" +
                 "\tc.id,\n" +
+                "\tt.type_name,\n" +
                 "\tc.plan_content,\n" +
                 "\tc.title,\n" +
                 "\t(\n" +
