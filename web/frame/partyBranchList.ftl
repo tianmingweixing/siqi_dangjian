@@ -3,10 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layout 后台大布局 - Layui</title>
+    <title>支部信息</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-    <!--<link rel="stylesheet" href="../css/addGood.css">-->
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -24,12 +22,7 @@
             <input type="text" id="partyNo"  placeholder="党支部编号" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
-        <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
-        </div>
-    </div>-->
+
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -40,8 +33,6 @@
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>-->
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 </script>
 <style>
@@ -126,8 +117,6 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                // console.log(data);
-                // layer.msg('操作');
                     window.location.href='/partyBranch/setPartBranch?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');

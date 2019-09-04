@@ -110,7 +110,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'type_name', title: '季度类型名称', width: 150}
-                , {field: 'type', title: '工作会议类型', width: 150}
+                // , {field: 'type', title: '工作会议类型', width: 150}
                 // ,{field: 'party_branch_id', title: '支部ID', width:200}
                 // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]

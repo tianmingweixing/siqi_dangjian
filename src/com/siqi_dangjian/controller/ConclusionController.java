@@ -35,11 +35,11 @@ public class ConclusionController extends BaseController {
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
-    public ModelAndView gotoAdd(@RequestParam(value = "type_name", required = false) String type_name) {
+    public ModelAndView gotoAdd(@RequestParam(value = "default_type", required = false) String default_type) {
         ModelAndView view = new ModelAndView();
-        if (type_name.equals("计划")){
+        if (default_type.equals("计划")){
             view.setViewName("WEB-INF/page/conclusion_Add");//跳转添加工作计划页面
-        }else if(type_name.equals("总结")){
+        }else if(default_type.equals("总结")){
             view.setViewName("WEB-INF/page/conclusion_zj_Add");//跳转添加工作总结页面
         }
         return view;
@@ -75,7 +75,7 @@ public class ConclusionController extends BaseController {
      */
     @RequestMapping("/allCategory")
     @ResponseBody
-    public ModelMap getAllCategoryList(@RequestParam(value = "type_name", required = false) String type_name,
+    public ModelMap getAllCategoryList(@RequestParam(value = "default_type", required = false) String type_name,
                                        @RequestParam(value = "limit", required = false) Integer limit,
                                        @RequestParam(value = "page", required = false) Integer page) {
         modelMap = new ModelMap();
@@ -144,7 +144,7 @@ public class ConclusionController extends BaseController {
      */
     @RequestMapping("/setConclusion")
     public ModelAndView setConclusion(@RequestParam(value = "Id", required = false) Long id,
-                                      @RequestParam(value = "type", required = false) Long type){
+                                      @RequestParam(value = "default_type", required = false) String default_type){
 
         ModelAndView view = new ModelAndView();
         Conclusion  conclusion;
@@ -156,9 +156,9 @@ public class ConclusionController extends BaseController {
                 view.addObject("plan_content", conclusion.getPlanContent());
                 view.addObject("title", conclusion.getTitle());
                 view.addObject("conclusion_type_id", conclusion.getConclusionTypeId());
-                if (type == 1){
+                if (default_type.equals("计划")){
                     view.setViewName("WEB-INF/page/conclusion_Add");//跳转添加工作计划页面
-                }else if(type == 0){
+                }else if(default_type.equals("总结")){
                     view.setViewName("WEB-INF/page/conclusion_zj_Add");//跳转添加工作总结页面
                 }
             } catch (Exception e) {
@@ -179,7 +179,7 @@ public class ConclusionController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public ModelMap getConclusionList(@RequestParam(value = "title", required = false) String title,
-                                      @RequestParam(value = "type_name", required = false) String type_name,
+                                      @RequestParam(value = "conclusion_type_id", required = false) String conclusion_type_id,
                                       @RequestParam(value = "default_type", required = false) String default_type,
                                       @RequestParam(value = "start_time_search", required = false) String start_time,
                                       @RequestParam(value = "end_time_search", required = false) String end_time,
@@ -193,12 +193,12 @@ public class ConclusionController extends BaseController {
         Map intMap = new HashMap<>();
 
 
-        if (type_name == null) {
-            type_name = default_type;
+        if (StringUtils.isNotEmpty(conclusion_type_id)) {
+            intMap.put("id", conclusion_type_id);
         }
 
-        if (StringUtils.isNotEmpty(type_name)) {
-            blurMap.put("type_name", type_name);
+        if (StringUtils.isNotEmpty(default_type)) {
+            blurMap.put("type_name", default_type);
         }
 
         if (StringUtils.isNotEmpty(title)) {

@@ -35,7 +35,7 @@
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label " style="margin-left: 1px">年限</label>
+        <label class="layui-form-label " style="margin-left: 1px">时间</label>
         <div class="layui-input-inline">
             <input id="year_limit" name="year_limit" lay-verify="required" placeholder="请输入年限" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if year_limit??>${year_limit}<#else></#if>">
@@ -53,8 +53,8 @@
         <label class="layui-form-label">计划内容</label>
         <div class="layui-input-block">
             <textarea name="plan_content" id="plan_content" placeholder="请输入内容"
-                      style="width: 1000px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
-                              max-width: 1500px; height: 400px; max-height: 1000px; outline: 0;"><#if plan_content??>${plan_content}<#else></#if></textarea>
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
+                              max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if plan_content??>${plan_content}<#else></#if></textarea>
         </div>
     </div>
 
@@ -71,6 +71,7 @@
 </form>
 
 <script>
+    var conclusion_type_id = <#if conclusion_type_id??>"${conclusion_type_id}"<#else>""</#if>;
 
     $(function() {
 
@@ -88,11 +89,15 @@
 
             //查询计划种类
             $.ajax({
-                url: "allCategory?type_name=计划",
+                url: "allCategory?default_type=计划",
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        if(item.id == conclusion_type_id){
+                            $("#conclusion_type").append("<option selected='selected' value='" + item.id + "'>" + item.type_name + "</option>")
+                        }else{
+                            $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        }
                     });
                     form.render('select');
                 }

@@ -42,28 +42,7 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
     public Map selectAll(Map blurParam,Map intParam, Map dateParam,  int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
-                "\t(\n" +
-                "\t\tCASE c.conclusion_type_id\n" +
-                "\t\tWHEN 1 THEN\n" +
-                "\t\t\t'年度'\n" +
-                "\t\tWHEN 2 THEN\n" +
-                "\t\t\t'半年度'\n" +
-                "\t\tWHEN 3 THEN\n" +
-                "\t\t\t'月度'\n" +
-                "\t\tWHEN 4 THEN\n" +
-                "\t\t\t'日度'\n" +
-                "\t\tWHEN 5 THEN\n" +
-                "\t\t\t'年度'\n" +
-                "\t\tWHEN 6 THEN\n" +
-                "\t\t\t'半年度'\n" +
-                "\t\tWHEN 7 THEN\n" +
-                "\t\t\t'月度'\n" +
-                "\t\tWHEN 8 THEN\n" +
-                "\t\t\t'日度'\n" +
-                "\t\tELSE\n" +
-                "\t\t\t'空的'\n" +
-                "\t\tEND\n" +
-                "\t) conclusion_type_id,\n" +
+                "\tc.conclusion_type_id,\n" +
                 "\tc.id,\n" +
                 "\tt.type_name,\n" +
                 "\tc.plan_content,\n" +
@@ -94,7 +73,7 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
                 "\tc.can_use = 1\n" +
                 "AND t.can_use = 1 ";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"c");
+        sql = CommonUtil.appendCustomDateStr(sql,dateParam,"c","year_limit");
         sql = CommonUtil.appendIntStr(sql,intParam,"t");
         sql = sql +" ORDER BY c.year_limit DESC";
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);

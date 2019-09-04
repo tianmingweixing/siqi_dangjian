@@ -22,6 +22,7 @@
     <div class="layui-form-item input_row_margin_top">
 
 
+<!--
         <label class="layui-form-label">工作会议类型</label>
         <div class="layui-input-inline">
             <select name="type" id="type">
@@ -30,6 +31,7 @@
                 <option value="2" <#if type?? && type==1>selected</#if>>计划</option>
             </select>
         </div>
+-->
 
 
         <label class="layui-form-label " style="margin-left: 1px">类型名称</label>

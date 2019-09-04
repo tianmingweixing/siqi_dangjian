@@ -19,14 +19,10 @@
         <div class="layui-input-inline">
             <input type="text" id="title"  placeholder="标题" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">季度类型</label>
+        <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
-            <select name="type_name" id="type_name">
+            <select name="conclusion_type" id="conclusion_type">
                 <option value="">全部</option>
-                <option value="年度总结" >年度总结 </option>
-                <option value="半年度总结" >半年度总结</option>
-                <option value="月度总结" >月度总结</option>
-                <option value="日度总结" >日度总结</option>
             </select>
         </div>
     </div>
@@ -82,6 +78,8 @@
                 , layer = layui.layer //弹层
                 , table = layui.table //表格
                 , element = layui.element; //元素操作
+        var form = layui.form;
+
 
         element.on('tab(demo)', function (data) {
             layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
@@ -101,7 +99,7 @@
             elem: '#demo'
             , height: 563
             , url: '/conclusion/list?default_type=总结' //数据接口
-            , title: '总结表'
+            , title: '工作总结表'
             , page: true //开启分页
             , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , totalRow: true //开启合计行
@@ -110,14 +108,15 @@
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '总结名称', width: 150}
                 , {field: 'type_name', title: '类型', width: 150}
+                , {field: 'conclusion_type_id', title: '类型ID', width: 150,hide:true}
                 , {field: 'plan_content', title: '内容', width: 550}
-                , {field: 'year_limit', title: '年限', width: 150,sort:true}
+                , {field: 'year_limit', title: '时间', width: 150,sort:true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var title = $("#title").val();
-                var type_name=$("#type_name").val();
+                var conclusion_type_id=$("#conclusion_type").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
@@ -125,7 +124,7 @@
                     method:'get',
                     where:{
                         title:title,
-                        type_name:type_name,
+                        conclusion_type_id:conclusion_type_id,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }
@@ -145,7 +144,7 @@
                     , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = '/conclusion/gotoAdd?type_name=总结';
+                    window.location.href = '/conclusion/gotoAdd?default_type=总结';
                     break;
                 case 'update':
                     console.log(data[0])
@@ -155,7 +154,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('layui-icon-ok');
-                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&type_name=总结';
+                        window.location.href = '/conclusion/setConclusion?Id=' + data[0].id+'&default_type=总结';
                     }
                     break;
                 case 'delete':
@@ -226,6 +225,18 @@
                 if(!first){
                     layer.msg('第'+ obj.curr +'页', {offset: 'b'});
                 }
+            }
+        });
+
+        //查询总结种类
+        $.ajax({
+            url: "/conclusion/allCategory?default_type=总结",
+            async: false,
+            success: function (data) {
+                $.each(data.list, function (i, item) {
+                    $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                });
+                form.render('select');
             }
         });
 

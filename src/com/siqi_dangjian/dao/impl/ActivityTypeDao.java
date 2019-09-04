@@ -35,7 +35,7 @@ public class ActivityTypeDao extends BaseDao<ActivitiesType> implements IActivit
 
     @Override
     public Map selectAll(int limit, int page) throws Exception {
-                selectAll(limit,page);
+
         return null;
 
     }

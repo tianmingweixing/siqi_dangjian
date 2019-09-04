@@ -167,6 +167,27 @@ public class UserController extends BaseController{
         return view;
     }
 
+    /**
+     * 查询用户信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("/getUserById")
+    @ResponseBody
+    public ModelMap getUserById(@RequestParam(value = "userId",required = false)Long id) {
+       modelMap = new ModelMap();
+        User user ;
+        try {
+            user = userService.getUserById(id);
+            setSuccess();
+            setData("user",user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("查询用户信息错误");
+        }
+
+        return modelMap;
+    }
 
     /**
      * 查询党小组信息

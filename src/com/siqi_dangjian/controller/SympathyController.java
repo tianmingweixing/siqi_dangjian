@@ -9,6 +9,7 @@ import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,29 +73,36 @@ public class SympathyController extends BaseController{
      * @param unit_and_position 慰问人单位及职务
      * @param sympathyProduct 慰问品及信息
      * @param note 备注
-     * @param difficult  0 非困难  1困难   2非常困难
+     * @param difficult  1 非困难  2困难  3非常困难
      * @return
      */
     @RequestMapping("/addSympathy")
     @ResponseBody
     public ModelAndView addSympathy(@RequestParam(value = "sympathyId", required = false) Long sympathyId,
                                     @RequestParam(value = "userId", required = false) Long userId,
-                                      @RequestParam(value = "sympathy_time", required = false) Timestamp sympathy_time,
-                                      @RequestParam(value = "unit_and_position", required = false) String unit_and_position,
-                                      @RequestParam(value = "sympathyProduct", required = false) String sympathyProduct,
+                                    @RequestParam(value = "sympathy_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sympathy_time,
+                                    @RequestParam(value = "unit_and_position", required = false) String unit_and_position,
+                                    @RequestParam(value = "sympathy_product", required = false) String sympathyProduct,
                                     @RequestParam(value = "note", required = false) String note,
                                     @RequestParam(value = "username", required = false) String userName,
                                     @RequestParam(value = "age", required = false) Integer age,
                                     @RequestParam(value = "sex", required = false) Integer sex,
-                                      @RequestParam(value = "difficult", required = false) Integer difficult){
+                                    @RequestParam(value = "difficult", required = false) Integer difficult) {
 
         ModelAndView modelAndView = new ModelAndView();
-
+        Sympathy sympathy;
+        User user;
         try {
-            User user =  userService.getUserById(userId);
-            if (user != null){
+            sympathy = sympathyService.selectById(sympathyId);
+            user =  userService.getUserById(userId);
 
-                Sympathy sympathy = new Sympathy();
+            if(sympathyId == null ){
+                sympathy = new Sympathy();
+            }
+            if (userId == null) {
+                user = new User();
+            }
+
                 sympathy.setId(sympathyId);
                 sympathy.setSympathyTime(sympathy_time);
                 sympathy.setUnitAndPosition(unit_and_position);
@@ -113,9 +121,7 @@ public class SympathyController extends BaseController{
                 userService.addUser(user);
                 setSuccess();
                 modelAndView.setViewName("frame/sympathyList");
-            }else {
-                setFail("没有此用户");
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
             modelAndView.setViewName("WEB-INF/page/sympathy_Add");
@@ -133,35 +139,34 @@ public class SympathyController extends BaseController{
      */
     @RequestMapping("/setSympathy")
     public ModelAndView setUser(@RequestParam(value = "sympathyId", required = false) Long sympathyId,
-                                @RequestParam(value = "userId", required = false) Long userId
-    ) {
+                                @RequestParam(value = "userId", required = false) Long userId) {
+
         ModelAndView view = new ModelAndView();
-        Sympathy  sympathy;
-        User  user;
+        Sympathy sympathy;
+        User user;
 
-            try {
-                sympathy = sympathyService.selectById(sympathyId);
-                view.addObject("sympathyId", sympathy.getId());
-                view.addObject("difficult", sympathy.getDifficult());
-                view.addObject("sympathy_time", sympathy.getSympathyTime());
-                view.addObject("unit_and_position", sympathy.getSympathyProduct());
-                view.addObject("sympathy_product", sympathy.getSympathyTime());
-                view.addObject("note", sympathy.getNote());
+        try {
+            sympathy = sympathyService.selectById(sympathyId);
+            view.addObject("sympathyId", sympathy.getId());
+            view.addObject("difficult", sympathy.getDifficult());
+            view.addObject("sympathy_time", sympathy.getSympathyTime());
+            view.addObject("unit_and_position", sympathy.getSympathyProduct());
+            view.addObject("sympathy_product", sympathy.getSympathyTime());
+            view.addObject("note", sympathy.getNote());
 
-                user = userService.getUserById(userId);
-                view.addObject("username", user.getUserName());
-                view.addObject("sex", user.getSex());
-                view.addObject("userId", user.getId());
-                view.addObject("age", user.getAge());
-                view.addObject("phone", user.getPhone());
+            user = userService.getUserById(userId);
+            view.addObject("username", user.getUserName());
+            view.addObject("sex", user.getSex());
+            view.addObject("userId", user.getId());
+            view.addObject("age", user.getAge());
+            view.addObject("phone", user.getPhone());
 
 
-
-                view.setViewName("WEB-INF/page/sympathy_Add");
-            } catch (Exception e) {
-                e.printStackTrace();
-                setMsg("获取数据错误");
-            }
+            view.setViewName("WEB-INF/page/sympathy_Add");
+        } catch (Exception e) {
+            e.printStackTrace();
+            setMsg("获取数据错误");
+        }
         return view;
     }
 
@@ -169,7 +174,6 @@ public class SympathyController extends BaseController{
     /**
      * 查询慰问表信息
      * @param username
-     * @param sympathy_time
      * @param limit
      * @param page
      * @return
@@ -184,7 +188,6 @@ public class SympathyController extends BaseController{
                                     @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
-
         Map blurMap = new HashMap<>();
         Map dateMap = new HashMap<>();
         Map intMap  = new HashMap<>();
@@ -208,7 +211,6 @@ public class SympathyController extends BaseController{
 
         try {
             Map map = sympathyService.selectAll(blurMap,intMap,dateMap,limit,page);
-
             List list = (List<Sympathy>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);

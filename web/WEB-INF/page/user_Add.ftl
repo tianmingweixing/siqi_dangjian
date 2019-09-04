@@ -13,11 +13,11 @@
 <form class="layui-form" action="">
 
 <br>
-    <div class="layui-input-inline" style="display: ">
+    <div class="layui-input-inline" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">Id</label>
         <input id="id" name="id"   maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
-    <div class="layui-input-inline" style="display: ">
+    <div class="layui-input-inline" style="display:none ">
         <label class="layui-form-label"  style="margin-left: 85px">职务id</label>
         <input id="dutyid" name="dutyid" maxlength="20" value="<#if dutyid??>${dutyid}<#else></#if>"/>
     </div>
@@ -41,7 +41,7 @@
             <label class="layui-form-label" style="margin-left: 0px">性别</label>
             <div class="layui-input-inline">
                 <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
-                <input type="radio" name="sex" value="0" title="女" <#if sex??&&sex==2>checked</#if>>
+                <input type="radio" name="sex" value="2" title="女" <#if sex??&&sex==2>checked</#if>>
             </div>
 
         <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>

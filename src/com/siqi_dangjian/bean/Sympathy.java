@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 慰问表
@@ -32,17 +33,17 @@ public class Sympathy  extends BaseBean{
 
     /**
      * 困难情况
-     * 0 非困难  1困难   2非常困难
+     * 1 非困难  2 困难   3 非常困难
      */
-    @Column(name = "difficult",length = 8,columnDefinition = "INT default 0")
+    @Column(name = "difficult",length = 8,columnDefinition = "INT default 1")
     private Integer difficult;
 
     /**
      * 慰问时间
      */
-    @DateTimeFormat(pattern="yyyy-MM-ddHH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "sympathy_time",length = 30)
-    private Timestamp sympathyTime;
+    private Date sympathyTime;
 
     /**
      * 慰问人单位及职务
@@ -78,11 +79,11 @@ public class Sympathy  extends BaseBean{
         this.difficult = difficult;
     }
 
-    public Timestamp getSympathyTime() {
+    public Date getSympathyTime() {
         return sympathyTime;
     }
 
-    public void setSympathyTime(Timestamp sympathyTime) {
+    public void setSympathyTime(Date sympathyTime) {
         this.sympathyTime = sympathyTime;
     }
 
