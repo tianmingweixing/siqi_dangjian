@@ -18,6 +18,7 @@ public interface IUserDao {
 
     User selectById(Long id) throws Exception;
 
-    Map selectAll(Map blurParam, Map dateParam,
-                      Map intParam, int limit, int page) throws Exception;
+    Map selectGroupCount() throws Exception;
+
+    Map selectAll(Map blurParam, Map dateParam,Map intParam, int limit, int page) throws Exception;
 }

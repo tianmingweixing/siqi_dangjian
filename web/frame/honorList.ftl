@@ -50,7 +50,9 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -99,17 +101,20 @@
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
+                , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
                 , {field: 'name', title: '荣誉名称', width: 150}
-                , {field: 'type', title: '类型', width: 150}
+                , {field: 'type', title: '类型', width: 100}
                 , {field: 'certificate', title: '荣誉凭证', width: 150}
-                , {field: 'unit', title: '授奖单位或个人', width: 250}
-                , {field: 'passive_unit', title: '被奖惩个人或单位', width: 250,sort:true}
-                , {field: 'amount', title: '金额', width: 150,sort:true}
+                , {field: 'unit', title: '获奖个人', width: 110}
+                , {field: 'user_id', title: '用户ID', width: 80}
+                , {field: 'passive_unit', title: '授奖单位', width: 200,sort:true}
+                , {field: 'amount', title: '金额', width: 100,sort:true}
                 , {field: 'time', title: '时间', width: 150,sort:true}
-                , {field: 'content', title: '奖惩内容', width: 150,sort:true}
+                , {field: 'content', title: '奖惩内容', width: 120,sort:true}
                 , {field: 'note', title: '备注', width: 150,sort:true}
-                , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
+                // , {field: 'party_branch_id', title: '支部ID', width: 80,sort:true}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+
             ]]
         });
         var $ = layui.$, active = {
@@ -203,7 +208,7 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                     window.location.href='';
+                window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data.id+'&type='+0;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){

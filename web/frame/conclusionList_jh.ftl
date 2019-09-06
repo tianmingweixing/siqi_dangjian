@@ -60,6 +60,9 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+</script>
 
 <script src="/js/layui/layui.js"></script>
 <script>
@@ -118,11 +121,12 @@
                 , cols: [[ //表头
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                    , {field: 'title', title: '计划名称', width: 150}
-                    , {field: 'type_name', title: '类型', width: 150}
-                    , {field: 'conclusion_type_id', title: '类型ID', width: 150,hide:true}
-                    , {field: 'plan_content', title: '内容', width: 550}
-                    , {field: 'year_limit', title: '时间', width: 150, sort: true}
+                    , {field: 'title', title: '计划名称', width: 200}
+                    , {field: 'type_name', title: '类型', width: 200}
+                    , {field: 'conclusion_type_id', title: '类型ID', width: 200,hide:true}
+                    , {field: 'plan_content', title: '内容', width: 650}
+                    , {field: 'year_limit', title: '时间', width: 250, sort: true}
+                    ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
                 ]]
             });
 
@@ -219,7 +223,7 @@
                 } else if (layEvent === 'edit') {
                     layer.msg('edit');
                     console.log(data);
-                    window.location.href = '';
+                    window.location.href = '/conclusion/setConclusion?Id=' + data.id + '&default_type=计划';
                 } else if (layEvent === 'add') {
                     layer.msg('add');
                 } else if (layEvent === 'delete') {

@@ -96,6 +96,7 @@ public class DisciplineOfHonorController extends BaseController {
     @RequestMapping("/addDisciplineOfHonor")
     @ResponseBody
     public ModelMap addDisciplineOfHonor(@RequestParam(value = "id", required = false) Long id,
+                                         @RequestParam(value = "userId", required = false) Long userId,
                                          @RequestParam(value = "party_branch_id", required = false) Long party_branch_id,
                                          @RequestParam(value = "name", required = false) String name,
                                          @RequestParam(value = "time", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date time,
@@ -112,6 +113,7 @@ public class DisciplineOfHonorController extends BaseController {
         try {
             DisciplineOfHonor disciplineOfHonor = new DisciplineOfHonor();
             disciplineOfHonor.setId(id);
+            disciplineOfHonor.setUserId(userId);
             disciplineOfHonor.setAmount(amount);
             disciplineOfHonor.setCertificate(certificate);
             disciplineOfHonor.setContent(content);

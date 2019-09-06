@@ -42,6 +42,9 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+</script>
 <style>
     .layui_open_fail{
         text-align: center;
@@ -90,14 +93,16 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '会议名称', width:150}
+                ,{field: 'name', title: '会议名称', width:100}
                 ,{field: 'meeting_type',title:'会议类型',width:150}
                 ,{field: 'content',title:'会议内容',width:350}
                 ,{field: 'guide',title:'会议指导',width:350}
-                ,{field: 'images_a',title:'会议图片1',width:200}
+                ,{field: 'images_a',title:'会议图片1',width:150}
                 ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
-                ,{field: 'start_time',title:'开始时间',width:150,sort: true}
-                ,{field: 'end_time',title:'结束时间',width:150,sort: true}
+                ,{field: 'start_time',title:'开始时间',width:100,sort: true}
+                ,{field: 'end_time',title:'结束时间',width:100,sort: true}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+
             ]]
         });
         var $ = layui.$, active = {
@@ -187,7 +192,7 @@
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
-                 console.log(data);
+                window.location.href='/meeting/setMeeting?Id='+data.id;
                      window.location.href='';
             }else if(layEvent === 'add'){
                 layer.msg('add');

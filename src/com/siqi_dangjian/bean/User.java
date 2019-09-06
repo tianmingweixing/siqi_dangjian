@@ -24,7 +24,7 @@ public class User extends BaseBean {
     /**
      * 性别 1代表男，2代表女
      */
-    @Column(name="sex",nullable=true,length=1,columnDefinition="INT default 1")
+    @Column(name="sex",nullable=true,length=8,columnDefinition="INT default 1")
     private Integer sex;
 
     /**
@@ -49,7 +49,7 @@ public class User extends BaseBean {
     private String education;
 
     /**
-     * 职务id：1：积极分子，2：发展党员，3：预备党员，4：正式党员,5:党委
+     * 政治面貌：1：积极分子，2：发展党员，3：预备党员，4：正式党员,5:党委
      */
     @Column(name="dutyid",nullable=true,length=5)
     private Long dutyId;

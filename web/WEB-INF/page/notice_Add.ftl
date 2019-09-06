@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="/WImageUpload/webuploader.css">-->
-    <!--<script type="text/javascript" src="/WImageUpload/webuploader.js"></script>-->
 
     <!--上传图片样式-->
     <style type="text/css">
@@ -16,11 +14,12 @@
             width: 800px;
             margin: 0 auto 0 auto;
         }
+
         .layui-unselect {
             width: 200px
         }
 
-        #btn{
+        #btn {
             padding: 5px 10px;
             background: #00b0f0;
             color: #FFF;
@@ -28,20 +27,22 @@
             border-radius: 5px;
         }
 
-        label{
+        label {
             position: relative;
         }
 
-        #fileinp{
+        #fileinp {
             position: absolute;
             left: 0;
             top: 0;
             opacity: 0;
         }
-        #btn{
+
+        #btn {
             margin-right: 5px;
         }
-        #text{
+
+        #text {
             color: #009688;
         }
 
@@ -50,12 +51,14 @@
             border-top: 1px solid #ccc;
             border-left: 1px solid #ccc;
         }
+
         table td,
         table th {
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             padding: 3px 5px;
         }
+
         table th {
             border-bottom: 2px solid #ccc;
             text-align: center;
@@ -82,6 +85,7 @@
             padding: 3px 5px;
             margin: 0 3px;
         }
+
         pre code {
             display: block;
         }
@@ -100,18 +104,17 @@
 </div>
 <form class="layui-form" name="fileForm" action="">
 
-<br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
+    <br>
     <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label" style="margin-left: 85px">公示公告ID</label>
-        <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+        <input id="id" name="id" type="hidden" maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
 
 
     <div class="layui-form-item input_row_margin_top">
 
         <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <input id="title" name="title" lay-verify="required" placeholder="请输入标题" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
         </div>
@@ -123,12 +126,12 @@
         <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
         <div class="layui-input-inline" style="padding-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
-                <input type="file" id="fileinp" name="file" onchange="reads(this)">
-                <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+            <input type="file" id="fileinp" name="file" onchange="reads(this)">
+            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto"
+                 width="150" alt="" style="margin-top: 10px">
         </div>
 
     </div>
-
 
 
     <div class="layui-form-item input_row_margin_top" style="display:none ">
@@ -142,9 +145,9 @@
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">计划内容</label>
+        <label class="layui-form-label">公示信息</label>
         <div class="layui-input-block">
-            <textarea name="content" id="content" placeholder="请输入内容"
+            <textarea name="content" id="content" placeholder="请输入公示信息"
                       style="width: 1000px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
                               max-width: 1500px; height: 400px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
@@ -154,8 +157,9 @@
     <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
             <div class="layui-input-block">
-                <button  class="layui-btn layui-btn-normal"  lay-submit lay-filter="formDemo">立即提交</button>
-                <#if id??><#else><button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+                <#if id??><#else>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
 
             </div>
         </div>
@@ -165,12 +169,12 @@
 
 <script>
 
-    $(function() {
+    $(function () {
         /*layiu基础配件*/
-        layui.use(['element','laydate','form'], function () {
+        layui.use(['element', 'laydate', 'form'], function () {
             var form = layui.form;
             var laydate = layui.laydate //日期
-                    ,layer = layui.layer; //弹层
+                    , layer = layui.layer; //弹层
             var element = layui.element;
 
             laydate.render({
@@ -179,19 +183,15 @@
 
 
             form.on('submit(formDemo)', function (data) {
-
-                // var content = document.fileForm.content.value;
-                var file = document.fileForm.file.files[0];
                 var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
-
-                if(file != null){
-                    formData.append("file",file);
+                var file = document.fileForm.file.files[0];
+                if (file != null) {
+                    formData.append("file", file);
                 }
-                formData.append("img_path",document.fileForm.backimg.src);
-                formData.append("content",document.fileForm.content.value);
-                formData.append("title",document.fileForm.title.value);
-                formData.append("id",document.fileForm.id.value);
-
+                formData.append("img_path", document.fileForm.backimg.src);
+                formData.append("content", document.fileForm.content.value);
+                formData.append("title", document.fileForm.title.value);
+                formData.append("id", document.fileForm.id.value);
 
                 $.ajax({
                     url: "/notice/addNotice",
@@ -213,14 +213,14 @@
 
     });
 
-    /*图片上传辅助之一*/
+    /*图片上传辅助*/
     function reads(obj) {
         var file = obj.files[0];
-        if(file.size > 1024 * 1024 * 2) {
+        if (file.size > 1024 * 1024 * 2) {
             alert('图片大小不能超过 2MB!');
             return false;
         }
-        var reader = new  FileReader();
+        var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function (ev) {
             $("#backimg").attr("src", ev.target.result);

@@ -1,7 +1,6 @@
 package com.siqi_dangjian.bean;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -19,6 +18,14 @@ public class DisciplineOfHonor extends BaseBean {
      */
     @Column(name = "party_branch_id",length = 8)
     private Long partyBranchId;
+
+
+    /**
+     * 用户ID
+     */
+    @Column(name = "user_id",length = 8)
+    private Long userId;
+
 
     /**
      *荣誉和违纪名称
@@ -78,6 +85,14 @@ public class DisciplineOfHonor extends BaseBean {
      */
     @Column(name="note",length = 300)
     private String note;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Date getTime() {
         return time;

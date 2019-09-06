@@ -42,12 +42,7 @@
                    autocomplete="off" class="layui-input" >
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
-        <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
-        </div>
-    </div>-->
+
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -61,7 +56,9 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -120,6 +117,7 @@
                 ,{field: 'unit_and_position',title:'慰问人单位及职务',width:200,sort: true}
                 ,{field: 'sympathy_product',title:'慰问品及信息',width:200,sort: true}
                 ,{field: 'note',title:'备注',width:200,sort: true}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -214,7 +212,7 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                     window.location.href='';
+                window.location.href='/sympathy/setSympathy?sympathyId='+data.sympathyId +'&userId='+data.userId;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){

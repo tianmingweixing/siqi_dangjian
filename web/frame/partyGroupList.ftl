@@ -13,7 +13,7 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">支部班子名称</label>
+        <label class="layui-form-label">班子名称</label>
         <div class="layui-input-inline">
             <input type="text" id="name_search"  placeholder="党支部名称" autocomplete="off" class="layui-input">
         </div>
@@ -24,13 +24,13 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label " style="margin-left: 1px">开始时间</label>
+        <label class="layui-form-label " >开始时间</label>
         <div class="layui-input-inline">
             <input id="start_time_search" name="start_time_search" lay-verify="required" placeholder="开始时间" maxlength="20"
                    autocomplete="off" class="layui-input" >
         </div>
 
-        <label class="layui-form-label " style="margin-left: 1px">结束时间</label>
+        <label class="layui-form-label " >结束时间</label>
         <div class="layui-input-inline">
             <input id="end_time_search" name="end_time_search" lay-verify="required" placeholder="结束时间" maxlength="20"
                    autocomplete="off" class="layui-input" >
@@ -50,6 +50,9 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">编辑</a>
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -99,19 +102,14 @@
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '班子名称', width:200}
-                ,{field: 'duty', title: '班子职责', width:150,sort: true}
+                ,{field: 'duty', title: '班子职责', width:200,sort: true}
                 ,{field: 'party_no',title:'党支部编号',width:200}
                 ,{field: 'party_group_no',title:'班子编号',width:200,sort: true}
-                ,{field: 'founding_time',title:'成立时间',width:150,sort: true}
-                ,{field: 'change_time',title:'换届时间',width:150,sort: true}
-/*
-                ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
-                ,{field: 'party_branch_id',title:'党支部id',width:100,sort: true}
-                ,{field: 'party_img',title:'党支部图片',width:150}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo'}
-*/
+                ,{field: 'founding_time',title:'成立时间',width:250,sort: true}
+                ,{field: 'change_time',title:'换届时间',width:250,sort: true}
+                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -199,7 +197,7 @@
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
                  layer.msg('操作');
-                    window.location.href='/partyBranch/setPartBranch?id='+data.id;
+                    window.location.href='/partyGroup/setPartyGroup?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }

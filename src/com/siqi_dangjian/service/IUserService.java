@@ -20,4 +20,7 @@ public interface IUserService {
     void deleteUser(List idList) throws Exception;
 
     void logicDeleteUser(List idList) throws Exception;
+
+    Map selectGroupCount() throws Exception;
+
 }

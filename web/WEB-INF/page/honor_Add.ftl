@@ -20,6 +20,43 @@
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
 
+    <div class="layui-form-item input_row_margin_top" >
+        <label class="layui-form-label">用户ID</label>
+        <div class="layui-input-inline">
+            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"  value="<#if userId??>${userId}<#else></#if>"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label ">被授奖个人</label>
+        <div class="layui-input-inline">
+            <input id="unit" name="unit" lay-verify="required" placeholder="被授奖个人" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if unit??>${unit}<#else></#if>">
+        </div>
+
+        <label class="layui-form-label ">年龄</label>
+        <div class="layui-input-inline">
+            <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if age??>${age}<#else></#if>">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" style="margin-left: -7px">性别</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="sex" value="1" title="男" <#if sex??&& sex==1>checked</#if>>
+            <input type="radio" name="sex" value="2" title="女" <#if sex??&& sex==2>checked</#if>>
+        </div>
+
+        <label class="layui-form-label" >手机号码</label>
+        <div class="layui-input-inline">
+            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
+        </div>
+
+    </div>
+
     <div class="layui-form-item input_row_margin_top" style="display: none">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
@@ -62,14 +99,10 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="margin-left: 1px">授奖单位或个人</label>
-        <div class="layui-input-inline">
-            <input class="layui-input" name="unit" id="unit" placeholder="请输入单位或个人" value="<#if unit??>${unit}<#else></#if>">
-        </div>
 
-        <label class="layui-form-label">被奖个人或单位</label>
+        <label class="layui-form-label">授奖单位</label>
         <div class="layui-input-inline">
-            <input class="layui-input" name="passive_unit" id="passive_unit" placeholder="请输入被奖个人或单位" value="<#if passive_unit??>${passive_unit}<#else></#if>">
+            <input class="layui-input" name="passive_unit" id="passive_unit" placeholder="请输入授奖单位" value="<#if passive_unit??>${passive_unit}<#else></#if>">
         </div>
     </div>
 
@@ -115,6 +148,26 @@
                 elem: '#time' //指定元素
             });
 
+            $("#userId").change(function(){
+                $.ajax({
+                    url: "/user/getUserById",
+                    type: 'post',
+                    data: {
+                        userId : $("#userId").val()
+                    },
+                    success: function (data) {
+                        console.log(data.user.sex);
+
+                        layer.msg('用户查询成功', {icon: 1});
+                        $("#unit").val(data.user.userName);
+                        $("#age").val(data.user.age);
+                        $("#phone").val(data.user.phone);
+                        $('input:radio').eq(data.user.sex).attr('checked', 'true');
+                        form.render();
+                    }
+                });
+            });
+
 
             form.on('submit(formDemo)', function (data) {
 
@@ -123,14 +176,15 @@
                     type: 'post',
                     data: {
                         id: $("#id").val(),
-                        name: $("#name").val(),
-                        content: $("#content").val(),
+                        userId: $("#userId").val(),
                         unit: $("#unit").val(),
+                        content: $("#content").val(),
                         type: $("#type").val(),
                         passive_unit: $("#passive_unit").val(),
                         certificate: $("#certificate").val(),
                         amount: $("#amount").val(),
                         note: $("#note").val(),
+                        name: $("#name").val(),
                         time: $("#time").val()
                     },
                     success: function () {

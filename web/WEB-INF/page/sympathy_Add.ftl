@@ -46,7 +46,6 @@
             <input type="radio" name="sex" value="1" title="男" <#if sex??&& sex==1>checked</#if>>
             <input type="radio" name="sex" value="2" title="女" <#if sex??&& sex==2>checked</#if>>
         </div>
-        <div class="layui-form-mid layui-word-aux"></div>
 
         <label class="layui-form-label" >手机号码</label>
         <div class="layui-input-inline">
@@ -139,13 +138,14 @@
                         userId : $("#userId").val()
                     },
                     success: function (data) {
-                        console.log(data.user);
+                        console.log(data.user.sex);
 
                         layer.msg('用户查询成功', {icon: 1});
                         $("#username").val(data.user.userName);
                         $("#age").val(data.user.age);
                         $("#phone").val(data.user.phone);
-                        $('input[name="sex"]:checked').val(data.user.sex);
+                        $('input:radio').eq(data.user.sex).attr('checked', 'true');
+                        form.render();
                     }
                 });
             });

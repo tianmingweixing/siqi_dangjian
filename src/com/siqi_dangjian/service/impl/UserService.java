@@ -53,4 +53,9 @@ public class UserService implements IUserService {
     public void logicDeleteUser(List idList) throws Exception {
         userDao.logicDelete(idList);
     }
+
+    @Override
+    public Map selectGroupCount() throws Exception {
+        return userDao.selectGroupCount();
+    }
 }

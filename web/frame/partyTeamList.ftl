@@ -37,12 +37,7 @@
                    autocomplete="off" class="layui-input" >
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
-        <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
-        </div>
-    </div>-->
+
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -54,9 +49,11 @@
 
 <script type="text/html" id="barDemo">
     <!--<a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>-->
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -106,18 +103,14 @@
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党小组名称', width:200}
                 ,{field: 'party_no',title:'党支部编号',width:200}
                 ,{field: 'party_group_no',title:'党小组编号',width:200}
                 ,{field: 'duty', title: '党小组职责', width:200}
-                ,{field: 'change_time',title:'换届时间',width:200,sort: true}
-                ,{field: 'founding_time',title:'成立时间',width:200,sort: true}
-                // ,{field: 'party_member_count', title: '党员总数', width: 100}
-                // ,{field: 'party_info',title:'党支部简介',width:200,sort: true}
-                // ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
-                // ,{field: 'party_img',title:'党支部图片',width:150}
-                // ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo'}
+                ,{field: 'change_time',title:'换届时间',width:250,sort: true}
+                ,{field: 'founding_time',title:'成立时间',width:250,sort: true}
+                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {

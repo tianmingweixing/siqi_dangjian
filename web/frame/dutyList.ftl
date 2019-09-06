@@ -37,7 +37,9 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -79,9 +81,11 @@
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '政治面貌', width:150}
-                ,{field: 'party_duty',title:'党内职务',width:150}
+                ,{field: 'id', title: 'ID', width:200, sort: true, fixed: 'left'}
+                ,{field: 'name', title: '政治面貌', width:600}
+                ,{field: 'party_duty',title:'党内职务',width:600}
+                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+
                 // ,{field: 'address',title:'地址',width:200,sort: true}
                 // ,{field: 'birth', title: '出生日期', width:200}
                 // ,{field: 'userno',title:'用户编号',width:200,sort: true}
@@ -174,7 +178,7 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                     window.location.href='';
+                window.location.href='/duty/setDuty?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){

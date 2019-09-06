@@ -91,7 +91,6 @@ public class DutyController extends BaseController{
             long lastId = bigInteger.longValue();
             setData("lastId", lastId);
             setSuccess();
-
         } catch (Exception e) {
             e.printStackTrace();
             setFail("添加职务信息失败");

@@ -93,14 +93,16 @@ public class SympathyController extends BaseController{
         Sympathy sympathy;
         User user;
         try {
-            sympathy = sympathyService.selectById(sympathyId);
-            user =  userService.getUserById(userId);
 
-            if(sympathyId == null ){
+            if(sympathyId != null ){
+                sympathy = sympathyService.selectById(sympathyId);
+            }else{
                 sympathy = new Sympathy();
             }
             if (userId == null) {
                 user = new User();
+            }else{
+                user =  userService.getUserById(userId);
             }
 
                 sympathy.setId(sympathyId);
@@ -150,8 +152,8 @@ public class SympathyController extends BaseController{
             view.addObject("sympathyId", sympathy.getId());
             view.addObject("difficult", sympathy.getDifficult());
             view.addObject("sympathy_time", sympathy.getSympathyTime());
-            view.addObject("unit_and_position", sympathy.getSympathyProduct());
-            view.addObject("sympathy_product", sympathy.getSympathyTime());
+            view.addObject("unit_and_position", sympathy.getUnitAndPosition());
+            view.addObject("sympathy_product", sympathy.getSympathyProduct());
             view.addObject("note", sympathy.getNote());
 
             user = userService.getUserById(userId);

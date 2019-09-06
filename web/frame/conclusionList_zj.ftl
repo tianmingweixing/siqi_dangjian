@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>工作总结表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -54,7 +53,9 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -106,11 +107,13 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '总结名称', width: 150}
-                , {field: 'type_name', title: '类型', width: 150}
+                , {field: 'title', title: '总结名称', width: 250}
+                , {field: 'type_name', title: '类型', width: 200}
                 , {field: 'conclusion_type_id', title: '类型ID', width: 150,hide:true}
-                , {field: 'plan_content', title: '内容', width: 550}
-                , {field: 'year_limit', title: '时间', width: 150,sort:true}
+                , {field: 'plan_content', title: '内容', width: 600}
+                , {field: 'year_limit', title: '时间', width: 200,sort:true}
+                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+
             ]]
         });
         var $ = layui.$, active = {
@@ -206,7 +209,7 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                     window.location.href='';
+                window.location.href = '/conclusion/setConclusion?Id=' + data.id+'&default_type=总结';
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){

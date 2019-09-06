@@ -32,8 +32,8 @@
 
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -64,6 +64,8 @@
             });
         });
 
+
+
         //执行一个 table 实例
         table.render({
             elem: '#demo'
@@ -85,7 +87,7 @@
                 ,{field: 'change_time',title:'换届时间',width:150,sort: true}
                 ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
                 ,{field: 'party_img',title:'党支部图片',width:150}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo'}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -121,6 +123,13 @@
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }
+        });
+
+        //自定义样式
+        laypage.render({
+            elem: 'demo2'
+            ,count: 100
+            ,theme: '#1E9FFF'
         });
 
 

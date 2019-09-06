@@ -23,12 +23,7 @@
             <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
-        <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
-        </div>
-    </div>-->
+
 </form>
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
@@ -108,7 +103,8 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="detail">查看</a>
+    <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy"><i class="layui-icon"></i>添加慰问信息</a>
 </script>
 <style>
     .layui_open_fail{
@@ -197,16 +193,17 @@
                 ,{field: 'username', title: '昵称', width:80}
                 ,{field: 'sex',title:'性别',width:80}
                 ,{field: 'age',title:'年龄',width:80}
-                ,{field: 'education',title:'学历',width:100,sort: true}
+                ,{field: 'education',title:'学历',width:80,sort: true}
                 ,{field: 'company',title:'单位',width:150,sort: true}
-                ,{field: 'phone',title:'手机号码',width:150,sort: true}
+                ,{field: 'phone',title:'手机号码',width:120,sort: true}
                 ,{field: 'ID_cord',title:'身份证',width:180,sort: true}
                 ,{field: 'dutyid',title:'职务ID',width:80,sort: true}
+                ,{field: 'sympathyId',title:'慰问ID',width:80,sort: true}
                 ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
                 ,{field: 'name',title:'政治面貌',width:125,sort: true}
                 ,{field: 'join_time',title:'入党时间',width:150,sort: true}
-                ,{field: 'head_img',title:'头像',width:200,sort: true}
-                ,{field: 'look',title:'查看详情',width:100,templet:'#barDemo'}
+                // ,{field: 'head_img',title:'头像',width:200,sort: true}
+                ,{field: 'look',title:'查看详情',width:200,templet:'#barDemo'}
             ]]
         });
         var $ = layui.$, active = {
@@ -283,7 +280,7 @@
                         })
 
                     }
-                    break;
+                break;
             };
         });
 
@@ -291,14 +288,18 @@
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                     ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'detail'){
+            if (layEvent === 'detail') {
                 layer.msg('查看操作');
                 onAddBtn(data);
 
-            } else if(layEvent === 'edit'){
-                 layer.msg('edit');
-                 console.log(data);
-                     window.location.href='';
+            } else if (layEvent === 'addSympathy') {
+                //如果没有sympathyId 则不传
+                if (data.sympathyId == undefined){
+                    var parameter = + data.id  + '&addSympathy=' + 1 ;
+                }else {
+                    var parameter = + data.id + '&sympathyId=' + data.sympathyId + '&addSympathy=' + 1 ;
+                }
+            window.location.href = '/user/setUser?id=' + parameter;
             }
         });
 

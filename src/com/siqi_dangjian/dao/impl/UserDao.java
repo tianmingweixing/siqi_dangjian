@@ -23,7 +23,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tcan_use = 1 and type = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setInteger(0,type);
-        map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
+        map = (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
         return map;
     }
 
@@ -68,9 +68,36 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectGroupCount() throws Exception {
+        Map resMap = new HashMap();
         session = sessionFactory.getCurrentSession();
 
+        String sqlCount = "SELECT\n" +
+                "count(*) count,\n" +
+                "(case d.name\n" +
+                "          when 1 then '发展对象' \n" +
+                "          when 2 then '积极分子' \n" +
+                "          when 3 then '预备党员' \n" +
+                "          when 4 then '正式党员' else '空的' end)dName\n" +
+                "FROM\n" +
+                "\tduty d \n" +
+                "WHERE\n" +
+                " d.can_use = 1\n" +
+                "GROUP BY\n" +
+                "\tdName\n" +
+                "ORDER BY d.name";
+
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        List countList = query1.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        resMap.put("countList", countList);
+
+        return resMap;
+
+    }
+
+    @Override
+    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+        session = sessionFactory.getCurrentSession();
         String sql = " SELECT\n" +
                 "\tu.id,\n" +
                 "\tu.username,\n" +
@@ -82,6 +109,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.phone,\n" +
                 "\tu.dutyid,\n" +
                 "\tu.ID_cord,\n" +
+                "\ts.id sympathyId,\n" +
                 "\t(case d.name\n" +
                 "          when 1 then '发展对象' \n" +
                 "          when 2 then '积极分子' \n" +
@@ -93,10 +121,11 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.address\n" +
                 "FROM\n" +
                 "\tUSER u\n" +
-                "LEFT JOIN duty d ON u.dutyid = d.id\n" +
-                "WHERE\n" +
+                " LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                " LEFT JOIN sympathy s ON s.user_id = u.id\n" +
+                " WHERE\n" +
                 "\tu.can_use = 1\n" +
-                "AND d.can_use = 1";
+                " AND d.can_use = 1\n";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
@@ -111,5 +140,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         return resMap;
 
     }
+
+
 
 }

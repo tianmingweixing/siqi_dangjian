@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Duty;
 import com.siqi_dangjian.bean.PartyTeam;
+import com.siqi_dangjian.bean.Sympathy;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IDutyService;
+import com.siqi_dangjian.service.ISympathyService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,13 +28,16 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     private IUserService userService;
 
     @Autowired
     private IDutyService dutyService;
+
+    @Autowired
+    private ISympathyService sympathyService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -45,26 +50,27 @@ public class UserController extends BaseController{
 
     /**
      * 逻辑删除
+     *
      * @return
      */
     @RequestMapping("/logicDelete")
     @ResponseBody
-    public ModelMap logicDelete(@RequestParam(value="deleteArray", required=false)String deleteArray){
+    public ModelMap logicDelete(@RequestParam(value = "deleteArray", required = false) String deleteArray) {
         modelMap = new ModelMap();
         Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {}.getType();
-        List<String> idList = gson.fromJson(deleteArray,type);
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> idList = gson.fromJson(deleteArray, type);
         try {
             userService.logicDeleteUser(idList);
-        } catch (Exception e){
+        } catch (Exception e) {
             setFail("删除失败");
-            logger.error("user--->deleteUser",e);
+            logger.error("user--->deleteUser", e);
             return modelMap;
         }
         setSuccess();
         return modelMap;
     }
-
 
 
     /**
@@ -95,14 +101,15 @@ public class UserController extends BaseController{
                             @RequestParam(value = "join_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime) {
 
         modelMap = new ModelMap();
-        User  user;
+        User user;
 
         try {
-            if(id != null){
+            if (id != null) {
                 user = userService.getUserById(id);
-            }else{
+            } else {
                 user = new User();
             }
+
             user.setDutyId(dutyid);
             user.setId(id);
             user.setIDCord(ID_cord);
@@ -119,7 +126,7 @@ public class UserController extends BaseController{
             setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("user-->userAdd",e);
+            logger.error("user-->userAdd", e);
             setFail("用户添加失败");
             return modelMap;
         }
@@ -130,23 +137,43 @@ public class UserController extends BaseController{
 
     /**
      * 编辑党小组
-     * @param id
+     *
+     * @param id addSympathy
      * @return
      */
-    @RequestMapping("/setUser")
+    @RequestMapping(value = "/setUser")
     public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id,
+                                @RequestParam(value = "sympathyId", required = false) Long sympathyId,
+                                @RequestParam(value = "addSympathy", required = false) Integer addSympathy,
                                 @RequestParam(value = "dutyid", required = false) Long dutyid) {
         ModelAndView view = new ModelAndView();
-        User  user;
+        User user;
         Duty duty;
+        Sympathy sympathy;
 
-            try {
+        try {
+            if (id != null) {
                 user = userService.getUserById(id);
+            } else {
+                user = new User();
+            }
+
+            if (dutyid != null) {
                 duty = dutyService.selectById(dutyid);
-                view.addObject("id", user.getId());
-                view.addObject("dutyid", user.getDutyId());
                 view.addObject("party_duty", duty.getPartyDuty());
                 view.addObject("name", duty.getName());
+            }
+            if (sympathyId != null) {
+                sympathy = sympathyService.selectById(sympathyId);
+                view.addObject("sympathyId", sympathy.getId());
+                view.addObject("difficult", sympathy.getDifficult());
+                view.addObject("sympathy_time", sympathy.getSympathyTime());
+                view.addObject("unit_and_position", sympathy.getUnitAndPosition());
+                view.addObject("sympathy_product", sympathy.getSympathyProduct());
+                view.addObject("note", sympathy.getNote());
+            }
+                view.addObject("id", user.getId());
+                view.addObject("dutyid", user.getDutyId());
                 view.addObject("address", user.getAddress());
                 view.addObject("company", user.getCompany());
                 view.addObject("ID_cord", user.getIDCord());
@@ -158,91 +185,94 @@ public class UserController extends BaseController{
                 view.addObject("age", user.getAge());
                 view.addObject("education", user.getEducation());
 
+            if (addSympathy != null) {
+                view.addObject("userId", user.getId());
+                view.setViewName("WEB-INF/page/sympathy_Add");
+            } else {
                 view.setViewName("WEB-INF/page/user_Add");
-            } catch (Exception e) {
-                e.printStackTrace();
-                logger.error("user-->setUser",e);
-                setMsg("获取数据错误");
             }
+            setSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("user-->setUser", e);
+            setMsg("获取数据错误");
+        }
         return view;
     }
 
     /**
-     * 查询用户信息
+     * 根据id查询用户信息
      * @param id
-     * @return
+     * @return user
      */
     @RequestMapping("/getUserById")
     @ResponseBody
-    public ModelMap getUserById(@RequestParam(value = "userId",required = false)Long id) {
-       modelMap = new ModelMap();
-        User user ;
+    public ModelMap getUserById(@RequestParam(value = "userId", required = false) Long id) {
+        modelMap = new ModelMap();
+        User user;
         try {
             user = userService.getUserById(id);
             setSuccess();
             setData("user",user);
+
         } catch (Exception e) {
             e.printStackTrace();
             setFail("查询用户信息错误");
         }
-
         return modelMap;
     }
 
     /**
-     * 查询党小组信息
+     * 模糊查询用户信息
      * @param username
      * @param founding_time
      * @param change_time
      * @param limit
      * @param page
-     * @return
+     * @return List
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getUserList(@RequestParam(value = "username",required = false)String username,
-                                      @RequestParam(value = "company",required = false)String company,
-                                      @RequestParam(value = "founding_time",required = false)String founding_time,
-                                      @RequestParam(value = "change_time",required = false)String change_time,
-                                      @RequestParam(value="limit", required=false)Integer limit,
-                                      @RequestParam(value="page", required=false)Integer page){
+    public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
+                                @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "founding_time", required = false) String founding_time,
+                                @RequestParam(value = "change_time", required = false) String change_time,
+                                @RequestParam(value = "limit", required = false) Integer limit,
+                                @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
-
         Map blurMap = new HashMap<>();
         Map dateMap = new HashMap<>();
-        Map intMap  = new HashMap<>();
+        Map intMap = new HashMap<>();
 
 
-        if(StringUtils.isNotEmpty(company)) {
+        if (StringUtils.isNotEmpty(company)) {
             blurMap.put("company", company);
         }
 
-        if(StringUtils.isNotEmpty(username)) {
+        if (StringUtils.isNotEmpty(username)) {
             blurMap.put("username", username);
         }
 
-        if(StringUtils.isNotEmpty(founding_time)) {
+        if (StringUtils.isNotEmpty(founding_time)) {
             dateMap.put("founding_time", founding_time);
         }
-        if(StringUtils.isNotEmpty(change_time)) {
+        if (StringUtils.isNotEmpty(change_time)) {
             dateMap.put("change_time", change_time);
         }
         try {
-            Map map = userService.getUserList(blurMap,intMap,dateMap,limit,page);
-
+            Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
             List list = (List<PartyTeam>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
             setSuccess();
-        }catch (Exception e){
+        } catch (Exception e) {
             setFail();
             e.printStackTrace();
-            logger.error("user-->list",e);
+            logger.error("user-->list", e);
 
         }
-
         return modelMap;
     }
 }

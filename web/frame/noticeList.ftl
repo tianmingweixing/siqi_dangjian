@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>公示公告表</title>
-    <link rel="stylesheet" href="/js/layui/css/layui.css">
+    <link rel="stylesheet" href="../js/layui/css/layui.css" media="all">
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -35,6 +35,8 @@
         </div>
     </div>
 
+
+<br>
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
@@ -49,6 +51,13 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
+<script type="text/html" id="barDemo1">
+        <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+</script>
+
+
+
+
 <style>
     .layui_open_fail{
         text-align: center;
@@ -72,11 +81,7 @@
                 , table = layui.table //表格
                 , element = layui.element; //元素操作
 
-        element.on('tab(demo)', function (data) {
-            layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
-                tips: 1
-            });
-        });
+         var $ = layui.jquery; //独立版的layer无需执行这一句
 
         laydate.render({
             elem: '#start_time_search' //指定元素
@@ -98,10 +103,11 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '公示标题', width: 150}
-                , {field: 'content', title: '内容', width: 300}
+                , {field: 'content', title: '内容', width: 500}
                 , {field: 'create_time', title: '创建时间', width: 150}
-                , {field: 'image_path', title: '图片', width: 150}
+                , {field: 'image_path', title: '图片', width: 200}
                 , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -120,7 +126,8 @@
                 });
             }
         };
-        //??
+
+
         $('.search_div .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
@@ -195,7 +202,15 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                     window.location.href='';
+                console.log(data)
+                if (data.length === 0) {
+                    layer.msg('请选择一行');
+                } else if (data.length > 1) {
+                    layer.msg('只能同时编辑一个');
+                } else {
+                    layer.msg('正在编辑中..');
+                    window.location.href = '/notice/setNotice?Id=' + data.id;
+                }
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){
@@ -216,6 +231,8 @@
                 }
             }
         });
+
+
 
 
     });

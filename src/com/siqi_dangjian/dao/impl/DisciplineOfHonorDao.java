@@ -65,11 +65,14 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
                 "\t\t\t'暂无数据'\n" +
                 "\t\tEND\n" +
                 "\t) type,\n" +
-                "\td.unit\n" +
+                "\td.unit,\n" +
+                "\td.user_id \n" +
                 "FROM\n" +
                 "\tdiscipline_of_honor d\n" +
+                "JOIN  user u\n" +
+                "ON  d.user_id = u.id \n" +
                 "WHERE\n" +
-                "\td.can_use = 1";
+                "\td.can_use = 1 and u.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
