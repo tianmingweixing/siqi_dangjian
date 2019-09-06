@@ -111,8 +111,7 @@
                         id: $("#id").val(),
                         title: $("#title").val(),
                         plan_content: $("#plan_content").val(),
-                        conclusion_type_id: $("#conclusion_type_id").val(),
-                        type: $("#type").val(),
+                        conclusion_type_id: $("#conclusion_type").val(),
                         year_limit: $("#year_limit").val()
                     },
                     success: function () {

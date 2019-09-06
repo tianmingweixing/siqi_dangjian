@@ -112,7 +112,6 @@
                         title: $("#title").val(),
                         plan_content: $("#plan_content").val(),
                         conclusion_type_id: $("#conclusion_type").val(),
-                        type: $("#type").val(),
                         year_limit: $("#year_limit").val()
                     },
                     success: function () {

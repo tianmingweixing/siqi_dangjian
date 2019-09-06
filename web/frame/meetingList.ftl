@@ -20,11 +20,8 @@
         </div>
         <label class="layui-form-label">会议类型</label>
         <div class="layui-input-inline">
-            <select name="meeting_type" id="meeting_type">
+            <select name="meeting_type_id" id="meeting_type_id">
                 <option value="">全部</option>
-                <option value="1" >支委会</option>
-                <option value="2" >党员大会</option>
-                <option value="3" >廉政</option>
             </select>
         </div>
     </div>
@@ -61,12 +58,16 @@
         window.location.reload();
     }
 
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element','form', ], function(){
         var laydate = layui.laydate //日期
                 ,laypage = layui.laypage //分页
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
                 ,element = layui.element //元素操作
+
+        var form = layui.form;
+        var $ = jQuery;
+
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -79,6 +80,18 @@
         });
         laydate.render({
             elem: '#end_time_search' //指定元素
+        });
+
+        //查询计划种类
+        $.ajax({
+            url: "/meetingType/allCategory",
+            async: false,
+            success: function (data) {
+                $.each(data.list, function (i, item) {
+                    $("#meeting_type_id").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                });
+                form.render('select');
+            }
         });
 
         //执行一个 table 实例
@@ -94,7 +107,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '会议名称', width:100}
-                ,{field: 'meeting_type',title:'会议类型',width:150}
+                ,{field: 'meeting_type_id',title:'会议类型',width:150}
                 ,{field: 'content',title:'会议内容',width:350}
                 ,{field: 'guide',title:'会议指导',width:350}
                 ,{field: 'images_a',title:'会议图片1',width:150}
@@ -108,13 +121,13 @@
         var $ = layui.$, active = {
             reload:function () {
                 var name = $("#name_search").val();
-                var meeting_type=$("#meeting_type").val();
+                var meeting_type_id=$("#meeting_type_id").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
-                        meeting_type:meeting_type
+                        meeting_type_id:meeting_type_id
                     }
                 });
             }

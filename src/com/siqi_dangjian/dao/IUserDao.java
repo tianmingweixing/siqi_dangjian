@@ -6,6 +6,10 @@ import java.util.Map;
 
 public interface IUserDao {
 
+    public void saveOrUpDate(User user1) throws Exception;
+
+    User getUserByOpenId(String openId);
+
     Map getUserByType(Integer type) throws Exception;
 
     Map getUserInfoById(Long id) throws Exception;

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>违纪表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -113,7 +112,6 @@
                 , {field: 'note', title: '备注', width: 100,sort:true}
                 // , {field: 'party_branch_id', title: '支部ID', width: 80,sort:true}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
-
             ]]
         });
         var $ = layui.$, active = {

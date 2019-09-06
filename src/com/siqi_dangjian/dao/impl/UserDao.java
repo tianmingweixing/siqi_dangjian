@@ -3,6 +3,7 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
 import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,23 @@ import java.util.Map;
 public class UserDao extends BaseDao<User> implements IUserDao {
 
     @Override
+    public void saveOrUpDate(User user1) throws Exception {
+        insertOrUpdate(user1);
+    }
+
+    @Override
+    public User getUserByOpenId(String openId) {
+        session = sessionFactory.getCurrentSession();
+        String  hql ="from user where openId = ? and can_use = 1";
+        Query query = session.createQuery(hql);
+        query.setString(0,openId);
+        User user =(User) query.uniqueResult();
+        return user;
+    }
+
+    @Override
     public Map getUserByType(Integer type) throws Exception{
-        Map map = new HashMap();
+        Map map;
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT *\n" +
                 "\tFROM user\n" +

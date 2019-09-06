@@ -121,19 +121,6 @@
 
     </div>
 
-    <div class="layui-form-item input_row_margin_top">
-
-        <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
-        <div class="layui-input-inline" style="padding-top: 10px">
-            <label for="fileinp" id="btn">选择图片</label>
-            <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="auto"
-                 width="150" alt="" style="margin-top: 10px">
-        </div>
-
-    </div>
-
-
     <div class="layui-form-item input_row_margin_top" style="display:none ">
 
         <label class="layui-form-label">支部ID</label>
@@ -148,8 +135,20 @@
         <label class="layui-form-label">公示信息</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入公示信息"
-                      style="width: 1000px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
-                              max-width: 1500px; height: 400px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
+        <div class="layui-input-inline" style="padding-top: 10px">
+            <label for="fileinp" id="btn">选择图片</label>
+            <input type="file" id="fileinp" name="file" onchange="reads(this)">
+            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="300"
+                 width="500" alt="" style="margin-top: 10px">
         </div>
 
     </div>

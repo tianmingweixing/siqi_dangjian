@@ -1,6 +1,5 @@
 package com.siqi_dangjian.service.impl;
 
-import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
 import com.siqi_dangjian.service.IUserService;
@@ -16,6 +15,11 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+
+    @Override
+    public User wxLogin(String openId) {
+        return userDao.getUserByOpenId(openId);
+    }
 
     @Override
     public Map getUserInfoById(Long id) {
@@ -57,5 +61,10 @@ public class UserService implements IUserService {
     @Override
     public Map selectGroupCount() throws Exception {
         return userDao.selectGroupCount();
+    }
+
+    @Override
+    public void saveOrUpDate(User user1) throws Exception {
+        userDao.insertOrUpdate(user1);
     }
 }
