@@ -23,20 +23,25 @@
             <input type="text" id="type"  placeholder="活动类型" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label label_width_100">联系电话</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动日期</label>
         <div class="layui-input-inline">
-            <input type="text" id="phone_search"  placeholder="联系电话" autocomplete="off" class="layui-input">
+            <input type="text" class="layui-input" placeholder="起始日期" id="start_time_search">
         </div>
-    </div>-->
+        <div class="layui-form-mid layui-word-aux">至</div>
+        <div class="layui-input-inline" style="margin-left: 15px">
+            <input type="text" class="layui-input" placeholder="结束日期" id="end_time_search">
+        </div>
+    </div>
 </form>
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
 
-
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -60,15 +65,15 @@
         window.location.reload();
     }
 
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element','form'], function() {
         var laydate = layui.laydate //日期
-                ,laypage = layui.laypage //分页
-                ,layer = layui.layer //弹层
-                ,table = layui.table //表格
-                ,element = layui.element //元素操作
+                , laypage = layui.laypage //分页
+                , layer = layui.layer //弹层
+                , table = layui.table //表格
+                , element = layui.element; //元素操作
 
-        element.on('tab(demo)', function(data){
-            layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+        element.on('tab(demo)', function (data) {
+            layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
                 tips: 1
             });
         });
@@ -76,96 +81,100 @@
         //执行一个 table 实例
         table.render({
             elem: '#demo'
-            ,height: 563
-            ,url: '/activity/list' //数据接口
-            ,title: '用户表'
-            ,page: true //开启分页
-            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-            ,totalRow: true //开启合计行
-            ,cols: [[ //表头
+            , height: 563
+            , url: '/activities/list' //数据接口
+            , title: '用户表'
+            , page: true //开启分页
+            , toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , totalRow: true //开启合计行
+            , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'title', title: '活动标题', width:150}
-                ,{field: 'content',title:'活动内容',width:150}
-                ,{field: 'type',title:'活动类型',width:150}
-                ,{field: 'start_time',title:'开始时间',width:100,sort: true}
-                ,{field: 'end_time',title:'结束时间',width:200,sort: true}
-                ,{field: 'review',title:'点评',width:200,sort: true}
-                ,{field: 'image_path_a',title:'图片1',width:200,sort: true}
-                ,{field: 'image_path_b',title:'图片2',width:200,sort: true}
+                , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
+                , {field: 'title', title: '活动标题'}
+                , {field: 'content', title: '活动内容'}
+                , {field: 'type_id', title: '活动类型'}
+                , {field: 'start_time', title: '开始时间'}
+                , {field: 'end_time', title: '结束时间'}
+                , {field: 'review', title: '点评'}
+                , {field: 'image_path_a', title: '图片1'}
+                , {field: 'image_path_b', title: '图片2'}
                 // ,{field: 'address',title:'地址',width:200,sort: true}
                 // ,{field: 'birth', title: '出生日期', width:200}
                 // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
-        var $ = layui.$, active = {
-            reload:function () {
-                var title = $("#title").val();
-                var type=$("#type").val();
 
-                table.reload('demo',{
-                    method:'get',
-                    where:{
-                        title:title,
-                        type:type
+        var $ = layui.$, active = {
+            reload: function () {
+                var title = $("#title").val();
+                var type = $("#type").val();
+                var start_time = $("#start_time_search").val();
+                var end_time = $("#end_time_search").val();
+                table.reload('demo', {
+                    method: 'get',
+                    where: {
+                        title: title,
+                        type: type,
+                        start_time: start_time,
+                        end_time: end_time
                     }
                 });
             }
         };
-        $('.search_div .layui-btn').on('click', function(){
+
+        $('.search_div .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
 
 
         //监听头工具栏事件
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
-                    ,data = checkStatus.data; //获取选中的数据
-            switch(obj.event){
+                    , data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
                 case 'add':
-                     window.location.href='/activity/gotoAdd';
+                    window.location.href = '/activities/goto';
                     break;
                 case 'update':
-                    if(data.length === 0){
+                    if (data.length === 0) {
                         layer.msg('请选择一行');
-                    } else if(data.length > 1){
+                    } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.msg('data[0].id');
-                    window.location.href='/activity/setActivity?id='+data[0].id;
+                        window.location.href = '/activities/goto?id=' + data[0].id;
                     }
                     break;
                 case 'delete':
-                    if(data.length === 0){
+                    if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
                         layer.confirm("确认要删除吗", {
-                            icon:0
+                            icon: 0
                         }, function () {
                             var a = [];
-                            $.each(data,function(index,value){
+                            $.each(data, function (index, value) {
                                 a.push(value.id)
                             });
 
                             $.ajax({
-                                url:"/activity/logicDelete",
-                                data:{
-                                    deleteArray:JSON.stringify(a)
+                                url: "/activities/delete",
+                                data: {
+                                    deleteArray: JSON.stringify(a)
                                 },
-                                success:function (data) {
-                                    if(data.result == "fail"){
+                                success: function (data) {
+                                    if (data.result == "fail") {
                                         layer.open({
                                             icon: 2,
                                             title: '消息提醒',
                                             content: '删除失败',
-                                            skin:'layui_open_fail'
+                                            skin: 'layui_open_fail'
                                         });
                                     } else {
                                         layer.msg('删除成功', {icon: 1});
                                         setTimeout(function () {
                                             location.reload()
-                                        },1000)
+                                        }, 1000)
                                     }
                                 }
                             })
@@ -173,26 +182,8 @@
 
                     }
                     break;
-            };
-        });
-
-        //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            var data = obj.data //获得当前行数据
-                    ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'detail'){
-                layer.msg('查看操作');
-            } else if(layEvent === 'edit'){
-                 layer.msg('edit');
-                 console.log(data);
-                     window.location.href='';
-            }else if(layEvent === 'add'){
-                layer.msg('add');
-            }else if(layEvent === 'delete'){
-                layer.msg('del');
             }
         });
-
 
         //分页
         laypage.render({

@@ -6,17 +6,16 @@ import java.util.Map;
 
 public interface IActivityService {
 
-    void addActivitiesContent(Activities activities) throws Exception;
+    void insertOrUpdate(Activities activities) throws Exception;
 
-    Map getActivityContentById(Long id);
+    void delete(List idList) throws Exception;
 
-    Map getActivityContentByType(Integer type);
+    void logicDelete(List idList) throws Exception;
 
-    Map getActivityContentList(Map blurMap, Map intMap, Map dateMap,Integer limit,Integer page) throws Exception;
+    Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception;
 
-    void deleteActivity(List idList) throws Exception;
+    Map getActivityByType(Integer type) throws Exception;
 
-    void logicDeleteActivity(List idList) throws Exception;
+    Activities selectById(Long id) throws Exception;
 
-    Activities getActivityById(Long id) throws Exception;
 }

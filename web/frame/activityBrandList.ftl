@@ -54,43 +54,18 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/activityType/list' //数据接口
+            ,url: '/activtiesBrand/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
             ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:80, sort: true}
-                ,{field: 'type_name', title: '类型名称'}
+                ,{field: 'brand_name', title: '类型名称'}
                 ,{field: 'create_time', title: '创建时间'}
                 ,{field: 'update_time', title: '修改时间'}
             ]]
         });
-       /* var $ = layui.$, active = {
-            reload:function () {
-                var name = $("#name_search").val();
-                var username=$("#user_name_search").val();
-                var maxCredit=$("#max_credit_search").val();
-                var minCredit =$("#min_credit_search").val();
-                var phone = $("#phone_search").val();
-                var member = $("#member_type").val();
-                table.reload('demo',{
-                    method:'get',
-                    where:{
-                        name:name,
-                        userName:username,
-                        maxCredit:maxCredit,
-                        minCredit:minCredit,
-                        phone:phone,
-                        member:member
-                    }
-                });
-            }
-        };
-        $('.search_div .layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });*/
 
         //监听头工具栏事件
         table.on('toolbar(test)', function(obj){
@@ -98,7 +73,7 @@
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                    window.location.href='/activityType/goto';
+                    window.location.href='/activtiesBrand/goto';
                     break;
                 case 'update':
                     if(data.length === 0){
@@ -106,7 +81,7 @@
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href='/activityType/goto?id='+data[0].id;
+                        window.location.href='/activtiesBrand/goto?id='+data[0].id;
                     }
                     break;
                 case 'delete':
@@ -121,7 +96,7 @@
                                 idArr.push(value.id)
                             });
                             $.ajax({
-                                url:"/activityType/delete",
+                                url:"/activtiesBrand/delete",
                                 data:{
                                     deleteArray:JSON.stringify(idArr)
                                 },

@@ -47,3 +47,13 @@
     margin-left: 3px;
     margin-right: 3px;
 }
+
+#image_list > li {float: left; margin-right: 10px;}
+#image_list > li > img {width: 90px; height: 90px; border: 1px solid #CCCCCC;}
+.demoText {
+    margin-top: 5px;
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

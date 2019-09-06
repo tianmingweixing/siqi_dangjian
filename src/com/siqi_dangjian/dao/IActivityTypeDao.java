@@ -16,4 +16,6 @@ public interface IActivityTypeDao {
     ActivitiesType selectById(Long id) throws Exception;
 
     Map selectAll(int limit, int page) throws Exception;
+
+    List<ActivitiesType> selectList() throws Exception;
     }

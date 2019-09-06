@@ -127,7 +127,7 @@
         $("#mainIframe").attr("src", "/frame/activityTypeList.ftl");
     }
     function activity_3() {
-        $("#mainIframe").attr("src", "/frame/commentRecord.ftl");
+        $("#mainIframe").attr("src", "/frame/activityBrandList.ftl");
     }
     function activity_4() {
         $("#mainIframe").attr("src", "/frame/activityTipsList.ftl");

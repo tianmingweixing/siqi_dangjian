@@ -17,16 +17,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label label_width_100">账号</label>
         <div class="layui-input-inline">
-            <input type="text" id="account_search"  placeholder="管理员姓名" autocomplete="off" class="layui-input">
+            <input type="text" id="account_search"  placeholder="请输入管理员账号" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label ">昵称</label>
         <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="管理员昵称" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="请输入管理员昵称" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label ">类型</label>
         <div class="layui-input-inline">
             <select id="type_search" name="type_search" lay-verify="">
-                <option value="0">全部</option>
+                <option value="">全部</option>
                 <option value="1">超级管理员</option>
                 <option value="2">普通管理员</option>
             </select>
@@ -44,8 +44,7 @@
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">权限</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改密码</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">权限</a>
 </script>
 <style>
     .layui_open_fail{

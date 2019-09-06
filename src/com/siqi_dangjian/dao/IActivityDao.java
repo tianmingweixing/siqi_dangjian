@@ -8,18 +8,16 @@ import java.util.Map;
 
 public interface IActivityDao {
 
-    Map selectActivityContentById(Long id);
-
-    Map selectActivityContentByType(Integer type);
-
     void insertOrUpdate(Activities activities) throws Exception;
-
-    void logicDelete(List idList) throws Exception;
 
     void delete(List idList) throws Exception;
 
+    void logicDelete(List idList) throws Exception;
+
+    Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception;
+
+    Map selectActivityByType(Integer type) throws Exception;
+
     Activities selectById(Long id) throws Exception;
 
-    Map selectAll(Map blurParam, Map dateParam,
-                          Map intParam, int limit, int page) throws Exception;
-    }
+}

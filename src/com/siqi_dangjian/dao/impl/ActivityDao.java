@@ -14,44 +14,6 @@ import java.util.Map;
 @Repository
 public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
 
-    /**
-     * 根据id查询活动
-     * @param id
-     * @return map
-     */
-    @Override
-    public Map selectActivityContentById(Long id) {
-        session = sessionFactory.getCurrentSession();
-        String sql = "SELECT *\n" +
-                "\tFROM activities\n" +
-                "WHERE\n" +
-                "\tcan_use = 1 and id = ?";
-        SQLQuery query = session.createSQLQuery(sql);
-        query.setLong(0,id);
-        return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
-
-    }
-
-    /**
-     * 根据类型查询活动
-     * @param type
-     * @return
-     */
-    @Override
-    public Map selectActivityContentByType(Integer type) {
-        Map map = new HashMap();
-        session = sessionFactory.getCurrentSession();
-        String sql = "SELECT *\n" +
-                "\tFROM activities\n" +
-                "WHERE\n" +
-                "\tcan_use = 1 and type = ?";
-        SQLQuery query = session.createSQLQuery(sql);
-        query.setInteger(0,type);
-        map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
-        return map;
-    }
-
-
     @Override
     public void insertOrUpdate(Activities activities) throws Exception {
         saveOrUpdateObject(activities);
@@ -100,22 +62,54 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         session = sessionFactory.getCurrentSession();
 //        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
 //                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "\tSELECT * FROM \n" +
+        String sql = "SELECT\n" +
+                "\ta.content,\n" +
+                "\tDATE_FORMAT(a.create_time,'%y-%m-%d %h:%m:%s') create_time,\n" +
+                "\tDATE_FORMAT(a.start_time,'%y-%m-%d %h:%m:%s') start_time,\n" +
+                "\tDATE_FORMAT(a.end_time,'%y-%m-%d %h:%m:%s') end_time,\n" +
+                "\ta.id,\n" +
+                "\ta.image_path_a,\n" +
+                "\ta.image_path_b,\n" +
+                "\ta.is_end,\n" +
+                "\ta.party_branch_id,\n" +
+                "\ta.review,\n" +
+                "\ta.title,\n" +
+                "\ta.type_id\n" +
+                "FROM\n" +
                 "\tactivities a\n" +
-                "\tWHERE\n" +
+                "WHERE\n" +
                 "\ta.can_use = 1";
 
-        String sqlCount = "SELECT\n" +
-                "  count(*) count\n" +
-                "FROM activities a where a.can_use=1";
+        String sqlCount = "SELECT count(id) count FROM activities a where a.can_use=1";
+
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendDateStr(sql,dateParam,"a");
         sql = CommonUtil.appendIntStr(sql,intParam,"a");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"a");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    /**
+     * 根据类型查询活动
+     * @param type
+     * @return
+     */
+    @Override
+    public Map selectActivityByType(Integer type) throws Exception {
+        Map map = new HashMap();
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT *\n" +
+                "\tFROM activities\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and type = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setInteger(0,type);
+        map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
+        return map;
     }
 }

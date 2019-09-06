@@ -23,55 +23,37 @@ public class ActivityService implements IActivityService {
      * @throws Exception
      */
     @Override
-    public void addActivitiesContent(Activities activities) throws Exception {
+    public void insertOrUpdate(Activities activities) throws Exception {
         activityDao.insertOrUpdate(activities);
     }
-
-    @Override
-    public Map getActivityContentById(Long id) {
-        Map map = activityDao.selectActivityContentById(id);
-        return map;
-    }
-
-    @Override
-    public Map getActivityContentByType(Integer type) {
-        Map map = activityDao.selectActivityContentByType(type);
-        return map;
-    }
-
     /**
-     * 查询活动列表
-     * @param blurMap
-     * @param intMap
-     * @param dateMap
-     * @param limit
-     * @param page
-     * @return
+     * 逻辑删除活动
+     * @param idList
      * @throws Exception
      */
     @Override
-    public Map getActivityContentList(Map blurMap, Map intMap, Map dateMap,Integer limit,Integer page) throws Exception {
-        Map map = activityDao.selectAll(blurMap,intMap,dateMap,limit, page);
-        return map;
+    public void logicDelete(List idList) throws Exception {
+        activityDao.logicDelete(idList);
     }
-
     /**
      * 删除活动
      * @param idList
      * @throws Exception
      */
     @Override
-    public  void deleteActivity(List idList) throws Exception {
+    public void delete(List idList) throws Exception {
         activityDao.delete(idList);
     }
 
-    /**
-     * 逻辑删除活动
-     * @param idList
-     * @throws Exception
-     */
-    public void logicDeleteActivity(List idList) throws Exception {
-        activityDao.logicDelete(idList);
+    @Override
+    public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
+        return activityDao.selectAll(blurParam,intParam,dateParam,limit,page);
+    }
+
+    @Override
+    public Map getActivityByType(Integer type) throws Exception {
+        Map map = activityDao.selectActivityByType(type);
+        return map;
     }
 
     /**
@@ -81,7 +63,7 @@ public class ActivityService implements IActivityService {
      * @throws Exception
      */
     @Override
-    public Activities getActivityById(Long id) throws Exception {
+    public Activities selectById(Long id) throws Exception {
         return activityDao.selectById(id);
     }
 

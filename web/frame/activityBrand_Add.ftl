@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>思齐党建后台-添加活动分类</title>
+    <title>思齐党建后台-添加活动品牌</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
     <link rel="stylesheet" href="/css/public.css">
 
@@ -18,7 +18,7 @@
     <div style="width: 90%">
         <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
                     style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
-            添加分类
+            添加品牌
         </blockquote>
     </div>
 
@@ -34,10 +34,10 @@
             </div>-->
 
             <div class="layui-form-item input_row_margin_top">
-                <label class="layui-form-label ">类型名称</label>
+                <label class="layui-form-label ">品牌名称</label>
                 <div class="layui-input-inline">
-                    <input id="type_name" name="type_name" lay-verify="required" placeholder="请输入类型名称" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if type_name??>${type_name}<#else></#if>">
+                    <input id="brand_name" name="brand_name" lay-verify="required" placeholder="请输入品牌名称" maxlength="20"
+                           autocomplete="off" class="layui-input" value="<#if brand_name??>${brand_name}<#else></#if>">
                 </div>
                 <#if id??>
                     <label class="layui-form-label" style="margin-left: 85px">创建时间</label>
@@ -70,19 +70,19 @@
                 var formData = new FormData();
 
                 $.ajax({
-                    url: "/activityType/add",
+                    url: "/activtiesBrand/add",
                     type: "POST",
                     data: {
                         // party_branch_id: $("#party_branch_id").val(),
                         party_branch_id: 1,
-                        type_name: $("#type_name").val(),
+                        brand_name: $("#brand_name").val(),
                         id: id
                     },
                     success: function (data) {
                         if (data.code == 0){
                             layer.msg(data.msg, {icon: 1});
                             setTimeout(function () {
-                                window.location.href = '/frame/activityTypeList.ftl';
+                                window.location.href = '/frame/activityBrandList.ftl';
                             }, 1500);
                         } else {
                             layer.msg(data.msg, {icon: 2});

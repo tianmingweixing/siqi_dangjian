@@ -5,10 +5,13 @@ import com.siqi_dangjian.dao.impl.ActivityTypeDao;
 import com.siqi_dangjian.service.IActivityTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ActivityTypeService implements IActivityTypeService {
 
     @Autowired
@@ -38,4 +41,11 @@ public class ActivityTypeService implements IActivityTypeService {
     public Map selectAll(int limit, int page) throws Exception {
         return activityTypeDao.selectAll(limit,page);
     }
+
+    @Override
+    public List<ActivitiesType> selectList() throws Exception {
+        return activityTypeDao.selectList();
+    }
+
+
 }
