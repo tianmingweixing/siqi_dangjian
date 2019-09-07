@@ -22,6 +22,13 @@
         <div class="layui-input-inline">
             <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
         </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
+        <div class="layui-input-inline">
+            <select name="type_name" id="type_name">
+                <option value="">全部</option>
+            </select>
+        </div>
     </div>
 
 </form>
@@ -89,7 +96,7 @@
 </div>
 
 
-<div class="layui-input-inline search_div" style="margin-left: 110px">
+<div class="layui-input-inline search_div" style="margin-left: 440px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
@@ -167,6 +174,10 @@
                 ,table = layui.table //表格
                 ,element = layui.element;//元素操作
 
+        var $ = jQuery;
+        var form = layui.form;
+
+
         laydate.render({
             elem: '#join_time' //指定元素
         });
@@ -176,6 +187,18 @@
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
                 tips: 1
             });
+        });
+
+        //查询计划种类
+        $.ajax({
+            url: "/duty/allCategory",
+            async: false,
+            success: function (data) {
+                $.each(data.list, function (i, item) {
+                    $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                });
+                form.render('select');
+            }
         });
 
         //执行一个 table 实例
@@ -200,7 +223,7 @@
                 ,{field: 'dutyid',title:'职务ID',width:80,sort: true}
                 ,{field: 'sympathyId',title:'慰问ID',width:80,sort: true}
                 ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
-                ,{field: 'name',title:'政治面貌',width:125,sort: true}
+                ,{field: 'type_name',title:'政治面貌',width:125,sort: true}
                 ,{field: 'difficulty_type',title:'困难情况',width:100,sort: true}
                 ,{field: 'join_time',title:'入党时间',width:100,sort: true}
                 // ,{field: 'head_img',title:'头像',width:200,sort: true}
@@ -210,13 +233,15 @@
         var $ = layui.$, active = {
             reload:function () {
                 var username = $("#name_search").val();
+                var dutyid = $("#type_name").val();
                 var company=$("#company_search").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         username:username,
-                        company:company
+                        company:company,
+                        dutyid: dutyid
                     }
                 });
             }

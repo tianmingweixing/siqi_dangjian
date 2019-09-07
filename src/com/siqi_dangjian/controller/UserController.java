@@ -234,6 +234,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
                                 @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "dutyid", required = false) String dutyid,
                                 @RequestParam(value = "founding_time", required = false) String founding_time,
                                 @RequestParam(value = "change_time", required = false) String change_time,
                                 @RequestParam(value = "limit", required = false) Integer limit,
@@ -247,6 +248,10 @@ public class UserController extends BaseController {
 
         if (StringUtils.isNotEmpty(company)) {
             blurMap.put("company", company);
+        }
+
+        if (StringUtils.isNotEmpty(dutyid)) {
+            intMap.put("dutyid", dutyid);
         }
 
         if (StringUtils.isNotEmpty(username)) {

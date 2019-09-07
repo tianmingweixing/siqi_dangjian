@@ -154,7 +154,6 @@ public class DutyController extends BaseController{
 
     /**
      * 查询党小组信息
-     * @param name
      * @param party_duty
      * @param limit
      * @param page
@@ -162,8 +161,8 @@ public class DutyController extends BaseController{
      */
     @RequestMapping("list")
     @ResponseBody
-    public ModelMap getDutyrList(@RequestParam(value = "party_duty", required = false) String party_duty,
-                                 @RequestParam(value = "type_name", required = false) String type_name,
+    public ModelMap getDutyList(@RequestParam(value = "party_duty", required = false) String party_duty,
+                                 @RequestParam(value = "id", required = false) String id,
                                  @RequestParam(value = "limit", required = false) Integer limit,
                                  @RequestParam(value = "page", required = false) Integer page) {
 
@@ -178,8 +177,8 @@ public class DutyController extends BaseController{
             blurMap.put("party_duty", party_duty);
         }
 
-        if (StringUtils.isNotEmpty(type_name)) {
-            blurMap.put("name", type_name);
+        if (StringUtils.isNotEmpty(id)) {
+            intMap.put("id", id);
         }
 
         try {

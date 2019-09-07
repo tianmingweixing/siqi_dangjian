@@ -112,7 +112,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam,  Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
         String sql = " SELECT\n" +
                 "\tu.id,\n" +
@@ -126,11 +126,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.dutyid,\n" +
                 "\tu.ID_cord,\n" +
                 "\ts.id sympathyId,\n" +
-                "\t(case d.name\n" +
-                "          when 1 then '发展对象' \n" +
-                "          when 2 then '积极分子' \n" +
-                "          when 3 then '预备党员' \n" +
-                "          when 4 then '正式党员' else '暂无信息' end)name,\n" +
+                "\t d.type_name ,\n" +
                 "\td.party_duty,\n" +
                 "\t(case u.difficulty_type \n" +
                 "                when 0 then '非困难'  \n" +
@@ -145,7 +141,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 " LEFT JOIN sympathy s ON s.user_id = u.id\n" +
                 " WHERE\n" +
                 "\tu.can_use = 1\n" +
-                " AND d.can_use = 1\n";
+                " AND d.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +

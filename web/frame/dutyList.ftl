@@ -14,21 +14,23 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">政治面貌</label>
+       <!-- <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
-            <input type="text" id="type_name"  placeholder="政治面貌" autocomplete="off" class="layui-input">
-        </div>
-        <label class="layui-form-label ">党内职务</label>
+            <select name="type_name" id="type_name">
+                <option value="">全部</option>
+            </select>
+        </div>-->
+       <!-- <label class="layui-form-label ">党内职务</label>
         <div class="layui-input-inline">
             <input type="text" id="partyDuty"  placeholder="党内职务" autocomplete="off" class="layui-input">
-        </div>
+        </div>-->
     </div>
 
 </form>
-<div class="layui-input-inline search_div" style="margin-left: 110px">
+<!--<div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
-</div>
+</div>-->
 
 
 <table class="layui-hide" id="demo" lay-filter="test"></table>
@@ -57,17 +59,32 @@
         window.location.reload();
     }
 
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element','form', ], function(){
         var laydate = layui.laydate //日期
                 ,laypage = layui.laypage //分页
                 ,layer = layui.layer //弹层
                 ,table = layui.table //表格
                 ,element = layui.element //元素操作
+        var $ = jQuery;
+        var form = layui.form;
+
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
                 tips: 1
             });
+        });
+
+        //查询计划种类
+        $.ajax({
+            url: "/duty/allCategory",
+            async: false,
+            success: function (data) {
+                $.each(data.list, function (i, item) {
+                    $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                });
+                form.render('select');
+            }
         });
 
         //执行一个 table 实例
@@ -89,13 +106,13 @@
         });
         var $ = layui.$, active = {
             reload:function () {
-                var type_name = $("#type_name").val();
+                var id = $("#type_name").val();
                 var partyDuty=$("#partyDuty").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        type_name:type_name,
+                        id:id,
                         party_duty:partyDuty
                     }
                 });
