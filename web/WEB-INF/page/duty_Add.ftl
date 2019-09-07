@@ -27,16 +27,10 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">政治面貌</label>
+        <label class="layui-form-label">人员类型</label>
         <div class="layui-input-inline">
-            <select name="name" id="name">
-                <option value="">全部</option>
-                <option value="1" <#if name?? && name==1>selected</#if>>积极分子</option>
-                <option value="2" <#if name?? && name==2>selected</#if>>预备党员</option>
-                <option value="3" <#if name?? && name==3>selected</#if>>发展对象</option>
-                <option value="4" <#if name?? && name==4>selected</#if>>正式党员</option>
-                <option value="5" <#if name?? && name==5>selected</#if>>党委</option>
-            </select>
+            <input id="type_name" name="type_name" lay-verify="required" placeholder="请输入类型名称" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if type_name??>${type_name}<#else></#if>">
         </div>
 
     </div>
@@ -66,7 +60,7 @@
                     url: "/duty/addDuty",
                     data: {
                         id: $("#id").val(),
-                        name: $("#name").val(),
+                        type_name: $("#type_name").val(),
                         party_duty: $("#party_duty").val()
                     },
                     success: function () {

@@ -66,7 +66,7 @@ public class MeetingController extends BaseController {
      * @param guide  会议指导
      * @param name .
      * @param content .
-     * @param meeting_type  1：支委会；2：党员大会；3：廉政...
+     * @param meetingTypeId  1：支委会；2：党员大会；3：廉政...
      * @return
      */
     @RequestMapping("/addMeeting")
@@ -77,7 +77,7 @@ public class MeetingController extends BaseController {
                                    @RequestParam(value = "imgPath", required = false) String images_a,
                                     @RequestParam(value = "guide", required = false) String guide,
                                     @RequestParam(value = "content", required = false) String content,
-                                    @RequestParam(value = "meeting_type", required = false) Integer meeting_type) {
+                                    @RequestParam(value = "meeting_type_id", required = false) Long meetingTypeId) {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -87,7 +87,7 @@ public class MeetingController extends BaseController {
             meeting.setName(name);
             meeting.setContent(content);
             meeting.setGuide(guide);
-            meeting.setMeetingType(meeting_type);
+            meeting.setMeetingTypeId(meetingTypeId);
             meeting.setImagesA(images_a);
             meeting.setEndTime(Date.valueOf(start_time));
             meeting.setStartTime(Date.valueOf(end_time));
@@ -119,7 +119,7 @@ public class MeetingController extends BaseController {
             try {
                 meeting = meetingService.selectById(id);
                 view.addObject("id", meeting.getId());
-                view.addObject("meeting_type", meeting.getMeetingType());
+                view.addObject("meeting_type", meeting.getMeetingTypeId());
                 view.addObject("content", meeting.getContent());
                 view.addObject("guide", meeting.getGuide());
                 view.addObject("images_a", meeting.getImagesA());
@@ -140,7 +140,7 @@ public class MeetingController extends BaseController {
     /**
      * 查询会议表信息
      * @param name
-     * @param meeting_type
+     * @param meeting_type_id
      * @param limit
      * @param page
      * @return
@@ -148,7 +148,7 @@ public class MeetingController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public ModelMap getMeetingList(@RequestParam(value = "name", required = false) String name,
-                                    @RequestParam(value = "meeting_type", required = false) String meeting_type,
+                                    @RequestParam(value = "meeting_type_id", required = false) String meeting_type_id,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
                                     @RequestParam(value = "limit", required = false) Integer limit,
@@ -161,8 +161,8 @@ public class MeetingController extends BaseController {
         Map intMap = new HashMap<>();
 
 
-        if (StringUtils.isNotEmpty(meeting_type)) {
-            intMap.put("meeting_type", meeting_type);
+        if (StringUtils.isNotEmpty(meeting_type_id)) {
+            intMap.put("meeting_type_id", meeting_type_id);
         }
 
         if (StringUtils.isNotEmpty(name)) {

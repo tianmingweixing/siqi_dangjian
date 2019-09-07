@@ -41,8 +41,7 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam, Map dateParam,  int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
+
         String sql = "SELECT\n" +
                 "\tm.content,\n" +
                 "\tDATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
@@ -57,11 +56,25 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
                 "\t\tWHEN 2 THEN\n" +
                 "\t\t\t'党员大会'\n" +
                 "\t\tWHEN 3 THEN\n" +
-                "\t\t\t'廉政'\n" +
+                "\t\t\t'党小组会'\n" +
+                "\t\tWHEN 4 THEN\n" +
+                "\t\t\t'党课'\n" +
+                "\t\tWHEN 5 THEN\n" +
+                "\t\t\t'廉政教育'\n" +
+                "\t\tWHEN 6 THEN\n" +
+                "\t\t\t'组织生活会'\n" +
+                "\t\tWHEN 7 THEN\n" +
+                "\t\t\t'政治理论学习'\n" +
+                "\t\tWHEN 8 THEN\n" +
+                "\t\t\t'互授党课'\n" +
+                "\t\tWHEN 9 THEN\n" +
+                "\t\t\t'民主评议党员'\n" +
+                "\t\tWHEN 10 THEN\n" +
+                "\t\t\t'专题讨论'\n" +
                 "\t\tELSE\n" +
                 "\t\t\t'暂无信息'\n" +
                 "\t\tEND\n" +
-                "\t) meeting_type,\n" +
+                "\t) meeting_type_id,\n" +
                 "\tm.name\n" +
                 "FROM\n" +
                 "\tmeeting m\n" +

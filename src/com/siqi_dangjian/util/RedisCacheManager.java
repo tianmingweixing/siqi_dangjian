@@ -3,7 +3,6 @@ package com.siqi_dangjian.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,10 +148,8 @@ public class RedisCacheManager {
     /**
      * 递增
      *
-     * @param key
-     *            键
-     * @param by
-     *            要增加几(大于0)
+     * @param key 键
+     * @param    delta 要增加几(大于0)
      * @return
      */
     public long incr(String key, long delta) {
@@ -165,10 +162,8 @@ public class RedisCacheManager {
     /**
      * 递减
      *
-     * @param key
-     *            键
-     * @param by
-     *            要减少几(小于0)
+     * @param key 键
+     * @param  delta   要减少几(小于0)
      * @return
      */
     public long decr(String key, long delta) {

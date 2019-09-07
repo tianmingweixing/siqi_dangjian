@@ -161,8 +161,8 @@
         <label class="layui-form-label">党支部简介</label>
         <div class="layui-input-block">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
-                      style="width: 660px;border:1px solid #e6e6e6; font-size: 16px; line-height: 23px;max-width: 1500px;
-                       height: 300px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
     </div>
 
@@ -174,7 +174,7 @@
         <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
             <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" name ="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="auto" width="150" alt="" style="margin-top: 10px">
+            <img id="backimg" name ="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="300" width="500" alt="" style="margin-top: 10px">
         </div>
     </div>
 

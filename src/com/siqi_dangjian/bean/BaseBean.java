@@ -1,7 +1,5 @@
 package com.siqi_dangjian.bean;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,9 +11,8 @@ public class BaseBean {
     public Long id;
 
     /**
-     * 创建时间 yyyy-mm-dd hh:mm:ss
+     * 创建时间
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name="create_time",length = 1,nullable = true)
     public Timestamp createTime;
 

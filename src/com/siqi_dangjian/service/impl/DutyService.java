@@ -56,4 +56,10 @@ public class DutyService implements IDutyService {
         Map map =  dutyDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public Map selectAll(Map blurMap, Map intMap, Map dateMap) {
+        Map map =  dutyDao.selectAll(blurMap,intMap,dateMap);
+        return map;
+    }
 }

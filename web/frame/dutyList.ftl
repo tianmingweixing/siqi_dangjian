@@ -16,7 +16,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label label_width_100">政治面貌</label>
         <div class="layui-input-inline">
-            <input type="text" id="name"  placeholder="政治面貌" autocomplete="off" class="layui-input">
+            <input type="text" id="type_name"  placeholder="政治面貌" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label ">党内职务</label>
         <div class="layui-input-inline">
@@ -82,24 +82,20 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:200, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '政治面貌', width:600}
+                ,{field: 'type_name', title: '政治面貌', width:600}
                 ,{field: 'party_duty',title:'党内职务',width:600}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
-
-                // ,{field: 'address',title:'地址',width:200,sort: true}
-                // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
-                var name = $("#name").val();
+                var type_name = $("#type_name").val();
                 var partyDuty=$("#partyDuty").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
-                        name:name,
+                        type_name:type_name,
                         party_duty:partyDuty
                     }
                 });

@@ -8,6 +8,7 @@ import com.siqi_dangjian.service.IConclusionTypeService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,15 +112,19 @@ public class ConclusionController extends BaseController {
     @RequestMapping("/addConclusion")
     @ResponseBody
     public ModelMap addConclusion(@RequestParam(value = "id", required = false) Long id,
-                                      @RequestParam(value = "conclusion_type_id", required = false) Integer conclusionTypeId,
-                                      @RequestParam(value = "year_limit", required = false) Date year_limit,
+                                      @RequestParam(value = "conclusion_type_id", required = false) Long conclusionTypeId,
+                                      @RequestParam(value = "year_limit", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date year_limit,
                                       @RequestParam(value = "title", required = false) String title,
                                       @RequestParam(value = "plan_content", required = false) String plan_content) {
 
         ModelMap modelMap = new ModelMap();
-
+        Conclusion conclusion;
         try {
-            Conclusion conclusion = new Conclusion();
+            if (id == null) {
+                 conclusion = new Conclusion();
+            }else{
+                 conclusion = conclusionService.selectById(id);
+            }
             conclusion.setId(id);
             conclusion.setConclusionTypeId(conclusionTypeId);
             conclusion.setPlanContent(plan_content);

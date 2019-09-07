@@ -21,8 +21,8 @@ public class Meeting extends BaseBean {
     /**
      * 会议类型：1：支委会；2：党员大会；3：廉政...
      */
-    @Column(name="meeting_type",nullable=true,length=1,columnDefinition="INT default 0")
-    private Integer meetingType;
+    @Column(name="meeting_type_id",nullable=true,length=8)
+    private Long meetingTypeId;
 
     /**
      * 会议内容
@@ -77,12 +77,12 @@ public class Meeting extends BaseBean {
         this.name = name;
     }
 
-    public Integer getMeetingType() {
-        return meetingType;
+    public Long getMeetingTypeId() {
+        return meetingTypeId;
     }
 
-    public void setMeetingType(Integer meetingType) {
-        this.meetingType = meetingType;
+    public void setMeetingTypeId(Long meetingTypeId) {
+        this.meetingTypeId = meetingTypeId;
     }
 
     public String getContent() {

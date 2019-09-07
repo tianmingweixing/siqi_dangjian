@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 添加总结（计划）类型表</title>
+    <title> 会议类型表</title>
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
@@ -14,7 +14,7 @@
 
 <br>
     <div class="layui-form-item input_row_margin_top" style="display:none ">
-        <label class="layui-form-label" style="margin-left: 85px">总结（计划）ID</label>
+        <label class="layui-form-label" style="margin-left: 85px">会议ID</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
 
@@ -51,24 +51,18 @@
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
 
-            laydate.render({
-                elem: '#year_limit' //指定元素
-            });
-
-
-            form.on('submit(formDemo)', function (data) {
+            form.on('submit(formDemo)', function () {
 
                 $.ajax({
-                    url: "/conclusionType/addConclusionType",
+                    url: "/meetingType/addMeetingType",
                     data: {
                         id: $("#id").val(),
-                        type: $("#type").val(),
                         type_name: $("#type_name").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/conclusionTypeList.ftl'
+                            window.location.href = '/frame/meetingTypeList.ftl'
                         }, 1500);
                     }
                 });

@@ -192,6 +192,19 @@ public class CommonUtil {
         return res;
     }
 
+
+    public static Map queryList(Session session, String sql, String sqlCount) {
+        SQLQuery query = session.createSQLQuery(sql);
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        BigInteger temp = (BigInteger) query1.uniqueResult();
+        int count = temp.intValue();
+        Map res = new HashMap();
+        res.put("list", list);
+        res.put("count", count);
+        return res;
+    }
+
     public static String wirteImage(String path, String extension) {
         ByteArrayOutputStream data = new ByteArrayOutputStream();
         try {
@@ -385,4 +398,6 @@ public class CommonUtil {
 
         return dateStr;
     }
+
+
 }

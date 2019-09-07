@@ -38,7 +38,7 @@ public class CommonString {
     public final static String BUSINESS_REC_NAME_CODE = "business_rec_name";
     public final static String BUSINESS_REC_PHONE_CODE = "business_rec_phone";
     public final static String BUSINESS_REC_ADDRESS_CODE = "business_rec_address";
-    public final static String ALI_DELIVER_APPSCRET = "459c8aa9e3d44de3bfdecb95070d2431";//阿里物流Appsret
+    public final static String ALI_DELIVER_APPSCRET = "459c8aa9e3d44de3bfdecb95070d2431";//阿里物流Appscret
     public final static String DELIVER_QUERY_EXCEPTION = "物流查询异常";
     public final static String WX_PAY_SING_KEY = "0ShiningVeins7FrightfulRuckusw21";
 

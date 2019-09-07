@@ -1,14 +1,14 @@
 package com.siqi_dangjian.controller;
 
-import com.siqi_dangjian.bean.Configuration;
-import com.siqi_dangjian.bean.DisciplineOfHonor;
-import com.siqi_dangjian.bean.PartyBranch;
-import com.siqi_dangjian.service.IDisciplineOfHonorService;
-import com.siqi_dangjian.service.IUserService;
+import com.siqi_dangjian.bean.*;
+import com.siqi_dangjian.service.*;
 import com.siqi_dangjian.service.impl.ActivityService;
 import com.siqi_dangjian.service.impl.ConfigurationService;
 import com.siqi_dangjian.service.impl.PartyBranchService;
 import com.siqi_dangjian.util.CommonString;
+import com.siqi_dangjian.util.ConnectUtil;
+import com.siqi_dangjian.util.RedisCacheManager;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -24,6 +26,18 @@ import java.util.*;
 @Controller
 @RequestMapping("/mini")
 public class MiniProgramController extends BaseController {
+
+    @Autowired
+    private IDutyService dutyService;
+
+    @Autowired
+    private ISympathyService sympathyService;
+
+    @Autowired
+    private RedisCacheManager redisCacheManager;
+
+    @Autowired
+    private INoticeService noticeService;
 
     @Autowired
     private ActivityService activityService;
@@ -41,6 +55,267 @@ public class MiniProgramController extends BaseController {
     private PartyBranchService partyBranchService;
 
     Logger logger = Logger.getRootLogger();
+
+
+    @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelMap wxLogin(HttpServletRequest request, HttpSession session) {
+        try {
+            modelMap = new ModelMap();
+            User user;
+            String user_code = request.getParameter("code");
+            if (StringUtils.isEmpty(user_code)) {
+                setFail("不合法code");
+                setCode(CommonString.INVILD_CODE);
+            } else {
+                String str = "?appid=" + CommonString.APP_ID + "&secret=" + CommonString.APP_SECRET + "&js_code=" + user_code + "&grant_type=authorization_code";
+                JSONObject object = ConnectUtil.connectByGet("https://api.weixin.qq.com/sns/jscode2session", str);
+                String openId = object.getString("openid");
+                String session_key = object.getString("session_key");
+                String redis_key = openId + session_key;
+                String redis_value = String.valueOf(System.currentTimeMillis());
+                modelMap.addAttribute("session_key", session_key);
+                if (StringUtils.isNotEmpty(openId)) {
+                    user = userService.wxLogin(openId);
+                    if (user == null) {
+                        User user1 = new User();
+                        user1.setOpenId(openId);
+                        user1.setCanUse(1);
+                        userService.saveOrUpDate(user1);
+                    }
+                    User u = userService.wxLogin(openId);
+                    modelMap.addAttribute("user", u);
+                    modelMap.addAttribute("redis_key", redis_key);
+                    modelMap.addAttribute("redis_value", redis_value);
+                    setSuccess();
+                    redisCacheManager.set(redis_key, redis_value, 604800);//7天
+
+                } else {
+                    setFail("后台异常");
+                    setCode(CommonString.SYSTEM_EXPECTION);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("login--->wx_login", e);
+            setFail("登陆错误");
+            setCode(CommonString.SYSTEM_EXPECTION);
+            e.printStackTrace();
+        }
+        return modelMap;
+    }
+
+
+    /**
+     * 查询活动列表
+     * @param title
+     * @param type
+     * @param start_time
+     * @param end_time
+     * @param limit
+     * @param page
+     * @return
+     */
+    @RequestMapping("getActivityList")
+    @ResponseBody
+    public ModelMap getActivityList(@RequestParam(value = "title",required = false)String title,
+                                    @RequestParam(value = "type",required = false)Integer type,
+                                    @RequestParam(value = "start_time", required = false) String start_time,
+                                    @RequestParam(value = "end_time", required = false) String end_time,
+                                    @RequestParam(value = "limit", required=false)Integer limit,
+                                    @RequestParam(value = "page", required=false)Integer page){
+
+        modelMap = new ModelMap();
+
+        try {
+            Map blurMap = new HashMap<>();
+            Map dateMap = new HashMap<>();
+            Map intMap  = new HashMap<>();
+
+
+            if(type != null) {
+                intMap.put("type", type.toString());
+            }
+            if(StringUtils.isNotEmpty(title)) {
+                blurMap.put("title", title);
+            }
+            if(StringUtils.isNotEmpty(start_time)) {
+                dateMap.put("start_time", start_time);
+            }
+            if(StringUtils.isNotEmpty(end_time)) {
+                dateMap.put("end_time", end_time);
+            }
+
+            Map map = activityService.selectAll(blurMap,intMap,dateMap,limit,page);
+
+            List list = (List<ActivitiesType>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setSuccess();
+            setMsg("查询活动信息成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            setCode(CommonString.SYSTEM_EXPECTION);
+            if(limit != null & page != null){
+                setMsg("查询用户信息失败");
+            }
+            setMsg("缺少分页参数limit,page");
+            setFail();
+        }
+
+        return modelMap;
+    }
+
+    /**
+     * 编辑党小组
+     * @param id addSympathy
+     * @return
+     */
+    @RequestMapping(value = "/setUser")
+    @ResponseBody
+    public ModelMap setUser(@RequestParam(value = "id", required = false) Long id) {
+
+        User user;
+        Duty duty;
+
+        try {
+            modelMap = new ModelMap();
+            user = userService.getUserById(id);
+
+            if (user.getDutyId() != null) {
+                duty = dutyService.selectById(user.getDutyId());
+                setData("duty", duty);
+            }
+            setData("user", user);
+            setMsg("编辑用户成功");
+            setSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("user-->setUser", e);
+            if (id != null) {
+            setMsg("缺少参数：id");
+            }
+            setMsg("编辑用户失败");
+            setFail();
+        }
+        return modelMap;
+
+    }
+
+    /**
+     * 模糊查询用户信息
+     * @param username
+     * @param founding_time
+     * @param change_time
+     * @param limit
+     * @param page
+     * @return List
+     */
+    @RequestMapping("getUserList")
+    @ResponseBody
+    public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
+                                @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "founding_time", required = false) String founding_time,
+                                @RequestParam(value = "change_time", required = false) String change_time,
+                                @RequestParam(value = "limit", required = false) Integer limit,
+                                @RequestParam(value = "page", required = false) Integer page) {
+
+        modelMap = new ModelMap();
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
+
+
+        if (StringUtils.isNotEmpty(company)) {
+            blurMap.put("company", company);
+        }
+
+        if (StringUtils.isNotEmpty(username)) {
+            blurMap.put("username", username);
+        }
+
+        if (StringUtils.isNotEmpty(founding_time)) {
+            dateMap.put("founding_time", founding_time);
+        }
+        if (StringUtils.isNotEmpty(change_time)) {
+            dateMap.put("change_time", change_time);
+        }
+        try {
+            Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
+            List list = (List<PartyTeam>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setSuccess();
+            setMsg("查询用户信息成功");
+        } catch (Exception e) {
+            setFail();
+            if(limit != null & page != null){
+                setMsg("查询用户信息失败");
+            }
+            setMsg("缺少分页参数limit,page");
+            e.printStackTrace();
+            logger.error("user-->list", e);
+
+        }
+        return modelMap;
+    }
+
+    /**
+     * 查询公示公告表信息
+     * @param title 标题
+     * @param limit
+     * @param page
+     * @return
+     */
+    @RequestMapping("getNoticeList")
+    @ResponseBody
+    public ModelMap getNoticeList(@RequestParam(value = "title", required = false) String title,
+                                  @RequestParam(value = "start_time_search", required = false) String start_time,
+                                  @RequestParam(value = "end_time_search", required = false) String end_time,
+                                  @RequestParam(value = "limit", required = false) Integer limit,
+                                  @RequestParam(value = "page", required = false) Integer page) {
+
+        modelMap = new ModelMap();
+
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
+
+
+        if (StringUtils.isNotEmpty(title)) {
+            blurMap.put("title", title);
+        }
+
+        if (StringUtils.isNotEmpty(start_time)) {
+            dateMap.put("start_time", start_time);
+        }
+
+        if (StringUtils.isNotEmpty(end_time)) {
+            dateMap.put("end_time", end_time);
+        }
+
+        try {
+            Map map = noticeService.selectAll(blurMap, intMap, dateMap, limit, page);
+
+            List list = (List<Notice>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setSuccess();
+            setMsg("查询公示公告表信息成功");
+        } catch (Exception e) {
+            setFail("查询公示公告表信息错误");
+            if(limit != null & page != null){
+                setMsg("查询信息失败");
+            }
+            setMsg("缺少分页参数limit,page");
+            e.printStackTrace();
+            logger.error("mini-->getNoticeList",e);
+        }
+
+        return modelMap;
+    }
 
 
     /**
@@ -80,8 +355,12 @@ public class MiniProgramController extends BaseController {
             setSuccess();
             setMsg("查询荣誉和违纪信息成功");
         } catch (Exception e) {
-            setFail();
+            setFail("查询荣誉和违纪信息错误");
             e.printStackTrace();
+            if(limit != null & page != null){
+                setMsg("查询信息失败");
+            }
+            setMsg("缺少分页参数limit,page");
             logger.error("mini --> getDisciplineOfHonorList");
         }
 
@@ -115,7 +394,11 @@ public class MiniProgramController extends BaseController {
             setMsg("查询党支部信息成功");
             setSuccess();
         } catch (Exception e) {
-            setFail();
+            setFail("查询党支部信息错误");
+            if(limit != null & page != null){
+                setMsg("查询信息失败");
+            }
+            setMsg("缺少分页参数limit,page");
             e.printStackTrace();
             logger.error("mini --> getConfig");
         }
@@ -166,7 +449,7 @@ public class MiniProgramController extends BaseController {
         setCode(CommonString.REQUEST_SUCCESS);
         } catch (Exception e) {
             setCode(CommonString.SYSTEM_EXPECTION);
-            setFail("后台异常");
+            setFail("分组查询数量错误");
             logger.error("mini--->selectGroupCount", e);
             return modelMap;
         }

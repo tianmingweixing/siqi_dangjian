@@ -137,15 +137,13 @@ public class UserController extends BaseController {
 
     /**
      * 编辑党小组
-     *
      * @param id addSympathy
      * @return
      */
     @RequestMapping(value = "/setUser")
     public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id,
                                 @RequestParam(value = "sympathyId", required = false) Long sympathyId,
-                                @RequestParam(value = "addSympathy", required = false) Integer addSympathy,
-                                @RequestParam(value = "dutyid", required = false) Long dutyid) {
+                                @RequestParam(value = "addSympathy", required = false) Integer addSympathy) {
         ModelAndView view = new ModelAndView();
         User user;
         Duty duty;
@@ -158,10 +156,10 @@ public class UserController extends BaseController {
                 user = new User();
             }
 
-            if (dutyid != null) {
-                duty = dutyService.selectById(dutyid);
+            if (user.getDutyId() != null) {
+                duty = dutyService.selectById(user.getDutyId());
                 view.addObject("party_duty", duty.getPartyDuty());
-                view.addObject("name", duty.getName());
+                view.addObject("type_name", duty.getTypeName());
             }
             if (sympathyId != null) {
                 sympathy = sympathyService.selectById(sympathyId);
@@ -192,10 +190,11 @@ public class UserController extends BaseController {
                 view.setViewName("WEB-INF/page/user_Add");
             }
             setSuccess();
+            setMsg("获取用户数据成功");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("user-->setUser", e);
-            setMsg("获取数据错误");
+            setMsg("获取用户数据错误");
         }
         return view;
     }

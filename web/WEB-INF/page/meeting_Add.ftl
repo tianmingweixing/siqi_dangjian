@@ -21,13 +21,6 @@
             <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if images_a??>${images_a}<#else></#if>" style="width: 400px;"/></div>
     </div>
 
-   <!-- <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">用户ID</label>
-        <div class="layui-input-inline">
-            <input id="userId" name="userId" type=""  maxlength="20" value="<#if userId??>${userId}<#else></#if>"/>
-        </div>
-    </div>-->
-
 
     <div class="layui-form-item input_row_margin_top">
 
@@ -39,11 +32,8 @@
 
         <label class="layui-form-label">会议类型</label>
         <div class="layui-input-inline">
-            <select name="meeting_type" id="meeting_type">
+            <select name="meeting_type_id" id="meeting_type_id">
                 <option value="">全部</option>
-                <option value="1" <#if meeting_type?? && meeting_type==1>selected</#if>>支委会</option>
-                <option value="2" <#if meeting_type?? && meeting_type==2>selected</#if>>党员大会</option>
-                <option value="3" <#if meeting_type?? && meeting_type==3>selected</#if>>廉政</option>
             </select>
         </div>
 
@@ -109,8 +99,6 @@
 
         layui.use(['laydate','form','upload'], function () {
             var form = layui.form;
-            // var $ = layui.jQuery;
-
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
             var upload = layui.upload;
@@ -121,6 +109,19 @@
             });
             laydate.render({
                 elem: '#end_time' //指定元素
+            });
+
+
+            //查询计划种类
+            $.ajax({
+                url: "/meetingType/allCategory",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        $("#meeting_type_id").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                    });
+                    form.render('select');
+                }
             });
 
             //上传头像
@@ -163,7 +164,7 @@
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
-                        meeting_type: $("#meeting_type").val(),
+                        meeting_type_id: $("#meeting_type_id").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
                         imgPath: $("#imgPath").val(),

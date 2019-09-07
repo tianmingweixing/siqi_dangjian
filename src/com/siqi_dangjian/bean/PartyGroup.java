@@ -13,8 +13,15 @@ import java.util.Date;
 @Table(name = "party_group")
 public class PartyGroup extends BaseBean {
 
+
     @Column(name="name",nullable=true,length=30)
     private String name;
+
+    /**
+     * 班子成员名称
+     */
+    @Column(name="member_name",nullable=true,length=30)
+    private String memberName;
 
     /**
      * 班子职责
@@ -53,6 +60,14 @@ public class PartyGroup extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
 
     public Date getFoundingTime() {
         return foundingTime;

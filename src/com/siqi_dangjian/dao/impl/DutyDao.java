@@ -51,20 +51,7 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
                 "\td.create_time,\n" +
                 "\td.party_duty,\n" +
                 "\td.party_branch_id,\n" +
-                "\t(\n" +
-                "\t\tCASE d.`name`\n" +
-                "\t\tWHEN 1 THEN\n" +
-                "\t\t\t'发展对象'\n" +
-                "\t\tWHEN 2 THEN\n" +
-                "\t\t\t'积极分子'\n" +
-                "\t\tWHEN 3 THEN\n" +
-                "\t\t\t'预备党员'\n" +
-                "\t\tWHEN 4 THEN\n" +
-                "\t\t\t'正式党员'\n" +
-                "\t\tELSE\n" +
-                "\t\t\t'空的'\n" +
-                "\t\tEND\n" +
-                "\t) `name`\n" +
+                "\td.type_name\n" +
                 "FROM\n" +
                 "\tduty d\n" +
                 "WHERE\n" +
@@ -82,5 +69,32 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public Map selectAll(Map blurMap, Map intMap, Map dateMap) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\td.id,\n" +
+                "\td.create_time,\n" +
+                "\td.party_duty,\n" +
+                "\td.party_branch_id,\n" +
+                "\td.type_name\n" +
+                "FROM\n" +
+                "\tduty d\n" +
+                "WHERE\n" +
+                "\td.can_use = 1";
+
+        String sqlCount = "SELECT\n" +
+                "  count(*) count\n" +
+                "FROM duty d where d.can_use=1";
+        sql = CommonUtil.appendBlurStr(sql,blurMap);
+        sql = CommonUtil.appendDateStr(sql,dateMap,"d");
+        sql = CommonUtil.appendIntStr(sql,intMap,"d");
+        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"d");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"d");
+        Map resMap = CommonUtil.queryList(session,sql,sqlCount);
+        return resMap;
     }
 }

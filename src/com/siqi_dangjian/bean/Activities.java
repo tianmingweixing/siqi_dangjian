@@ -31,7 +31,7 @@ public class Activities extends BaseBean{
     private String content;
 
     /**
-     * 活动类型
+     * 活动类型  1 党日活动 2 党员活动 3 主题实践活动
      */
     @Column(name="type_id",length = 8,nullable = true)
     private Long typeId;

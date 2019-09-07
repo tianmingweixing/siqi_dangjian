@@ -1,5 +1,7 @@
 package com.siqi_dangjian.bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -23,6 +25,7 @@ public class Conclusion extends BaseBean{
     /**
      * 年限
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="year_limit",length = 30)
     private Date yearLimit;
 
@@ -43,7 +46,7 @@ public class Conclusion extends BaseBean{
      * 总结类型
      */
     @Column(name="conclusion_type_id",length = 8,columnDefinition = "INT default 1")
-    private Integer conclusionTypeId;
+    private Long conclusionTypeId;
 
 
     public Date getYearLimit() {
@@ -54,15 +57,13 @@ public class Conclusion extends BaseBean{
         this.yearLimit = yearLimit;
     }
 
-
-    public Integer getConclusionTypeId() {
+    public Long getConclusionTypeId() {
         return conclusionTypeId;
     }
 
-    public void setConclusionTypeId(Integer conclusionTypeId) {
+    public void setConclusionTypeId(Long conclusionTypeId) {
         this.conclusionTypeId = conclusionTypeId;
     }
-
 
     public String getPlanContent() {
         return planContent;

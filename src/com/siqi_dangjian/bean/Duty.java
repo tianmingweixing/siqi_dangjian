@@ -13,8 +13,8 @@ public class Duty extends BaseBean {
     /**
      * 政治面貌 ：1 发展对象 2 积极分子；3 预备党员；；4 正式党员；5。。。
      */
-    @Column(name="name",nullable=true,length=30)
-    private Integer name;
+    @Column(name="type_name",nullable=true,length=30)
+    private String typeName;
 
     /**
      * 党内职务: 宣传委员 组织委员 纪律委员 支部书记 党小组成员
@@ -28,12 +28,12 @@ public class Duty extends BaseBean {
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
 
-    public Integer getName() {
-        return name;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setName(Integer name) {
-        this.name = name;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public String getPartyDuty() {

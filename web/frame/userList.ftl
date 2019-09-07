@@ -201,7 +201,8 @@
                 ,{field: 'sympathyId',title:'慰问ID',width:80,sort: true}
                 ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
                 ,{field: 'name',title:'政治面貌',width:125,sort: true}
-                ,{field: 'join_time',title:'入党时间',width:150,sort: true}
+                ,{field: 'difficulty_type',title:'困难情况',width:100,sort: true}
+                ,{field: 'join_time',title:'入党时间',width:100,sort: true}
                 // ,{field: 'head_img',title:'头像',width:200,sort: true}
                 ,{field: 'look',title:'查看详情',width:200,templet:'#barDemo'}
             ]]
@@ -241,7 +242,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         console.log(data[0]);
-                        window.location.href='/user/setUser?id='+data[0].id+'&dutyid='+data[0].dutyid;
+                        window.location.href='/user/setUser?id='+data[0].id;
                     }
                     break;
                 case 'delete':

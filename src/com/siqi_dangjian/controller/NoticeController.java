@@ -146,7 +146,7 @@ public class NoticeController extends BaseController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("setConclusion", e);
+            logger.error("setNotice", e);
             setMsg("获取数据错误");
         }
         return view;
@@ -154,7 +154,7 @@ public class NoticeController extends BaseController {
 
 
     /**
-     * 查询会议表信息
+     * 查询公示公告表信息
      * @param title 标题
      * @param limit
      * @param page

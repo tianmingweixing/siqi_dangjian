@@ -130,7 +130,7 @@
         $("#mainIframe").attr("src", "/frame/activityBrandList.ftl");
     }
     function activity_4() {
-        $("#mainIframe").attr("src", "/frame/activityTipsList.ftl");
+        $("#mainIframe").attr("src", "/frame/activityBrandList.ftl");
     }
 
     function meeting_1() {

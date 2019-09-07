@@ -92,7 +92,7 @@
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'title', title: '活动标题'}
                 , {field: 'content', title: '活动内容'}
-                , {field: 'type_id', title: '活动类型'}
+                , {field: 'type_name', title: '活动类型'}
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
                 , {field: 'review', title: '点评'}

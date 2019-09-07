@@ -46,12 +46,8 @@
 
         <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
-            <select name="name" id="name">
+            <select name="type_name" id="type_name">
                 <option value="">全部</option>
-                <option value="1" <#if name?? && name==1>selected</#if>>发展对象</option>
-                <option value="2" <#if name?? && name==2>selected</#if>>积极分子</option>
-                <option value="3" <#if name?? && name==3>selected</#if>>预备党员</option>
-                <option value="4" <#if name?? && name==4>selected</#if>>正式党员</option>
             </select>
         </div>
     </div>
@@ -127,6 +123,18 @@
                 elem: '#join_time' //指定元素
             });
 
+            //查询计划种类
+            $.ajax({
+                url: "/duty/allCategory",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                    });
+                    form.render('select');
+                }
+            });
+
 
             form.on('submit(formDemo)', function () {
 
@@ -134,7 +142,7 @@
                     url: "/duty/addDuty",
                     data: {
                         id: $("#dutyid").val(),
-                        name: $("#name").val(),
+                        type_name: $("#type_name").val(),
                         party_duty: $("#party_duty").val()
                     },
                     success: function (data) {
