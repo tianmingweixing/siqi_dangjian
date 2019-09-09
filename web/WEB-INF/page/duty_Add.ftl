@@ -17,20 +17,22 @@
         <label class="layui-form-label" style="margin-left: 85px">Id</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
     </div>
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党内职务</label>
-        <div class="layui-input-inline">
-            <input id="party_duty" name="party_duty" lay-verify="required" placeholder="请输入党内职务" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
-        </div>
 
-    </div>
 
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label">人员类型</label>
         <div class="layui-input-inline">
             <input id="type_name" name="type_name" lay-verify="required" placeholder="请输入类型名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if type_name??>${type_name}<#else></#if>">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label ">类型描述</label>
+        <div class="layui-input-inline">
+            <input id="description" name="description" lay-verify="required" placeholder="请输入类型描述" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if description??>${description}<#else></#if>">
         </div>
 
     </div>
@@ -63,7 +65,7 @@
                     data: {
                         id: $("#id").val(),
                         type_name: $("#type_name").val(),
-                        party_duty: $("#party_duty").val()
+                        description: $("#description").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});

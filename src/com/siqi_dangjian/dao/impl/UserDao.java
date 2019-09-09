@@ -127,7 +127,6 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.ID_cord,\n" +
                 "\ts.id sympathyId,\n" +
                 "\t d.type_name ,\n" +
-                "\td.party_duty,\n" +
                 "\t(case u.difficulty_type \n" +
                 "                when 0 then '非困难'  \n" +
                 "                when 1 then '困难'  \n" +

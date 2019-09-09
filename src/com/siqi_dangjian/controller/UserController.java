@@ -158,8 +158,9 @@ public class UserController extends BaseController {
 
             if (user.getDutyId() != null) {
                 duty = dutyService.selectById(user.getDutyId());
-                view.addObject("party_duty", duty.getPartyDuty());
+                view.addObject("description", duty.getDescription());
                 view.addObject("type_name", duty.getTypeName());
+                view.addObject("dutyid", duty.getId());
             }
             if (sympathyId != null) {
                 sympathy = sympathyService.selectById(sympathyId);

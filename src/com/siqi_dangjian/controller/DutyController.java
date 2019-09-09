@@ -71,9 +71,8 @@ public class DutyController extends BaseController{
         Map intMap = new HashMap<>();
 
 
-
         try {
-            Map map = dutyService.selectAll(blurMap, intMap, dateMap);
+            Map map = dutyService.selectAllCategory(blurMap, intMap, dateMap);
             setData("list", map.get("list"));
         } catch (Exception e) {
             setFail("查询失败");
@@ -88,15 +87,13 @@ public class DutyController extends BaseController{
     /**
      * 添加或更新
      * @param id
-     * @param typeName
-     * @param partyDuty
+     * @param description
      * @return
      */
     @RequestMapping("/addDuty")
     @ResponseBody
     public ModelMap addDuty(@RequestParam(value = "id", required = false) Long id,
-                            @RequestParam(value = "type_name", required = false) String typeName,
-                            @RequestParam(value = "party_duty", required = false) String partyDuty
+                            @RequestParam(value = "description", required = false) String description
     ) {
 
         modelMap = new ModelMap();
@@ -108,8 +105,7 @@ public class DutyController extends BaseController{
             } else {
                 duty = new Duty();
             }
-            duty.setTypeName(typeName);
-            duty.setPartyDuty(partyDuty);
+            duty.setDescription(description);
             duty.setId(id);
             duty.setCanUse(1);
             BigInteger bigInteger = dutyService.insertOrUpdate(duty);
@@ -141,7 +137,7 @@ public class DutyController extends BaseController{
             duty = dutyService.selectById(id);
             view.addObject("id", duty.getId());
             view.addObject("type_name", duty.getTypeName());
-            view.addObject("party_duty", duty.getPartyDuty());
+            view.addObject("description", duty.getDescription());
 
             view.setViewName("WEB-INF/page/duty_Add");
         } catch (Exception e) {

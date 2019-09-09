@@ -30,11 +30,43 @@
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
 
-        <label class="layui-form-label">会议类型</label>
+        <label class="layui-form-label">组织生活记录</label>
         <div class="layui-input-inline">
             <select name="meeting_type_id" id="meeting_type_id">
                 <option value="">全部</option>
             </select>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label ">主持人</label>
+        <div class="layui-input-inline">
+            <input id="compere" name="compere" lay-verify="required" placeholder="请输入主持人" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if compere??>${compere}<#else></#if>">
+        </div>
+
+        <label class="layui-form-label ">记录人</label>
+        <div class="layui-input-inline">
+            <input id="recorder" name="recorder" lay-verify="required" placeholder="请输入记录人" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if recorder??>${recorder}<#else></#if>">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label ">应到人数</label>
+        <div class="layui-input-inline">
+            <input id="people_counting" name="people_counting" lay-verify="required" placeholder="请输入应到人数" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if people_counting??>${people_counting}<#else></#if>">
+        </div>
+
+        <label class="layui-form-label ">实到人数</label>
+        <div class="layui-input-inline">
+            <input id="attendance" name="attendance" lay-verify="required" placeholder="请输入实到人数" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if attendance ??>${attendance}<#else></#if>">
         </div>
 
     </div>
@@ -53,13 +85,20 @@
                    autocomplete="off" class="layui-input" value="<#if end_time??>${end_time}<#else></#if>">
         </div>
 
+        <label class="layui-form-label ">地点</label>
+        <div class="layui-input-inline">
+            <input id="address" name="address" lay-verify="required" placeholder="请输入地点" maxlength="150"
+                   autocomplete="off" style="display: block; width: 150%; padding-left: 8px;height: 38px;border-color: #D2D2D2!important; line-height: 1.3; line-height: 38px\9; border-width: 1px; border-style: solid; background-color: #fff; border-radius: 2px;" value="<#if address ??>${address}<#else></#if>">
+        </div>
+
     </div>
 
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">会议内容</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入会议内容"
-                      class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
+                      style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 170px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
     </div>
 
@@ -67,7 +106,8 @@
         <label class="layui-form-label">会议指导</label>
         <div class="layui-input-block">
                 <textarea name="guide" id="guide" placeholder="请输入会议指导"
-                          class="layui-textarea"><#if guide??>${guide}<#else></#if></textarea>
+                          style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 170px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
         </div>
     </div>
 
@@ -75,7 +115,7 @@
         <div class="layui-upload" style="margin-left: 40px;">
             <button type="button" class="layui-btn" id="uploadImg">上传图片</button>
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="images_a" src="<#if images_a??>${images_a}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 90px; height: 90px; border: 1px solid #CCCCCC;">
+                <img class="layui-upload-img" id="images_a" src="<#if images_a??>${images_a}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>
             </div>
         </div>
@@ -156,14 +196,19 @@
                 }
             });
 
-            form.on('submit(formDemo)', function (data) {
+            form.on('submit(formDemo)', function () {
 
                 $.ajax({
                     url: "/meeting/addMeeting",
                     type:'post',
                     data: {
                         id: $("#id").val(),
+                        compere: $("#compere").val(),
                         name: $("#name").val(),
+                        recorder: $("#recorder").val(),
+                        people_counting: $("#people_counting").val(),
+                        attendance: $("#attendance").val(),
+                        address: $("#address").val(),
                         meeting_type_id: $("#meeting_type_id").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),

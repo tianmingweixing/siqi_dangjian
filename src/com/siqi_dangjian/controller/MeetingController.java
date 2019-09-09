@@ -73,6 +73,11 @@ public class MeetingController extends BaseController {
     public ModelAndView addMeeting(@RequestParam(value = "id", required = false) Long id,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
+                                   @RequestParam(value = "compere", required = false) String compere,
+                                   @RequestParam(value = "recorder", required = false) String recorder,
+                                   @RequestParam(value = "people_counting", required = false) String people_counting,
+                                   @RequestParam(value = "attendance", required = false) String attendance,
+                                   @RequestParam(value = "address", required = false) String address,
                                    @RequestParam(value = "name", required = false) String name,
                                    @RequestParam(value = "imgPath", required = false) String images_a,
                                     @RequestParam(value = "guide", required = false) String guide,
@@ -85,6 +90,11 @@ public class MeetingController extends BaseController {
             Meeting meeting = new Meeting();
             meeting.setId(id);
             meeting.setName(name);
+            meeting.setAddress(address);
+            meeting.setRecorder(recorder);
+            meeting.setCompere(compere);
+            meeting.setAttendance(attendance);
+            meeting.setPeopleCounting(people_counting);
             meeting.setContent(content);
             meeting.setGuide(guide);
             meeting.setMeetingTypeId(meetingTypeId);
@@ -124,6 +134,11 @@ public class MeetingController extends BaseController {
                 view.addObject("guide", meeting.getGuide());
                 view.addObject("images_a", meeting.getImagesA());
                 view.addObject("name", meeting.getName());
+                view.addObject("compere", meeting.getCompere());
+                view.addObject("recorder", meeting.getRecorder());
+                view.addObject("people_counting", meeting.getPeopleCounting());
+                view.addObject("attendance", meeting.getAttendance());
+                view.addObject("address", meeting.getAddress());
                 view.addObject("start_time", meeting.getStartTime());
                 view.addObject("end_time", meeting.getEndTime());
 

@@ -11,13 +11,13 @@ import javax.persistence.Table;
 @Table(name = "meeting_of_user")
 public class MeetingOfUser extends BaseBean{
 
-    @Column(name="username",nullable=true,length=15)
+    @Column(name="user_name",nullable=true,length=15)
     private String userName;
 
-    @Column(name="userid",nullable=true,length=8)
+    @Column(name="user_id",nullable=true,length=8)
     private Long userId;
 
-    @Column(name="meetingid",nullable=true,length=8)
+    @Column(name="meeting_id",nullable=true,length=8)
     private Long meetingId;
 
     public MeetingOfUser(String userName, Long userId, Long meetingId) {

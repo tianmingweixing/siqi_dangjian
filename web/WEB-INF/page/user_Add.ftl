@@ -89,11 +89,11 @@
                    autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
 
-        <label class="layui-form-label " style="margin-left: 84px">党内职务</label>
+        <!--<label class="layui-form-label " style="margin-left: 84px">党内职务</label>
         <div class="layui-input-inline">
             <input id="party_duty" name="party_duty" lay-verify="" placeholder="请输入党内职务" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
-        </div>
+        </div>-->
     </div>
 
 
@@ -109,6 +109,8 @@
 </form>
 
 <script>
+
+    var dutyid = <#if dutyid??>"${dutyid}"<#else>""</#if>;
 
     $(function() {
 
@@ -129,28 +131,20 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        if(item.id == dutyid) {
+                            $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.type_name + "</option>");
+                        }else{
+                            $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+
+                        }
                     });
+
                     form.render('select');
                 }
             });
 
 
             form.on('submit(formDemo)', function () {
-
-                $.ajax({
-                    url: "/duty/addDuty",
-                    data: {
-                        id: $("#dutyid").val(),
-                        type_name: $("#type_name").val(),
-                        party_duty: $("#party_duty").val()
-                    },
-                    success: function (data) {
-                        var dutyid =  $("#dutyid").val();
-
-                        if (dutyid == ""){
-                            var dutyid = data.lastId;
-                        }
 
                         $.ajax({
                             url: "/user/addUser",
@@ -160,7 +154,7 @@
                                 age: $("#age").val(),
                                 education: $("#education").val(),
                                 age: $("#age").val(),
-                                dutyid : dutyid,
+                                dutyid : $("#type_name").val(),
                                 join_time: $("#join_time").val(),
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),
@@ -174,8 +168,7 @@
                                 }, 1500);
                             }
                         });
-                    }
-                });
+
                 return false;
             });
         });

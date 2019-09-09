@@ -17,10 +17,10 @@ public class Duty extends BaseBean {
     private String typeName;
 
     /**
-     * 党内职务: 宣传委员 组织委员 纪律委员 支部书记 党小组成员
+     * 描述
      */
-    @Column(name="party_duty",nullable=true,length=300)
-    private String partyDuty;
+    @Column(name="description",nullable=true,length=300)
+    private String description;
 
     /**
      * 党支部id
@@ -36,12 +36,12 @@ public class Duty extends BaseBean {
         this.typeName = typeName;
     }
 
-    public String getPartyDuty() {
-        return partyDuty;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPartyDuty(String partyDuty) {
-        this.partyDuty = partyDuty;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getPartyBranchId() {

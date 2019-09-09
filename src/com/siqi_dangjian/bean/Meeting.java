@@ -31,6 +31,38 @@ public class Meeting extends BaseBean {
     private String content;
 
     /**
+     * 主持人
+     */
+    @Column(name="compere",nullable=true,length=3000)
+    private String compere;
+
+    /**
+     * 记录人
+     */
+    @Column(name="recorder",nullable=true,length=3000)
+    private String recorder;
+
+    /**
+     * 应到人数
+     */
+    @Column(name="people_counting",nullable=true,length=3000)
+    private String peopleCounting;
+
+    /**
+     * 实到人数
+     */
+    @Column(name="attendance",nullable=true,length=3000)
+    private String attendance;
+
+
+    /**
+     * 地点
+     */
+    @Column(name="address",nullable=true,length=3000)
+    private String address;
+
+
+    /**
      * 会议指导
      */
     @Column(name="guide",nullable=true,length=2000)
@@ -68,6 +100,46 @@ public class Meeting extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public String getCompere() {
+        return compere;
+    }
+
+    public void setCompere(String compere) {
+        this.compere = compere;
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder;
+    }
+
+    public String getPeopleCounting() {
+        return peopleCounting;
+    }
+
+    public void setPeopleCounting(String peopleCounting) {
+        this.peopleCounting = peopleCounting;
+    }
+
+    public String getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(String attendance) {
+        this.attendance = attendance;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getName() {
         return name;

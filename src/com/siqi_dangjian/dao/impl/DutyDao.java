@@ -49,7 +49,7 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
         String sql = "SELECT\n" +
                 "\td.id,\n" +
                 "\td.create_time,\n" +
-                "\td.party_duty,\n" +
+                "\td.description,\n" +
                 "\td.party_branch_id,\n" +
                 "\td.type_name\n" +
                 "FROM\n" +
@@ -71,13 +71,15 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
 
     }
 
+
+
     @Override
-    public Map selectAll(Map blurMap, Map intMap, Map dateMap) {
+    public Map selectAllCategory(Map blurMap, Map intMap, Map dateMap) {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\td.id,\n" +
                 "\td.create_time,\n" +
-                "\td.party_duty,\n" +
+                "\td.description,\n" +
                 "\td.party_branch_id,\n" +
                 "\td.type_name\n" +
                 "FROM\n" +
@@ -94,7 +96,7 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"d");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"d");
-        Map resMap = CommonUtil.queryList(session,sql,sqlCount);
+        Map resMap = CommonUtil.queryAllCategoryList(session,sql,sqlCount);
         return resMap;
     }
 }

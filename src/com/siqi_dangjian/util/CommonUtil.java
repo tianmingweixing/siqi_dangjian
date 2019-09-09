@@ -193,7 +193,7 @@ public class CommonUtil {
     }
 
 
-    public static Map queryList(Session session, String sql, String sqlCount) {
+    public static Map queryAllCategoryList(Session session, String sql, String sqlCount) {
         SQLQuery query = session.createSQLQuery(sql);
         SQLQuery query1 = session.createSQLQuery(sqlCount);
         List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();

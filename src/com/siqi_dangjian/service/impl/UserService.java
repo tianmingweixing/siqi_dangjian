@@ -37,6 +37,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void saveOrUpDate(User user1) throws Exception {
+        userDao.insertOrUpdate(user1);
+    }
+
+    @Override
     public User getUserById(Long id) throws Exception {
        User user = userDao.selectById(id);
         return user;
@@ -63,8 +68,5 @@ public class UserService implements IUserService {
         return userDao.selectGroupCount();
     }
 
-    @Override
-    public void saveOrUpDate(User user1) throws Exception {
-        userDao.insertOrUpdate(user1);
-    }
+
 }

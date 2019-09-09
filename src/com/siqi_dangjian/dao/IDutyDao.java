@@ -17,5 +17,6 @@ public interface IDutyDao {
 
     Map selectAll(Map blurParam,Map intParam, Map dateParam, int limit, int page) throws Exception;
 
-    Map selectAll(Map blurMap, Map intMap, Map dateMap);
+
+    Map selectAllCategory(Map blurMap, Map intMap, Map dateMap);
 }

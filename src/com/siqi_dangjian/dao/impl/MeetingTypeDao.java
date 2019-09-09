@@ -81,7 +81,7 @@ public class MeetingTypeDao extends BaseDao<MeetingType> implements IMeetingType
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
         sqlCount = CommonUtil.appendDateStr(sqlCount,intMap,"m");
         sqlCount = CommonUtil.appendIntStr(sqlCount,dateMap,"m");
-        Map resMap = CommonUtil.queryList(session,sql,sqlCount);
+        Map resMap = CommonUtil.queryAllCategoryList(session,sql,sqlCount);
         return resMap;
     }
 }

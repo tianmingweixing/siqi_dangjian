@@ -48,6 +48,11 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
                 "\tDATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
                 "\tm.guide,\n" +
                 "\tm.id,\n" +
+                "\tm.compere,\n" +
+                "\tm.recorder,\n" +
+                "\tm.people_counting,\n" +
+                "\tm.attendance,\n" +
+                "\tm.address,\n" +
                 "\tm.images_a,\n" +
                 "\t(\n" +
                 "\t\tCASE m.meeting_type\n" +

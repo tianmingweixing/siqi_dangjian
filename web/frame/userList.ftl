@@ -222,7 +222,7 @@
                 ,{field: 'ID_cord',title:'身份证',width:180,sort: true}
                 ,{field: 'dutyid',title:'职务ID',width:80,sort: true}
                 ,{field: 'sympathyId',title:'慰问ID',width:80,sort: true}
-                ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
+                // ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
                 ,{field: 'type_name',title:'政治面貌',width:125,sort: true}
                 ,{field: 'difficulty_type',title:'困难情况',width:100,sort: true}
                 ,{field: 'join_time',title:'入党时间',width:100,sort: true}

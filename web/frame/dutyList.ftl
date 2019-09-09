@@ -100,20 +100,20 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:200, sort: true, fixed: 'left'}
                 ,{field: 'type_name', title: '政治面貌', width:600}
-                ,{field: 'party_duty',title:'党内职务',width:600}
+                ,{field: 'description',title:'描述',width:600}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var id = $("#type_name").val();
-                var partyDuty=$("#partyDuty").val();
+                var description=$("#description").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         id:id,
-                        party_duty:partyDuty
+                        description:description
                     }
                 });
             }
