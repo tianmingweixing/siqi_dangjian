@@ -101,13 +101,13 @@
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '公示标题', width: 250}
-                , {field: 'content', title: '内容', width: 600}
-                , {field: 'create_time', title: '创建时间', width: 200}
-                , {field: 'image_path', title: '图片', width: 313}
+                , {field: 'id', title: 'ID',  sort: true, fixed: 'left'}
+                , {field: 'title', title: '公示标题'}
+                , {field: 'content', title: '内容'}
+                , {field: 'create_time', title: '创建时间'}
+                , {field: 'image_path', title: '图片'}
                 // , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',title:'编辑',templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {

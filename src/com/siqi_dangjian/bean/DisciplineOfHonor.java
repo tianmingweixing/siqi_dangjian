@@ -72,7 +72,7 @@ public class DisciplineOfHonor extends BaseBean {
      *金额
      */
     @Column(name="amount",length = 100)
-    private Double amount;
+    private String amount;
 
     /**
      *奖惩内容
@@ -150,11 +150,11 @@ public class DisciplineOfHonor extends BaseBean {
         this.certificate = certificate;
     }
 
-    public Double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

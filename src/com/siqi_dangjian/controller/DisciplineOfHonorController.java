@@ -3,7 +3,9 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.DisciplineOfHonor;
+import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IDisciplineOfHonorService;
+import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,10 @@ public class DisciplineOfHonorController extends BaseController {
 
     @Autowired
     private IDisciplineOfHonorService disciplineOfHonorService;
+
+    @Autowired
+    private IUserService userService;
+
 
     Logger logger = Logger.getRootLogger();
 
@@ -104,7 +110,7 @@ public class DisciplineOfHonorController extends BaseController {
                                          @RequestParam(value = "unit", required = false) String unit,
                                          @RequestParam(value = "passive_unit", required = false) String passive_unit,
                                          @RequestParam(value = "certificate", required = false) String certificate,
-                                         @RequestParam(value = "amount", required = false) Double amount,
+                                         @RequestParam(value = "amount", required = false) String amount,
                                          @RequestParam(value = "content", required = false) String content,
                                          @RequestParam(value = "note", required = false) String note) {
 
@@ -145,10 +151,12 @@ public class DisciplineOfHonorController extends BaseController {
      */
     @RequestMapping("/setDisciplineOfHonor")
     public ModelAndView setDisciplineOfHonor(@RequestParam(value = "Id", required = false) Long id,
-                                             @RequestParam(value = "type", required = false) Long type) {
+                                             @RequestParam(value = "type", required = false) Long type,
+                                             @RequestParam(value = "userId", required = false) Long userId) {
 
         ModelAndView view = new ModelAndView();
         DisciplineOfHonor disciplineOfHonor;
+        User user;
 
         try {
             disciplineOfHonor = disciplineOfHonorService.selectById(id);
@@ -163,6 +171,13 @@ public class DisciplineOfHonorController extends BaseController {
             view.addObject("amount", disciplineOfHonor.getAmount());
             view.addObject("content", disciplineOfHonor.getContent());
             view.addObject("note", disciplineOfHonor.getNote());
+
+            user = userService.getUserById(userId);
+            view.addObject("username", user.getUserName());
+            view.addObject("sex", user.getSex());
+            view.addObject("userId", user.getId());
+            view.addObject("age", user.getAge());
+            view.addObject("phone", user.getPhone());
 
             if (type == 0) {
                 view.setViewName("WEB-INF/page/honor_Add");//跳转添加荣誉信息页面

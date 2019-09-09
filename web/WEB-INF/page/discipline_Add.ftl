@@ -102,14 +102,14 @@
         <label class="layui-form-label">违纪详情</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入详情"
-                      style="width: 600px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
 
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 600px; border:1px solid #e6e6e6; font-size: 16px; line-height: 23px; font-family: 微软雅黑;
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
         </div>
     </div>
@@ -169,6 +169,7 @@
                     type: 'post',
                     data: {
                         id: $("#id").val(),
+                        userId: $("#userId").val(),
                         unit: $("#unit").val(),
                         content: $("#content").val(),
                         type: $("#type").val(),

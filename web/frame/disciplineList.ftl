@@ -99,19 +99,19 @@
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
-                , {field: 'name', title: '违纪名称', width: 150}
-                , {field: 'type', title: '类型', width: 100}
-                , {field: 'certificate', title: '荣誉凭证', width: 150}
-                , {field: 'unit', title: '违纪个人', width: 110}
-                , {field: 'user_id', title: '用户ID', width: 80}
-                , {field: 'time', title: '时间', width: 150,sort:true}
-                , {field: 'passive_unit', title: '奖惩单位', width: 200,sort:true}
-                , {field: 'amount', title: '金额', width: 120,sort:true}
-                , {field: 'content', title: '奖惩内容', width: 150,sort:true}
-                , {field: 'note', title: '备注', width: 100,sort:true}
+                , {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                , {field: 'name', title: '违纪名称'}
+                , {field: 'type', title: '类型' }
+                , {field: 'certificate', title: '荣誉凭证'}
+                , {field: 'unit', title: '违纪个人'}
+                , {field: 'user_id', title: '用户ID'}
+                , {field: 'time', title: '时间',sort:true}
+                // , {field: 'passive_unit', title: '奖惩单位', width: 200,sort:true}
+                , {field: 'amount', title: '金额',sort:true}
+                , {field: 'content', title: '奖惩内容',sort:true}
+                , {field: 'note', title: '备注',sort:true}
                 // , {field: 'party_branch_id', title: '支部ID', width: 80,sort:true}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',title:'编辑',templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -205,7 +205,7 @@
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);
-                window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data.id+'&type='+1;
+                window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data.id+'&type='+1+'&userId='+data.user_id;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }else if(layEvent === 'delete'){
