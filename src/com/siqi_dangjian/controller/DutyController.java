@@ -93,7 +93,8 @@ public class DutyController extends BaseController{
     @RequestMapping("/addDuty")
     @ResponseBody
     public ModelMap addDuty(@RequestParam(value = "id", required = false) Long id,
-                            @RequestParam(value = "description", required = false) String description
+                            @RequestParam(value = "description", required = false) String description,
+                            @RequestParam(value = "type_name", required = false) String typeName
     ) {
 
         modelMap = new ModelMap();
@@ -106,6 +107,7 @@ public class DutyController extends BaseController{
                 duty = new Duty();
             }
             duty.setDescription(description);
+            duty.setTypeName(typeName);
             duty.setId(id);
             duty.setCanUse(1);
             BigInteger bigInteger = dutyService.insertOrUpdate(duty);
