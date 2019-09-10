@@ -37,7 +37,7 @@ public class ActivitiesController extends BaseController{
     /**
      * 查询列表
      * @param title
-     * @param type
+     * @param type_id
      * @param start_time
      * @param end_time
      * @param limit
@@ -47,7 +47,8 @@ public class ActivitiesController extends BaseController{
     @RequestMapping("list")
     @ResponseBody
     public ModelMap getActivityList(@RequestParam(value = "title",required = false)String title,
-                                    @RequestParam(value = "type",required = false)Integer type,
+                                    @RequestParam(value = "type",required = false)String type_id,
+                                    @RequestParam(value = "brand_id",required = false)String brand_id,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
                                     @RequestParam(value = "limit", required=false)Integer limit,
@@ -61,8 +62,11 @@ public class ActivitiesController extends BaseController{
             Map intMap  = new HashMap<>();
 
 
-            if(type != null) {
-                intMap.put("type", type.toString());
+            if(type_id != null && type_id != "") {
+                intMap.put("type_id", type_id);
+            }
+            if(brand_id != null && brand_id != "") {
+                intMap.put("brand_id", brand_id);
             }
             if(StringUtils.isNotEmpty(title)) {
                 blurMap.put("title", title);
@@ -102,6 +106,7 @@ public class ActivitiesController extends BaseController{
                 view.addObject("create_time", activities.getCreateTime());
                 view.addObject("content", activities.getContent());
                 view.addObject("typeId", activities.getTypeId());
+                view.addObject("brandId", activities.getBrandId());
                 view.addObject("start_time", activities.getStartTime());
                 view.addObject("end_time", activities.getEndTime());
                 view.addObject("is_end", activities.getIsEnd());
@@ -145,6 +150,7 @@ public class ActivitiesController extends BaseController{
                                  @RequestParam(value = "title", required = false) String title,
                                  @RequestParam(value = "content", required = false) String content,
                                  @RequestParam(value = "type_id", required = false) Long type_id,
+                                 @RequestParam(value = "brand_id", required = false) Long brand_id,
                                  @RequestParam(value = "start_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start_time,
                                  @RequestParam(value = "end_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end_time,
                                  @RequestParam(value = "is_end", required = false) Integer is_end,
@@ -162,6 +168,7 @@ public class ActivitiesController extends BaseController{
             activities.setPartyBranchId(1L);
             activities.setCanUse(1);
             activities.setTypeId(type_id);
+            activities.setBrandId(brand_id);
             activities.setContent(content);
             activities.setIsEnd(is_end);
             activities.setImagePathA(image_path_a);
