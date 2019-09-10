@@ -65,7 +65,7 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'type_name', title: '会议类型名称',  width:1360}
+                , {field: 'type_name', title: '会议类型名称'}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
@@ -136,7 +136,7 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                 layer.msg('edit');
+                layer.msg('edit');
                 if (data.length === 0) {
                     layer.msg('请选择一行');
                 } else if (data.length > 1) {

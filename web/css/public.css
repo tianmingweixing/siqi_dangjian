@@ -57,3 +57,10 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+/*index page*/
+.info{
+    float: left;
+    width: 30%;
+    font-size: 14pt;
+}
