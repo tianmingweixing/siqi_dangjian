@@ -101,9 +101,9 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:200, sort: true, fixed: 'left'}
-                ,{field: 'type_name', title: '政治面貌', width:600}
-                ,{field: 'description',title:'描述',width:600}
-                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+                ,{field: 'type_name', title: '政治面貌'}
+                ,{field: 'description',title:'描述'}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {

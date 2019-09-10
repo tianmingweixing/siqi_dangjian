@@ -41,7 +41,7 @@ public class PartyBranchController extends BaseController{
      * @param foundingTime
      * @param changeTime
      */
-    @RequestMapping("/addPartBranch")
+    @RequestMapping("/addPartyBranch")
     @ResponseBody
     public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
                                   @RequestParam(value = "img_path", required = false) String img_path,
@@ -95,24 +95,26 @@ public class PartyBranchController extends BaseController{
      * @param id
      * @return
      */
-    @RequestMapping("/setPartBranch")
-    public ModelAndView setPartBranch(@RequestParam(value = "id", required = false) Long id,HttpServletRequest request) {
+    @RequestMapping("/setPartyBranch")
+    public ModelAndView setPartyBranch(@RequestParam(value = "id", required = false) Long id,HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
         PartyBranch partyBranch;
 
         try {
-            partyBranch = partyBranchService.selectById(id);
+            if (id != null) {
+                partyBranch = partyBranchService.selectById(id);
 
-            view.addObject("id", partyBranch.getId());
-            view.addObject("name", partyBranch.getName());
-            view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
-            view.addObject("partyInfo", partyBranch.getPartyInfo());
-            view.addObject("partyNo", partyBranch.getPartyNo());
-            view.addObject("party_img", partyBranch.getPartyImg());
-            view.addObject("duty", partyBranch.getDuty());
-            view.addObject("activityArea", partyBranch.getActivityArea());
-            view.addObject("foundingTime", partyBranch.getFoundingTime());
-            view.addObject("changeTime", partyBranch.getChangeTime());
+                view.addObject("id", partyBranch.getId());
+                view.addObject("name", partyBranch.getName());
+                view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());
+                view.addObject("partyInfo", partyBranch.getPartyInfo());
+                view.addObject("partyNo", partyBranch.getPartyNo());
+                view.addObject("party_img", partyBranch.getPartyImg());
+                view.addObject("duty", partyBranch.getDuty());
+                view.addObject("activityArea", partyBranch.getActivityArea());
+                view.addObject("foundingTime", partyBranch.getFoundingTime());
+                view.addObject("changeTime", partyBranch.getChangeTime());
+            }
 
             view.setViewName("WEB-INF/page/partyBranch_Add");
         } catch (Exception e) {

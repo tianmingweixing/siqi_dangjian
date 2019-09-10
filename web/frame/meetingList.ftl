@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>会议表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -26,10 +25,31 @@
         </div>
     </div>
 </form>
+
+<form  id="lookDetail" class="layui-form" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label label_width_100">会议名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="name_search"  placeholder="会议名称" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">会议类型</label>
+        <div class="layui-input-inline">
+            <select name="meeting_type_id" id="meeting_type_id">
+                <option value="">全部</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+<div  style="display: none;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
+
+</div>
+
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
+
 
 
 <div style="margin: 0 10px;">
@@ -42,7 +62,8 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger"  lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="signIn">添加签到</a>
 </script>
 <style>
     .layui_open_fail{
@@ -58,6 +79,22 @@
     });
     function reset_search(){
         window.location.reload();
+    }
+
+
+    function onAddBtn(data){
+
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: '添加签到 ',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content:  $("#lookDetail")//iframe的url，no代表不显示滚动条
+        });
+
     }
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element','form', ], function(){
@@ -123,7 +160,7 @@
                 // ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
                 ,{field: 'start_time',title:'开始时间',sort: true}
                 ,{field: 'end_time',title:'结束时间',sort: true}
-                ,{field: 'edit',title:'编辑',width:100,templet: '#barDemo1'}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
 
             ]]
         });
@@ -213,11 +250,11 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                 layer.msg('edit');
                  console.log(data);
                 window.location.href='/meeting/setMeeting?Id='+data.id;
-            }else if(layEvent === 'add'){
+            }else if(layEvent === 'signIn'){
                 layer.msg('add');
+                onAddBtn(data);
             }else if(layEvent === 'delete'){
                 layer.msg('del');
             }

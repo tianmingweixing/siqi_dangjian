@@ -104,7 +104,7 @@ public class LoginController extends BaseController{
             setFail();
             setMsg("账户不存在");
         } else {
-            if (admin.getPassword().equals(md5Str)) {
+            if (admin.getPassword().equals(passWord)) {
                 setSuccess();
                 setMsg("登陆成功");
                 httpSession.setAttribute("account", admin.getAccount());
@@ -113,6 +113,7 @@ public class LoginController extends BaseController{
                 setMsg("用户密码不正确");
             }
         }
+
         return modelMap;
     }
 

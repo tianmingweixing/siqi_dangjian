@@ -75,7 +75,7 @@
             ,url: '/partyBranch/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
-            ,toolbar: true  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                  {type: 'checkbox', fixed: 'left'}
@@ -114,6 +114,65 @@
             active[type] ? active[type].call(this) : '';
         });
 
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    window.location.href='/partyBranch/setPartyBranch';
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        layer.msg('data[0].id');
+                        window.location.href='/partyBranch/setPartyBranch?id='+data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm("确认要删除吗", {
+                            icon:0
+                        }, function () {
+                            var a = [];
+                            $.each(data,function(index,value){
+                                a.push(value.id)
+                            });
+
+                            $.ajax({
+                                url:"/partyBranch/logicDelete",
+                                data:{
+                                    deleteArray:JSON.stringify(a)
+                                },
+                                success:function (data) {
+                                    if(data.result == "fail"){
+                                        layer.open({
+                                            icon: 2,
+                                            title: '消息提醒',
+                                            content: '删除失败',
+                                            skin:'layui_open_fail'
+                                        });
+                                    } else {
+                                        layer.msg('删除成功', {icon: 1});
+                                        setTimeout(function () {
+                                            location.reload()
+                                        },1000)
+                                    }
+                                }
+                            })
+                        })
+
+                    }
+                    break;
+            };
+        });
+
         //监听行工具事件
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
@@ -121,7 +180,7 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                    window.location.href='/partyBranch/setPartBranch?id='+data.id;
+                    window.location.href='/partyBranch/setPartyBranch?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');
             }

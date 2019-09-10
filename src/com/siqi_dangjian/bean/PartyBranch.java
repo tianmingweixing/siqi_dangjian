@@ -42,7 +42,7 @@ public class PartyBranch extends BaseBean {
     /**
      * 党支部图片
      */
-    @Column(name="party_img",nullable=true,length=30)
+    @Column(name="party_img",nullable=true,length=130)
     private String partyImg;
 
     /**
