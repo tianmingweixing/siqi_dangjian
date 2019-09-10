@@ -7,17 +7,14 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class UserDao extends BaseDao<User> implements IUserDao {
-
-    @Override
-    public void saveOrUpDate(User user1) throws Exception {
-        insertOrUpdate(user1);
-    }
 
     @Override
     public User getUserByOpenId(String openId) {
@@ -156,6 +153,22 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
     }
 
+    @Override
+    public Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tCOUNT(id) count\n" +
+                "FROM\n" +
+                "\tuser u\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND u."+coum+" = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,parem);
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
 
+    }
 
 }

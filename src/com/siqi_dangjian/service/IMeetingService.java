@@ -19,4 +19,6 @@ public interface IMeetingService {
     Meeting selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    Integer selectMeetingCountByType(String coum, Long parem) throws Exception;
 }

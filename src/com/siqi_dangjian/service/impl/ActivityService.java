@@ -67,4 +67,9 @@ public class ActivityService implements IActivityService {
         return activityDao.selectById(id);
     }
 
+    @Override
+    public Integer selectActivityCountByType(Long type_id) throws Exception {
+        return activityDao.selectActivityCountByType(type_id);
+    }
+
 }

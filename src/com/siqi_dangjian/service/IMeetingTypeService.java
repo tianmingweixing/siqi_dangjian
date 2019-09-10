@@ -17,4 +17,6 @@ public interface IMeetingTypeService {
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
     Map selectAllCategory(Map blurMap, Map intMap, Map dateMap);
+
+    List<MeetingType> selectList() throws Exception;
 }

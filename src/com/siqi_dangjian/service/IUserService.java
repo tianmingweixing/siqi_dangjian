@@ -11,8 +11,6 @@ public interface IUserService {
 
     Map getUserInfoById(Long id);
 
-    User wxLogin(String openId);
-
     User getUserById(Long id) throws Exception;
 
     Map getUserList(Map blurMap, Map intMap, Map dateMap,Integer limit,Integer page) throws Exception;
@@ -26,4 +24,9 @@ public interface IUserService {
     Map selectGroupCount() throws Exception;
 
     void saveOrUpDate(User user1) throws Exception;
+
+    Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception;
+
+    User wxLogin(String openId);
+
 }

@@ -52,4 +52,9 @@ public class PartyTeamService implements IPartyTeamService {
         Map map =  partyTeamDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public List<PartyTeam> selectList() throws Exception {
+        return partyTeamDao.selectList();
+    }
 }

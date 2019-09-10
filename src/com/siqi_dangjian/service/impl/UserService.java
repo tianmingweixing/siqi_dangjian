@@ -69,4 +69,10 @@ public class UserService implements IUserService {
     }
 
 
+
+    @Override
+    public Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception {
+        return userDao.selectUserCountByTypeOrTeam(coum,parem);
+    }
+
 }

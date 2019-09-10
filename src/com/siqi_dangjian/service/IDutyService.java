@@ -23,5 +23,7 @@ public interface IDutyService {
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
+    List<Duty> selectList() throws Exception;
+
     Map selectAllCategory(Map blurMap, Map intMap, Map dateMap);
 }

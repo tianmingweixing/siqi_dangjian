@@ -18,4 +18,6 @@ public interface IActivityService {
 
     Activities selectById(Long id) throws Exception;
 
+    Integer selectActivityCountByType(Long type_id) throws Exception;
+
 }

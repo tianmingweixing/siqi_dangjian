@@ -16,4 +16,6 @@ public interface IMeetingDao {
 
     Map selectAll(Map blurParam, Map intParam, Map dateParam,
                    int limit, int page) throws Exception;
+
+    Integer selectMeetingCountByType(String coum, Long parem) throws Exception;
 }
