@@ -1,9 +1,14 @@
 package com.siqi_dangjian.dao.impl;
 
+import com.siqi_dangjian.bean.Duty;
 import com.siqi_dangjian.bean.MeetingType;
 import com.siqi_dangjian.dao.IMeetingTypeDao;
 import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
@@ -83,5 +88,23 @@ public class MeetingTypeDao extends BaseDao<MeetingType> implements IMeetingType
         sqlCount = CommonUtil.appendIntStr(sqlCount,dateMap,"m");
         Map resMap = CommonUtil.queryAllCategoryList(session,sql,sqlCount);
         return resMap;
+    }
+
+    @Override
+    public List<MeetingType> selectList() throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select id,type_name typeName FROM meeting_Type where can_use=1";
+
+//        Query query = session.createSQLQuery(sql).addEntity(Duty.class);
+
+        Query query = session.createSQLQuery(sql)
+                .addScalar("id", LongType.INSTANCE)
+                .addScalar("typeName", StringType.INSTANCE);
+
+        query.setResultTransformer(Transformers.aliasToBean(MeetingType.class));
+
+        List<MeetingType> list = query.list();
+        return list;
+
     }
 }

@@ -81,7 +81,7 @@ public class MiniProgramController extends BaseController {
                         User user1 = new User();
                         user1.setOpenId(openId);
                         user1.setCanUse(1);
-                        userService.saveOrUpDate(user1);
+                        userService.addUser(user1);
                     }
                     User u = userService.wxLogin(openId);
                     modelMap.addAttribute("user", u);

@@ -19,7 +19,7 @@ public class Tips extends BaseBean{
     /**
      * 用户ID
      */
-    @Column(name="user_id",length = 100)
+    @Column(name="user_id",length = 8)
     private Long userId;
 
     /**
@@ -31,19 +31,25 @@ public class Tips extends BaseBean{
     /**
      * 活动ID
      */
-    @Column(name="activity_id",length =100)
+    @Column(name="activity_id",length =8)
     private Long activityId;
+
+    /**
+     * 心得
+     */
+    @Column(name="content",length = 1000)
+    private String content;
 
     /**
      * 会议ID
      */
-    @Column(name="meeting_id",length = 100)
+    @Column(name="meeting_id",length = 8)
     private Long meetingId;
 
     /**
      * 类型  0：会议心得   1：活动心得
      */
-    @Column(name="type",length = 10,columnDefinition = "INT default 0")
+    @Column(name="type",length = 2,columnDefinition = "INT default 0")
     private Integer type;
 
     public Long getPartyBranchId() {
@@ -92,5 +98,13 @@ public class Tips extends BaseBean{
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

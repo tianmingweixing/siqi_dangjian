@@ -37,6 +37,12 @@ public class Activities extends BaseBean{
     private Long typeId;
 
     /**
+     * 活动品牌
+     */
+    @Column(name="brand_id",length = 8,nullable = true)
+    private Long brandId;
+
+    /**
      * 开始时间
      */
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -155,5 +161,13 @@ public class Activities extends BaseBean{
 
     public void setPartyBranchId(Long partyBranchId) {
         this.partyBranchId = partyBranchId;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 }

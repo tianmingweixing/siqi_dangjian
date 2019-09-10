@@ -16,15 +16,6 @@ public class ConfigurationService implements IConfigurationService {
     @Autowired
     private IConfigurationDao configurationDao;
 
-    @Override
-    public Map getUserNameByType(Integer type) throws Exception {
-        return null;
-    }
-
-    @Override
-    public Map getUserNameById(Long id) throws Exception {
-        return null;
-    }
 
     @Override
     public void insertOrUpdate(Configuration configuration) throws Exception {
@@ -43,13 +34,11 @@ public class ConfigurationService implements IConfigurationService {
 
     @Override
     public Configuration selectById(Long id) throws Exception {
-        Configuration configuration =  configurationDao.selectById(id);
-        return configuration;
+        return configurationDao.selectById(id);
     }
 
     @Override
-    public Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception {
-        Map map =  configurationDao.selectAll(blurMap,intMap,dateMap,limit, page);
-        return map;
+    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+        return configurationDao.selectAll(blurParam, dateParam, intParam, limit, page);
     }
 }

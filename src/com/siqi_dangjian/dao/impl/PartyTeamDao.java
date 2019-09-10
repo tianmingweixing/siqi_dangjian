@@ -3,7 +3,11 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.PartyTeam;
 import com.siqi_dangjian.dao.IPartyTeamDao;
 import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -67,6 +71,23 @@ public class PartyTeamDao extends BaseDao<PartyTeam> implements IPartyTeamDao {
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"p");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
+
+    }
+
+    @Override
+    public List<PartyTeam> selectList() throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select id,name FROM party_team where can_use=1";
+
+//        Query query = session.createSQLQuery(sql).addEntity(Duty.class);//必须查出Duty全部
+
+        Query query = session.createSQLQuery(sql)
+                .addScalar("id", LongType.INSTANCE)
+                .addScalar("name", StringType.INSTANCE);
+
+        query.setResultTransformer(Transformers.aliasToBean(PartyTeam.class));
+
+        return query.list();
 
     }
 }

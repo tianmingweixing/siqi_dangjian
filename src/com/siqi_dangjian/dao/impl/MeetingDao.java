@@ -5,6 +5,8 @@ import com.siqi_dangjian.dao.IMeetingDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -98,5 +100,22 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public Integer selectMeetingCountByType(String coum, Long parem) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tCOUNT(u.id) count\n" +
+                "FROM\n" +
+                "\tmeeting u\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND u."+coum+" = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,parem);
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
     }
 }

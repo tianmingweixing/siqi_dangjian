@@ -3,7 +3,11 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.Duty;
 import com.siqi_dangjian.dao.IDutyDao;
 import com.siqi_dangjian.util.CommonUtil;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
@@ -71,7 +75,23 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
 
     }
 
+    @Override
+    public List<Duty> selectList() throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select id,type_name typeName FROM duty where can_use=1";
 
+//        Query query = session.createSQLQuery(sql).addEntity(Duty.class);
+
+        Query query = session.createSQLQuery(sql)
+                .addScalar("id", LongType.INSTANCE)
+                .addScalar("typeName", StringType.INSTANCE);
+
+        query.setResultTransformer(Transformers.aliasToBean(Duty.class));
+
+        List<Duty> list = query.list();
+        return list;
+
+    }
 
     @Override
     public Map selectAllCategory(Map blurMap, Map intMap, Map dateMap) {

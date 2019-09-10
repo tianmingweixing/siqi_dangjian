@@ -16,4 +16,6 @@ public interface IPartyTeamDao {
 
     Map selectAll(Map blurParam,Map intParam, Map dateParam,
                    int limit, int page) throws Exception;
+
+    List<PartyTeam> selectList() throws Exception;
 }

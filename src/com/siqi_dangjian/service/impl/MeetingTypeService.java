@@ -53,4 +53,9 @@ public class MeetingTypeService implements IMeetingTypeService {
 
         return map;
     }
+
+    @Override
+    public List<MeetingType> selectList() throws Exception {
+        return meetingTypeDao.selectList();
+    }
 }

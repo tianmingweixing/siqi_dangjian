@@ -53,4 +53,9 @@ public class MeetingService implements IMeetingService {
         Map map =  meetingDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public Integer selectMeetingCountByType(String coum, Long parem) throws Exception {
+        return meetingDao.selectMeetingCountByType(coum, parem);
+    }
 }

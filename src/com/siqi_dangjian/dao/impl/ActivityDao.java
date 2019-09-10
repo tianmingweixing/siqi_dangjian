@@ -7,6 +7,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,9 +59,10 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
      * @throws Exception
      */
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-
+//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
+//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "SELECT\n" +
                 "\ta.content,\n" +
                 "\tDATE_FORMAT(a.create_time,'%y-%m-%d %h:%m:%s') create_time,\n" +
@@ -73,21 +75,20 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.party_branch_id,\n" +
                 "\ta.review,\n" +
                 "\ta.title,\n" +
-                "\ta.type_id,\n" +
-                "\t`at`.type_name\n" +
+                "\t(select b.brand_name from activities_brand b where b.id=a.brand_id and b.can_use=1) brand_name,\n" +
+                "\t(select t.type_name from activities_type t where t.id=a.type_id and t.can_use=1) type_name\n" +
                 "FROM\n" +
                 "\tactivities a\n" +
-                "JOIN activities_type at ON a.type_id = `at`.id\n" +
                 "WHERE\n" +
-                "\ta.can_use = 1 AND `at`.can_use = 1";
+                "\ta.can_use = 1";
 
         String sqlCount = "SELECT count(id) count FROM activities a where a.can_use=1";
 
         sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"a");
+        sql = CommonUtil.appendCustomDateStr(sql,dateParam,"a","start_time");
         sql = CommonUtil.appendIntStr(sql,intParam,"a");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"a");
+        sqlCount = CommonUtil.appendCustomDateStr(sqlCount,dateParam,"a","start_time");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
 
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
@@ -107,10 +108,30 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         String sql = "SELECT *\n" +
                 "\tFROM activities\n" +
                 "WHERE\n" +
-                "\tcan_use = 1 and type = ?";
+                "\tcan_use = 1 and type_id = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setInteger(0,type);
         map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
         return map;
     }
+
+    /**
+     * 根据类型查询活动
+     * @param type_id
+     * @return
+     */
+    @Override
+    public Integer selectActivityCountByType(Long type_id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT count(id) count\n" +
+                "\tFROM activities\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and type_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,type_id);
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
+    }
+
 }

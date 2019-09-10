@@ -17,7 +17,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">首页</a>
+                    <a href="javascript:;" onclick="toIndex()">首页</a>
                     <!--<dl class="layui-nav-child">
                     </dl>-->
                 </li>
@@ -91,7 +91,7 @@
 
     <div class="layui-body" style="overflow-y: hidden">
         <!-- 内容主体区域 -->
-        <iframe style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="/frame/partyBranchList.ftl" frameborder="0" scrolling="auto" ></iframe>
+        <iframe style="width:100%;height:100%" id="mainIframe" name="mainIframe" src="/frame/index.ftl" frameborder="0" scrolling="auto" ></iframe>
     </div>
 
 
@@ -103,6 +103,9 @@
         var element = layui.element;
     });
     //支部班子
+    function toIndex(){
+        $("#mainIframe").attr("src", "/frame/index.ftl");
+    }
     function branch_1(){
         $("#mainIframe").attr("src", "/frame/partyBranchList.ftl");
     }

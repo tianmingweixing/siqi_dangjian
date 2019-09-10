@@ -6,8 +6,6 @@ import java.util.Map;
 
 public interface IUserDao {
 
-    public void saveOrUpDate(User user1) throws Exception;
-
     User getUserByOpenId(String openId);
 
     Map getUserByType(Integer type) throws Exception;
@@ -24,5 +22,7 @@ public interface IUserDao {
 
     Map selectGroupCount() throws Exception;
 
-    Map selectAll(Map blurParam,Map intParam, Map dateParam, int limit, int page) throws Exception;
+    Map selectAll(Map blurParam, Map dateParam,Map intParam, int limit, int page) throws Exception;
+
+    Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception;
 }

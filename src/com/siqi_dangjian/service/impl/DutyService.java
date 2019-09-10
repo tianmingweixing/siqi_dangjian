@@ -57,6 +57,12 @@ public class DutyService implements IDutyService {
         return map;
     }
 
+    @Override
+    public List<Duty> selectList() throws Exception {
+        return dutyDao.selectList();
+    }
+
+
 
     @Override
     public Map selectAllCategory(Map blurMap, Map intMap, Map dateMap) {
