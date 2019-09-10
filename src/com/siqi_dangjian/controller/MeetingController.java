@@ -129,7 +129,7 @@ public class MeetingController extends BaseController {
             try {
                 meeting = meetingService.selectById(id);
                 view.addObject("id", meeting.getId());
-                view.addObject("meeting_type", meeting.getMeetingTypeId());
+                view.addObject("meeting_type_id", meeting.getMeetingTypeId());
                 view.addObject("content", meeting.getContent());
                 view.addObject("guide", meeting.getGuide());
                 view.addObject("images_a", meeting.getImagesA());

@@ -55,15 +55,7 @@
 
     </div>
 
-
-
     <div class="layui-form-item input_row_margin_top">
-
-        <label class="layui-form-label" >慰问品及信息</label>
-        <div class="layui-input-inline">
-            <input id="sympathy_product" name="sympathy_product" lay-verify="required" placeholder="请输入慰问品" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if sympathy_product??>${sympathy_product}<#else></#if>">
-        </div>
 
         <label class="layui-form-label" >慰问人单位及职务</label>
         <div class="layui-input-inline">
@@ -71,9 +63,6 @@
                    autocomplete="off" class="layui-input" value="<#if unit_and_position??>${unit_and_position}<#else></#if>">
         </div>
 
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label">困难情况</label>
         <div class="layui-input-inline">
             <select name="difficult" id="difficult">
@@ -84,6 +73,11 @@
             </select>
         </div>
 
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+
         <label class="layui-form-label " >慰问时间</label>
         <div class="layui-input-inline">
             <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
@@ -92,12 +86,29 @@
         <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
+
+
+
     <div class="layui-form-item input_row_margin_top">
-    <label class="layui-form-label" style="margin-left: -2px">备注</label>
-    <div class="layui-input-inline">
-        <input id="note" name="note" lay-verify="required" placeholder="请输入备注" maxlength="20"
-               autocomplete="off" class="layui-input" value="<#if note??>${note}<#else></#if>">
-    </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">慰问品及信息</label>
+            <div class="layui-input-block">
+            <textarea name="sympathy_product" id="sympathy_product" placeholder="请输入慰问品及信息"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if sympathy_product??>${sympathy_product}<#else></#if></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+            <textarea name="note" id="note" placeholder="请输入备注"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
+            </div>
+        </div>
+
     </div>
 
 

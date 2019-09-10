@@ -102,7 +102,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -213,20 +215,20 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:50, sort: true, fixed: 'left'}
-                ,{field: 'username', title: '昵称', width:80}
-                ,{field: 'sex',title:'性别',width:80}
-                ,{field: 'age',title:'年龄',width:80}
-                ,{field: 'education',title:'学历',width:80,sort: true}
-                ,{field: 'company',title:'单位',width:150,sort: true}
-                ,{field: 'phone',title:'手机号码',width:120,sort: true}
-                ,{field: 'ID_cord',title:'身份证',width:180,sort: true}
-                ,{field: 'dutyid',title:'职务ID',width:80,sort: true}
-                ,{field: 'sympathyId',title:'慰问ID',width:80,sort: true}
-                // ,{field: 'party_duty',title:'党内职务',width:125,sort: true}
-                ,{field: 'type_name',title:'政治面貌',width:125,sort: true}
-                ,{field: 'difficulty_type',title:'困难情况',width:100,sort: true}
-                ,{field: 'join_time',title:'入党时间',width:100,sort: true}
-                // ,{field: 'head_img',title:'头像',width:200,sort: true}
+                ,{field: 'username', title: '昵称'}
+                ,{field: 'sex',title:'性别'}
+                ,{field: 'age',title:'年龄'}
+                ,{field: 'education',title:'学历'}
+                ,{field: 'company',title:'单位'}
+                ,{field: 'phone',title:'手机号码'}
+                ,{field: 'ID_cord',title:'身份证'}
+                // ,{field: 'dutyid',title:'职务ID'}
+                // ,{field: 'sympathyId',title:'慰问ID'}
+                // ,{field: 'party_duty',title:'党内职务',width:125}
+                ,{field: 'type_name',title:'政治面貌'}
+                ,{field: 'difficulty_type',title:'困难情况'}
+                ,{field: 'join_time',title:'入党时间'}
+                // ,{field: 'head_img',title:'头像',width:200}
                 ,{field: 'look',title:'查看详情',width:200,templet:'#barDemo'}
             ]]
         });

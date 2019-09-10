@@ -66,9 +66,7 @@ public class PartyGroupController extends BaseController{
     /**
      * 添加或更新支部班子信息
      * @param name
-     * @param partyGroupNo
      * @param duty
-     * @param partyNo
      * @param foundingTime
      * @param changeTime
      */
@@ -76,9 +74,7 @@ public class PartyGroupController extends BaseController{
     @ResponseBody
     public ModelMap addPartyGroup(@RequestParam(value = "id", required = false) Long id,
                                       @RequestParam(value = "name", required = false) String name,
-                                      @RequestParam(value = "partyGroupNo", required = false) String partyGroupNo,
                                       @RequestParam(value = "duty", required = false) String duty,
-                                      @RequestParam(value = "partyNo", required = false) String partyNo,
                                       @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd")Date foundingTime,
                                       @RequestParam(value = "changeTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date changeTime){
 
@@ -87,8 +83,6 @@ public class PartyGroupController extends BaseController{
         try {
             PartyGroup partyGroup = new PartyGroup();
             partyGroup.setId(id);
-            partyGroup.setPartyGroupNo(partyGroupNo);
-            partyGroup.setPartyNo(partyNo);
             partyGroup.setDuty(duty);
             partyGroup.setFoundingTime(foundingTime);
             partyGroup.setChangeTime(changeTime);

@@ -44,7 +44,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -104,15 +106,15 @@
                 , {field: 'id', title: 'ID', sort: true, fixed: 'left'}
                 , {field: 'name', title: '荣誉名称'}
                 , {field: 'type', title: '类型'}
-                , {field: 'certificate', title: '荣誉凭证'}
+                // , {field: 'certificate', title: '荣誉凭证'}
                 , {field: 'unit', title: '获奖个人'}
                 , {field: 'user_id', title: '用户ID'}
-                // , {field: 'passive_unit', title: '授奖单位',sort:true}
-                , {field: 'amount', title: '金额',sort:true}
+                // , {field: 'passive_unit', title: '授奖单位'}
+                , {field: 'amount', title: '金额'}
                 , {field: 'time', title: '时间',sort:true}
-                , {field: 'content', title: '奖惩内容',sort:true}
-                , {field: 'note', title: '备注',sort:true}
-                // , {field: 'party_branch_id', title: '支部ID',sort:true}
+                , {field: 'content', title: '奖惩内容'}
+                , {field: 'note', title: '备注'}
+                // , {field: 'party_branch_id', title: '支部ID'}
                 ,{field: 'edit',title:'编辑',templet: '#barDemo1'}
 
             ]]

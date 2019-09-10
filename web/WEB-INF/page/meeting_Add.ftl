@@ -20,6 +20,10 @@
         <label class="layui-form-label" style="margin-left: 85px">会议图片</label>
             <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if images_a??>${images_a}<#else></#if>" style="width: 400px;"/></div>
     </div>
+    <div class="layui-input-inline" style="display:none ">
+        <label class="layui-form-label"  style="margin-left: 85px">会议分类id</label>
+        <input id="meeting_type_id" name="meeting_type_id" maxlength="20" value="<#if meeting_type_id??>${meeting_type_id}<#else></#if>"/>
+    </div>
 
 
     <div class="layui-form-item input_row_margin_top">
@@ -32,7 +36,7 @@
 
         <label class="layui-form-label">组织生活记录</label>
         <div class="layui-input-inline">
-            <select name="meeting_type_id" id="meeting_type_id">
+            <select name="meeting_type" id="meeting_type">
                 <option value="">全部</option>
             </select>
         </div>
@@ -135,6 +139,8 @@
 
 <script>
 
+    var meetingTypeId = <#if meeting_type_id??>"${meeting_type_id}"<#else>""</#if>;
+
     $(function() {
 
         layui.use(['laydate','form','upload'], function () {
@@ -158,7 +164,11 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#meeting_type_id").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        if(item.id == meetingTypeId){
+                            $("#meeting_type").append("<option selected='selected' value='" + item.id + "'>" + item.type_name + "</option>");
+                        }else{
+                            $("#meeting_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        }
                     });
                     form.render('select');
                 }
@@ -176,12 +186,15 @@
 
                     //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                     obj.preview(function(index, file, result){
+                        //???????
                         $('#images_a').attr('src', result); //图片链接（base64）
                     });
                 }
                 ,done: function(res){
                     //如果上传
                     if(res.code == 0){
+
+                        //???? 图片路径数组
                         $("#imgPath").val(res.src);
                         layer.msg('上传成功');
                     }
@@ -209,7 +222,7 @@
                         people_counting: $("#people_counting").val(),
                         attendance: $("#attendance").val(),
                         address: $("#address").val(),
-                        meeting_type_id: $("#meeting_type_id").val(),
+                        meeting_type_id: $("#meeting_type").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
                         imgPath: $("#imgPath").val(),

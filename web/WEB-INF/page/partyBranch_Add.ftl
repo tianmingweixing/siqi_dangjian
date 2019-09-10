@@ -100,7 +100,6 @@
 <form class="layui-form" name="fileForm" action="">
 
 <br>
-    <!--<input type="hidden" id="shareCount" value="<#if share_count??>${share_count}<#else></#if>">-->
     <div class="layui-input-inline" style="display: none">
         <label class="layui-form-label" style="margin-left: 85px">党支部Id</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
@@ -111,34 +110,21 @@
             <input id="name" name="name" lay-verify="required" placeholder="请输入党支部名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
-        <label class="layui-form-label" style="margin-left: 85px">成员数量</label>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label" >成员数量</label>
         <div class="layui-input-inline">
             <input id="partyMemberCount" name="partyMemberCount" lay-verify="required" placeholder="请输入成员数量" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if partyMemberCount??>${partyMemberCount}<#else></#if>">
         </div>
 
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党支部职责</label>
-        <div class="layui-input-inline">
-            <input id="duty" name="duty" lay-verify="required|String" placeholder="请输入党支部职责" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if duty??>${duty}<#else></#if>">
-        </div>
-        <div class="layui-form-mid layui-word-aux"></div>
-        <label class="layui-form-label " style="margin-left: 74px">活动面积</label>
+        <label class="layui-form-label " >活动面积</label>
         <div class="layui-input-inline">
             <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if activityArea??>${activityArea}<#else></#if>">
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党支部编号</label>
-        <!--<label class="layui-form-label " style="margin-left: 85px">党支部编号</label>-->
-        <div class="layui-input-inline">
-            <input id="partyNo" name="partyNo" lay-verify="required" placeholder="请输入编号" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if partyNo??>${partyNo}<#else></#if>">
         </div>
     </div>
 
@@ -148,21 +134,29 @@
             <input id="foundingTime" name="foundingTime" placeholder="请输入成立时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if foundingTime??>${foundingTime}<#else></#if>">
         </div>
-        <label class="layui-form-label " style="margin-left: 84px">换届时间</label>
+
+        <label class="layui-form-label ">换届时间</label>
         <div class="layui-input-inline">
             <input id="changeTime" name="changeTime" lay-verify="required" placeholder="请输入换届时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if changeTime??>${changeTime}<#else></#if>">
         </div>
-        <div class="layui-form-mid layui-word-aux"></div>
     </div>
 
     <br>
     <div class="layui-form-item layui-form-text" >
+
+        <label class="layui-form-label">党支部职责</label>
+        <div class="layui-input-block">
+            <textarea name="partyInfo" id="partyInfo" placeholder="请输入党支部职责"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
+        </div>
+
         <label class="layui-form-label">党支部简介</label>
         <div class="layui-input-block">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
     </div>
 

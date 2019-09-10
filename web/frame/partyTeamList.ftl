@@ -45,7 +45,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <!--<a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>-->
@@ -97,19 +99,17 @@
             elem: '#demo'
             ,height: 563
             ,url: '/partyTeam/list' //数据接口
-            ,title: '用户表'
+            ,title: '党小组'
             ,page: true //开启分页
             ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '党小组名称', width:200}
-                ,{field: 'party_no',title:'党支部编号',width:200}
-                ,{field: 'party_group_no',title:'党小组编号',width:200}
-                ,{field: 'duty', title: '党小组职责', width:200}
-                ,{field: 'change_time',title:'换届时间',width:250,sort: true}
-                ,{field: 'founding_time',title:'成立时间',width:250,sort: true}
+                ,{field: 'name', title: '党小组名称'}
+                ,{field: 'duty', title: '党小组职责'}
+                ,{field: 'change_time',title:'换届时间'}
+                ,{field: 'founding_time',title:'成立时间'}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
             ]]
         });

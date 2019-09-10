@@ -50,7 +50,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -108,15 +110,15 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'sympathyId', title: '慰问ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'userId', title: '用户ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'username', title: '姓名', width:150}
-                ,{field: 'sex',title:'性别',width:150}
-                ,{field: 'age',title:'年龄',width:150}
-                ,{field: 'difficult',title:'困难情况',width:100,sort: true}
-                ,{field: 'sympathy_time',title:'慰问时间',width:200,sort: true}
-                ,{field: 'unit_and_position',title:'慰问人单位及职务',width:200,sort: true}
-                ,{field: 'sympathy_product',title:'慰问品及信息',width:200,sort: true}
-                ,{field: 'note',title:'备注',width:200,sort: true}
+                ,{field: 'userId', title: '用户ID', width:100,  fixed: 'left'}
+                ,{field: 'username', title: '姓名'}
+                ,{field: 'sex',title:'性别'}
+                ,{field: 'age',title:'年龄'}
+                ,{field: 'difficult',title:'困难情况',sort: true}
+                ,{field: 'sympathy_time',title:'慰问时间',sort: true}
+                ,{field: 'unit_and_position',title:'慰问人单位及职务'}
+                ,{field: 'sympathy_product',title:'慰问品及信息'}
+                ,{field: 'note',title:'备注'}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });

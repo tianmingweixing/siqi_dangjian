@@ -23,40 +23,6 @@
             <input id="name" name="name" lay-verify="required" placeholder="支部班子名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
-        <!--<label class="layui-form-label" style="margin-left: 85px">成员数量</label>
-        <div class="layui-input-inline">
-            <input id="partyMemberCount" name="partyMemberCount" lay-verify="required" placeholder="请输入成员数量" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if partyMemberCount??>${partyMemberCount}<#else></#if>">
-        </div>-->
-
-    </div>
-    <br>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党小组职责</label>
-        <div class="layui-input-inline">
-            <input id="duty" name="duty" lay-verify="required" placeholder="请输入党小组职责" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if duty??>${duty}<#else></#if>">
-        </div>
-
-    </div>
-    <br>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党支部编号</label>
-        <div class="layui-input-inline">
-            <input id="partyNo" name="partyNo" lay-verify="number" placeholder="请输入编号" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if partyNo??>${partyNo}<#else></#if>">
-        </div>
-    </div>
-    <br>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">党小组编号</label>
-        <div class="layui-input-inline">
-            <input id="partyGroupNo" name="partyGroupNo" lay-verify="number" placeholder="请输入编号" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if partyGroupNo??>${partyGroupNo}<#else></#if>">
-        </div>
     </div>
     <br>
 
@@ -67,10 +33,20 @@
                    autocomplete="off" class="layui-input" value="<#if foundingTime??>${foundingTime}<#else></#if>">
         </div>
 
-        <label class="layui-form-label " style="margin-left: 84px">换届时间</label>
+        <label class="layui-form-label ">换届时间</label>
         <div class="layui-input-inline">
             <input id="changeTime" name="changeTime" lay-verify="required" placeholder="请输入换届时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if changeTime??>${changeTime}<#else></#if>">
+        </div>
+    </div>
+    <br>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">班子职责</label>
+        <div class="layui-input-block">
+            <textarea name="duty" id="duty" placeholder="请输入班子职责"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
         </div>
     </div>
     <br>
@@ -91,10 +67,7 @@
             var form = layui.form;
 
             var laydate = layui.laydate //日期
-                    ,laypage = layui.laypage //分页
-                    ,layer = layui.layer //弹层
-                    ,table = layui.table //表格
-                    ,element = layui.element; //元素操作
+                    ,layer = layui.layer; //弹层
 
             laydate.render({
                 elem:'#foundingTime'
@@ -110,9 +83,7 @@
                     data: {
                         id: $("#id").val(),
                         name: $("#name").val(),
-                        partyGroupNo: $("#partyGroupNo").val(),
                         duty: $("#duty").val(),
-                        partyNo: $("#partyNo").val(),
                         foundingTime: $("#foundingTime").val(),
                         changeTime: $("#changeTime").val()
                     },

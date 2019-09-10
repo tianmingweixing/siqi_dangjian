@@ -32,7 +32,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -108,20 +110,20 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '会议名称', width:100}
-                ,{field: 'meeting_type_id',title:'会议类型',width:150}
-                ,{field: 'compere', title: '主持人', width:100}
-                // ,{field: 'recorder', title: '记录人', width:100}
-                ,{field: 'people_counting', title: '应到人数', width:100}
-                ,{field: 'attendance', title: '实到人数', width:100}
-                ,{field: 'address', title: '地点', width:100}
-                ,{field: 'content',title:'会议内容',width:350}
+                ,{field: 'name', title: '会议名称'}
+                ,{field: 'meeting_type_id',title:'会议类型'}
+                ,{field: 'compere', title: '主持人'}
+                // ,{field: 'recorder', title: '记录人'}
+                ,{field: 'people_counting', title: '应到人数'}
+                ,{field: 'attendance', title: '实到人数'}
+                ,{field: 'address', title: '地点'}
+                ,{field: 'content',title:'会议内容'}
                 // ,{field: 'guide',title:'会议指导',width:350}
                 // ,{field: 'images_a',title:'会议图片1',width:150}
                 // ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
-                ,{field: 'start_time',title:'开始时间',width:100,sort: true}
-                ,{field: 'end_time',title:'结束时间',width:100,sort: true}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'start_time',title:'开始时间',sort: true}
+                ,{field: 'end_time',title:'结束时间',sort: true}
+                ,{field: 'edit',title:'编辑',width:100,templet: '#barDemo1'}
 
             ]]
         });

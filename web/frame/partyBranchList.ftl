@@ -30,7 +30,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
@@ -78,15 +80,15 @@
             ,cols: [[ //表头
                  {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '党支部名称', width:200}
-                ,{field: 'party_member_count', title: '党员总数', width: 100}
-                ,{field: 'duty', title: '党支部职责', width:150,sort: true}
-                ,{field: 'party_no',title:'党支部编号',width:200}
-                ,{field: 'party_info',title:'党支部简介',width:200,sort: true}
-                ,{field: 'founding_time',title:'成立时间',width:150,sort: true}
-                ,{field: 'change_time',title:'换届时间',width:150,sort: true}
-                ,{field: 'activity_area',title:'活动面积',width:100,sort: true}
-                ,{field: 'party_img',title:'党支部图片',width:150}
+                ,{field: 'name', title: '党支部名称'}
+                ,{field: 'party_member_count', title: '党员总数'}
+                ,{field: 'duty', title: '党支部职责'}
+                ,{field: 'party_no',title:'党支部编号'}
+                ,{field: 'party_info',title:'党支部简介'}
+                ,{field: 'founding_time',title:'成立时间',}
+                ,{field: 'change_time',title:'换届时间',}
+                ,{field: 'activity_area',title:'活动面积',}
+                ,{field: 'party_img',title:'党支部图片'}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });

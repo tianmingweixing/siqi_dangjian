@@ -65,7 +65,7 @@ public class DisciplineOfHonor extends BaseBean {
     /**
      *荣誉凭证
      */
-    @Column(name="certificate",length = 100)
+    @Column(name="certificate",length = 200)
     private String certificate;
 
     /**

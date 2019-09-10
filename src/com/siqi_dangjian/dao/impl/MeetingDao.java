@@ -55,7 +55,7 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
                 "\tm.address,\n" +
                 "\tm.images_a,\n" +
                 "\t(\n" +
-                "\t\tCASE m.meeting_type\n" +
+                "\t\tCASE m.meeting_type_id\n" +
                 "\t\tWHEN 1 THEN\n" +
                 "\t\t\t'支委会'\n" +
                 "\t\tWHEN 2 THEN\n" +

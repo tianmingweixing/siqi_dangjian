@@ -1,11 +1,9 @@
 package com.siqi_dangjian.bean;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -19,7 +17,7 @@ public class Meeting extends BaseBean {
     private String name;
 
     /**
-     * 会议类型：1：支委会；2：党员大会；3：廉政...
+     * 会议类型：1：支委会；2：党员大会；
      */
     @Column(name="meeting_type_id",nullable=true,length=8)
     private Long meetingTypeId;
@@ -71,13 +69,13 @@ public class Meeting extends BaseBean {
     /**
      * 会议图片1
      */
-    @Column(name="images_a",nullable=true,length=100)
+    @Column(name="images_a",nullable=true,length=200)
     private String imagesA;
 
     /**
      * 会议图片2
      */
-    @Column(name="images_b",nullable=true,length=100)
+    @Column(name="images_b",nullable=true,length=200)
     private String imagesB;
 
     /**

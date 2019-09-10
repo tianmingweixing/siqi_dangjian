@@ -13,11 +13,13 @@
     <div class="layui-progress-bar " lay-percent="100%"></div>
 </div>
 <form class="layui-form" action="">
-
 <br>
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
+    <div class="layui-form-item input_row_margin_top" style="display: none">
         <label class="layui-form-label" style="margin-left: 85px">荣誉ID</label>
         <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+
+        <label class="layui-form-label" style="margin-left: 85px">荣誉凭证</label>
+        <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if certificate??>${certificate}<#else></#if>" style="width: 400px;"/></div>
     </div>
 
     <div class="layui-form-item input_row_margin_top" >
@@ -85,20 +87,11 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label " style="margin-left: 1px">荣誉凭证</label>
-        <div class="layui-input-inline">
-            <input id="certificate" name="certificate" lay-verify="required" placeholder="请输入凭证" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if certificate??>${certificate}<#else></#if>">
-        </div>
-
         <label class="layui-form-label " style="margin-left: 1px">金额</label>
         <div class="layui-input-inline">
             <input id="amount" name="amount" lay-verify="required|number" placeholder="请输入金额" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if amount??>${amount}<#else></#if>">
         </div>
-    </div>
-
-    <div class="layui-form-item">
 
         <label class="layui-form-label">授奖单位</label>
         <div class="layui-input-inline">
@@ -108,17 +101,29 @@
 
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">荣誉详情</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <textarea name="content" id="content" placeholder="请输入详情"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
+    </div>
 
+    <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <div class="layui-upload" style="margin-left: 60px;">
+            <button type="button" class="layui-btn" id="uploadImg">上传荣誉凭证</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                <p id="demoText"></p>
+            </div>
         </div>
     </div>
 
@@ -138,11 +143,11 @@
 
     $(function() {
 
-        layui.use(['element','laydate','form'], function () {
+        layui.use(['laydate','form','upload'], function () {
             var form = layui.form;
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
-            var element = layui.element;
+            var upload = layui.upload;
 
             laydate.render({
                 elem: '#time' //指定元素
@@ -168,6 +173,40 @@
                 });
             });
 
+            //上传凭证
+            upload.render({
+                elem: '#uploadImg'
+                ,accept: 'file'
+                ,url: '/upload/uploadImage'
+                ,auto: true
+                ,choose: function(obj){
+                    //将每次选择的文件追加到文件队列
+                    // var files = obj.pushFile();
+
+                    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                    obj.preview(function(index, file, result){
+                        //???????
+                        $('#certificate').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+                    //如果上传
+                    if(res.code == 0){
+
+                        //???? 图片路径数组
+                        $("#imgPath").val(res.src);
+                        layer.msg('上传成功');
+                    }
+                }
+                ,error: function(){
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
+                }
+            });
 
             form.on('submit(formDemo)', function (data) {
 
@@ -181,7 +220,7 @@
                         content: $("#content").val(),
                         type: $("#type").val(),
                         passive_unit: $("#passive_unit").val(),
-                        certificate: $("#certificate").val(),
+                        certificate: $("#imgPath").val(),
                         amount: $("#amount").val(),
                         note: $("#note").val(),
                         name: $("#name").val(),

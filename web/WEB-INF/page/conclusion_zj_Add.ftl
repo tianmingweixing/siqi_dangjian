@@ -53,8 +53,8 @@
         <label class="layui-form-label">总结内容</label>
         <div class="layui-input-block">
             <textarea name="plan_content" id="plan_content" placeholder="请输入总结内容"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 500px; max-height: 1000px; outline: 0;"><#if plan_content??>${plan_content}<#else></#if></textarea>
+                      style="width: 700px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 300px; max-height: 1000px; outline: 0;"><#if plan_content??>${plan_content}<#else></#if></textarea>
         </div>
     </div>
 

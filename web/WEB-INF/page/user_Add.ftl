@@ -89,11 +89,6 @@
                    autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
 
-        <!--<label class="layui-form-label " style="margin-left: 84px">党内职务</label>
-        <div class="layui-input-inline">
-            <input id="party_duty" name="party_duty" lay-verify="" placeholder="请输入党内职务" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if party_duty??>${party_duty}<#else></#if>">
-        </div>-->
     </div>
 
 

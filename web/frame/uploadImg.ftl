@@ -7,12 +7,13 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>思齐党建后台</title>
+    <title>上传图片Test页面</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
     <link rel="stylesheet" href="/css/public.css">
 
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+
 
     <title>上传图片（最多可以上传5张图片）</title>
     <style>
@@ -109,13 +110,13 @@
             var fileList = file.files; //获取的图片文件
             var input = $(this).parent();//文本框的父亲元素
             var imgArr = [];
+
             //遍历得到的图片文件
             var numUp = imgContainer.find(".up-section").length;
             var totalNum = numUp + fileList.length;  //总的数量
             if(fileList.length > 5 || totalNum > 5 ){
                 alert("上传图片数目不可以超过5个，请重新选择");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
-            }
-            else if(numUp < 5){
+            }else if(numUp < 5){
                 fileList = validateUp(fileList);
                 for(var i = 0;i<fileList.length;i++){
                     var imgUrl = window.URL.createObjectURL(fileList[i]);
@@ -152,6 +153,27 @@
             if(numUp >= 5){
                 $(this).parent().hide();
             }
+
+            console.log(fileList);
+
+            //点击上传
+            $("#uploadImg").click(function () {
+                $.ajax({
+                    url: '/upload/uploadImage',
+                    type: 'post',
+                    data: {
+                        file: fileList
+                    },
+                    processData: false,   // jQuery不要去处理发送的数据
+                    contentType: false,   // jQuery不要去设置Content-Type请求头
+                    success: function (result) {
+                        alert("成功");
+                    }
+                });
+
+            });
+
+
         });
 
         $(".z_photo").delegate(".close-upimg","click",function(){
@@ -199,44 +221,11 @@
             return arrFiles;
         }
 
-        layui.use(['laydate','form','upload'], function () {
-            var form = layui.form;
-            var laydate = layui.laydate //日期
-                ,layer = layui.layer; //弹层
-            var upload = layui.upload;
 
-            //上传头像
-            upload.render({
-                elem: '#uploadImg'
-                ,accept: 'file'
-                ,url: '/upload/uploadImage'
-                ,auto: true
-                ,choose: function(obj){
-                    //将每次选择的文件追加到文件队列
-                     var files = obj.pushFile();
 
-                    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
-                    obj.preview(function(index, file, result){
-                        $('#file').attr('src', result); //图片链接（base64）
-                    });
-                }
-                ,done: function(res){
-                    //如果上传
-                    if(res.code == 0){
-                        $("#imgPath").val(res.src);
-                        layer.msg('上传成功');
-                    }
-                }
-                ,error: function(){
-                    //演示失败状态，并实现重传
-                    var demoText = $('#demoText');
-                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                    demoText.find('.demo-reload').on('click', function(){
-                        uploadInst.upload();
-                    });
-                }
-            });
-        });
+
+
 
     });
+
 </script>

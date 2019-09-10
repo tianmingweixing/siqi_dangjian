@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<div>
+<div style="margin: 0 10px;">
     <table class="layui-hide" id="demo" lay-filter="test"></table>
 </div>
 
@@ -65,8 +65,8 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'type_name', title: '会议类型名称',  width:1360}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                , {field: 'type_name', title: '会议类型名称',}
+                ,{field: 'edit',title:'编辑',width:150,templet: '#barDemo1'}
             ]]
         });
 

@@ -44,7 +44,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -102,13 +104,11 @@
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '班子名称', width:200}
-                ,{field: 'duty', title: '班子职责', width:200,sort: true}
-                ,{field: 'party_no',title:'党支部编号',width:200}
-                ,{field: 'party_group_no',title:'班子编号',width:200,sort: true}
-                ,{field: 'founding_time',title:'成立时间',width:250,sort: true}
-                ,{field: 'change_time',title:'换届时间',width:250,sort: true}
+                ,{field: 'id', title: 'ID', width:150, fixed: 'left'}
+                ,{field: 'name', title: '班子名称'}
+                ,{field: 'duty', title: '班子职责'}
+                ,{field: 'founding_time',title:'成立时间'}
+                ,{field: 'change_time',title:'换届时间'}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
             ]]
         });

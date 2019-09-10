@@ -47,7 +47,9 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -107,11 +109,11 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'title', title: '总结名称', width: 250}
-                , {field: 'type_name', title: '类型', width: 200}
-                , {field: 'conclusion_type_id', title: '类型ID', width: 150,hide:true}
-                , {field: 'plan_content', title: '内容', width: 600}
-                , {field: 'year_limit', title: '时间', width: 200,sort:true}
+                , {field: 'title', title: '总结名称'}
+                , {field: 'type_name', title: '类型'}
+                , {field: 'conclusion_type_id', title: '类型ID',hide:true}
+                , {field: 'plan_content', title: '内容'}
+                , {field: 'year_limit', title: '时间',sort:true}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
 
             ]]

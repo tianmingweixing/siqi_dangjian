@@ -12,8 +12,9 @@
 </head>
 
 <body>
-
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+<div style="margin: 0 10px;">
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -67,7 +68,7 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                , {field: 'type_name', title: '季度类型名称',  width:1360}
+                , {field: 'type_name', title: '季度类型名称'}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });

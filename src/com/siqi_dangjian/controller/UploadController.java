@@ -25,27 +25,39 @@ public class UploadController extends BaseController{
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     @ResponseBody
-    public ModelMap upload(@RequestParam("file")MultipartFile files, HttpServletRequest request){
+    public ModelMap upload(@RequestParam("file")MultipartFile[] files, HttpServletRequest request){
         modelMap = new ModelMap();
 
         try {
-            String fileName = UUID.randomUUID().toString() + files.getOriginalFilename();
-            Calendar now = Calendar.getInstance();
-            String year = String.valueOf(now.get(Calendar.YEAR));
-            String month = String.valueOf(now.get(Calendar.MONTH) + 1);
-            String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-            String path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + fileName;
+            if(files != null && files.length > 0){
+                String[] strings = new String[files.length];
+                int i = 0;
+                for (MultipartFile file : files) {
+                    String saveFilename = UUID.randomUUID().toString() + file.getOriginalFilename();
+                    Calendar now = Calendar.getInstance();
+                    String year = String.valueOf(now.get(Calendar.YEAR));
+                    String month = String.valueOf(now.get(Calendar.MONTH) + 1);
+                    String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
+                    //本地路径
+                    String file_path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + saveFilename;
 
-            // 上传文件在服务器中的位置(目录绝对路径)
-            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
-            File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
-            if (!filePath.getParentFile().exists()) {
-                filePath.getParentFile().mkdirs();
+                    // 上传文件在服务器中的位置(目录绝对路径)
+                    String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
+                    File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + saveFilename);//文件的完整路径
+                    if (!filePath.getParentFile().exists()) {
+                        filePath.getParentFile().mkdirs();
+                    }
+                    file.transferTo(filePath);
+                    strings[i] = file_path;
+                    i++;
+                }
+                    setData("src",strings);
+                    setSuccess();
+            }else{
+                setData("src",null);
+                setFail("上传图片异常");
             }
 
-            files.transferTo(filePath);
-            setSuccess();
-            setData("src", path);
         } catch (IOException e) {
             setFail("上传图片异常");
             e.printStackTrace();

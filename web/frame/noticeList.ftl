@@ -43,8 +43,9 @@
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
 
-
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+ <div style="margin: 0 10px;">
+ <table class="layui-hide" id="demo" lay-filter="test"></table>
+ </div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
@@ -105,7 +106,7 @@
                 , {field: 'title', title: '公示标题'}
                 , {field: 'content', title: '内容'}
                 , {field: 'create_time', title: '创建时间'}
-                , {field: 'image_path', title: '图片'}
+                // , {field: 'image_path', title: '图片'}
                 // , {field: 'party_branch_id', title: '支部ID', width: 150,sort:true}
                 ,{field: 'edit',title:'编辑',templet: '#barDemo1'}
             ]]
