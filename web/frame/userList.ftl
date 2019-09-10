@@ -272,7 +272,18 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         console.log(data[0]);
-                        window.location.href='/user/setUser?id='+data[0].id;
+
+
+                        if (data[0].party_groups_id != undefined){
+                            var parameter = + data[0].id  + '&partyGroupsId='+data[0].party_groups_id;
+                        }
+                        if(data[0].party_team_id != undefined && data[0].party_groups_id != undefined){
+                            var parameter =  + data[0].id  + '&partyGroupsId='+data[0].party_groups_id +'&partyTeamId='+data[0].party_team_id;
+                        }
+                        if(data[0].party_team_id == undefined && data[0].party_groups_id == undefined){
+                            var parameter = + data[0].id;
+                        }
+                        window.location.href='/user/setUser?id=' + parameter;
                     }
                     break;
                 case 'delete':

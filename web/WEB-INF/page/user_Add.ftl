@@ -91,7 +91,7 @@
 
         <label class="layui-form-label" style="margin-left: 85px">所属支部班子</label>
         <div class="layui-input-inline">
-            <select name="type_name" id="type_name">
+            <select name="partyGroups_name" id="partyGroups_name">
                 <option value="">没有则不选</option>
             </select>
         </div>
@@ -100,7 +100,7 @@
     <div class="layui-form-item input_row_margin_top">
             <label class="layui-form-label">所属党小组</label>
             <div class="layui-input-inline">
-                <select name="type_name" id="type_name">
+                <select name="partyTeam_name" id="partyTeam_name">
                     <option value="">没有则不选</option>
                 </select>
             </div>
@@ -121,6 +121,9 @@
 <script>
 
     var dutyid = <#if dutyid??>"${dutyid}"<#else>""</#if>;
+    var partyGroupsId = <#if partyGroupsId??>"${partyGroupsId}"<#else>""</#if>;
+    var partyTeamId = <#if partyTeamId??>"${partyTeamId}"<#else>""</#if>;
+
 
     $(function() {
 
@@ -158,10 +161,10 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        if(item.id == partyGroupId) {
-                            $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
+                        if(item.id == partyGroupsId) {
+                            $("#partyGroups_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
                         }else{
-                            $("#type_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
+                            $("#partyGroups_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
 
                         }
                     });
@@ -176,9 +179,9 @@
                 success: function (data) {
                     $.each(data.list, function (i, item) {
                         if(item.id == partyTeamId) {
-                            $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
+                            $("#partyTeam_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
                         }else{
-                            $("#type_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
+                            $("#partyTeam_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
 
                         }
                     });
@@ -189,7 +192,7 @@
 
 
 
-            form.on('submit(formDemo)', function () {
+            form.on('submit(formDemo)', function () {partyGroups_name
 
                         $.ajax({
                             url: "/user/addUser",
@@ -200,6 +203,8 @@
                                 education: $("#education").val(),
                                 age: $("#age").val(),
                                 dutyid : $("#type_name").val(),
+                                partyGroupsId : $("#partyGroups_name").val(),
+                                partyTeamId : $("#partyTeam_name").val(),
                                 join_time: $("#join_time").val(),
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),
