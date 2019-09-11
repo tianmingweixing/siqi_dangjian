@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<form class="layui-form" style="margin-top: 10px">
+<form class="layui-form" style="margin-top:10px">
     <div class="layui-form-item">
         <label class="layui-form-label label_width_100">会议名称</label>
         <div class="layui-input-inline">
@@ -25,30 +25,45 @@
         </div>
     </div>
 </form>
-
-<form  id="lookDetail" class="layui-form" style="margin-top: 10px">
-    <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">会议名称</label>
-        <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="会议名称" autocomplete="off" class="layui-input">
-        </div>
-        <label class="layui-form-label">会议类型</label>
-        <div class="layui-input-inline">
-            <select name="meeting_type_id" id="meeting_type_id">
-                <option value="">全部</option>
-            </select>
-        </div>
-    </div>
-</form>
-
-<div  style="display: none;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
-
-</div>
 
 <div class="layui-input-inline search_div" style="margin-left: 110px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
+
+
+
+<div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
+    <form  class="layui-form" name="fileForm" style="margin-top: 10px">
+
+        <div style="display: none">
+            <label class="layui-form-label ">会议ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="meetingId" name="meetingId"  placeholder="会议ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ">会议名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="name" name="name"   placeholder="会议名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ">用户ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="userId" name="userId"  placeholder="输入用户ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </form>
+    <div class="layui-input-inline search_div" style="margin-left: 110px">
+        <button class="layui-btn" onclick="sign_in()">添加</button>
+    </div>
+
+</div>
+
 
 
 
@@ -83,18 +98,60 @@
 
 
     function onAddBtn(data){
+        document.fileForm.name.value = data.name;
+        document.fileForm.meetingId.value = data.id;
 
-        //iframe窗
         layer.open({
-            type: 2,
-            title: '添加签到 ',
-            shadeClose: true,
-            shade: false,
-            maxmin: true, //开启最大化最小化按钮
-            area: ['893px', '600px'],
-            content:  $("#lookDetail")//iframe的url，no代表不显示滚动条
+            type: 1
+            ,title: '添加签到 ' //不显示标题栏
+            ,area:['500px', '300px']
+            ,shadeClose: true
+            ,shade: false
+            ,offset: 'r'
+            ,maxmin: true //开启最大化最小化按钮
+            ,content: $("#lookDetail")
         });
 
+        layer.open({
+            type: 2,
+            title: '用户列表页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'lt',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['1200px', '800px'],
+            content: ['/frame/userList.ftl']
+        });
+    }
+
+    function sign_in(){
+       var meeting_id = document.fileForm.meetingId.value;
+       var user_id =  document.fileForm.userId.value;
+       console.log(meeting_id);
+
+        $.ajax({
+            url: "/meeting/signIn",
+            type : 'post',
+            data :{
+                meeting_id : meeting_id,
+                user_id : user_id
+            },
+            success : function(data){
+                if(data.result == "fail"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: '添加失败',
+                        skin:'layui_open_fail'
+                    });
+                } else {
+                    layer.msg('添加成功', {icon: 1});
+                    setTimeout(function () {
+                        location.reload()
+                    },1000)
+                }
+            }
+        });
     }
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element','form', ], function(){
@@ -153,6 +210,7 @@
                 // ,{field: 'recorder', title: '记录人'}
                 ,{field: 'people_counting', title: '应到人数'}
                 ,{field: 'attendance', title: '实到人数'}
+                ,{field: 'userName', title: '签到表'}
                 ,{field: 'address', title: '地点'}
                 ,{field: 'content',title:'会议内容'}
                 // ,{field: 'guide',title:'会议指导',width:350}

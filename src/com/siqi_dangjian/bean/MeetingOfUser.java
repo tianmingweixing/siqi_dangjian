@@ -26,6 +26,10 @@ public class MeetingOfUser extends BaseBean{
         this.meetingId = meetingId;
     }
 
+    public MeetingOfUser() {
+
+    }
+
     public String getUserName() {
         return userName;
     }

@@ -123,7 +123,7 @@
                 , cols: [[ //表头
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
-                    , {field: 'title', title: '计划ccc名称'}
+                    , {field: 'title', title: '计划名称'}
                     , {field: 'type_name', title: '类型'}
                     , {field: 'conclusion_type_id', title: '类型ID',hide:true}
                     , {field: 'plan_content', title: '内容'}

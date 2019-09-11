@@ -1,6 +1,7 @@
 package com.siqi_dangjian.dao.impl;
 
 import com.siqi_dangjian.bean.Meeting;
+import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.dao.IMeetingDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
@@ -12,6 +13,21 @@ import java.util.Map;
 
 @Repository
 public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
+
+
+    @Override
+    public void insertOrUpdate(MeetingOfUser meetingOfUser) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "INSERT INTO meeting_of_user (can_use, user_id, meeting_id)\n" +
+                "VALUES\n" +
+                "\t(?, ?, ?) ";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,1);
+        query.setParameter(1,meetingOfUser.getUserId());
+        query.setParameter(2,meetingOfUser.getMeetingId());
+        query.executeUpdate();
+    }
+
     @Override
     public void insertOrUpdate(Meeting meeting) throws Exception {
         saveOrUpdateObject(meeting);
@@ -45,6 +61,7 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         session = sessionFactory.getCurrentSession();
 
         String sql = "SELECT\n" +
+                "\tGROUP_CONCAT(u.username) AS userName,\n" +
                 "\tm.content,\n" +
                 "\tDATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
                 "\tDATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
@@ -85,8 +102,14 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
                 "\tm.name\n" +
                 "FROM\n" +
                 "\tmeeting m\n" +
+                "JOIN meeting_of_user f\n" +
+                "ON m.id = f.meeting_id\n" +
+                "JOIN USER u \n" +
+                "ON u.id = f.user_id\n" +
                 "WHERE\n" +
-                "\tm.can_use = 1";
+                "\t\tu.can_use = 1\n" +
+                "AND m.can_use = 1\n" +
+                "GROUP BY m.id";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
@@ -118,4 +141,8 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         Integer count = temp.intValue();
         return count;
     }
+
+
+
+
 }

@@ -1,6 +1,8 @@
 package com.siqi_dangjian.service;
 
 import com.siqi_dangjian.bean.Meeting;
+import com.siqi_dangjian.bean.MeetingOfUser;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +23,6 @@ public interface IMeetingService {
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
     Integer selectMeetingCountByType(String coum, Long parem) throws Exception;
+
+    void insertOrUpdate(MeetingOfUser meetingOfUser);
 }

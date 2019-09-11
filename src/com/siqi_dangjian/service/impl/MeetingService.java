@@ -1,6 +1,7 @@
 package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.Meeting;
+import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.dao.IMeetingDao;
 import com.siqi_dangjian.service.IMeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class MeetingService implements IMeetingService {
 
     @Override
     public Meeting selectById(Long id) throws Exception {
-        Meeting meeting = meetingDao.selectById(id);
+        Meeting meeting = (Meeting) meetingDao.selectById(id);
         return meeting;
 
     }
@@ -57,5 +58,10 @@ public class MeetingService implements IMeetingService {
     @Override
     public Integer selectMeetingCountByType(String coum, Long parem) throws Exception {
         return meetingDao.selectMeetingCountByType(coum, parem);
+    }
+
+    @Override
+    public void insertOrUpdate(MeetingOfUser meetingOfUser) {
+        meetingDao.insertOrUpdate(meetingOfUser);
     }
 }

@@ -23,7 +23,10 @@
             <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">政治面貌</label>
         <div class="layui-input-inline">
             <select name="type_name" id="type_name">
                 <option value="">全部</option>

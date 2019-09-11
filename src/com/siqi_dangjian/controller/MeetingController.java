@@ -3,6 +3,7 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Meeting;
+import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.service.IMeetingService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,6 +30,38 @@ public class MeetingController extends BaseController {
     private IMeetingService meetingService;
 
     Logger logger = Logger.getRootLogger();
+
+
+    /**
+     * 会议签到
+     * @return
+     */
+    @RequestMapping("/signIn")
+    @ResponseBody
+    public ModelMap addMeeting(@RequestParam(value = "user_id", required = false) Long user_id,
+                               @RequestParam(value = "meeting_id", required = false) Long meeting_id) {
+
+        modelMap = new ModelMap();
+
+        try {
+
+
+            MeetingOfUser meetingOfUser = new MeetingOfUser();
+            meetingOfUser.setMeetingId(meeting_id);
+            meetingOfUser.setUserId(user_id);
+
+            meetingOfUser.setCanUse(1);
+            meetingService.insertOrUpdate(meetingOfUser);
+            setSuccess();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail();
+            return modelMap;
+        }
+        return modelMap;
+
+    }
 
     @RequestMapping("/gotoAdd")
     public String gotoAdd(@RequestParam(value = "id", required = false) Long id) {
