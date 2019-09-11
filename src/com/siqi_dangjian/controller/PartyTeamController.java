@@ -39,6 +39,28 @@ public class PartyTeamController extends BaseController{
     }
 
     /**
+     * 查询党小组分类
+     * @return
+     */
+    @RequestMapping("/allCategory")
+    @ResponseBody
+    public ModelMap getAllCategoryList() {
+        modelMap = new ModelMap();
+
+        try {
+            Map map = partyTeamService.selectAllCategory();
+            setData("list", map.get("list"));
+        } catch (Exception e) {
+            setFail("查询失败");
+            e.printStackTrace();
+            logger.error("partyTeam--->allCategory", e);
+            return modelMap;
+        }
+        setSuccess();
+        return modelMap;
+    }
+
+    /**
      * 逻辑删除
      * @return
      */

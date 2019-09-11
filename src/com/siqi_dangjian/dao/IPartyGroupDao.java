@@ -15,4 +15,6 @@ public interface IPartyGroupDao {
 
     Map selectAll(Map blurParam,Map intParam, Map dateParam,
                    int limit, int page) throws Exception;
+
+    Map selectAllCategory();
 }

@@ -79,15 +79,27 @@ public class PartyTeamDao extends BaseDao<PartyTeam> implements IPartyTeamDao {
         session = sessionFactory.getCurrentSession();
         String sql = "select id,name FROM party_team where can_use=1";
 
-//        Query query = session.createSQLQuery(sql).addEntity(Duty.class);//必须查出Duty全部
-
+//      Query query = session.createSQLQuery(sql).addEntity(Duty.class);//必须查出Duty全部
         Query query = session.createSQLQuery(sql)
                 .addScalar("id", LongType.INSTANCE)
                 .addScalar("name", StringType.INSTANCE);
 
         query.setResultTransformer(Transformers.aliasToBean(PartyTeam.class));
-
         return query.list();
 
+    }
+
+    @Override
+    public Map selectAllCategory()  throws Exception{
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tp.id,\n" +
+                "\tp.`name`\n" +
+                "FROM\n" +
+                "\tparty_team p\n" +
+                "WHERE\n" +
+                "\tp.can_use = 1";
+        Map resMap = CommonUtil.queryAllCategory(session,sql);
+        return resMap;
     }
 }

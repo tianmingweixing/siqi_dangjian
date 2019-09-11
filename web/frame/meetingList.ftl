@@ -27,7 +27,7 @@
 </form>
 
 <div class="layui-input-inline search_div" style="margin-left: 110px">
-    <button class="layui-btn" data-type="reload">提交</button>
+    <button class="layui-btn " data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
 
@@ -59,7 +59,7 @@
 
     </form>
     <div class="layui-input-inline search_div" style="margin-left: 110px">
-        <button class="layui-btn" onclick="sign_in()">添加</button>
+        <button class="layui-btn-normal" onclick="sign_in()">添加</button>
     </div>
 
 </div>
@@ -78,7 +78,7 @@
 </script>
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-sm layui-btn-danger"  lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="signIn">添加签到</a>
+    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="signIn">添加签到</a>
 </script>
 <style>
     .layui_open_fail{

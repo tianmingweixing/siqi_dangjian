@@ -57,4 +57,10 @@ public class PartyTeamService implements IPartyTeamService {
     public List<PartyTeam> selectList() throws Exception {
         return partyTeamDao.selectList();
     }
+
+    @Override
+    public Map selectAllCategory() throws Exception {
+        Map map =  partyTeamDao.selectAllCategory();
+        return map;
+    }
 }

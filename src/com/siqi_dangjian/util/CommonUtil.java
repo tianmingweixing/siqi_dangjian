@@ -205,6 +205,14 @@ public class CommonUtil {
         return res;
     }
 
+    public static Map queryAllCategory(Session session, String sql) {
+        SQLQuery query = session.createSQLQuery(sql);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        Map res = new HashMap();
+        res.put("list", list);
+        return res;
+    }
+
     public static String wirteImage(String path, String extension) {
         ByteArrayOutputStream data = new ByteArrayOutputStream();
         try {

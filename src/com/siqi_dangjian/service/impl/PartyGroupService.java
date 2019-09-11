@@ -52,4 +52,10 @@ public class PartyGroupService implements IPartyGroupService {
         Map map =  partyGroupDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public Map selectAllCategory() {
+        Map map =  partyGroupDao.selectAllCategory();
+        return map;
+    }
 }

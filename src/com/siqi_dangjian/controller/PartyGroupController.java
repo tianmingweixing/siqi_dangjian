@@ -41,6 +41,29 @@ public class PartyGroupController extends BaseController{
     }
 
     /**
+     * 查询支部班子分类
+     * @return
+     */
+    @RequestMapping("/allCategory")
+    @ResponseBody
+    public ModelMap getAllCategoryList() {
+        modelMap = new ModelMap();
+
+        try {
+            Map map = partyGroupService.selectAllCategory();
+            setData("list", map.get("list"));
+        } catch (Exception e) {
+            setFail("查询失败");
+            e.printStackTrace();
+            logger.error("partyGroup--->allCategory", e);
+            return modelMap;
+        }
+        setSuccess();
+        return modelMap;
+    }
+
+
+    /**
      * 逻辑删除
      * @return
      */
@@ -61,6 +84,9 @@ public class PartyGroupController extends BaseController{
         setSuccess();
         return modelMap;
     }
+
+
+
 
 
     /**

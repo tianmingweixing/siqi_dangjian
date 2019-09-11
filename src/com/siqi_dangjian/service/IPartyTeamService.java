@@ -21,4 +21,6 @@ public interface IPartyTeamService {
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
     List<PartyTeam> selectList() throws Exception;
+
+    Map selectAllCategory() throws Exception;
 }

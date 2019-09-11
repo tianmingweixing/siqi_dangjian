@@ -18,4 +18,6 @@ public interface IPartyTeamDao {
                    int limit, int page) throws Exception;
 
     List<PartyTeam> selectList() throws Exception;
+
+    Map selectAllCategory() throws Exception;
 }

@@ -69,4 +69,22 @@ public class PartyGroupDao extends BaseDao<PartyGroup> implements IPartyGroupDao
         return resMap;
 
     }
+
+    @Override
+    public Map selectAllCategory() {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tp.duty,\n" +
+                "\tp.id,\n" +
+                "\tp.`name`,\n" +
+                "\tp.party_branch_id,\n" +
+                "\tp.party_group_no,\n" +
+                "\tp.party_no,\n" +
+                "FROM\n" +
+                "\tparty_group p\n" +
+                "WHERE\n" +
+                "\tp.can_use = 1";
+        Map resMap = CommonUtil.queryAllCategory(session,sql);
+        return resMap;
+    }
 }

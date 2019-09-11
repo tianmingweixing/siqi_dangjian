@@ -89,6 +89,21 @@
                    autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
 
+        <label class="layui-form-label" style="margin-left: 85px">所属支部班子</label>
+        <div class="layui-input-inline">
+            <select name="type_name" id="type_name">
+                <option value="">没有则不选</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+            <label class="layui-form-label">所属党小组</label>
+            <div class="layui-input-inline">
+                <select name="type_name" id="type_name">
+                    <option value="">没有则不选</option>
+                </select>
+            </div>
     </div>
 
 
@@ -120,7 +135,7 @@
                 elem: '#join_time' //指定元素
             });
 
-            //查询计划种类
+            //查询政治面貌种类
             $.ajax({
                 url: "/duty/allCategory",
                 async: false,
@@ -133,10 +148,45 @@
 
                         }
                     });
-
                     form.render('select');
                 }
             });
+
+            //查询支部班子种类
+            $.ajax({
+                url: "/partyGroup/allCategory",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        if(item.id == partyGroupId) {
+                            $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
+                        }else{
+                            $("#type_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
+
+                        }
+                    });
+                    form.render('select');
+                }
+            });
+
+            //查询党小组种类
+            $.ajax({
+                url: "/partyTeam/allCategory",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        if(item.id == partyTeamId) {
+                            $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
+                        }else{
+                            $("#type_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
+
+                        }
+                    });
+                    form.render('select');
+                }
+            });
+
+
 
 
             form.on('submit(formDemo)', function () {

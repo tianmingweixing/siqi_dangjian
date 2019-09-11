@@ -20,4 +20,6 @@ public interface IPartyGroupService {
     PartyGroup selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    Map selectAllCategory();
 }
