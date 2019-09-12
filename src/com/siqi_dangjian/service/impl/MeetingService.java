@@ -64,4 +64,9 @@ public class MeetingService implements IMeetingService {
     public void insertOrUpdate(MeetingOfUser meetingOfUser) {
         meetingDao.insertOrUpdate(meetingOfUser);
     }
+
+    @Override
+    public String selectSignInById(Long id) throws Exception {
+        return meetingDao.selectSignInById(id);
+    }
 }

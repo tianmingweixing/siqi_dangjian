@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Meeting;
 import com.siqi_dangjian.bean.MeetingOfUser;
+import com.siqi_dangjian.service.IMeetingOfUserService;
 import com.siqi_dangjian.service.IMeetingService;
+import com.siqi_dangjian.util.MD5;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class MeetingController extends BaseController {
     @Autowired
     private IMeetingService meetingService;
 
+    @Autowired
+    private IMeetingOfUserService meetingOfUserService;
+
     Logger logger = Logger.getRootLogger();
 
 
@@ -42,17 +47,23 @@ public class MeetingController extends BaseController {
                                @RequestParam(value = "meeting_id", required = false) Long meeting_id) {
 
         modelMap = new ModelMap();
-
+        MeetingOfUser meetingOfUser;
         try {
-
-
-            MeetingOfUser meetingOfUser = new MeetingOfUser();
-            meetingOfUser.setMeetingId(meeting_id);
-            meetingOfUser.setUserId(user_id);
-
-            meetingOfUser.setCanUse(1);
-            meetingService.insertOrUpdate(meetingOfUser);
-            setSuccess();
+            if (StringUtils.isNotEmpty(String.valueOf(meeting_id))) {
+                meetingOfUser = meetingOfUserService.selectById(meeting_id);
+                Long userId = meetingOfUser.getUserId();
+                if (userId == user_id) {
+                    setMsg("用户已签到");
+                    setFail("用户已签到");
+                }else{
+                    meetingOfUser = new MeetingOfUser();
+                    meetingOfUser.setMeetingId(meeting_id);
+                    meetingOfUser.setUserId(user_id);
+                    meetingOfUser.setCanUse(1);
+                    meetingOfUserService.insertOrUpdate(meetingOfUser);
+                    setSuccess();
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,8 +115,8 @@ public class MeetingController extends BaseController {
      */
     @RequestMapping("/addMeeting")
     public ModelAndView addMeeting(@RequestParam(value = "id", required = false) Long id,
-                                    @RequestParam(value = "start_time", required = false) String start_time,
-                                    @RequestParam(value = "end_time", required = false) String end_time,
+                                   @RequestParam(value = "start_time", required = false) String start_time,
+                                   @RequestParam(value = "end_time", required = false) String end_time,
                                    @RequestParam(value = "compere", required = false) String compere,
                                    @RequestParam(value = "recorder", required = false) String recorder,
                                    @RequestParam(value = "people_counting", required = false) String people_counting,
@@ -113,9 +124,9 @@ public class MeetingController extends BaseController {
                                    @RequestParam(value = "address", required = false) String address,
                                    @RequestParam(value = "name", required = false) String name,
                                    @RequestParam(value = "imgPath", required = false) String images_a,
-                                    @RequestParam(value = "guide", required = false) String guide,
-                                    @RequestParam(value = "content", required = false) String content,
-                                    @RequestParam(value = "meeting_type_id", required = false) Long meetingTypeId) {
+                                   @RequestParam(value = "guide", required = false) String guide,
+                                   @RequestParam(value = "content", required = false) String content,
+                                   @RequestParam(value = "meeting_type_id", required = false) Long meetingTypeId) {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -160,7 +171,9 @@ public class MeetingController extends BaseController {
         Meeting  meeting;
 
             try {
+                String userName = meetingService.selectSignInById(id);
                 meeting = meetingService.selectById(id);
+                view.addObject("userName",userName);
                 view.addObject("id", meeting.getId());
                 view.addObject("meeting_type_id", meeting.getMeetingTypeId());
                 view.addObject("content", meeting.getContent());

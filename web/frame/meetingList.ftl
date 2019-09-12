@@ -46,7 +46,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label ">会议名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="name" name="name"   placeholder="会议名称" autocomplete="off" class="layui-input">
+                <input type="text" id="name" name="name" readonly  placeholder="会议名称" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -59,7 +59,7 @@
 
     </form>
     <div class="layui-input-inline search_div" style="margin-left: 110px">
-        <button class="layui-btn-normal" onclick="sign_in()">添加</button>
+        <button class="layui-btn layui-btn-normal" onclick="sign_in()">添加</button>
     </div>
 
 </div>
@@ -210,7 +210,6 @@
                 // ,{field: 'recorder', title: '记录人'}
                 ,{field: 'people_counting', title: '应到人数'}
                 ,{field: 'attendance', title: '实到人数'}
-                ,{field: 'userName', title: '签到表'}
                 ,{field: 'address', title: '地点'}
                 ,{field: 'content',title:'会议内容'}
                 // ,{field: 'guide',title:'会议指导',width:350}

@@ -22,4 +22,6 @@ public interface IMeetingDao {
     Integer selectMeetingCountByType(String coum, Long parem) throws Exception;
 
     void insertOrUpdate(MeetingOfUser meetingOfUser);
+
+    String selectSignInById(Long id) throws Exception;
 }

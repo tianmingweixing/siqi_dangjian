@@ -61,7 +61,6 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         session = sessionFactory.getCurrentSession();
 
         String sql = "SELECT\n" +
-                "\tGROUP_CONCAT(u.username) AS userName,\n" +
                 "\tm.content,\n" +
                 "\tDATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
                 "\tDATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
@@ -102,14 +101,8 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
                 "\tm.name\n" +
                 "FROM\n" +
                 "\tmeeting m\n" +
-                "JOIN meeting_of_user f\n" +
-                "ON m.id = f.meeting_id\n" +
-                "JOIN USER u \n" +
-                "ON u.id = f.user_id\n" +
                 "WHERE\n" +
-                "\t\tu.can_use = 1\n" +
-                "AND m.can_use = 1\n" +
-                "GROUP BY m.id";
+                " m.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
@@ -142,7 +135,25 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         return count;
     }
 
+    @Override
+    public String selectSignInById(Long id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tGROUP_CONCAT(u.username) AS userName\n" +
+                "FROM\n" +
+                "\tmeeting m\n" +
+                "JOIN meeting_of_user f ON m.id = f.meeting_id\n" +
+                "JOIN USER u ON u.id = f.user_id\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND m.can_use = 1\n" +
+                "AND m.id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,id);
+        String userName = (String) query.uniqueResult();
 
+        return userName;
+    }
 
 
 }

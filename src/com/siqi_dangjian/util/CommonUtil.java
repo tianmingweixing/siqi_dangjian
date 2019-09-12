@@ -1,7 +1,5 @@
 package com.siqi_dangjian.util;
 
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -12,7 +10,6 @@ import org.jdom2.input.SAXBuilder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sun.misc.BASE64Encoder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigInteger;

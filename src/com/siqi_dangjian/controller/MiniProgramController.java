@@ -8,6 +8,10 @@ import com.siqi_dangjian.service.impl.PartyBranchService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.ConnectUtil;
 import com.siqi_dangjian.util.RedisCacheManager;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -60,6 +64,15 @@ public class MiniProgramController extends BaseController {
     @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
     @ResponseBody
     public ModelMap wxLogin(HttpServletRequest request, HttpSession session) {
+
+        JwtBuilder builder = Jwts.builder().setId("001").setSubject("你好")
+                .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "jksafhsfgshdgs5465");
+        System.out.println(builder.compact());
+
+        Claims claims = Jwts.parser().setSigningKey("jksafhsfgshdgs5465").parseClaimsJws(builder.compact()).getBody();
+        System.out.println(claims);
+
         try {
             modelMap = new ModelMap();
             User user;
