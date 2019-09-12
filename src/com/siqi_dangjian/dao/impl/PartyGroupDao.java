@@ -79,7 +79,7 @@ public class PartyGroupDao extends BaseDao<PartyGroup> implements IPartyGroupDao
                 "\tp.`name`,\n" +
                 "\tp.party_branch_id,\n" +
                 "\tp.party_group_no,\n" +
-                "\tp.party_no,\n" +
+                "\tp.party_no\n" +
                 "FROM\n" +
                 "\tparty_group p\n" +
                 "WHERE\n" +

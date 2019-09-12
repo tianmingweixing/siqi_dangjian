@@ -2,13 +2,8 @@ package com.siqi_dangjian.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.siqi_dangjian.bean.Duty;
-import com.siqi_dangjian.bean.PartyTeam;
-import com.siqi_dangjian.bean.Sympathy;
-import com.siqi_dangjian.bean.User;
-import com.siqi_dangjian.service.IDutyService;
-import com.siqi_dangjian.service.ISympathyService;
-import com.siqi_dangjian.service.IUserService;
+import com.siqi_dangjian.bean.*;
+import com.siqi_dangjian.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +33,12 @@ public class UserController extends BaseController {
 
     @Autowired
     private ISympathyService sympathyService;
+
+    @Autowired
+    private IPartyTeamService partyTeamService;
+
+    @Autowired
+    private IPartyGroupService partyGroupService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -90,6 +91,8 @@ public class UserController extends BaseController {
     @ResponseBody
     public ModelMap addUser(@RequestParam(value = "id", required = false) Long id,
                             @RequestParam(value = "dutyid", required = false) Long dutyid,
+                            @RequestParam(value = "partyGroupsId", required = false) Long partyGroupsId,
+                            @RequestParam(value = "partyTeamId", required = false) Long partyTeamId,
                             @RequestParam(value = "username", required = false) String username,
                             @RequestParam(value = "sex", required = false) Integer sex,
                             @RequestParam(value = "education", required = false) String education,
@@ -111,6 +114,8 @@ public class UserController extends BaseController {
             }
 
             user.setDutyId(dutyid);
+            user.setPartyGroupsId(partyGroupsId);
+            user.setPartyTeamId(partyTeamId);
             user.setId(id);
             user.setIDCord(ID_cord);
             user.setAddress(address);
@@ -143,11 +148,15 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/setUser")
     public ModelAndView setUser(@RequestParam(value = "id", required = false) Long id,
                                 @RequestParam(value = "sympathyId", required = false) Long sympathyId,
+                                @RequestParam(value = "partyGroupsId", required = false) Long partyGroupsId,
+                                @RequestParam(value = "partyTeamId", required = false) Long partyTeamId,
                                 @RequestParam(value = "addSympathy", required = false) Integer addSympathy) {
         ModelAndView view = new ModelAndView();
         User user;
         Duty duty;
         Sympathy sympathy;
+        PartyTeam partyTeam;
+        PartyGroup partyGroup;
 
         try {
             if (id != null) {
@@ -162,6 +171,18 @@ public class UserController extends BaseController {
                 view.addObject("type_name", duty.getTypeName());
                 view.addObject("dutyid", duty.getId());
             }
+            if (partyGroupsId != null) {
+                partyGroup = partyGroupService.selectById(partyGroupsId);
+                view.addObject("partyGroupsId", partyGroup.getId());
+
+            }
+
+            if (partyTeamId != null) {
+                partyTeam = partyTeamService.selectById(partyTeamId);
+                view.addObject("partyTeamId", partyTeam.getId());
+
+            }
+
             if (sympathyId != null) {
                 sympathy = sympathyService.selectById(sympathyId);
                 view.addObject("sympathyId", sympathy.getId());
@@ -171,6 +192,7 @@ public class UserController extends BaseController {
                 view.addObject("sympathy_product", sympathy.getSympathyProduct());
                 view.addObject("note", sympathy.getNote());
             }
+
                 view.addObject("id", user.getId());
                 view.addObject("dutyid", user.getDutyId());
                 view.addObject("address", user.getAddress());

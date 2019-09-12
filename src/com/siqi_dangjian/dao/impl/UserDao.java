@@ -121,6 +121,8 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.company,\n" +
                 "\tu.phone,\n" +
                 "\tu.dutyid,\n" +
+                "\tu.party_groups_id,\n" +
+                "\tu.party_team_id,\n" +
                 "\tu.ID_cord,\n" +
                 "\ts.id sympathyId,\n" +
                 "\t d.type_name ,\n" +
