@@ -132,7 +132,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "                when 2 then '特困难' else '暂无信息' end)difficulty_type,\n" +
                 "\tDATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-                "\tu.address\n" +
+                "\tu.address,\n" +
+                "\tu.party_groups_id,\n" +
+                "\tu.party_team_id\n" +
                 "FROM\n" +
                 "\tUSER u\n" +
                 " LEFT JOIN duty d ON u.dutyid = d.id\n" +

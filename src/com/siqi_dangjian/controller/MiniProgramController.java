@@ -7,6 +7,7 @@ import com.siqi_dangjian.service.impl.ConfigurationService;
 import com.siqi_dangjian.service.impl.PartyBranchService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.ConnectUtil;
+import com.siqi_dangjian.util.JwtUtil;
 import com.siqi_dangjian.util.RedisCacheManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -65,17 +66,17 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap wxLogin(HttpServletRequest request, HttpSession session) {
 
-        JwtBuilder builder = Jwts.builder().setId("001").setSubject("你好")
+        /*JwtBuilder builder = Jwts.builder().setId("001").setSubject("你好")
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "jksafhsfgshdgs5465");
         System.out.println(builder.compact());
 
         Claims claims = Jwts.parser().setSigningKey("jksafhsfgshdgs5465").parseClaimsJws(builder.compact()).getBody();
-        System.out.println(claims);
+        System.out.println(claims);*/
 
         try {
             modelMap = new ModelMap();
-            User user;
+
             String user_code = request.getParameter("code");
             if (StringUtils.isEmpty(user_code)) {
                 setFail("不合法code");
@@ -85,21 +86,28 @@ public class MiniProgramController extends BaseController {
                 JSONObject object = ConnectUtil.connectByGet("https://api.weixin.qq.com/sns/jscode2session", str);
                 String openId = object.getString("openid");
                 String session_key = object.getString("session_key");
-                String redis_key = openId + session_key;
-                String redis_value = String.valueOf(System.currentTimeMillis());
+
+
                 modelMap.addAttribute("session_key", session_key);
                 if (StringUtils.isNotEmpty(openId)) {
-                    user = userService.wxLogin(openId);
+                    User user = userService.wxLogin(openId);
                     if (user == null) {
-                        User user1 = new User();
-                        user1.setOpenId(openId);
-                        user1.setCanUse(1);
-                        userService.addUser(user1);
+                         user = new User();
+                        user.setOpenId(openId);
+                        user.setCanUse(1);
                     }
-                    User u = userService.wxLogin(openId);
-                    modelMap.addAttribute("user", u);
-                    modelMap.addAttribute("redis_key", redis_key);
-                    modelMap.addAttribute("redis_value", redis_value);
+                    //4 . 更新sessionKey和 登陆时间
+                    user.setSessionKey(session_key);
+                    user.setLastTime(new Date());
+                    userService.addUser(user);
+
+                    //5 . JWT 返回自定义登陆态 Token
+                    String token = JwtUtil.getToken(user);
+                    modelMap.addAttribute("token", token);
+                    String redis_key = token;
+                    String redis_value = String.valueOf(System.currentTimeMillis());
+                 /* modelMap.addAttribute("redis_key", redis_key);
+                  modelMap.addAttribute("redis_value", redis_value);*/
                     setSuccess();
                     redisCacheManager.set(redis_key, redis_value, 604800);//7天
 

@@ -15,6 +15,17 @@ import java.util.Date;
 public class User extends BaseBean {
 
 
+    @Column(name="openId",nullable=true,length=40)
+    private String openId;
+
+
+    @Column(name="session_key",nullable=true,length=100)
+    private String sessionKey;
+
+    @Column(name="last_time",nullable=true,length=100)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastTime;
+
     /**
      * 用户微信名，或者后台登陆昵称
      */
@@ -112,8 +123,6 @@ public class User extends BaseBean {
     @Column(name="userno",nullable=true,length=40)
     private String userNo;
 
-    @Column(name="openId",nullable=true,length=40)
-    private String openId;
 
     /**
      * 转正时间
@@ -156,6 +165,22 @@ public class User extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
+
+    public Date getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(Date lastTime) {
+        this.lastTime = lastTime;
+    }
 
     public Date getOfficialTime() {
         return officialTime;
