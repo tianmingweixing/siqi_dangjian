@@ -27,10 +27,17 @@ public class User extends BaseBean {
     private Date lastTime;
 
     /**
-     * 用户微信名，或者后台登陆昵称
+     * 用户名
      */
     @Column(name="username",nullable=true,length=15)
     private String userName;
+
+
+    /**
+     * 用户微信名，或者后台登陆昵称
+     */
+    @Column(name="nick_name",nullable=true,length=15)
+    private String nickName;
 
     /**
      * 性别 1代表男，2代表女
@@ -165,6 +172,14 @@ public class User extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getSessionKey() {
         return sessionKey;

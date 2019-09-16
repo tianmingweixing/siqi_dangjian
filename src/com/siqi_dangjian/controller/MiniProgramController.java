@@ -9,10 +9,7 @@ import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.ConnectUtil;
 import com.siqi_dangjian.util.JwtUtil;
 import com.siqi_dangjian.util.RedisCacheManager;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -61,18 +58,11 @@ public class MiniProgramController extends BaseController {
 
     Logger logger = Logger.getRootLogger();
 
-
     @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
     @ResponseBody
-    public ModelMap wxLogin(HttpServletRequest request, HttpSession session) {
+    public ModelMap wxLogin(HttpServletRequest request, HttpSession session,String data) {
 
-        /*JwtBuilder builder = Jwts.builder().setId("001").setSubject("你好")
-                .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "jksafhsfgshdgs5465");
-        System.out.println(builder.compact());
-
-        Claims claims = Jwts.parser().setSigningKey("jksafhsfgshdgs5465").parseClaimsJws(builder.compact()).getBody();
-        System.out.println(claims);*/
+        final long TOKEN_EXP = 1000 * 60 * 10;//过期时间,测试使用十分钟
 
         try {
             modelMap = new ModelMap();
@@ -87,8 +77,6 @@ public class MiniProgramController extends BaseController {
                 String openId = object.getString("openid");
                 String session_key = object.getString("session_key");
 
-
-                modelMap.addAttribute("session_key", session_key);
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
                     if (user == null) {
@@ -96,23 +84,38 @@ public class MiniProgramController extends BaseController {
                         user.setOpenId(openId);
                         user.setCanUse(1);
                     }
-                    //4 . 更新sessionKey和 登陆时间
+
+                    //4 . 更新sessionKey和 登陆时间U
                     user.setSessionKey(session_key);
                     user.setLastTime(new Date());
+
+                    //获取用户信息
+                    JSONObject wechatUserInfo =JSONObject.fromObject(data);
+                    String avatarUrl  = wechatUserInfo.getString("avatarUrl");
+                    String nickName  = wechatUserInfo.getString("nickName");
+                    String gender  = wechatUserInfo.getString("gender");
+
+                    user.setHeadImg(avatarUrl);
+                    user.setNickName(nickName);
+                    user.setSex(Integer.valueOf(gender));
                     userService.addUser(user);
 
+                    //JWT ID,做为验证的key
+                    String jwtId = String.valueOf(System.currentTimeMillis());
+                    //jwt 过期时间
+                    Date expiration =  new Date(System.currentTimeMillis() + TOKEN_EXP);
+
                     //5 . JWT 返回自定义登陆态 Token
-                    String token = JwtUtil.getToken(user);
+                    String token = JwtUtil.getToken(user,jwtId,expiration);
                     modelMap.addAttribute("token", token);
-                    String redis_key = token;
-                    String redis_value = String.valueOf(System.currentTimeMillis());
-                 /* modelMap.addAttribute("redis_key", redis_key);
-                  modelMap.addAttribute("redis_value", redis_value);*/
                     setSuccess();
-                    redisCacheManager.set(redis_key, redis_value, 604800);//7天
+
+                    redisCacheManager.set("JWT-SESSION-" + jwtId, token, TOKEN_EXP);//1小时
+//                  2 . Redis缓存JWT, 注 : 请和JWT过期时间一致 ？？？NullPointerException
+//                  redisTemplate.opsForValue().set("JWT-SESSION-" + jwtId, token, TOKEN_EXP, TimeUnit.SECONDS);
 
                 } else {
-                    setFail("后台异常");
+                    setFail("缺少参数:openId");
                     setCode(CommonString.SYSTEM_EXPECTION);
                 }
             }

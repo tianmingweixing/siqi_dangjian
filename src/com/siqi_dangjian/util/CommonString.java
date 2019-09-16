@@ -28,8 +28,8 @@ public class CommonString {
     public final static String BACK_NO_PRE = "DFBACK";
     public final static String WX_PAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     public final static String WX_BACK_URL = "https://api.maotouying.com/secapi/pay/refund";//退款url
-    public final static String APP_ID ="wx7f5643445c60911c";//小程序appId
-    public final static String APP_SECRET="8ea6be66d2b52d38a2972de0325c2fe0";//小程序secret
+    public final static String APP_ID ="wxd5cbc0e0f39c9636";//小程序appId
+    public final static String APP_SECRET="12360f6fc1cd764d05a8a9bfe4c9fc0e";//小程序secret
     public final static String MCH_ID ="1539812551";//微信支付商户Id
     public final static String APP_PAY_TYPE="JSAPI";
     public final static String APP_WX_PAYMENT_BODY="丁府茶行-用户购买商品";

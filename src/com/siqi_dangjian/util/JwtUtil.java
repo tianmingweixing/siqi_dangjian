@@ -2,11 +2,8 @@ package com.siqi_dangjian.util;
 
 import com.siqi_dangjian.bean.User;
 import io.jsonwebtoken.*;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Jwt 的工具类
@@ -19,22 +16,18 @@ public class JwtUtil {
         this.redisTemplate = redisTemplate;
     }
 
-    final static String SecretKey = "你的私钥";//私钥
+    final static String SecretKey = "hhhwww";//私钥
 
-    final static long TOKEN_EXP = 1000 * 60 * 10;//过期时间,测试使用十分钟
-
-
-    public static String getToken(User user) {
-
-        //JWT 随机ID,做为验证的key
-        String jwtId = UUID.randomUUID().toString();
+    public static String getToken(User user,String jwtId,Date expiration) {
 
         //1 . 加密算法进行签名得到token
           String token =Jwts.builder()
 
-                .setSubject(user.getUserName())
+                .setSubject("user")
 
-                .claim("openId",user.getOpenId() )
+                .claim("openId",user.getOpenId())
+
+                .claim("JWT-SESSION-",jwtId)
 
                 .claim("sessionKey",user.getSessionKey())
 
@@ -42,14 +35,12 @@ public class JwtUtil {
 
                 .setIssuedAt(new Date())
 
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP)) /*过期时间*/
+                .setExpiration(expiration) /*过期时间*/
 
                 .signWith(SignatureAlgorithm.HS256, SecretKey)
 
                 .compact();
 
-        //2 . Redis缓存JWT, 注 : 请和JWT过期时间一致
-        redisTemplate.opsForValue().set("JWT-SESSION-" + jwtId, token, TOKEN_EXP, TimeUnit.SECONDS);
 
         return token;
     }
@@ -65,29 +56,16 @@ public class JwtUtil {
             String redisToken = (String) redisTemplate.opsForValue().get("JWT-SESSION-" + getJwtIdByToken(token));
             if (!redisToken.equals(token)) return false;
 
-
-   /*        //2 . 得到算法相同的JWTVerifier
-            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("wxOpenId", getWxOpenIdByToken(redisToken))
-                    .withClaim("sessionKey", getSessionKeyByToken(redisToken))
-                    .withClaim("jwt-id", getJwtIdByToken(redisToken))
-                    .acceptExpiresAt(System.currentTimeMillis() + expire_time*1000 )  //JWT 正确的配置续期姿势
-                    .build();
-            //3 . 验证token
-            verifier.verify(redisToken);*/
-            //????
-
                 Jws<Claims> claims = Jwts.parser()
                         .setSigningKey(SecretKey)
-                        .requireSubject(getUserNameByToken(token))
+                        .requireSubject("user")
                         .require("openId", getWxOpenIdByToken(redisToken))
                         .require("sessionKey",  getSessionKeyByToken(token))
-                        .requireExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP)) //JWT 正确的配置续期姿势????
+//                      .requireExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP)) //JWT 正确的配置续期姿势????
                         .parseClaimsJws(token);
 
-                //4 . Redis缓存JWT续期
-                redisTemplate.opsForValue().set("JWT-SESSION-" + getJwtIdByToken(token), redisToken, TOKEN_EXP, TimeUnit.SECONDS);
+//                4 . Redis缓存JWT续期
+//                redisTemplate.opsForValue().set("JWT-SESSION-" + getJwtIdByToken(token), redisToken, TOKEN_EXP, TimeUnit.SECONDS);
                 return true;
             }catch (Exception e) {
             e.printStackTrace();

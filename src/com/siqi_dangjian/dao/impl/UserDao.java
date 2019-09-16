@@ -19,7 +19,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public User getUserByOpenId(String openId) {
         session = sessionFactory.getCurrentSession();
-        String  hql ="from user where openId = ? and can_use = 1";
+        String  hql ="from User where openId = ? and can_use = 1";
         Query query = session.createQuery(hql);
         query.setString(0,openId);
         User user =(User) query.uniqueResult();
@@ -132,9 +132,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "                when 2 then '特困难' else '暂无信息' end)difficulty_type,\n" +
                 "\tDATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-                "\tu.address,\n" +
-                "\tu.party_groups_id,\n" +
-                "\tu.party_team_id\n" +
+                "\tu.address\n" +
                 "FROM\n" +
                 "\tUSER u\n" +
                 " LEFT JOIN duty d ON u.dutyid = d.id\n" +
