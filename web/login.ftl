@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>网站后台内容管理系统登录登陆界面模板 - cssmoban</title>
-    <meta name="keywords" content="后台登陆页面模板,后台登录界面html,后台登录模板,后台登录页面html,后台管理系统后台登录模板">
-    <meta name="description" content="cssmoban提供后台管理系统登录界面html模板学习和下载">
     <meta name="viewport" content="width=device-width">
     <link href="../login/public/css/base.css" rel="stylesheet" type="text/css">
     <link href="../login/public/css/login.css" rel="stylesheet" type="text/css">
@@ -27,7 +25,7 @@
 
         </div>
         <div id="regis">
-            <button class="button" id="register"><a href="frame/register.ftl">注册</a></button>
+            <button class="button" id="register"><a href="/frame/register.ftl">注册</a></button>
         </div>
 
         <div id="tip"></div>

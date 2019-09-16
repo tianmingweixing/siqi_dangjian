@@ -219,8 +219,8 @@
                 ,{field: 'attendance', title: '实到人数'}
                 ,{field: 'address', title: '地点'}
                 ,{field: 'content',title:'会议内容'}
-                // ,{field: 'guide',title:'会议指导',width:350}
-                // ,{field: 'images_a',title:'会议图片1',width:150}
+                ,{field: 'guide',title:'会议指导',hide:true}
+                 ,{field: 'images_a',title:'会议图片1',hide:true}
                 // ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
                 ,{field: 'start_time',title:'开始时间',sort: true}
                 ,{field: 'end_time',title:'结束时间',sort: true}

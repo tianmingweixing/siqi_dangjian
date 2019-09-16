@@ -29,20 +29,19 @@
                    autocomplete="off" class="layui-input" value="<#if username??>${username}<#else></#if>">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">身份证</label>
+        <label class="layui-form-label" style="margin-left: 85px" >性别</label>
+        <div class="layui-input-inline" >
+            <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
+            <input type="radio" name="sex" value="2" title="女" <#if sex??&&sex==2>checked</#if>>
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" >身份证</label>
         <div class="layui-input-inline">
             <input id="ID_cord" name="ID_cord" lay-verify="required" placeholder="请输入身份证" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if ID_cord??>${ID_cord}<#else></#if>">
         </div>
-
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-            <label class="layui-form-label" style="margin-left: 0px">性别</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男" <#if sex??&&sex==1>checked</#if>>
-                <input type="radio" name="sex" value="2" title="女" <#if sex??&&sex==2>checked</#if>>
-            </div>
 
         <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
@@ -61,15 +60,7 @@
                    autocomplete="off" class="layui-input" value="<#if age??>${age}<#else></#if>">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 84px">手机号码</label>
-        <div class="layui-input-inline">
-            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">学历</label>
+        <label class="layui-form-label" style="margin-left: 85px">学历</label>
         <div class="layui-input-inline">
             <select name="education" id="education">
                 <option value="">请选择</option>
@@ -84,19 +75,27 @@
             <#--<input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">-->
         </div>
+    </div>
 
-        <label class="layui-form-label" style="margin-left: 84px">单位</label>
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" >手机号码</label>
         <div class="layui-input-inline">
-            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if company??>${company}<#else></#if>">
+            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
+        </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">入党时间</label>
+        <div class="layui-input-inline">
+            <input id="join_time" name="join_time" lay-verify="" placeholder="请输入入党时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
         </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">入党时间</label>
+        <label class="layui-form-label" >单位</label>
         <div class="layui-input-inline">
-            <input id="join_time" name="join_time" lay-verify="" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if join_time??>${join_time}<#else></#if>">
+            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if company??>${company}<#else></#if>">
         </div>
 
         <label class="layui-form-label" style="margin-left: 85px">所属支部班子</label>

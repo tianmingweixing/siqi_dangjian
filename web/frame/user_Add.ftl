@@ -29,20 +29,19 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">身份证</label>
+        <label class="layui-form-label" style="margin-left: 85px">性别</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="sex" value="1" title="男">
+            <input type="radio" name="sex" value="2" title="女">
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" >身份证</label>
         <div class="layui-input-inline">
             <input id="ID_cord" name="ID_cord" lay-verify="required" placeholder="请输入身份证" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
-
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-            <label class="layui-form-label" style="margin-left: 0px">性别</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男">
-                <input type="radio" name="sex" value="2" title="女">
-            </div>
 
         <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
@@ -52,8 +51,6 @@
         </div>
     </div>
 
-
-
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">年龄</label>
         <div class="layui-input-inline">
@@ -61,15 +58,7 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 84px">手机号码</label>
-        <div class="layui-input-inline">
-            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">学历</label>
+        <label class="layui-form-label" style="margin-left: 85px">学历</label>
         <div class="layui-input-inline">
             <select name="education" id="education">
                 <option value="">请选择</option>
@@ -84,18 +73,26 @@
             <!--<input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
                    autocomplete="off" class="layui-input" value="">-->
         </div>
+    </div>
 
-        <label class="layui-form-label" style="margin-left: 84px">单位</label>
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label" >手机号码</label>
         <div class="layui-input-inline">
-            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
+            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
+        </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">入党时间</label>
+        <div class="layui-input-inline">
+            <input id="join_time" name="join_time" lay-verify="" placeholder="请输入入党时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">入党时间</label>
+        <label class="layui-form-label" >单位</label>
         <div class="layui-input-inline">
-            <input id="join_time" name="join_time" lay-verify="" placeholder="请输入入党时间" maxlength="20"
+            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
@@ -108,7 +105,7 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-            <label class="layui-form-label">所属党小组</label>
+            <label class="layui-form-label" >所属党小组</label>
             <div class="layui-input-inline">
                 <select name="partyTeam_name" id="partyTeam_name">
                     <option value="">没有则不选</option>
@@ -130,12 +127,25 @@
 
 <script>
 
- /*   var dutyid = <#if dutyid??>"${dutyid}"<#else>""</#if>;
-    var partyGroupsId = <#if partyGroupsId??>"${partyGroupsId}"<#else>""</#if>;
-    var partyTeamId = <#if partyTeamId??>"${partyTeamId}"<#else>""</#if>;*/
-
-
     $(function() {
+        //从父层获取值，json是父层的全局js变量。eval是将该string类型的json串变为标准的json串
+        /* var parent_json = eval('('+parent.json+')');
+         console.log(parent_json);*/
+        console.log(parent.PartitionData.id);
+
+        $("#username").val(parent.PartitionData.username);
+        $("#age").val(parent.PartitionData.age);
+        $("#company").val(parent.PartitionData.company);
+        $("#education").val(parent.PartitionData.education);
+        $("#phone").val(parent.PartitionData.phone);
+        $("#sex").val(parent.PartitionData.sex);
+        $("#join_time").val(parent.PartitionData.join_time);
+        // $("#head_img").attr('src',parent.PartitionData.head_img);
+        // $("#dutyid").val(parent.PartitionData.dutyid);
+        // $("#nation").val(parent.PartitionData.nation);
+        $("#ID_cord").val(parent.PartitionData.ID_cord);
+       /* $("#difficulty_type").val(parent.PartitionData.difficulty_type);
+        $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
 
         layui.use(['laydate', 'layer', 'table', 'carousel', 'element', 'form'], function () {
             var form = layui.form;
@@ -150,6 +160,8 @@
                 ,theme: 'grid'
                 ,trigger: 'click'
             });
+
+
 
             //查询政治面貌种类
             $.ajax({

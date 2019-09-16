@@ -115,6 +115,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="detail">查看</a>
     <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy"><i class="layui-icon"></i>添加慰问</a>
 </script>
@@ -130,9 +131,6 @@
     <div><img id="headUrlImg" style="height:35px;width:35px;border-radius:50%;line-height:50px!important;" src="{{d.head_img}}"></div>
 </script>
 
-
-
-
 <script src="/js/layui/layui.js"></script>
 <script>
     layui.config({
@@ -142,10 +140,8 @@
     function reset_search(){
         window.location.reload();
     }
-    
 
-
-    function onAddUserBtn(data){
+    function onAddUserBtn(){
 
         layer.open({
             type: 2,
@@ -174,8 +170,6 @@
         $("#difficulty_type").html(data.difficulty_type);
         $("#party_branch_name").html(data.party_branch_name);
 
-
-
         layer.open({
             type: 1,
             title: '用户详情',
@@ -189,6 +183,7 @@
 
     }
 
+    let json;
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
                 ,laypage = layui.laypage //分页
@@ -203,7 +198,6 @@
         laydate.render({
             elem: '#join_time' //指定元素
         });
-
 
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
@@ -253,9 +247,10 @@
                 ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'difficulty_type',title:'困难情况',hide:true}
                 ,{field: 'join_time',title:'入党时间'}
-                ,{field: 'look',fixed: 'right',title:'编辑',width:200,templet:'#barDemo'}
+                ,{field: 'look',fixed: 'right',title:'编辑',width:250,templet:'#barDemo'}
             ]]
         });
+
         var $ = layui.$, active = {
             reload:function () {
                 var username = $("#name_search").val();
@@ -295,7 +290,6 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         console.log(data[0]);
-
 
                         if (data[0].party_groups_id != undefined){
                             var parameter = + data[0].id  + '&partyGroupsId='+data[0].party_groups_id;
@@ -364,11 +358,23 @@
                 }else {
                     var parameter = + data.id + '&sympathyId=' + data.sympathyId + '&addSympathy=' + 1 ;
                 }
-            window.location.href = '/user/setUser?id=' + parameter;
+                    window.location.href = '/user/setUser?id=' + parameter;
+            }else if(layEvent === 'edit') {
+                //这行是监听到的表格行数据信息，复制给json全局变量。
+                json = JSON.stringify(data);
+                window.PartitionData=data;
+                layui.use('layer', function () {
+                    layer.open({
+                        title: '编辑用户',
+                        maxmin: true,
+                        type: 2,
+                        content: './user_Add.ftl',
+                        area: ['800px', '500px']
+                    });
+
+                });
             }
         });
-
-
         //分页
         laypage.render({
             elem: 'pageDemo' //分页容器的id
