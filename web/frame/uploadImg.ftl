@@ -50,7 +50,7 @@
         .img-box .up-p {margin-bottom:20px;font-size:16px;color:#555;}
         .z_photo {padding:18px;border:2px dashed #E7E6E6;}
         .z_photo .z_file {position:relative;}
-        .z_file  .file {width:100%;height:100%;opacity:0;position:absolute;top:0px;left:0px;z-index:100;}
+        .z_file  .file {width:50%;height:50%;opacity:0;position:absolute;top:0px;left:0px;z-index:100;}
         .z_photo .up-section {position:relative;margin-right:20px;margin-bottom:20px;}
         .up-section .close-upimg {position:absolute;top:6px;right:8px;display:none;z-index:10;}
         .up-section .up-span {display:block;width:100%;height:100%;visibility:hidden;position:absolute;top:0px;left:0px;z-index:9;background:rgba(0,0,0,.5);}
@@ -78,7 +78,7 @@
         <p class="up-p"><span class="up-span">上传图片（最多可以上传5张图片）</span></p>
         <div class="z_photo upimg-div clear">
             <section class="z_file fl">
-                <img src="https://cs.m.xczhihui.com/xcview/images/shop/uploading.png" class="add-img">
+                <img src="" class="add-img">
                 <input type="file" name="file" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="">
             </section>
         </div>
@@ -93,9 +93,8 @@
 </aside>
 </body>
 </html>
-<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<!--<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>-->
 <script>
-
     $(function(){
         var delParent;
         var defaults = {
@@ -132,7 +131,7 @@
                         $(".works-mask").show();
                         delParent = $(this).parent();
                     });
-                    $img0.attr("src","https://cs.m.xczhihui.com/xcview/images/shop/close.png").appendTo($section);
+                    $img0.attr("src","").appendTo($section);
                     var $img = $("<img class='up-img up-opcity'>");
                     $img.attr("src",imgArr[i]);
                     $img.appendTo($section);
@@ -154,7 +153,15 @@
                 $(this).parent().hide();
             }
 
-            console.log(fileList);
+
+            for(var i = 0;i<fileList.length;i++){
+                var formData = new FormData();
+                formData.append("file:"+i,fileList[i]);
+            }
+            console.log(formData);
+            // JSON.stringify(fileList);
+            // console.log("2"+fileList);
+
 
             //点击上传
             $("#uploadImg").click(function () {
@@ -162,10 +169,11 @@
                     url: '/upload/uploadImage',
                     type: 'post',
                     data: {
-                        file: fileList
+                         formData
                     },
-                    processData: false,   // jQuery不要去处理发送的数据
-                    contentType: false,   // jQuery不要去设置Content-Type请求头
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function (result) {
                         alert("成功");
                     }

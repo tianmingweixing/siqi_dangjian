@@ -13,7 +13,7 @@
 <form class="layui-form" action="">
 
 <br>
-    <div class="layui-form-item input_row_margin_top" style="display:none">
+    <div class="layui-form-item input_row_margin_top" style="display:">
         <label class="layui-form-label" style="margin-left: 85px">会议ID
             <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
 

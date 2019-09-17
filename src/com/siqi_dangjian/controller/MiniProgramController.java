@@ -5,11 +5,7 @@ import com.siqi_dangjian.service.*;
 import com.siqi_dangjian.service.impl.ActivityService;
 import com.siqi_dangjian.service.impl.ConfigurationService;
 import com.siqi_dangjian.service.impl.PartyBranchService;
-import com.siqi_dangjian.util.CommonString;
-import com.siqi_dangjian.util.ConnectUtil;
-import com.siqi_dangjian.util.JwtUtil;
-import com.siqi_dangjian.util.RedisCacheManager;
-import net.sf.json.JSONArray;
+import com.siqi_dangjian.util.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -60,9 +56,9 @@ public class MiniProgramController extends BaseController {
 
     @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
     @ResponseBody
-    public ModelMap wxLogin(HttpServletRequest request, HttpSession session,String data) {
+    public ModelMap wxLogin(HttpServletRequest request, HttpSession session, String data) {
 
-        final long TOKEN_EXP = 1000 * 60 * 10;//过期时间,测试使用十分钟
+        final long TOKEN_EXP = 1000 * 60 * 60 * 24 * 7;//过期时间,7天
 
         try {
             modelMap = new ModelMap();
@@ -80,7 +76,7 @@ public class MiniProgramController extends BaseController {
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
                     if (user == null) {
-                         user = new User();
+                        user = new User();
                         user.setOpenId(openId);
                         user.setCanUse(1);
                     }
@@ -89,30 +85,23 @@ public class MiniProgramController extends BaseController {
                     user.setSessionKey(session_key);
                     user.setLastTime(new Date());
 
-                    //获取用户信息
-                    JSONObject wechatUserInfo =JSONObject.fromObject(data);
-                    String avatarUrl  = wechatUserInfo.getString("avatarUrl");
-                    String nickName  = wechatUserInfo.getString("nickName");
-                    String gender  = wechatUserInfo.getString("gender");
-
+                    //获取微信用户信息
+                    JSONObject wechatUserInfo = JSONObject.fromObject(data);
+                    String avatarUrl = wechatUserInfo.getString("avatarUrl");
+                    String nickName = wechatUserInfo.getString("nickName");
+                    String gender = wechatUserInfo.getString("gender");
                     user.setHeadImg(avatarUrl);
                     user.setNickName(nickName);
                     user.setSex(Integer.valueOf(gender));
                     userService.addUser(user);
 
-                    //JWT ID,做为验证的key
-                    String jwtId = String.valueOf(System.currentTimeMillis());
-                    //jwt 过期时间
-                    Date expiration =  new Date(System.currentTimeMillis() + TOKEN_EXP);
+                    //jwt 过期时间 7天
+                    Date expiration = new Date(System.currentTimeMillis() + TOKEN_EXP);
 
                     //5 . JWT 返回自定义登陆态 Token
-                    String token = JwtUtil.getToken(user,jwtId,expiration);
+                    String token = JwtUtil.getToken(user, expiration);
                     modelMap.addAttribute("token", token);
                     setSuccess();
-
-                    redisCacheManager.set("JWT-SESSION-" + jwtId, token, TOKEN_EXP);//1小时
-//                  2 . Redis缓存JWT, 注 : 请和JWT过期时间一致 ？？？NullPointerException
-//                  redisTemplate.opsForValue().set("JWT-SESSION-" + jwtId, token, TOKEN_EXP, TimeUnit.SECONDS);
 
                 } else {
                     setFail("缺少参数:openId");
@@ -135,6 +124,7 @@ public class MiniProgramController extends BaseController {
      * @param type
      * @param start_time
      * @param end_time
+     * @param token
      * @param limit
      * @param page
      * @return
@@ -145,12 +135,19 @@ public class MiniProgramController extends BaseController {
                                     @RequestParam(value = "type",required = false)Integer type,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
+                                    @RequestParam(value = "token", required = false) String token,
                                     @RequestParam(value = "limit", required=false)Integer limit,
                                     @RequestParam(value = "page", required=false)Integer page){
 
         modelMap = new ModelMap();
 
         try {
+
+            if (!JwtUtil.checkToken(token)) {
+                setFail("用户登陆信息过期,请重新登陆");
+                setCode(CommonString.TOKEN_CHECK_FAIL);
+                return modelMap;
+            }
             Map blurMap = new HashMap<>();
             Map dateMap = new HashMap<>();
             Map intMap  = new HashMap<>();
@@ -191,8 +188,8 @@ public class MiniProgramController extends BaseController {
     }
 
     /**
-     * 编辑党小组
-     * @param id addSympathy
+     * 编辑用户
+     * @param  id
      * @return
      */
     @RequestMapping(value = "/setUser")
@@ -216,10 +213,9 @@ public class MiniProgramController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("user-->setUser", e);
-            if (id != null) {
+            if (id == null) {
             setMsg("缺少参数：id");
             }
-            setMsg("编辑用户失败");
             setFail();
         }
         return modelMap;

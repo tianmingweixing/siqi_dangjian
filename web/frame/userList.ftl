@@ -218,7 +218,8 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:50, sort: true, fixed: 'left'}
-                ,{field: 'username', title: '昵称'}
+                ,{field: 'username', title: '用户名'}
+                ,{field: 'nick_name', title: '昵称',hide:true}
                 ,{field: 'sex',title:'性别'}
                 ,{field: 'age',title:'年龄'}
                 ,{field: 'education',title:'学历'}

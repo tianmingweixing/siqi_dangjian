@@ -87,13 +87,16 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
         String sqlCount = "SELECT\n" +
                 "count(*) count,\n" +
-                "(case d.name\n" +
+                "(case u.dutyid\n" +
                 "          when 1 then '发展对象' \n" +
                 "          when 2 then '积极分子' \n" +
                 "          when 3 then '预备党员' \n" +
-                "          when 4 then '正式党员' else '空的' end)dName\n" +
+                "          when 4 then '正式党员' else '游客' end)dName\n" +
                 "FROM\n" +
+                "user u\n" +
+                "JOIN \n" +
                 "\tduty d \n" +
+                "ON u.dutyid = d.id\n" +
                 "WHERE\n" +
                 " d.can_use = 1\n" +
                 "GROUP BY\n" +
@@ -114,6 +117,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         String sql = " SELECT\n" +
                 "\tu.id,\n" +
                 "\tu.username,\n" +
+                "\tu.nick_name,\n" +
                 "\tu.head_img,\n" +
                 "\tif(u.sex='1','男','女')sex,\n" +
                 "\tu.age,\n" +
@@ -124,7 +128,6 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.party_groups_id,\n" +
                 "\tu.party_team_id,\n" +
                 "\tu.ID_cord,\n" +
-                "\ts.id sympathyId,\n" +
                 "\t d.type_name ,\n" +
                 "\t(case u.difficulty_type \n" +
                 "                when 0 then '非困难'  \n" +
@@ -136,10 +139,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "FROM\n" +
                 "\tUSER u\n" +
                 " LEFT JOIN duty d ON u.dutyid = d.id\n" +
-                " LEFT JOIN sympathy s ON s.user_id = u.id\n" +
                 " WHERE\n" +
-                "\tu.can_use = 1\n" +
-                " AND d.can_use = 1";
+                "\tu.can_use = 1\n";/* +
+                " AND d.can_use = 1";*/
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
