@@ -38,8 +38,9 @@
         <div class="layui-input-inline">
             <input type="text" class="layui-input" placeholder="起始日期" id="start_time_search">
         </div>
-        <div class="layui-form-mid layui-word-aux">至</div>
-        <div class="layui-input-inline" style="margin-left: 15px">
+        <label class="layui-form-label" style="text-align: center;">至</label>
+        <!--<div class="layui-form-mid layui-word-aux">至</div>-->
+        <div class="layui-input-inline">
             <input type="text" class="layui-input" placeholder="结束日期" id="end_time_search">
         </div>
     </div>
@@ -54,10 +55,11 @@
 </div>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加签到</a>
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>-->
 </script>
 <style>
     .layui_open_fail{
@@ -163,11 +165,12 @@
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
                 , {field: 'review', title: '点评'}
-                , {field: 'image_path_a', title: '图片1'}
-                , {field: 'image_path_b', title: '图片2'}
+                , {field: 'id',title:'操作',width:200,fixed: 'right',toolbar: '#barDemo'}
+                // , {field: 'image_path_a', title: '图片1'}
+                // , {field: 'image_path_b', title: '图片2'}
                 // ,{field: 'address',title:'地址',width:200,sort: true}
                 // ,{field: 'birth', title: '出生日期', width:200}
-                // ,{field: 'userno',title:'用户编号',width:200,sort: true}
+
             ]]
         });
 

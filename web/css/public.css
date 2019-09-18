@@ -50,6 +50,9 @@
 
 #image_list > li {float: left; margin-right: 10px;}
 #image_list > li > img {width: 90px; height: 90px; border: 1px solid #CCCCCC;}
+#image_list > li > input {border: none; text-overflow: ellipsis;}
+#demoList > tr > td > input {text-overflow: ellipsis;}
+
 .demoText {
     margin-top: 5px;
     width: 100px;

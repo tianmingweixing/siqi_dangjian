@@ -27,6 +27,7 @@
                         <dd class="layui-this"><a onclick="branch_1()">支部信息</a></dd>
                         <dd><a onclick="branch_2()">班子管理</a></dd>
                         <dd><a onclick="branch_3()">党组管理</a></dd>
+                        <dd><a onclick="branch_4()">图片上传</a></dd>
                     </dl>
                 </li>
 
@@ -115,6 +116,9 @@
     function branch_3(){
         $("#mainIframe").attr("src", "/frame/partyTeamList.ftl");
     }
+    function branch_4(){
+        $("#mainIframe").attr("src", "/frame/imgTest.ftl");
+    }
 
     function user_1(){
         $("#mainIframe").attr("src", "/frame/userList.ftl");
@@ -133,7 +137,7 @@
         $("#mainIframe").attr("src", "/frame/activityBrandList.ftl");
     }
     function activity_4() {
-        $("#mainIframe").attr("src", "/frame/activityBrandList.ftl");
+        $("#mainIframe").attr("src", "/frame/activityTipsList.ftl");
     }
 
     function meeting_1() {
