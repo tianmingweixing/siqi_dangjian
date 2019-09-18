@@ -53,4 +53,10 @@ public class NoticeService implements INoticeService {
         Map map = noticeDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public Map selectAll(Integer limit, Integer page) {
+        Map map = noticeDao.selectAll(limit, page);
+        return map;
+    }
 }

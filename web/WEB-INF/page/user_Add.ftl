@@ -71,8 +71,18 @@
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">学历</label>
         <div class="layui-input-inline">
-            <input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">
+            <select name="education" id="education">
+                <option value="">请选择</option>
+                <option value="1" <#if education?? && education == "1">selected</#if>>初中</option>
+                <option value="2" <#if education?? && education == "2">selected</#if>>高中</option>
+                <option value="3" <#if education?? && education == "3">selected</#if>>中专</option>
+                <option value="4" <#if education?? && education == "4">selected</#if>>大专</option>
+                <option value="5" <#if education?? && education == "5">selected</#if>>本科</option>
+                <option value="6" <#if education?? && education == "6">selected</#if>>硕士</option>
+                <option value="7" <#if education?? && education == "7">selected</#if>>博士</option>
+            </select>
+            <#--<input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if education??>${education}<#else></#if>">-->
         </div>
 
         <label class="layui-form-label" style="margin-left: 84px">单位</label>

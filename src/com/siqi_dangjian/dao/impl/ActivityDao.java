@@ -134,4 +134,27 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         return count;
     }
 
+    @Override
+    public Map selectActivityGroupCount() {
+        Map resMap = new HashMap();
+        session = sessionFactory.getCurrentSession();
+
+        String sqlCount = "SELECT\n" +
+                "\tcount(*) count,\n" +
+                "\tAT.type_name typeName\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "JOIN activities_type AT ON AT.id = a.type_id\n" +
+                "WHERE\n" +
+                "\ta.can_use = 1\n" +
+                "GROUP BY\n" +
+                "\ttypeName";
+
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        List countList = query1.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        resMap.put("countList", countList);
+
+        return resMap;
+    }
+
 }

@@ -23,9 +23,9 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">昵称</label>
+        <label class="layui-form-label ">用户名称</label>
         <div class="layui-input-inline">
-            <input id="username" name="username" lay-verify="required" placeholder="请输入昵称" maxlength="20"
+            <input id="username" name="username" lay-verify="required" placeholder="请输入用户名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
@@ -71,8 +71,18 @@
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label ">学历</label>
         <div class="layui-input-inline">
-            <input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">
+            <select name="education" id="education">
+                <option value="">请选择</option>
+                <option value="1">初中</option>
+                <option value="2">高中</option>
+                <option value="3">中专</option>
+                <option value="4">大专</option>
+                <option value="5">本科</option>
+                <option value="5">硕士</option>
+                <option value="5">博士</option>
+            </select>
+            <!--<input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">-->
         </div>
 
         <label class="layui-form-label" style="margin-left: 84px">单位</label>

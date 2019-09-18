@@ -72,4 +72,9 @@ public class ActivityService implements IActivityService {
         return activityDao.selectActivityCountByType(type_id);
     }
 
+    @Override
+    public Map selectActivityGroupCount() {
+        return activityDao.selectActivityGroupCount();
+    }
+
 }

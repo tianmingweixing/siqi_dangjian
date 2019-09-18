@@ -167,7 +167,6 @@ public class NoticeController extends BaseController {
                                   @RequestParam(value = "end_time_search", required = false) String end_time,
                                   @RequestParam(value = "limit", required = false) Integer limit,
                                   @RequestParam(value = "page", required = false) Integer page) {
-
         modelMap = new ModelMap();
 
         Map blurMap = new HashMap<>();
@@ -187,7 +186,6 @@ public class NoticeController extends BaseController {
             dateMap.put("end_time", end_time);
         }
 
-
         try {
             Map map = noticeService.selectAll(blurMap, intMap, dateMap, limit, page);
 
@@ -201,7 +199,6 @@ public class NoticeController extends BaseController {
             e.printStackTrace();
             logger.error("getNoticeList",e);
         }
-
         return modelMap;
     }
 }

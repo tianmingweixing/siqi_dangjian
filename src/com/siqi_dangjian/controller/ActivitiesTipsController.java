@@ -52,9 +52,7 @@ public class ActivitiesTipsController extends BaseController{
                                     @RequestParam(value = "userName",required = false)String userName,
                                     @RequestParam(value = "limit", required=false)Integer limit,
                                     @RequestParam(value = "page", required=false)Integer page){
-
         modelMap = new ModelMap();
-
         try {
             Map blurMap = new HashMap<>();
             Map dateMap = new HashMap<>();
@@ -66,7 +64,6 @@ public class ActivitiesTipsController extends BaseController{
             if(StringUtils.isNotEmpty(userName)) {
                 blurMap.put("user_name", userName);
             }
-
             Map map = tipsService.selectAll(blurMap,intMap,dateMap,limit,page);
 
             List list = (List<Map>) map.get("list");
@@ -79,7 +76,6 @@ public class ActivitiesTipsController extends BaseController{
             setCode(CommonString.SYSTEM_EXPECTION);
             setFail("后台异常");
         }
-
         return modelMap;
     }
 
@@ -134,7 +130,7 @@ public class ActivitiesTipsController extends BaseController{
                                  @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
         modelMap = new ModelMap();
         User user = new User();
-        Activities activities = new Activities();
+        Activities activities;
         Tips tips = new Tips();
         try {
 

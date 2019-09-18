@@ -51,7 +51,8 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
                 "FROM\n" +
                 "\tnotice n\n" +
                 "WHERE\n" +
-                "\tn.can_use = 1";
+                "\tn.can_use = 1\n" +
+                "ORDER BY create_time DESC";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
@@ -67,5 +68,25 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public Map selectAll(Integer limit, Integer page) {
+
+        session = sessionFactory.getCurrentSession();
+
+        String sql = "SELECT\n" +
+                "\tn.id,\n" +
+                "\tDATE_FORMAT(n.create_time, '%Y-%m-%d')create_time,\n" +
+                "\tn.title\n" +
+                "FROM\n" +
+                "\tnotice n\n" +
+                "WHERE\n" +
+                "\tn.can_use = 1\n" +
+                "ORDER BY create_time DESC";
+
+        Map resMap = CommonUtil.queryLimitList(session,sql,limit,page);
+
+        return resMap;
     }
 }

@@ -86,22 +86,15 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
 
         String sqlCount = "SELECT\n" +
-                "count(*) count,\n" +
-                "(case u.dutyid\n" +
-                "          when 1 then '发展对象' \n" +
-                "          when 2 then '积极分子' \n" +
-                "          when 3 then '预备党员' \n" +
-                "          when 4 then '正式党员' else '游客' end)dName\n" +
+                "\tcount(*) count,\n" +
+                "\td.type_name typeName\n" +
                 "FROM\n" +
-                "user u\n" +
-                "JOIN \n" +
-                "\tduty d \n" +
-                "ON u.dutyid = d.id\n" +
+                "\tUSER u\n" +
+                "JOIN duty d ON u.dutyid = d.id\n" +
                 "WHERE\n" +
-                " d.can_use = 1\n" +
+                "\td.can_use = 1\n" +
                 "GROUP BY\n" +
-                "\tdName\n" +
-                "ORDER BY d.name";
+                "\ttypeName";
 
         SQLQuery query1 = session.createSQLQuery(sqlCount);
         List countList = query1.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();

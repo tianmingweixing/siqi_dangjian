@@ -175,6 +175,17 @@ public class CommonUtil {
         return builder.toString();
     }
 
+
+    public static Map queryLimitList(Session session, String sql, Integer limit, Integer page) {
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setFirstResult(limit * (page - 1));
+        query.setMaxResults(limit);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        Map res = new HashMap();
+        res.put("list", list);
+        return res;
+    }
+
     public static Map queryList(Session session, String sql, String sqlCount, int limit, int page) {
         SQLQuery query = session.createSQLQuery(sql);
         SQLQuery query1 = session.createSQLQuery(sqlCount);
@@ -403,6 +414,7 @@ public class CommonUtil {
 
         return dateStr;
     }
+
 
 
 }

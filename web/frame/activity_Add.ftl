@@ -330,7 +330,7 @@
             ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                 var count = pathArr.length;
                 var count2 = 0;
-                obj.preview(function(index, file, result){count2++;}
+                obj.preview(function(index, file, result){count2++;});
                 console.log(count+count2);
                 if (count+count2 > 2) {
                     uploadListIns.stop();

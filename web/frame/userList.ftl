@@ -14,9 +14,9 @@
 <body>
 <form class="layui-form" style="margin-top: 10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">昵称</label>
+        <label class="layui-form-label label_width_100">用户名</label>
         <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="昵称" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="用户名" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label ">单位</label>
         <div class="layui-input-inline">
@@ -244,11 +244,14 @@
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}
                 ,{field: 'ID_cord',title:'身份证'}
-                // ,{field: 'dutyid',title:'职务ID'}
-                // ,{field: 'sympathyId',title:'慰问ID'}
-                // ,{field: 'party_duty',title:'党内职务',width:125}
+                ,{field: 'dutyid',title:'职务ID',hide:true}
+                ,{field: 'sympathyId',title:'慰问ID',hide:true}
+                ,{field: 'party_branch_id',title:'党支部ID',hide:true}
+                ,{field: 'party_groups_id',title:'班子ID',hide:true}
+                ,{field: 'party_team_id',title:'党小组ID',hide:true}
+                ,{field: 'party_duty',title:'党内职务',hide:true,width:125}
                 ,{field: 'type_name',title:'政治面貌'}
-                ,{field: 'difficulty_type',title:'困难情况'}
+                ,{field: 'difficulty_type',title:'困难情况',hide:true}
                 ,{field: 'join_time',title:'入党时间'}
                 ,{field: 'look',fixed: 'right',title:'编辑',width:200,templet:'#barDemo'}
             ]]

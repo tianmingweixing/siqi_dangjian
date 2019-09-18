@@ -14,4 +14,6 @@ public interface INoticeDao {
     Notice selectById(Long id) throws Exception;
 
     Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception;
+
+    Map selectAll(Integer limit, Integer page);
 }

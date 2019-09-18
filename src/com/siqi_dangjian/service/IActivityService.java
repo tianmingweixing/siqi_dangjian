@@ -20,4 +20,5 @@ public interface IActivityService {
 
     Integer selectActivityCountByType(Long type_id) throws Exception;
 
+    Map selectActivityGroupCount();
 }

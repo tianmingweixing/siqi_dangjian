@@ -44,7 +44,7 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
     public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
 
-        String sql = "SELECT t.activity_id,t.content,t.id,t.user_id,t.user_name,a.title,DATE_FORMAT(t.create_time,'%y-%m-%d') create_time FROM tips t INNER JOIN activities a ON t.activity_id=a.id WHERE t.can_use = 1 and a.can_use=1";
+        String sql = "SELECT t.activity_id,t.content,t.id,t.user_id,t.user_name,a.title,DATE_FORMAT(t.create_time,'%Y-%m-%d') create_time FROM tips t INNER JOIN activities a ON t.activity_id=a.id WHERE t.can_use = 1 and a.can_use=1";
         String sqlCount = "SELECT count(*) FROM tips t INNER JOIN activities a ON t.activity_id=a.id WHERE t.can_use = 1 and a.can_use=1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendDateStr(sql,dateParam,"t");
