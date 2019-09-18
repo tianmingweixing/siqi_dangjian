@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,25 +43,29 @@ public class MeetingController extends BaseController {
     @RequestMapping("/signIn")
     @ResponseBody
     public ModelMap addMeeting(@RequestParam(value = "user_id", required = false) Long user_id,
-                               @RequestParam(value = "meeting_id", required = false) Long meeting_id) {
+                               @RequestParam(value = "meeting_id", required = false) String meeting_id) {
 
         modelMap = new ModelMap();
         MeetingOfUser meetingOfUser;
         try {
-            if (StringUtils.isNotEmpty(String.valueOf(meeting_id))) {
-                meetingOfUser = meetingOfUserService.selectById(meeting_id);
-                Long userId = meetingOfUser.getUserId();
-                if (userId == user_id) {
-                    setMsg("用户已签到");
-                    setFail("用户已签到");
-                }else{
-                    meetingOfUser = new MeetingOfUser();
-                    meetingOfUser.setMeetingId(meeting_id);
-                    meetingOfUser.setUserId(user_id);
-                    meetingOfUser.setCanUse(1);
-                    meetingOfUserService.insertOrUpdate(meetingOfUser);
-                    setSuccess();
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  meetingOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String meetingId = String.valueOf(map.get("meeting_id"));
+                    if (meetingId.equals(meeting_id)) {
+                        setMsg("用户已签到");
+                        return modelMap;
+                    }
                 }
+
+                meetingOfUser = new MeetingOfUser();
+                meetingOfUser.setMeetingId(Long.valueOf(meeting_id));
+                meetingOfUser.setUserId(user_id);
+                meetingOfUser.setCanUse(1);
+                meetingOfUserService.insertOrUpdate(meetingOfUser);
+                setSuccess();
             }
 
         } catch (Exception e) {

@@ -13,7 +13,7 @@
 <form class="layui-form" action="">
 
 <br>
-    <div class="layui-form-item input_row_margin_top" style="display:">
+    <div class="layui-form-item input_row_margin_top" style="display:none">
         <label class="layui-form-label" style="margin-left: 85px">会议ID
             <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
 
@@ -115,17 +115,19 @@
         </div>
     </div>
 
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">会议签到</label>
-        <div class="layui-input-inline">
-                <textarea name="userName" id="userName" placeholder="会议签到" readonly
-                          style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+    <#if id??>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">会议签到</label>
+            <div class="layui-input-inline">
+                    <textarea name="userName" id="userName" placeholder="会议签到" readonly
+                              style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                                  max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+            </div>
+            <div class="layui-input-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">添加签到</a>
+            </div>
         </div>
-        <div class="layui-input-inline">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">添加签到</a>
-        </div>
-    </div>
+    <#else></#if>
 
 
 
@@ -190,8 +192,6 @@
         document.fileForm.name.value = $("#name").val();
         document.fileForm.meetingId.value = $("#id").val();
 
-console.log($("#name").val());
-console.log($("#id").val());
 
         layer.open({
             type: 1
@@ -236,6 +236,13 @@ console.log($("#id").val());
                         icon: 2,
                         title: '消息提醒',
                         content: '添加失败',
+                        skin:'layui_open_fail'
+                    });
+                } else if(data.msg == "用户已签到"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
                         skin:'layui_open_fail'
                     });
                 } else {

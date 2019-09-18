@@ -19,4 +19,6 @@ public interface IMeetingOfUserService {
     MeetingOfUser selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    List selectListById(Long user_id);
 }

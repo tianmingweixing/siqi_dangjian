@@ -289,7 +289,7 @@ public class UserController extends BaseController {
         }
         try {
             Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
-            List list = (List<PartyTeam>) map.get("list");
+            List list = (List<User>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);

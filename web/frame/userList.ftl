@@ -36,13 +36,13 @@
 
 </form>
 
-<div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">
+<div id="lookDetail" style="display: none;>
     <form class="layui-form" id="add-form" action="">
         <input type="hidden" id="id"  value="" style="width: 240px">
 
         <div class="layui-form-item center" style=" margin-top: 3px; padding: -145px;">
-            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">呢称</label>
-            <div class="layui-form-label" id="username" style="color: #a9f981;margin-top: 34px;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">用户名</label>
+            <div class="layui-form-label" id="username" style="color: #00b0f0;margin-top: 34px;margin-left: -27px;"></div>
 
             <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">用户头像</label>
             <div class="layui-input-inline" style="padding-top: 71px;margin-top: 11px;">
@@ -52,32 +52,32 @@
 
         <div class="layui-form-item center">
             <label class="layui-form-label" style="width: 60px">学历</label>
-            <div class="layui-form-label" id="education" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="education" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">年龄</label>
-            <div class="layui-form-label" id="age" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="age" style="color: #00b0f0;margin-left: -27px;"></div>
 
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 60px">性别</label>
-            <div class="layui-form-label" id="sex" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="sex" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">手机号码</label>
-            <div class="layui-form-label" id="phone" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="phone" style="color: #00b0f0;margin-left: -27px;"></div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 60px">党内职务</label>
-            <div class="layui-form-label" id="dutyid" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="dutyid" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">困难状态</label>
-            <div class="layui-form-label" id="difficulty_type" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="difficulty_type" style="color: #00b0f0;margin-left: -27px;"></div>
 
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 60px">身份证</label>
-            <div class="layui-form-label" id="ID_cord" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="ID_cord" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">所属党支部</label>
             <div class="layui-form-label" id="party_branch_name" style="color: #a9f981;margin-left: -27px;"></div>
@@ -86,10 +86,10 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label" style="width: 60px">单位</label>
-            <div class="layui-form-label" id="company" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="company" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">入党时间</label>
-            <div class="layui-form-label" id="join_time" style="color: #a9f981;margin-left: -27px;"></div>
+            <div class="layui-form-label" id="join_time" style="color: #00b0f0;margin-left: -27px;"></div>
 
         </div>
 
@@ -116,7 +116,7 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="detail">查看</a>
-    <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy"><i class="layui-icon"></i>添加慰问信息</a>
+    <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy"><i class="layui-icon"></i>添加慰问</a>
 </script>
 <style>
     .layui_open_fail{
@@ -125,13 +125,38 @@
     }
 </style>
 
+
+<script type="text/html" id="img">
+    <div><img id="headUrlImg" style="height:35px;width:35px;border-radius:50%;line-height:50px!important;" src="{{d.head_img}}"></div>
+</script>
+
+
+
+
 <script src="/js/layui/layui.js"></script>
 <script>
     layui.config({
         version: '1551352891272' //为了更新 js 缓存，可忽略
     });
+
     function reset_search(){
         window.location.reload();
+    }
+    
+
+
+    function onAddUserBtn(data){
+
+        layer.open({
+            type: 2,
+            title: '添加用户页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'default',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['800px', '500px'],
+            content: ['/frame/user_Add.ftl']
+        });
     }
 
     function onAddBtn(data){
@@ -151,25 +176,17 @@
 
 
 
-        //示范一个公告层
         layer.open({
-            type: 1
-            ,title: false //不显示标题栏
-            ,closeBtn: false
-            ,area: 600
-            ,shade: 0.8
-            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-            ,btn: ['返回页面']
-            ,btnAlign: 'c'
-            ,moveType: 1 //拖拽模式，0或者1
-            ,content: $("#lookDetail")
-            ,success: function(layero){
-                var btn = layero.find('.layui-layer-btn');
-                btn.find('.layui-layer-btn0').attr({
-                    target: '_blank'
-                });
-            }
+            type: 1,
+            title: '用户详情',
+            shadeClose: true,
+            shade: false,
+            offset: 'default',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['500px', '500px'],
+            content: $("#lookDetail")
         });
+
     }
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
@@ -219,6 +236,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:50, sort: true, fixed: 'left'}
                 ,{field: 'username', title: '用户名'}
+                ,{field: 'head_img',title:'头像',width:80,templet:'#img'}
                 ,{field: 'nick_name', title: '昵称',hide:true}
                 ,{field: 'sex',title:'性别'}
                 ,{field: 'age',title:'年龄'}
@@ -232,8 +250,7 @@
                 ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'difficulty_type',title:'困难情况'}
                 ,{field: 'join_time',title:'入党时间'}
-                // ,{field: 'head_img',title:'头像',width:200}
-                ,{field: 'look',title:'查看详情',width:200,templet:'#barDemo'}
+                ,{field: 'look',fixed: 'right',title:'编辑',width:200,templet:'#barDemo'}
             ]]
         });
         var $ = layui.$, active = {
@@ -258,13 +275,15 @@
         });
 
 
+
         //监听头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                     window.location.href='/user/gotoAdd';
+                    onAddUserBtn(data);
+                    // window.location.href='/user/gotoAdd';
                     break;
                 case 'update':
                     if(data.length === 0){

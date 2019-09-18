@@ -144,6 +144,13 @@
                         content: '添加失败',
                         skin:'layui_open_fail'
                     });
+                } else if(data.msg == "用户已签到"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
                 } else {
                     layer.msg('添加成功', {icon: 1});
                     setTimeout(function () {

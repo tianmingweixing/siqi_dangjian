@@ -55,4 +55,9 @@ public class MeetingOfUserService implements IMeetingOfUserService {
         Map map =  MeetingOfUserDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public List selectListById(Long user_id) {
+        return MeetingOfUserDao.selectListById(user_id);
+    }
 }

@@ -5,6 +5,7 @@ import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.dao.IMeetingOfUserDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,8 +44,7 @@ public class MeetingOfUserDao extends BaseDao<MeetingOfUser> implements IMeeting
     @Override
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
+
         String sql = "\tSELECT * FROM meeting_of_user u WHERE u.can_use = 1\n";
 
         String sqlCount = "SELECT \n" +
@@ -59,5 +59,15 @@ public class MeetingOfUserDao extends BaseDao<MeetingOfUser> implements IMeeting
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public List selectListById(Long user_id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "\tSELECT meeting_id FROM meeting_of_user  WHERE can_use = 1 and  user_id =?\n";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setLong(0,user_id);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        return list;
     }
 }

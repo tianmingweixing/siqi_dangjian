@@ -17,4 +17,6 @@ public interface IMeetingOfUserDao {
 
     Map selectAll(Map blurParam, Map dateParam,
                   Map intParam, int limit, int page) throws Exception;
+
+    List selectListById(Long user_id);
 }
