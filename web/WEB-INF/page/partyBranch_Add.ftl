@@ -111,21 +111,12 @@
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
 
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-
-        <label class="layui-form-label" >成员数量</label>
-        <div class="layui-input-inline">
-            <input id="partyMemberCount" name="partyMemberCount" lay-verify="required" placeholder="请输入成员数量" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if partyMemberCount??>${partyMemberCount}<#else></#if>">
-        </div>
-
         <label class="layui-form-label " >活动面积</label>
         <div class="layui-input-inline">
             <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if activityArea??>${activityArea}<#else></#if>">
         </div>
+
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -147,7 +138,7 @@
 
         <label class="layui-form-label">党支部职责</label>
         <div class="layui-input-block">
-            <textarea name="partyInfo" id="partyInfo" placeholder="请输入党支部职责"
+            <textarea name="duty" id="duty" placeholder="请输入党支部职责"
                       style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
         </div>
@@ -212,12 +203,11 @@
                     formData.append("file",file);
                 }
 
+
                 formData.append("img_path",document.fileForm.backimg.src);
                 formData.append("id",document.fileForm.id.value);
                 formData.append("name",document.fileForm.name.value);
-                formData.append("partyMemberCount",document.fileForm.partyMemberCount.value);
                 formData.append("duty",document.fileForm.duty.value);
-                formData.append("partyNo",document.fileForm.partyNo.value);
                 formData.append("partyInfo",document.fileForm.partyInfo.value);
                 formData.append("activityArea",document.fileForm.activityArea.value);
                 formData.append("foundingTime",document.fileForm.foundingTime.value);

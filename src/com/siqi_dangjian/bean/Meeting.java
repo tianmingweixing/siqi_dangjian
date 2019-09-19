@@ -23,6 +23,12 @@ public class Meeting extends BaseBean {
     private Long meetingTypeId;
 
     /**
+     * 用户ID
+     */
+    @Column(name="user_id",length = 8)
+    private Long userId;
+
+    /**
      * 会议内容
      */
     @Column(name="content",nullable=true,length=3000)
@@ -98,6 +104,14 @@ public class Meeting extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getCompere() {
         return compere;

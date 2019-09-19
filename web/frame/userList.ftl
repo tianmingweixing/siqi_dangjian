@@ -143,6 +143,7 @@
 
     function onAddUserBtn(){
 
+
         layer.open({
             type: 2,
             title: '添加用户页面',
@@ -155,7 +156,7 @@
         });
     }
 
-    function onAddBtn(data){
+    function onDetailBtn(data){
         $("#username").html(data.username);
         $("#age").html(data.age);
         $("#company").html(data.company);
@@ -183,7 +184,6 @@
 
     }
 
-    let json;
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
                 ,laypage = layui.laypage //分页
@@ -234,17 +234,17 @@
                 ,{field: 'nick_name', title: '昵称',hide:true}
                 ,{field: 'sex',title:'性别'}
                 ,{field: 'age',title:'年龄'}
-                ,{field: 'education',title:'学历'}
+                ,{field: 'education',title:'学历',hide:true}
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}
                 ,{field: 'ID_cord',title:'身份证'}
+                ,{field: 'party_duty',title:'党内职务',hide:true,width:125}
+                ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'dutyid',title:'职务ID',hide:true}
                 ,{field: 'sympathyId',title:'慰问ID',hide:true}
                 ,{field: 'party_branch_id',title:'党支部ID',hide:true}
                 ,{field: 'party_groups_id',title:'班子ID',hide:true}
                 ,{field: 'party_team_id',title:'党小组ID',hide:true}
-                ,{field: 'party_duty',title:'党内职务',hide:true,width:125}
-                ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'difficulty_type',title:'困难情况',hide:true}
                 ,{field: 'join_time',title:'入党时间'}
                 ,{field: 'look',fixed: 'right',title:'编辑',width:250,templet:'#barDemo'}
@@ -280,16 +280,15 @@
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                    onAddUserBtn(data);
+                    onAddUserBtn();
                     // window.location.href='/user/gotoAdd';
                     break;
                 case 'update':
-                    if(data.length === 0){
+                   /* if(data.length === 0){
                         layer.msg('请选择一行');
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        console.log(data[0]);
 
                         if (data[0].party_groups_id != undefined){
                             var parameter = + data[0].id  + '&partyGroupsId='+data[0].party_groups_id;
@@ -301,7 +300,7 @@
                             var parameter = + data[0].id;
                         }
                         window.location.href='/user/setUser?id=' + parameter;
-                    }
+                    }*/
                     break;
                 case 'delete':
                     if(data.length === 0){
@@ -349,7 +348,7 @@
                     ,layEvent = obj.event; //获得 lay-event 对应的值
             if (layEvent === 'detail') {
                 layer.msg('查看操作');
-                onAddBtn(data);
+                onDetailBtn(data);
 
             } else if (layEvent === 'addSympathy') {
                 //如果没有sympathyId 则不传
@@ -360,8 +359,7 @@
                 }
                     window.location.href = '/user/setUser?id=' + parameter;
             }else if(layEvent === 'edit') {
-                //这行是监听到的表格行数据信息，复制给json全局变量。
-                json = JSON.stringify(data);
+                //这行是监听到的表格行数据信息
                 window.PartitionData=data;
                 layui.use('layer', function () {
                     layer.open({
@@ -369,7 +367,10 @@
                         maxmin: true,
                         type: 2,
                         content: './user_Add.ftl',
-                        area: ['800px', '500px']
+                        area: ['800px', '500px'],
+                        end: function () { //最后执行reload
+                            location.reload();
+                        }
                     });
 
                 });

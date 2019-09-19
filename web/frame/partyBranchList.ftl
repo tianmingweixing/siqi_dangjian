@@ -38,6 +38,12 @@
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
+
+    .party_img{
+        height: 100%;
+        width: 100%;
+    }
+
     .layui_open_fail{
         text-align: center;
         border-radius: 5px;
@@ -81,17 +87,21 @@
                  {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党支部名称'}
-                ,{field: 'party_member_count', title: '党员总数'}
+                ,{field: 'party_img',title:'党支部图片',templet: function(d){return '<div><img src="'+d.party_img+'" alt="" width="50%" height="50%"></div>';}}
+                ,{field: 'count', title: '成员总数'}
                 ,{field: 'duty', title: '党支部职责'}
                 ,{field: 'party_no',title:'党支部编号'}
                 ,{field: 'party_info',title:'党支部简介'}
                 ,{field: 'founding_time',title:'成立时间',}
                 ,{field: 'change_time',title:'换届时间',}
                 ,{field: 'activity_area',title:'活动面积',}
-                ,{field: 'party_img',title:'党支部图片'}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',fixed:'right',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
+
+
+
+
         var $ = layui.$, active = {
             reload:function () {
                 var name = $("#name_search").val();

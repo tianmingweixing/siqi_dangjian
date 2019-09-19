@@ -42,7 +42,7 @@ public class MeetingController extends BaseController {
      */
     @RequestMapping("/signIn")
     @ResponseBody
-    public ModelMap addMeeting(@RequestParam(value = "user_id", required = false) Long user_id,
+    public ModelMap addMeetingSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
                                @RequestParam(value = "meeting_id", required = false) String meeting_id) {
 
         modelMap = new ModelMap();

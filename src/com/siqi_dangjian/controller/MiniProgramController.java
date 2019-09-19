@@ -5,7 +5,6 @@ import com.siqi_dangjian.service.*;
 import com.siqi_dangjian.service.impl.ConfigurationService;
 import com.siqi_dangjian.service.impl.PartyBranchService;
 import com.siqi_dangjian.service.impl.TipsService;
-import com.siqi_dangjian.service.impl.UserService;
 import com.siqi_dangjian.util.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +24,10 @@ import java.util.*;
 @Controller
 @RequestMapping("/mini")
 public class MiniProgramController extends BaseController {
+
+    @Autowired
+    private IMeetingService meetingService;
+
 
     @Autowired
     private TipsService tipsService;
@@ -187,9 +190,9 @@ public class MiniProgramController extends BaseController {
                                      @RequestParam(value = "activityId", required = false) Long activityId,
                                      @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
         modelMap = new ModelMap();
-        User user = new User();
+        User user;
         Activities activities;
-        Tips tips = new Tips();
+        Tips tips;
         try {
 
             //判断用户是否存在
@@ -197,10 +200,13 @@ public class MiniProgramController extends BaseController {
                 user = userService.getUserById(userId);
                 if (user == null){
                     setFail("该用户不存在");
-                    setMsg("该用户不存在");
                     setCode(1);
                     return modelMap;
                 }
+            }else{
+                setMsg("请输入用户ID");
+                setFail();
+                return modelMap;
             }
 
             //判断活动是否存在
@@ -208,14 +214,23 @@ public class MiniProgramController extends BaseController {
                 activities = activityService.selectById(activityId);
                 if (activities == null){
                     setFail("该活动不存在");
-                    setMsg("该活动不存在");
                     setCode(2);
                     return modelMap;
                 }
+            }else{
+                setFail("请输入活动ID");
+                return modelMap;
+            }
+
+            if (content == null) {
+                setFail("您还没有写心得呢！");
+                return modelMap;
             }
 
             if (id != null){
                 tips = tipsService.selectById(id);
+            }else{
+                tips = new Tips();
             }
 
             tips.setActivityId(activityId);
@@ -226,17 +241,93 @@ public class MiniProgramController extends BaseController {
             tips.setType(1);
             tips.setUserName(user.getUserName());
             tipsService.insertOrUpdate(tips);
-            setMsg("添加活动心得成功");
+            setFail("添加活动心得成功");
             setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
             setCode(CommonString.SYSTEM_EXPECTION);
             setFail("添加活动心得失败");
-            setMsg("添加活动心得失败");
             if(CommonString.IS_OPEN_LOG)
-                logger.error("mini--->活动心得添加异常：",e);
+            logger.error("mini--->活动心得添加异常：",e);
         }
         return modelMap;
+    }
+
+
+    /**
+     * 添加会议指导
+     * @param id .
+     * @param start_time .
+     * @param guide  会议指导
+     * @param name .
+     * @param content .
+     * @param meetingTypeId  1：支委会；2：党员大会；3：廉政...
+     * @return
+     */
+    @RequestMapping("/addMeetingGuide")
+    @ResponseBody
+    public ModelMap addMeetingGuide(@RequestParam(value = "id", required = false) Long id,
+                                    @RequestParam(value = "userId", required = false) Long userId,
+                                    @RequestParam(value = "start_time", required = false) Date start_time,
+                                    @RequestParam(value = "end_time", required = false) Date end_time,
+                                    @RequestParam(value = "compere", required = false) String compere,
+                                    @RequestParam(value = "recorder", required = false) String recorder,
+                                    @RequestParam(value = "people_counting", required = false) String people_counting,
+                                    @RequestParam(value = "attendance", required = false) String attendance,
+                                    @RequestParam(value = "address", required = false) String address,
+                                    @RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "imgPath", required = false) String images_a,
+                                    @RequestParam(value = "guide", required = false) String guide,
+                                    @RequestParam(value = "content", required = false) String content,
+                                    @RequestParam(value = "meeting_type_id", required = false) Long meetingTypeId) {
+
+        modelMap = new ModelMap();
+        Meeting meeting;
+        try {
+            if (id == null) {
+                setFail("请输入会议ID");
+                return modelMap;
+            }else{
+                meeting = meetingService.selectById(id);
+            }
+
+            if (userId == null) {
+                setFail("您还没有输入指导人的ID");
+                return modelMap;
+            }
+
+            if (guide == null) {
+                setFail("您还没有输入会议指导");
+                return modelMap;
+            }
+
+            meeting.setId(id);
+            meeting.setUserId(userId);
+            meeting.setName(name);
+            meeting.setAddress(address);
+            meeting.setRecorder(recorder);
+            meeting.setCompere(compere);
+            meeting.setAttendance(attendance);
+            meeting.setPeopleCounting(people_counting);
+            meeting.setContent(content);
+            meeting.setGuide(guide);
+            meeting.setMeetingTypeId(meetingTypeId);
+            meeting.setImagesA(images_a);
+            meeting.setEndTime(start_time);
+            meeting.setStartTime(end_time);
+            meeting.setCanUse(1);
+            meetingService.insertOrUpdate(meeting);
+            setMsg("会议指导添加成功");
+            setSuccess();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("会议指导添加失败");
+            logger.error("mini--->会议指导添加失败：",e);
+
+        }
+        return modelMap;
+
     }
 
 
@@ -301,10 +392,9 @@ public class MiniProgramController extends BaseController {
             e.printStackTrace();
             setCode(CommonString.SYSTEM_EXPECTION);
             if(limit != null & page != null){
-                setMsg("查询用户信息失败");
+                setFail("查询用户信息失败");
             }
-            setMsg("缺少分页参数limit,page");
-            setFail();
+            setFail("缺少分页参数limit,page");
         }
 
         return modelMap;

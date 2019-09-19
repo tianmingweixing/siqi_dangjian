@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +32,8 @@
 
         <label class="layui-form-label" style="margin-left: 85px">性别</label>
         <div class="layui-input-inline">
-            <input type="radio" name="sex" value="1" title="男">
-            <input type="radio" name="sex" value="2" title="女">
+            <input type="radio" name="sex"  value="1" title="男"/>
+            <input type="radio" name="sex"  value="2" title="女"/>
         </div>
     </div>
 
@@ -128,24 +129,25 @@
 <script>
 
     $(function() {
-        //从父层获取值，json是父层的全局js变量。eval是将该string类型的json串变为标准的json串
-        /* var parent_json = eval('('+parent.json+')');
-         console.log(parent_json);*/
-        console.log(parent.PartitionData.id);
 
-        $("#username").val(parent.PartitionData.username);
-        $("#age").val(parent.PartitionData.age);
-        $("#company").val(parent.PartitionData.company);
-        $("#education").val(parent.PartitionData.education);
-        $("#phone").val(parent.PartitionData.phone);
-        $("#sex").val(parent.PartitionData.sex);
-        $("#join_time").val(parent.PartitionData.join_time);
-        // $("#head_img").attr('src',parent.PartitionData.head_img);
-        // $("#dutyid").val(parent.PartitionData.dutyid);
-        // $("#nation").val(parent.PartitionData.nation);
-        $("#ID_cord").val(parent.PartitionData.ID_cord);
-       /* $("#difficulty_type").val(parent.PartitionData.difficulty_type);
-        $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
+        if (parent.PartitionData) {
+            $("#username").val(parent.PartitionData.username);
+            $("#age").val(parent.PartitionData.age);
+            $("#company").val(parent.PartitionData.company);
+            $("#education").val(parent.PartitionData.education);
+            $("#phone").val(parent.PartitionData.phone);
+            $("#ID_cord").val(parent.PartitionData.ID_cord);
+            $("#join_time").val(parent.PartitionData.join_time);
+            $("#dutyid").val(parent.PartitionData.dutyid);
+            $("#id").val(parent.PartitionData.id);
+
+            /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
+               $("#head_img").attr('src',parent.PartitionData.head_img);
+               $("#nation").val(parent.PartitionData.nation);
+                $("#difficulty_type").val(parent.PartitionData.difficulty_type);
+                $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
+        }
+
 
         layui.use(['laydate', 'layer', 'table', 'carousel', 'element', 'form'], function () {
             var form = layui.form;
@@ -161,7 +163,15 @@
                 ,trigger: 'click'
             });
 
-
+            if (parent.PartitionData) {
+                if (parent.PartitionData.sex == '男'){
+                    var sex = 1;
+                }else if(parent.PartitionData.sex == '女'){
+                    var sex = 2;
+                }
+                $("input:radio[value='"+sex+"']").prop("checked", "checked");
+                form.render();
+            }
 
             //查询政治面貌种类
             $.ajax({
@@ -169,13 +179,12 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
 
-                        /* if(item.id == dutyid) {
+                         if(parent.PartitionData != undefined && item.id == parent.PartitionData.dutyid) {
                              $("#type_name").append("<option selected='selected'  value='" + item.id + "'>" + item.type_name + "</option>");
                          }else{
                              $("#type_name").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
-                         }*/
+                         }
                     });
                     form.render('select');
                 }
@@ -187,14 +196,12 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#partyGroups_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
-
-                        /* if(item.id == partyGroupsId) {
+                         if(parent.PartitionData != undefined && item.id == parent.PartitionData.party_groups_id) {
                              $("#partyGroups_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
                          }else{
                              $("#partyGroups_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
 
-                         }*/
+                         }
                     });
                     form.render('select');
                 }
@@ -206,20 +213,18 @@
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
-                        $("#partyTeam_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
-
-                        /*if(item.id == partyTeamId) {
+                        if(parent.PartitionData != undefined && item.id == parent.PartitionData.party_team_id) {
                             $("#partyTeam_name").append("<option selected='selected'  value='" + item.id + "'>" + item.name + "</option>");
                         }else{
                             $("#partyTeam_name").append("<option  value='" + item.id + "'>" + item.name + "</option>");
-                        }*/
+                        }
                     });
                     form.render('select');
                 }
             });
 
 
-            form.on('submit(formDemo)', function () {partyGroups_name
+            form.on('submit(formDemo)', function () {
 
                         $.ajax({
                             url: "/user/addUser",

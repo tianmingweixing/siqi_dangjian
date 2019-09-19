@@ -52,11 +52,14 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
                 "\tp.party_img,\n" +
                 "\tp.party_info,\n" +
                 "\tp.party_no,\n" +
-                "\tp.party_member_count\n" +
+                "\tu.count\n" +
                 "FROM\n" +
                 "\tparty_branch p\n" +
+                "JOIN \n" +
+                "(SELECT count(*) count,party_branch_id FROM user WHERE can_use = 1 )AS u\n" +
+                "ON p.id = u.party_branch_id\n" +
                 "WHERE\n" +
-                "\tp.can_use = 1";
+                "\tp.can_use = 1 ";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +

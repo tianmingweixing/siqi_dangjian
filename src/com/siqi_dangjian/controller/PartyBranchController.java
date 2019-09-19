@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.*;
 
 
@@ -33,23 +30,19 @@ public class PartyBranchController extends BaseController{
     /**
      * 添加或更新党支部信息
      * @param name
-     * @param partyMemberCount
      * @param duty
-     * @param partyNo
      * @param partyInfo
      * @param activityArea
      * @param foundingTime
      * @param changeTime
      */
-    @RequestMapping("/addPartyBranch")
+    @RequestMapping("/addPartBranch")
     @ResponseBody
     public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
                                   @RequestParam(value = "img_path", required = false) String img_path,
                                   @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "id", required = false) Long id,
-                                  @RequestParam(value = "partyMemberCount", required = false) Integer partyMemberCount,
                                   @RequestParam(value = "duty", required = false) String duty,
-                                  @RequestParam(value = "partyNo", required = false) String partyNo,
                                   @RequestParam(value = "partyInfo", required = false) String partyInfo,
                                   @RequestParam(value = "activityArea", required = false) Double activityArea,
                                   @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date foundingTime,
@@ -68,14 +61,13 @@ public class PartyBranchController extends BaseController{
             }
 
             partyBranch.setId(id);
+            partyBranch.setPartyNo(String.valueOf(System.currentTimeMillis()));
             partyBranch.setActivityArea(activityArea);
-            partyBranch.setPartyNo(partyNo);
             partyBranch.setDuty(duty);
             partyBranch.setFoundingTime(foundingTime);
             partyBranch.setChangeTime(changeTime);
             partyBranch.setName(name);
             partyBranch.setPartyInfo(partyInfo);
-            partyBranch.setPartyMemberCount(partyMemberCount);
             partyBranch.setCanUse(1);
             partyBranchService.insertOrUpdate(partyBranch);
             setSuccess();
