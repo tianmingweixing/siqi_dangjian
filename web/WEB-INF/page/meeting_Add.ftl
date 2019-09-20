@@ -538,7 +538,7 @@
                         meeting_type_id: $("#meeting_type").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
-                        imgPath: JSON.stringify(pathArr),
+                        imgPath: pathArr.toString(),
                         start_time: $("#start_time").val(),
                         end_time: $("#end_time").val()
                     },
