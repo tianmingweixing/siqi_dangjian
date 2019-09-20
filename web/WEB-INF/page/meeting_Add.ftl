@@ -336,35 +336,7 @@
         });
     }
 
-    $(function () {
-     console.log(imgPath2);
-     console.log(imgPath2.index);
-     console.log(imgPath2.value);
 
-
-        //预读本地文件示例，不支持ie8
-        $("img_template").preview(function (index, file, result) {
-            var data = {
-                index: index,
-                name: file.name,
-                result: result
-            };
-
-            //将预览html 追加
-            laytpl(img_template.innerHTML).render(data, function (html) {
-                $('#imgs').append(html);
-            });
-
-            //绑定单击事件
-            $('#imgs div:last-child>img').click(function () {
-                var isChecked = $(this).siblings("input").prop("checked");
-                $(this).siblings("input").prop("checked", !isChecked);
-                return false;
-            });
-
-        });
-
-    });
 
 
         layui.use(['laydate', 'laytpl','form','upload'], function () {
@@ -380,6 +352,37 @@
             });
             laydate.render({
                 elem: '#end_time' //指定元素
+            });
+
+
+            $(function () {
+                console.log(imgPath2);
+                console.log(imgPath2);
+                console.log(imgPath2);
+
+
+                //预读本地文件示例，不支持ie8
+                $("img_template").preview(function (index, file, result) {
+                    var data = {
+                        index: index,
+                        name: file.name,
+                        result: result
+                    };
+
+                    //将预览html 追加
+                    laytpl(img_template.innerHTML).render(data, function (html) {
+                        $('#imgs').append(html);
+                    });
+
+                    //绑定单击事件
+                    $('#imgs div:last-child>img').click(function () {
+                        var isChecked = $(this).siblings("input").prop("checked");
+                        $(this).siblings("input").prop("checked", !isChecked);
+                        return false;
+                    });
+
+                });
+
             });
 
 
@@ -490,6 +493,8 @@
                 , done: function (res, index, upload) {    //上传完毕后事件
 
                     pathArr.push(res.src);
+                   /* Map map = new Map();
+                    map.put("src1",res.src);*/
                     console.log(pathArr);
                     //???? 图片路径数组
                     $("#imgPath").val(pathArr);
