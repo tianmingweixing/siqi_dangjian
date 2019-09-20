@@ -4,22 +4,73 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title> 会议表后台</title>
+
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/public.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css" media="all">
+    <style>
+        .layui-upload .mark_button {
+            position: absolute;
+            right: 15px;
+        }
+
+        .upload-img {
+            position: relative;
+            display: inline-block;
+            width: 300px;
+            height: 200px;
+            margin: 0 10px 10px 0;
+            transition: box-shadow .25s;
+            border-radius: 4px;
+            box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.5);
+            transition: 0.25s;
+            -webkit-transition: 0.25s;
+            margin-top: 15px;
+        }
+
+        .layui-upload-img {
+            width: 300px;
+            height: 200px;
+            border-radius: 4px;
+        }
+
+        .upload-img:hover {
+            cursor: pointer;
+            box-shadow: 0 0 4px rgba(0,0,0,1);
+            transform: scale(1.2);
+            -webkit-transform: scale(1.05);
+        }
+
+        .upload-img input {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        .upload-img button {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            border-radius: 6px;
+        }
+    </style>
+
 </head>
 <body>
 
 <form class="layui-form" action="">
 
 <br>
-    <div class="layui-form-item input_row_margin_top" style="display:none">
+    <div class="layui-form-item" style="display:">
         <label class="layui-form-label" style="margin-left: 85px">会议ID
             <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
 
         <label class="layui-form-label" style="margin-left: 85px">会议图片</label>
             <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if images_a??>${images_a}<#else></#if>" style="width: 400px;"/></div>
     </div>
+
     <div class="layui-input-inline" style="display:none ">
         <label class="layui-form-label"  style="margin-left: 85px">会议分类id</label>
         <input id="meeting_type_id" name="meeting_type_id" maxlength="20" value="<#if meeting_type_id??>${meeting_type_id}<#else></#if>"/>
@@ -131,7 +182,7 @@
 
 
 
-    <div class="layui-form-item input_row_margin_top">
+<!--    <div class="layui-form-item input_row_margin_top">
         <div class="layui-upload" style="margin-left: 40px;">
             <button type="button" class="layui-btn" id="uploadImg">上传图片</button>
             <div class="layui-upload-list">
@@ -139,7 +190,8 @@
                 <p id="demoText"></p>
             </div>
         </div>
-    </div>
+    </div>-->
+
 
 
     <div class="layui-form-item">
@@ -152,6 +204,23 @@
     </div>
 
 </form>
+
+<div class="layui-upload ">
+
+    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+        预览图：
+        <div class="layui-upload-list" id="imgs">
+        </div>
+    </blockquote>
+
+    <div class="mark_button">
+        <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择文件</button>
+        <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
+
+        <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
+    </div>
+
+</div>
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
     <form  class="layui-form" name="fileForm" style="margin-top: 10px">
@@ -185,8 +254,20 @@
 </div>
 
 
+<script type="text/javascript" src="/js/layui/layui.all.js"></script>
+
+<script id="img_template" type="text/html">
+    <div class="upload-img" filename="{{ d.index }}">
+        <input type="checkbox" name="" lay-skin="primary">
+        <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img">
+    </div>
+</script>
+
 <script>
     var meetingTypeId = <#if meeting_type_id??>"${meeting_type_id}"<#else>""</#if>;
+    var imgPath2 = <#if images_a??>${images_a}<#else>""</#if>;
+    var pathArr = [];
+
 
     function addSignIn(){
         document.fileForm.name.value = $("#name").val();
@@ -255,13 +336,44 @@
         });
     }
 
+    $(function () {
+     console.log(imgPath2);
+     console.log(imgPath2.index);
+     console.log(imgPath2.value);
 
-    $(function() {
-        layui.use(['laydate','form','upload'], function () {
-            var form = layui.form;
-            var laydate = layui.laydate //日期
-                    ,layer = layui.layer; //弹层
-            var upload = layui.upload;
+
+        //预读本地文件示例，不支持ie8
+        $("img_template").preview(function (index, file, result) {
+            var data = {
+                index: index,
+                name: file.name,
+                result: result
+            };
+
+            //将预览html 追加
+            laytpl(img_template.innerHTML).render(data, function (html) {
+                $('#imgs').append(html);
+            });
+
+            //绑定单击事件
+            $('#imgs div:last-child>img').click(function () {
+                var isChecked = $(this).siblings("input").prop("checked");
+                $(this).siblings("input").prop("checked", !isChecked);
+                return false;
+            });
+
+        });
+
+    });
+
+
+        layui.use(['laydate', 'laytpl','form','upload'], function () {
+            var form = layui.form
+                    , laydate = layui.laydate //日期
+                    ,layer = layui.layer //弹层
+                    , laytpl = layui.laytpl
+                    ,$ = layui.jquery
+                    , upload = layui.upload;
 
             laydate.render({
                 elem: '#start_time' //指定元素
@@ -288,7 +400,7 @@
             });
 
             //上传头像
-            upload.render({
+            /*upload.render({
                 elem: '#uploadImg'
                 ,accept: 'file'
                 ,url: '/upload/uploadImage'
@@ -320,7 +432,90 @@
                         uploadInst.upload();
                     });
                 }
+            });*/
+
+            //批量删除 单击事件
+            $('#dele_imgs').click(function () {
+                $('input:checked').each(function (index, value) {
+                    var filename=$(this).parent().attr("filename");
+                    delete imgFiles[filename];
+                    $(this).parent().remove()
+                });
             });
+
+
+            var imgFiles;
+
+            //多图片上传
+            var uploadInst;
+            uploadInst = upload.render({
+                elem: '#sele_imgs'  //开始
+                , acceptMime: 'image/*'
+                , url: '/upload/uploadImage'
+                , auto: false
+                , bindAction: '#upload_imgs'
+                , multiple: true
+                , size: 1024 * 12
+                , choose: function (obj) {  //选择图片后事件
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    imgFiles = files;
+
+                    $('#upload_imgs').prop('disabled', false);
+
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        var data = {
+                            index: index,
+                            name: file.name,
+                            result: result
+                        };
+
+                        //将预览html 追加
+                        laytpl(img_template.innerHTML).render(data, function (html) {
+                            $('#imgs').append(html);
+                        });
+
+                        //绑定单击事件
+                        $('#imgs div:last-child>img').click(function () {
+                            var isChecked = $(this).siblings("input").prop("checked");
+                            $(this).siblings("input").prop("checked", !isChecked);
+                            return false;
+                        });
+
+                    });
+                }
+                , before: function (obj) { //上传前回函数
+                    layer.load(); //上传loading
+                }
+                , done: function (res, index, upload) {    //上传完毕后事件
+
+                    pathArr.push(res.src);
+                    console.log(pathArr);
+                    //???? 图片路径数组
+                    $("#imgPath").val(pathArr);
+
+                    layer.closeAll('loading'); //关闭loading
+                    //上传完毕
+                    $('#imgs').html("");//清空操作
+
+                    layer.msg("上传成功！");
+
+                    return delete imgFiles[index]; //删除文件队列已经上传成功的文件
+
+
+
+                }
+                , error: function (index, upload) {
+
+                    layer.closeAll('loading'); //关闭loading
+
+                    top.layer.msg("上传失败！");
+
+                }
+            });
+
+
+
 
             form.on('submit(formDemo)', function () {
 
@@ -338,7 +533,7 @@
                         meeting_type_id: $("#meeting_type").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
-                        imgPath: $("#imgPath").val(),
+                        imgPath: JSON.stringify(pathArr),
                         start_time: $("#start_time").val(),
                         end_time: $("#end_time").val()
                     },
@@ -352,7 +547,6 @@
                 return false;
             });
         });
-    });
 
 
 </script>

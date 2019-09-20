@@ -75,7 +75,7 @@ public class Meeting extends BaseBean {
     /**
      * 会议图片1
      */
-    @Column(name="images_a",nullable=true,length=200)
+    @Column(name="images_a",nullable=true,length=500)
     private String imagesA;
 
     /**

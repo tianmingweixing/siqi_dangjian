@@ -314,7 +314,6 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                 console.log(data);
                 window.location.href='/meeting/setMeeting?Id='+data.id;
             }else if(layEvent === 'signIn'){
                 layer.msg('add');

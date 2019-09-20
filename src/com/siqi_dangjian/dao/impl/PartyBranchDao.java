@@ -5,7 +5,6 @@ import com.siqi_dangjian.dao.IPartyBranchDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 @Repository

@@ -11,10 +11,8 @@
     <title>上传图片Test页面</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
     <link rel="stylesheet" href="/css/public.css">
-
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="/js/layui/css/layui.css" media="all">
     <style>
         .layui-upload .mark_button {
@@ -62,7 +60,6 @@
             border-radius: 6px;
         }
     </style>
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 
 <body>

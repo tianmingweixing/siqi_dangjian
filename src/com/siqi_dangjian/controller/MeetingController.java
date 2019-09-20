@@ -1,5 +1,6 @@
 package com.siqi_dangjian.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Meeting;
@@ -181,7 +182,6 @@ public class MeetingController extends BaseController {
                 view.addObject("meeting_type_id", meeting.getMeetingTypeId());
                 view.addObject("content", meeting.getContent());
                 view.addObject("guide", meeting.getGuide());
-                view.addObject("images_a", meeting.getImagesA());
                 view.addObject("name", meeting.getName());
                 view.addObject("compere", meeting.getCompere());
                 view.addObject("recorder", meeting.getRecorder());
@@ -190,6 +190,12 @@ public class MeetingController extends BaseController {
                 view.addObject("address", meeting.getAddress());
                 view.addObject("start_time", meeting.getStartTime());
                 view.addObject("end_time", meeting.getEndTime());
+
+                String images_a = meeting.getImagesA();
+//                String[] path = images_a.split(",");
+                JSON.parse(images_a);
+                view.addObject("images_a",images_a);
+
 
 
                 view.setViewName("WEB-INF/page/meeting_Add");
