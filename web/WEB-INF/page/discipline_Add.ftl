@@ -116,7 +116,7 @@
         <div class="layui-upload" style="margin-left: 60px;">
             <button type="button" class="layui-btn" id="uploadImg">上传违纪凭证</button>
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>
             </div>
         </div>

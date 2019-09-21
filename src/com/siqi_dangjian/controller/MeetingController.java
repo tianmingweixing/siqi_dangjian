@@ -1,13 +1,13 @@
 package com.siqi_dangjian.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Meeting;
 import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.service.IMeetingOfUserService;
 import com.siqi_dangjian.service.IMeetingService;
-import com.siqi_dangjian.util.MD5;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,12 +193,17 @@ public class MeetingController extends BaseController {
                 view.addObject("end_time", meeting.getEndTime());
 
                 String images_a = meeting.getImagesA();
-//                String[] path = images_a.split(",");
-                JSON.parse(images_a);
-                view.addObject("images_a",images_a);
+                String[] path = images_a.split(",");
+                ArrayList<Map> list = new ArrayList<>();
+                for (int i = 0; i < path.length; i++) {
+                    Map map = new HashMap<>();
+                    map.put("url",path[i]);
+                    map.put("index",i);
+                    list.add(i,map);
+                }
 
-
-
+                JSONArray imgObject = JSONArray.fromObject(list);
+                view.addObject("images_a",imgObject.toString());
                 view.setViewName("WEB-INF/page/meeting_Add");
             } catch (Exception e) {
                 e.printStackTrace();

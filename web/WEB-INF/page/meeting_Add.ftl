@@ -61,14 +61,15 @@
 <body>
 
 <form class="layui-form" action="">
+    <div>
 
-<br>
-    <div class="layui-form-item" style="display:">
+    <br>
+    <div class="layui-form-item" style="display:none">
         <label class="layui-form-label" style="margin-left: 85px">会议ID
             <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
 
         <label class="layui-form-label" style="margin-left: 85px">会议图片</label>
-            <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if images_a??>${images_a}<#else></#if>" style="width: 400px;"/></div>
+            <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="" style="width: 400px;"/></div>
     </div>
 
     <div class="layui-input-inline" style="display:none ">
@@ -167,7 +168,7 @@
     </div>
 
     <#if id??>
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item layui-form-text" >
             <label class="layui-form-label">会议签到</label>
             <div class="layui-input-inline">
                     <textarea name="userName" id="userName" placeholder="会议签到" readonly
@@ -178,52 +179,41 @@
                 <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">添加签到</a>
             </div>
         </div>
-    <#else></#if>
+    <#else>
+    </#if>
 
+        <div class="layui-upload ">
 
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                会议图片预览：
+                <div class="layui-upload-list" id="imgs">
+                </div>
+            </blockquote>
 
-<!--    <div class="layui-form-item input_row_margin_top">
-        <div class="layui-upload" style="margin-left: 40px;">
-            <button type="button" class="layui-btn" id="uploadImg">上传图片</button>
-            <div class="layui-upload-list">
-                <img class="layui-upload-img" id="images_a" src="<#if images_a??>${images_a}<#else>/home/up_load/image/201992/31976cf7-a50c-4b44-8d9e-27545253fded添加.png</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
-                <p id="demoText"></p>
+            <div class="mark_button">
+                <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择文件</button>
+                <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
+                <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
             </div>
+
         </div>
-    </div>-->
 
+<br><br><br>
 
-
-    <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
             <div class="layui-input-block">
-                <button  class="layui-btn layui-btn-normal"  lay-submit lay-filter="formDemo">立即提交</button>
+                <button  class="layui-btn"  lay-submit lay-filter="formDemo">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
-    </div>
 
+    </div>
 </form>
 
-<div class="layui-upload ">
 
-    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-        预览图：
-        <div class="layui-upload-list" id="imgs">
-        </div>
-    </blockquote>
-
-    <div class="mark_button">
-        <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择文件</button>
-        <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
-
-        <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
-    </div>
-
-</div>
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
-    <form  class="layui-form" name="fileForm" style="margin-top: 10px">
+    <form  class="layui-form" name="fileForm" style="display: ;margin-top:10px">
 
         <div style="display: none">
             <label class="layui-form-label ">会议ID</label>
@@ -265,14 +255,17 @@
 
 <script>
     var meetingTypeId = <#if meeting_type_id??>"${meeting_type_id}"<#else>""</#if>;
-    var imgPath2 = <#if images_a??>${images_a}<#else>""</#if>;
-    var pathArr = [];
+    var images = <#if images_a??>${images_a}<#else>""</#if>;
+    var initImgPathArr = [];
+    var deletedPathArr = [];
+    var resImgPathArr = [];
+    var finishImgPathArr = [];
+
 
 
     function addSignIn(){
         document.fileForm.name.value = $("#name").val();
         document.fileForm.meetingId.value = $("#id").val();
-
 
         layer.open({
             type: 1
@@ -300,9 +293,6 @@
     function sign_in(){
         var meeting_id = document.fileForm.meetingId.value;
         var user_id =  document.fileForm.userId.value;
-        console.log(meeting_id);
-
-
 
         $.ajax({
             url: "/meeting/signIn",
@@ -337,8 +327,6 @@
     }
 
 
-
-
         layui.use(['laydate', 'laytpl','form','upload'], function () {
             var form = layui.form
                     , laydate = layui.laydate //日期
@@ -355,94 +343,20 @@
             });
 
 
-            $(function () {
-                console.log(imgPath2);
-                console.log(imgPath2);
-                console.log(imgPath2);
-
-
-                //预读本地文件示例，不支持ie8
-                $("img_template").preview(function (index, file, result) {
-                    var data = {
-                        index: index,
-                        name: file.name,
-                        result: result
-                    };
-
-                    //将预览html 追加
-                    laytpl(img_template.innerHTML).render(data, function (html) {
-                        $('#imgs').append(html);
-                    });
-
-                    //绑定单击事件
-                    $('#imgs div:last-child>img').click(function () {
-                        var isChecked = $(this).siblings("input").prop("checked");
-                        $(this).siblings("input").prop("checked", !isChecked);
-                        return false;
-                    });
-
-                });
-
-            });
-
-
-            //查询计划种类
-            $.ajax({
-                url: "/meetingType/allCategory",
-                async: false,
-                success: function (data) {
-                    $.each(data.list, function (i, item) {
-                        if(item.id == meetingTypeId){
-                            $("#meeting_type").append("<option selected='selected' value='" + item.id + "'>" + item.type_name + "</option>");
-                        }else{
-                            $("#meeting_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
-                        }
-                    });
-                    form.render('select');
-                }
-            });
-
-            //上传头像
-            /*upload.render({
-                elem: '#uploadImg'
-                ,accept: 'file'
-                ,url: '/upload/uploadImage'
-                ,auto: true
-                ,choose: function(obj){
-                    //将每次选择的文件追加到文件队列
-                    // var files = obj.pushFile();
-
-                    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
-                    obj.preview(function(index, file, result){
-                        //???????
-                        $('#images_a').attr('src', result); //图片链接（base64）
-                    });
-                }
-                ,done: function(res){
-                    //如果上传
-                    if(res.code == 0){
-
-                        //???? 图片路径数组
-                        $("#imgPath").val(res.src);
-                        layer.msg('上传成功');
-                    }
-                }
-                ,error: function(){
-                    //演示失败状态，并实现重传
-                    var demoText = $('#demoText');
-                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                    demoText.find('.demo-reload').on('click', function(){
-                        uploadInst.upload();
-                    });
-                }
-            });*/
 
             //批量删除 单击事件
             $('#dele_imgs').click(function () {
                 $('input:checked').each(function (index, value) {
                     var filename=$(this).parent().attr("filename");
-                    delete imgFiles[filename];
+                    if(imgFiles != undefined || imgFiles != null ){
+                        delete imgFiles[filename];
+                    }
                     $(this).parent().remove()
+                });
+
+                $("div[class=upload-img] img").each(function() {
+                    var src=$(this).attr("src");
+                    deletedPathArr.push(src);
                 });
             });
 
@@ -450,12 +364,11 @@
             var imgFiles;
 
             //多图片上传
-            var uploadInst;
-            uploadInst = upload.render({
+            var uploadInst = upload.render({
                 elem: '#sele_imgs'  //开始
                 , acceptMime: 'image/*'
                 , url: '/upload/uploadImage'
-                , auto: false
+                , auto: true
                 , bindAction: '#upload_imgs'
                 , multiple: true
                 , size: 1024 * 12
@@ -492,22 +405,18 @@
                 }
                 , done: function (res, index, upload) {    //上传完毕后事件
 
-                    pathArr.push(res.src);
-                   /* Map map = new Map();
-                    map.put("src1",res.src);*/
-                    console.log(pathArr);
-                    //???? 图片路径数组
-                    $("#imgPath").val(pathArr);
+                     resImgPathArr.push(res.src);
+                    // 图片路径数组
+                    // $("#imgPath").val(initImgPathArr);
 
                     layer.closeAll('loading'); //关闭loading
+
                     //上传完毕
-                    $('#imgs').html("");//清空操作
+                     $('#imgs').html("");//清空操作
 
                     layer.msg("上传成功！");
 
                     return delete imgFiles[index]; //删除文件队列已经上传成功的文件
-
-
 
                 }
                 , error: function (index, upload) {
@@ -522,7 +431,64 @@
 
 
 
+            $(function () {
+                for (let i = 0; i < images.length ; i++) {
+                    var data = {
+                        index: images[i].index,
+                        name: images[i].url,
+                        result: images[i].url
+                    };
+
+                    if(data.name != ""){
+                        //将预览html 追加
+                        laytpl(img_template.innerHTML).render(data, function (html) {
+                            $('#imgs').append(html);
+                        });
+                    }
+                }
+
+                //绑定单击事件
+                $('#imgs div img').click(function () {
+                    var isChecked = $(this).siblings("input").prop("checked");
+                    $(this).siblings("input").prop("checked", !isChecked);
+                    return false;
+                });
+
+                $("div[class=upload-img] img").each(function() {
+                    var src = $(this).attr("src");
+                    initImgPathArr.push(src);
+                });
+            });
+
+            //查询计划种类
+            $.ajax({
+                url: "/meetingType/allCategory",
+                async: false,
+                success: function (data) {
+                    $.each(data.list, function (i, item) {
+                        if(item.id == meetingTypeId){
+                            $("#meeting_type").append("<option selected='selected' value='" + item.id + "'>" + item.type_name + "</option>");
+                        }else{
+                            $("#meeting_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                        }
+                    });
+                    form.render('select');
+                }
+            });
+
+
             form.on('submit(formDemo)', function () {
+                if (deletedPathArr.length > 0) {
+                    deletedPathArr.push(resImgPathArr);
+                    finishImgPathArr.push(deletedPathArr);
+                    alert(finishImgPathArr);
+                    console.log(finishImgPathArr);
+                }else{
+                    initImgPathArr.push(resImgPathArr);
+                    finishImgPathArr.push(initImgPathArr);
+                    alert(finishImgPathArr);
+                    console.log(finishImgPathArr);
+                }
 
                 $.ajax({
                     url: "/meeting/addMeeting",
@@ -538,7 +504,7 @@
                         meeting_type_id: $("#meeting_type").val(),
                         content: $("#content").val(),
                         guide: $("#guide").val(),
-                        imgPath: JSON.stringify(pathArr),
+                        imgPath: finishImgPathArr.toString(),
                         start_time: $("#start_time").val(),
                         end_time: $("#end_time").val()
                     },
@@ -551,6 +517,7 @@
                 });
                 return false;
             });
+
         });
 
 

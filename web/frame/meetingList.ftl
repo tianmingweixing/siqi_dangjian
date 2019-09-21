@@ -80,14 +80,19 @@
     <a class="layui-btn layui-btn-sm layui-btn-danger"  lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="signIn">添加签到</a>
 </script>
-<style>
-    .layui_open_fail{
-        text-align: center;
-        border-radius: 5px;
-    }
-</style>
-
 <script src="/js/layui/layui.js"></script>
+
+<script type="text/html" id="images_a">
+
+    {{# var srr=d.images_a.split(",");
+    for(var j in srr) { srr[j] }}
+    <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
+        <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}" />
+    </div>
+    {{# } }}
+
+</script>
+
 <script>
     layui.config({
         version: '1551352891272' //为了更新 js 缓存，可忽略
@@ -220,8 +225,7 @@
                 ,{field: 'address', title: '地点'}
                 ,{field: 'content',title:'会议内容'}
                 ,{field: 'guide',title:'会议指导',hide:true}
-                 ,{field: 'images_a',title:'会议图片1',hide:true}
-                // ,{field: 'images_b',title:'会议图片2',width:200,hide:true}
+                ,{field: 'images_a',title:'会议图片',templet:'#images_a'}
                 ,{field: 'start_time',title:'开始时间',sort: true}
                 ,{field: 'end_time',title:'结束时间',sort: true}
                 ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
@@ -301,10 +305,9 @@
                                 }
                             })
                         })
-
                     }
-                    break;
-            };
+                break;
+            }
         });
 
         //监听行工具事件
