@@ -213,7 +213,7 @@
 
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
-    <form  class="layui-form" name="fileForm" style="display: ;margin-top:10px">
+    <form  class="layui-form" name="fileForm" style="margin-top: 10px">
 
         <div style="display: none">
             <label class="layui-form-label ">会议ID</label>
