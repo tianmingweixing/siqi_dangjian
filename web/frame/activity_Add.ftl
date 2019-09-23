@@ -80,7 +80,7 @@
 
             <div class="layui-form-item input_row_margin_top">
                 <div class="layui-upload" style="width: 620px;">
-                    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择图片</button>
                     <button type="button" class="layui-btn" id="testListAction">开始上传</button>
                     <div class="layui-upload-list">
                         <table class="layui-table">
@@ -116,30 +116,39 @@
     var count = <#if imgarr??>${imgarr?size}<#else >0</#if>;
     var pathArr = [];
 
-    /*$().ready(function () {
+    $().ready(function () {
         //初始化信息//
-        if (id != "")
-            //initComInfo(id);
-
-    })*/
+        if (id != ""){
+            initComInfo(id);
+        }
+    })
 
     function initComInfo (id){
         var $ = jQuery;
         $.ajax({
             url: "/activities/getActivities",
-            method: "GET",
+            type: "GET",
             data: {
                 id:id
             },
             success: function (data) {
                 if (data.result == 'success') {
                     console.log(data.list);
-                    var urlArr = data.list;
-
-                    if (urlArr) {
-                        imgArr = urlArr;
-                        $("#headImg").val(imgArr);
-                    }
+                    pathArr = data.list;
+                    $.each(data.list, function (index, item) {
+                        var name = item.substring(item.lastIndexOf("/")+1,item.length);
+                        var $tr = $(['<tr id="'+ index +'">'
+                            ,'<td><img src="'+item+'"/></td>'
+                            ,'<td>'+ name +'</td>'
+                            ,'<td><input type="text" value="'+item+'" class="ok"/></td>'
+                            ,'<td><span style="color: #5FB878;">上传成功</span></td>'
+                            ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete" onclick="delectImg($(this))">删除</button>'
+                            ,'</td>'
+                            ,'</tr>'].join(''));
+                        $("#demoList").append($tr);
+                    });
 
                 } else {
                     layer.msg(data.result, {icon: 2});
@@ -148,13 +157,13 @@
         })
     }
 
-   /* function delectImg(e){
-        var $ = jQuery;
-        var $li = e.parent();
-        imgArr.splice($($li).index(),1);
-        $li.remove();
-        $("#headImg").val(imgArr);
-    }*/
+    function delectImg(e){
+        var $tr = e.parents("tr");
+        var url = $tr.find('input').val();
+        removeByValue(pathArr, url);
+        $tr.remove();
+        console.log(pathArr);
+    }
 
     function initSelectOfType(form){
         //初始化下活动类型下拉框
@@ -164,7 +173,7 @@
             dataType: "JSON",//返回数据类型
             data: {},//发送的参数
             success: function (data) {
-                console.log(data)
+                //console.log(data)
                 $.each(data.list, function (index, item) {
                     if (item.id == category)
                         $("#type_search").append("<option selected='selected' value='" + item.id + "'>" + item.typeName + "</option>")
@@ -188,7 +197,7 @@
             dataType: "JSON",//返回数据类型
             data: {},//发送的参数
             success: function (data) {
-                console.log(data)
+                //console.log(data)
                 $.each(data.list, function (index, item) {
                     if (item.id == category)
                         $("#brand_search").append("<option selected='selected' value='" + item.id + "'>" + item.brandName + "</option>")
@@ -235,53 +244,6 @@
 
         //初始化下活动品牌下拉框
         initSelectOfBrand(form);
-
-        /*//上传图片
-        var uploadListIns = upload.render({
-            elem: '#test1'
-            ,accept: 'file'
-            ,accept: 'images'
-            ,multiple: true
-            ,url: '/upload/uploadImage'
-            ,auto: true
-            ,choose: function(obj){
-                //将每次选择的文件追加到文件队列
-                //var files = obj.pushFile();
-
-                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
-                obj.preview(function(index, file, result){
-                    console.log(file)
-                    var $li = $(['<li> <img class="layui-upload-img" src="'+result+'"><p class="demoText">'+file.name+'</p>' +
-                    '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button></li>'].join(''));
-
-                    //删除
-                    $li.find('.demo-delete').on('click', function(){
-                        //delete files[index]; //删除对应的文件
-                        // console.log($($li).index())
-                        imgArr.splice($($li).index(), 1);
-                        $("#headImg").val(imgArr);
-                        $li.remove();
-                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                    });
-
-                    $('#image_list').append($li);
-                });
-            }
-            ,done: function(res){
-                //如果上传
-                if(res.code == 0){
-                    imgArr.push(res.src)
-                    $("#headImg").val(imgArr);
-                    layer.msg('上传成功');
-                }
-            }
-            ,error: function(index, upload){
-                //演示失败状态，并实现重传
-                layer.msg(index+'上传失败');
-                // var btn = $('#'+ index);
-                btn.removeClass('layui-hide'); //显示重传
-            }
-        });*/
 
         //多文件列表示例
         var demoListView = $('#demoList')
@@ -330,7 +292,9 @@
             ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                 var count = pathArr.length;
                 var count2 = 0;
-                obj.preview(function(index, file, result){count2++;});
+                obj.preview(function(index){
+                    count2++;
+                });
                 console.log(count+count2);
                 if (count+count2 > 2) {
                     uploadListIns.stop();
@@ -395,16 +359,18 @@
                     id: id
                 },
                 success: function (data) {
+                    /*alert(data.code);*/
                     if (data.code == 0){
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/activityList.ftl'
+                            window.location.href = '/frame/activityList.ftl';
                         }, 1500);
                     } else {
                         layer.msg('保存失败', {icon: 2});
                     }
                 }
             });
+            return false;
 
         });
 
