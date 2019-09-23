@@ -2,59 +2,30 @@
 列表图片显示太小？？
 慰问添加改窗口？？
 党小组-班子-人数？？
-多图上传？？？
-return false;
 
+多图
+https://blog.csdn.net/qq_43690617/article/details/90600582
+jwt校验？？
+https://gitee.com/wjtree/codes/fzgtr64ah9pol2w7bj1mv51
 
- List<Attach> attach_img_list = attachService.getAttachByuuid(uuid,CommonString.FILETYPE_IMAGE);
-            List<Attach> attach_vedio_list = attachService.getAttachByuuid(uuid,CommonString.FILETYPE_VEDIO);
-            List<Map> vedio_list = new ArrayList<>();
-            List<Map> imgList = new ArrayList<>();
-            if (attach_img_list.size() != 0) { //如果有附件
-                for (int i = 0; i < attach_img_list.size(); i++) {
-                    Attach attach = attach_img_list.get(i);
-                    Map map2 = new HashMap();
-                    String img_base64 = CommonUtil.wirteImage(attach.getFilePath(), attach.getExtension());
-                    map2.put("src", img_base64);
-                    map2.put("name", attach.getFileName());
-                    map2.put("id", attach.getId());
-                    imgList.add(i, map2);
+ form.on('submit(formDemo)', function () {
+
+                var src=$("div[class=upload-img] img").attr("src");
+
+                    $("div[class=upload-img] img").each(function() {
+                        var src=$(this).attr("src");
+                        deletedPathArr.push(src);
+                    });
+
+                if (deletedPathArr.length > 0 || src == null) {
+                    finishImgPathArr.push(resImgPathArr);
+                    finishImgPathArr.push(deletedPathArr);
+
+                    alert("resImgPathArr: "+resImgPathArr);
+                    alert("finishImgPathArr: "+finishImgPathArr);
+                }else{
+                    initImgPathArr.push(resImgPathArr);
+                    finishImgPathArr.push(initImgPathArr);
+                    alert("initImgPathArr: "+initImgPathArr);
+                    alert("finishImgPathArr: "+finishImgPathArr);
                 }
-                view.addObject("imageList", imgList);
-            }
-
-
-            /*    <#if images_a??>
-                            <#list images_a as image>
-                                <#if image_index==0>
-                                    alert(image.url-image.index);
-                                </#if>
-                            </#list>
-                        </#if>;*/
-
-
-
-
-
-                 Map map = new HashMap();
-                            List<Map> imgList = new ArrayList<>();
-                            String images_a = meeting.getImagesA();
-                            String[] split = images_a.split(",");
-                            int length = split.length;
-                            System.out.println(length);
-                            StringBuilder s = new StringBuilder();
-                            for (int i = 0; i <split.length ; i++) {
-            //                    s.append('"'+i+'"'+":"+'{'+'\"'+"url"+'\"'+":"+split[i]+","+'"'+"index"+'"'+":"+i+'}'+',');
-                                s.append('{'+"url"+":"+split[i]+","+'"'+"index"+'"'+":"+i+'}'+',');
-                            }
-                           String s1= s.substring(0,s.length()-1);
-                            String s2 = '{'+s1+'}';
-                            JSONObject s3 = JSON.parseObject(s2);
-                            System.out.println();
-                            view.addObject("images_a",images_a);
-
-                            默认图片：
-                              <div class="upload-img" filename="{{ d.index }}">
-                                                    <input type="checkbox" name="" lay-skin="primary">
-                                                    <img src="/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg" alt="{{ d.name }}" class="layui-upload-img">
-                                                </div>
