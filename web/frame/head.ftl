@@ -20,7 +20,7 @@
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
             <a href="javascript:;">
-                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                <img src="../images/head.jpg" class="layui-nav-img">
                 贤心
             </a>
             <dl class="layui-nav-child">

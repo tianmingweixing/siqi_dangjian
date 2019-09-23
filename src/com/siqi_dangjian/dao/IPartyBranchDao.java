@@ -15,4 +15,7 @@ public interface IPartyBranchDao {
     PartyBranch selectById(Long id) throws Exception;
 
     Map selectAll(Map blurParam,Map intParam, Map dateParam,int limit, int page) throws Exception;
+
+    //更新成员总数，type:1-增加；2-减少;count :减少数量
+    Integer updatePartyMemberCount(int type, int count) throws Exception;
 }

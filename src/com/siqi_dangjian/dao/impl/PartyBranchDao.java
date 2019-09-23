@@ -73,4 +73,19 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
         return resMap;
 
     }
+
+    @Override
+    public Integer updatePartyMemberCount(int type, int count) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        SQLQuery query;
+        String sql = "update party_branch set party_member_count = party_member_count + 1 where id = 1";
+        query = session.createSQLQuery(sql);
+        if(type == 2){
+            sql = "update party_branch set party_member_count = party_member_count - ? where id = 1";
+            query = session.createSQLQuery(sql);
+            query.setParameter(0, count);
+        }
+        Integer row = query.executeUpdate();
+        return row;
+    }
 }

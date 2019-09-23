@@ -222,8 +222,15 @@ public class ActivitiesController extends BaseController{
         try {
             Activities activities = activityService.selectById(id);
             List list = new ArrayList();
-            list.add(activities.getImagePathA());
-            list.add(activities.getImagePathB());
+
+            if(activities.getImagePathA() != null){
+                if (!activities.getImagePathA().equals(""))
+                    list.add(activities.getImagePathA());
+            }
+            if(activities.getImagePathB() != null){
+                if (!activities.getImagePathB().equals(""))
+                    list.add(activities.getImagePathB());
+            }
             setSuccess();
             setData("list",list);
         } catch (Exception e){
