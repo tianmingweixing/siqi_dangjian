@@ -19,4 +19,6 @@ public interface IMeetingOfUserDao {
                   Map intParam, int limit, int page) throws Exception;
 
     List selectListById(Long user_id);
+
+    void cancelSignIn(Long user_id, String meeting_id);
 }

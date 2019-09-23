@@ -21,4 +21,6 @@ public interface IMeetingOfUserService {
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
     List selectListById(Long user_id);
+
+    void cancelSignIn(Long user_id, String meeting_id);
 }

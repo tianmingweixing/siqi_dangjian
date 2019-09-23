@@ -33,7 +33,7 @@ public class UploadController extends BaseController{
                 String[] strings = new String[files.length];
                 int i = 0;
                 for (MultipartFile file : files) {
-                    String saveFilename = UUID.randomUUID().toString() + file.getOriginalFilename();
+                    String saveFilename = file.getOriginalFilename();
                     Calendar now = Calendar.getInstance();
                     String year = String.valueOf(now.get(Calendar.YEAR));
                     String month = String.valueOf(now.get(Calendar.MONTH) + 1);

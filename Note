@@ -24,6 +24,15 @@ return false;
             }
 
 
+            /*    <#if images_a??>
+                            <#list images_a as image>
+                                <#if image_index==0>
+                                    alert(image.url-image.index);
+                                </#if>
+                            </#list>
+                        </#if>;*/
+
+
 
 
 
@@ -42,5 +51,10 @@ return false;
                             String s2 = '{'+s1+'}';
                             JSONObject s3 = JSON.parseObject(s2);
                             System.out.println();
-
                             view.addObject("images_a",images_a);
+
+                            默认图片：
+                              <div class="upload-img" filename="{{ d.index }}">
+                                                    <input type="checkbox" name="" lay-skin="primary">
+                                                    <img src="/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg" alt="{{ d.name }}" class="layui-upload-img">
+                                                </div>

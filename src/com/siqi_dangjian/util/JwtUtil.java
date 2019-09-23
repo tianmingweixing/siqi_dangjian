@@ -19,7 +19,7 @@ public class JwtUtil {
         this.redisTemplate = redisTemplate;
     }
 
-    final static String SecretKey = "hhhwww";//私钥
+    final static String SecretKey = "hhhttttttttttwww";//私钥
 
     public static String getToken(User user,Date expiration) {
 

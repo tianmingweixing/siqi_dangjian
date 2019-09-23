@@ -176,7 +176,7 @@
                                   max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
             </div>
             <div class="layui-input-inline">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">添加签到</a>
+                <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">签到管理</a>
             </div>
         </div>
     <#else>
@@ -184,15 +184,18 @@
 
         <div class="layui-upload ">
 
-            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-                会议图片预览：
-                <div class="layui-upload-list" id="imgs">
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: -40px;border: none">
+
+                <div class="layui-upload-list" id="imgs" >
+
                 </div>
             </blockquote>
 
-            <div class="mark_button">
-                <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择文件</button>
+            <div class="mark_button" style="margin-top: 10px; width: 65%;">
+                <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择会议图片</button>
+<!--
                 <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
+-->
                 <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
             </div>
 
@@ -238,7 +241,8 @@
 
     </form>
     <div class="layui-input-inline search_div" style="margin-left: 110px">
-        <button class="layui-btn layui-btn-normal" onclick="sign_in()">添加</button>
+        <button class="layui-btn layui-btn-normal" onclick="sign_in()">添加签到</button>
+        <button class="layui-btn layui-btn-danger" onclick="cancelSignIn()">取消签到</button>
     </div>
 
 </div>
@@ -269,7 +273,7 @@
 
         layer.open({
             type: 1
-            ,title: '添加签到 ' //不显示标题栏
+            ,title: '签到管理 ' //不显示标题栏
             ,area:['500px', '300px']
             ,shadeClose: true
             ,shade: false
@@ -290,7 +294,44 @@
         });
     }
 
-    function sign_in(){
+
+    function cancelSignIn(){
+        var meeting_id = document.fileForm.meetingId.value;
+        var user_id =  document.fileForm.userId.value;
+
+        $.ajax({
+            url: "/meeting/cancelSignIn",
+            type : 'post',
+            data :{
+                meeting_id : meeting_id,
+                user_id : user_id
+            },
+            success : function(data){
+                if(data.msg == "该用户没有签到"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
+                } else if(data.result == "fail"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
+                } else {
+                    layer.msg('取消签到成功', {icon: 1});
+                    setTimeout(function () {
+                        location.reload()
+                    },1000)
+                }
+            }
+        });
+    }
+
+function sign_in(){
         var meeting_id = document.fileForm.meetingId.value;
         var user_id =  document.fileForm.userId.value;
 
@@ -306,7 +347,7 @@
                     layer.open({
                         icon: 2,
                         title: '消息提醒',
-                        content: '添加失败',
+                        content: '添加签到失败',
                         skin:'layui_open_fail'
                     });
                 } else if(data.msg == "用户已签到"){
@@ -317,7 +358,7 @@
                         skin:'layui_open_fail'
                     });
                 } else {
-                    layer.msg('添加成功', {icon: 1});
+                    layer.msg('添加签到成功', {icon: 1});
                     setTimeout(function () {
                         location.reload()
                     },1000)
@@ -353,6 +394,11 @@
                     }
                     $(this).parent().remove()
                 });
+
+                var src=$("div[class=upload-img] img").attr("src");
+                if(src == null){
+                    deletedPathArr.push("/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg");
+                }
 
                 $("div[class=upload-img] img").each(function() {
                     var src=$(this).attr("src");
@@ -479,15 +525,19 @@
 
             form.on('submit(formDemo)', function () {
                 if (deletedPathArr.length > 0) {
+                    deletedPathArr.splice(0,1);
+                    alert("deletedPathArr: "+deletedPathArr);
+
                     deletedPathArr.push(resImgPathArr);
                     finishImgPathArr.push(deletedPathArr);
-                    alert(finishImgPathArr);
-                    console.log(finishImgPathArr);
+
+                    alert("resImgPathArr: "+resImgPathArr);
+                    alert("finishImgPathArr: "+finishImgPathArr);
                 }else{
                     initImgPathArr.push(resImgPathArr);
                     finishImgPathArr.push(initImgPathArr);
-                    alert(finishImgPathArr);
-                    console.log(finishImgPathArr);
+                    alert("initImgPathArr: "+initImgPathArr);
+                    alert("finishImgPathArr: "+finishImgPathArr);
                 }
 
                 $.ajax({

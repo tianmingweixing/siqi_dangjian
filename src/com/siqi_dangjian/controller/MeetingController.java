@@ -6,6 +6,7 @@ import com.siqi_dangjian.bean.Meeting;
 import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.service.IMeetingOfUserService;
 import com.siqi_dangjian.service.IMeetingService;
+import com.siqi_dangjian.util.CommonString;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -61,7 +62,6 @@ public class MeetingController extends BaseController {
                         return modelMap;
                     }
                 }
-
                 meetingOfUser = new MeetingOfUser();
                 meetingOfUser.setMeetingId(Long.valueOf(meeting_id));
                 meetingOfUser.setUserId(user_id);
@@ -69,7 +69,6 @@ public class MeetingController extends BaseController {
                 meetingOfUserService.insertOrUpdate(meetingOfUser);
                 setSuccess();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
@@ -78,6 +77,44 @@ public class MeetingController extends BaseController {
         return modelMap;
 
     }
+
+    /**
+     * 取消会议签到
+     * @return
+     */
+    @RequestMapping("/cancelSignIn")
+    @ResponseBody
+    public ModelMap cancelSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                 @RequestParam(value = "meeting_id", required = false) String meeting_id) {
+
+        modelMap = new ModelMap();
+        try {
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  meetingOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String meetingId = String.valueOf(map.get("meeting_id"));
+                    if (meetingId.equals(meeting_id)) {
+                        meetingOfUserService.cancelSignIn(user_id,meeting_id);
+                        setSuccess();
+                        setMsg("取消签到成功!");
+                        return modelMap;
+                    }
+                }
+            }
+            setFail("该用户没有签到");
+            setCode(CommonString.FRONT_EXPECTION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("取消签到失败");
+            setCode(CommonString.BACK_EXPECTION);
+            return modelMap;
+        }
+        return modelMap;
+
+    }
+
 
     @RequestMapping("/gotoAdd")
     public String gotoAdd(@RequestParam(value = "id", required = false) Long id) {

@@ -11,6 +11,8 @@ public class CommonString {
     public final static String SAVEORDE_SYSTEMERROR = "系统异常";
     public final static int TOKEN_CHECK_FAIL = 201;//redis无用户信息
     public final static int REQUEST_SUCCESS = 0;//请求成功
+    public final static int BACK_EXPECTION = -2;//后台异常
+    public final static int FRONT_EXPECTION = -1;//前端异常
     public final static int SYSTEM_EXPECTION = 202;//系统异常
     public final static int INVILD_CODE = 203;//不合法的用户code
     public final static int WX_USER_NOT_EXIT = 204;//用户不存在

@@ -70,4 +70,13 @@ public class MeetingOfUserDao extends BaseDao<MeetingOfUser> implements IMeeting
         List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
         return list;
     }
+
+    @Override
+    public void cancelSignIn(Long user_id, String meeting_id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "delete from meeting_of_user where user_id = ? and meeting_id = ? ";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,user_id);
+        query.setParameter(1,meeting_id);
+        query.executeUpdate();    }
 }

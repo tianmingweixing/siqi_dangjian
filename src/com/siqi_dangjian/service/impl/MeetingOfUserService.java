@@ -60,4 +60,9 @@ public class MeetingOfUserService implements IMeetingOfUserService {
     public List selectListById(Long user_id) {
         return MeetingOfUserDao.selectListById(user_id);
     }
+
+    @Override
+    public void cancelSignIn(Long user_id, String meeting_id) {
+        MeetingOfUserDao.cancelSignIn(user_id,meeting_id);
+    }
 }

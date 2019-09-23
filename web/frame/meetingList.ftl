@@ -78,7 +78,9 @@
 </script>
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-sm layui-btn-danger"  lay-event="edit">编辑</a>
+<!--
     <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="signIn">添加签到</a>
+-->
 </script>
 <script src="/js/layui/layui.js"></script>
 
