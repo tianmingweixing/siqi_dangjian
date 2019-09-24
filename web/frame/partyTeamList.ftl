@@ -108,6 +108,8 @@
                 ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党小组名称'}
                 ,{field: 'duty', title: '党小组职责'}
+                ,{field: 'count', title: '人员数量'}
+                ,{field: 'userName', title: '党小组成员'}
                 ,{field: 'change_time',title:'换届时间'}
                 ,{field: 'founding_time',title:'成立时间'}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}

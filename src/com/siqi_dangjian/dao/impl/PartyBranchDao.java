@@ -51,7 +51,7 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
                 "\tp.party_img,\n" +
                 "\tp.party_info,\n" +
                 "\tp.party_no,\n" +
-                "\tu.count\n" +
+                "\tu.count UserCount\n" +
                 "FROM\n" +
                 "\tparty_branch p\n" +
                 "JOIN \n" +

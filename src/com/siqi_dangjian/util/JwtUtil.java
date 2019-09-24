@@ -29,13 +29,9 @@ public class JwtUtil {
 
                 .setSubject("user")
 
-                .claim("userId",user.getId())
-
                 .claim("openId",user.getOpenId())
 
                 .claim("sessionKey",user.getSessionKey())
-
-                .claim("lastTime",user.getLastTime())
 
                 .setIssuedAt(new Date())
 
@@ -58,7 +54,6 @@ public class JwtUtil {
                 Jws<Claims> claims = Jwts.parser()
                         .setSigningKey(SecretKey)
                         .requireSubject("user")
-                        .require("userId", getUserIdByToken(token))
                         .require("openId", getWxOpenIdByToken(token))
                         .require("sessionKey",  getSessionKeyByToken(token))
                         .parseClaimsJws(token);

@@ -88,7 +88,7 @@
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党支部名称'}
                 ,{field: 'party_img',title:'党支部图片',templet: function(d){return '<div><img src="'+d.party_img+'" alt="" width="50%" height="50%"></div>';}}
-                ,{field: 'count', title: '成员总数'}
+                ,{field: 'UserCount', title: '成员总数'}
                 ,{field: 'duty', title: '党支部职责'}
                 ,{field: 'party_no',title:'党支部编号'}
                 ,{field: 'party_info',title:'党支部简介'}

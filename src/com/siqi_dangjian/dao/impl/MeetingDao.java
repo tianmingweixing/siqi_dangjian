@@ -61,48 +61,26 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         session = sessionFactory.getCurrentSession();
 
         String sql = "SELECT\n" +
-                "\tm.content,\n" +
-                "\tDATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
-                "\tDATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
-                "\tm.guide,\n" +
-                "\tm.id,\n" +
-                "\tm.compere,\n" +
-                "\tm.recorder,\n" +
-                "\tm.people_counting,\n" +
-                "\tm.attendance,\n" +
-                "\tm.address,\n" +
-                "\tm.images_a,\n" +
-                "\t(\n" +
-                "\t\tCASE m.meeting_type_id\n" +
-                "\t\tWHEN 1 THEN\n" +
-                "\t\t\t'支委会'\n" +
-                "\t\tWHEN 2 THEN\n" +
-                "\t\t\t'党员大会'\n" +
-                "\t\tWHEN 3 THEN\n" +
-                "\t\t\t'党小组会'\n" +
-                "\t\tWHEN 4 THEN\n" +
-                "\t\t\t'党课'\n" +
-                "\t\tWHEN 5 THEN\n" +
-                "\t\t\t'廉政教育'\n" +
-                "\t\tWHEN 6 THEN\n" +
-                "\t\t\t'组织生活会'\n" +
-                "\t\tWHEN 7 THEN\n" +
-                "\t\t\t'政治理论学习'\n" +
-                "\t\tWHEN 8 THEN\n" +
-                "\t\t\t'互授党课'\n" +
-                "\t\tWHEN 9 THEN\n" +
-                "\t\t\t'民主评议党员'\n" +
-                "\t\tWHEN 10 THEN\n" +
-                "\t\t\t'专题讨论'\n" +
-                "\t\tELSE\n" +
-                "\t\t\t'暂无信息'\n" +
-                "\t\tEND\n" +
-                "\t) meeting_type_id,\n" +
-                "\tm.name\n" +
+                "  m.content,\n" +
+                "  DATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
+                "  DATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
+                "  m.guide,\n" +
+                "  m.id,\n" +
+                "  m.compere,\n" +
+                "  m.recorder,\n" +
+                "  m.people_counting,\n" +
+                "  m.attendance,\n" +
+                "  m.address,\n" +
+                "  m.images_a,\n" +
+                "  m.meeting_type_id,\n" +
+                "  t.type_name,\n" +
+                "  m.name\n" +
                 "FROM\n" +
-                "\tmeeting m\n" +
+                "  meeting m\n" +
+                "join meeting_type t\n" +
+                "on m.meeting_type_id = t.id\n" +
                 "WHERE\n" +
-                " m.can_use = 1";
+                "  m.can_use = 1 and t.can_use = 1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +

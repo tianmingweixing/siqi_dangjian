@@ -46,19 +46,24 @@ public class PartyTeamDao extends BaseDao<PartyTeam> implements IPartyTeamDao {
     public Map selectAll(Map blurParam, Map intParam ,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
-                "\tp.duty,\n" +
-                "\tDATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
-                "\tDATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
-                "\tp.id,\n" +
-                "\tp.`name`,\n" +
-                "\tp.party_branch_id,\n" +
-                "\tp.party_group_no,\n" +
-                "\tp.party_no,\n" +
-                "\tDATE_FORMAT(p.create_time, '%Y-%m-%d')create_time\n" +
+                "  p.duty,\n" +
+                "  DATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
+                "  DATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
+                "  DATE_FORMAT(p.create_time, '%Y-%m-%d')create_time,\n" +
+                "  p.party_no,\n" +
+                "  p.id,\n" +
+                "  p.`name`,\n" +
+                "  count(u.id) count,\n" +
+                "  group_concat(u.username) userName,\n" +
+                "  p.party_branch_id,\n" +
+                "  p.party_group_no\n" +
                 "FROM\n" +
-                "\tparty_team p\n" +
+                "  party_team p\n" +
+                "join user u\n" +
+                "on p.id = u.party_team_id\n" +
                 "WHERE\n" +
-                "\tp.can_use = 1";
+                "  p.can_use = 1 and u.can_use = 1\n" +
+                "group by p.id";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +

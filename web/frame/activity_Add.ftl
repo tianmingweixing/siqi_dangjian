@@ -71,10 +71,25 @@
             <div class="layui-form-item layui-form-text input_row_margin_top">
                 <label class="layui-form-label">活动内容</label>
                 <div class="layui-input-block">
-            <textarea name="content" id="content" placeholder="请输入活动内容" style="width: 500px; height: 200px;" maxlength="250"
+                <textarea name="content" id="content" placeholder="请输入活动内容" style="width: 500px; height: 200px;" maxlength="250"
                       class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
                 </div>
             </div>
+
+            <#if id??>
+                    <div class="layui-form-item layui-form-text" >
+                        <label class="layui-form-label">活动报名</label>
+                        <div class="layui-input-inline">
+                                <textarea name="userName" id="userName" placeholder="" readonly
+                                          style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                                              max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+                        </div>
+                        <div class="layui-input-inline">
+                            <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">报名管理</a>
+                        </div>
+                    </div>
+            <#else>
+            </#if>
 
 
 
@@ -110,18 +125,155 @@
     </div>
 </form>
 
+
+<div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
+    <form  class="layui-form" name="fileForm" style="margin-top: 10px">
+
+        <div style="display: none">
+            <label class="layui-form-label ">活动ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="activityId" name="activityId"  placeholder="活动ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ">活动名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="name" name="name" readonly  placeholder="活动名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ">用户ID</label>
+            <div class="layui-input-inline">
+                <input type="text" id="userId" name="userId"  placeholder="输入用户ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </form>
+    <div class="layui-input-inline search_div" style="margin-left: 110px">
+        <button class="layui-btn layui-btn-normal" onclick="sign_in()">活动报名</button>
+        <button class="layui-btn layui-btn-danger" onclick="cancelSignIn()">取消报名</button>
+    </div>
+
+</div>
+
 <script>
     var id =<#if id??>"${id}"<#else>""</#if>;
     var category =<#if typeId??>${typeId}<#else>0</#if>;
     var count = <#if imgarr??>${imgarr?size}<#else >0</#if>;
     var pathArr = [];
 
+
+    function addSignIn(){
+        document.fileForm.name.value = $("#name").val();
+        document.fileForm.activityId.value = $("#id").val();
+
+        layer.open({
+            type: 1
+            ,title: '报名管理 ' //不显示标题栏
+            ,area:['500px', '300px']
+            ,shadeClose: true
+            ,shade: false
+            ,offset: 'r'
+            ,maxmin: true //开启最大化最小化按钮
+            ,content: $("#lookDetail")
+        });
+
+        layer.open({
+            type: 2,
+            title: '用户列表页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'lt',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['1200px', '800px'],
+            content: ['/frame/userList.ftl']
+        });
+    }
+
+
+    function cancelSignIn(){
+        var activity_id = document.fileForm.activityId.value;
+        var user_id =  document.fileForm.userId.value;
+
+        $.ajax({
+            url: "/activities/cancelSignIn",
+            type : 'post',
+            data :{
+                meeting_id : activity_id,
+                user_id : user_id
+            },
+            success : function(data){
+                if(data.msg == "该用户没有报名"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
+                } else if(data.result == "fail"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
+                } else {
+                    layer.msg('取消报名成功', {icon: 1});
+                    setTimeout(function () {
+                        location.reload()
+                    },1000)
+                }
+            }
+        });
+    }
+
+    function sign_in(){
+        var activity_id = document.fileForm.activityId.value;
+        var user_id =  document.fileForm.userId.value;
+
+        $.ajax({
+            url: "/activities/signIn",
+            type : 'post',
+            data :{
+                meeting_id : activity_id,
+                user_id : user_id
+            },
+            success : function(data){
+                if(data.result == "fail"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: '报名失败',
+                        skin:'layui_open_fail'
+                    });
+                } else if(data.msg == "用户已签到"){
+                    layer.open({
+                        icon: 2,
+                        title: '消息提醒',
+                        content: data.msg,
+                        skin:'layui_open_fail'
+                    });
+                } else {
+                    layer.msg('报名成功', {icon: 1});
+                    setTimeout(function () {
+                        location.reload()
+                    },1000)
+                }
+            }
+        });
+    }
+
+
+
+
     $().ready(function () {
         //初始化信息//
         if (id != ""){
             initComInfo(id);
         }
-    })
+    });
 
     function initComInfo (id){
         var $ = jQuery;

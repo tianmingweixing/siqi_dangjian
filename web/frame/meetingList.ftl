@@ -219,7 +219,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '会议名称'}
-                ,{field: 'meeting_type_id',title:'会议类型'}
+                ,{field: 'type_name',title:'会议类型'}
                 ,{field: 'compere', title: '主持人'}
                 // ,{field: 'recorder', title: '记录人'}
                 ,{field: 'people_counting', title: '应到人数'}

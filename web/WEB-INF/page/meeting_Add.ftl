@@ -19,8 +19,8 @@
         .upload-img {
             position: relative;
             display: inline-block;
-            width: 300px;
-            height: 200px;
+            width: 230px;
+            height: 140px;
             margin: 0 10px 10px 0;
             transition: box-shadow .25s;
             border-radius: 4px;
@@ -31,8 +31,8 @@
         }
 
         .layui-upload-img {
-            width: 300px;
-            height: 200px;
+            width: 230px;
+            height: 140px;
             border-radius: 4px;
         }
 
@@ -186,12 +186,12 @@
 
             <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: -40px;border: none">
 
-                <div class="layui-upload-list" id="imgs" >
+                <div class="layui-upload-list" id="imgs" style="margin-left: 100px;" >
 
                 </div>
             </blockquote>
 
-            <div class="mark_button" style="margin-top: 10px; width: 65%;">
+            <div class="mark_button" style=" margin-top: -30px; width: 65%;">
                 <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择会议图片</button>
 <!--
                 <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
@@ -260,9 +260,9 @@
 <script>
     var meetingTypeId = <#if meeting_type_id??>"${meeting_type_id}"<#else>""</#if>;
     var images = <#if images_a??>${images_a}<#else>""</#if>;
-    var initImgPathArr = [];
     var deletedPathArr = [];
     var resImgPathArr = [];
+    var indexArr = [];
     var finishImgPathArr = [];
 
 
@@ -385,26 +385,6 @@ function sign_in(){
 
 
 
-            //批量删除 单击事件
-            $('#dele_imgs').click(function () {
-                $('input:checked').each(function (index, value) {
-                    var filename=$(this).parent().attr("filename");
-                    if(imgFiles != undefined || imgFiles != null ){
-                        delete imgFiles[filename];
-                    }
-                    $(this).parent().remove()
-                });
-
-                var src=$("div[class=upload-img] img").attr("src");
-                if(src == null){
-                    deletedPathArr.push("/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg");
-                }
-
-                $("div[class=upload-img] img").each(function() {
-                    var src=$(this).attr("src");
-                    deletedPathArr.push(src);
-                });
-            });
 
 
             var imgFiles;
@@ -432,6 +412,9 @@ function sign_in(){
                             result: result
                         };
 
+                        indexArr.push(data.index);
+                        console.log(indexArr);
+
                         //将预览html 追加
                         laytpl(img_template.innerHTML).render(data, function (html) {
                             $('#imgs').append(html);
@@ -451,14 +434,12 @@ function sign_in(){
                 }
                 , done: function (res, index, upload) {    //上传完毕后事件
 
-                     resImgPathArr.push(res.src);
-                    // 图片路径数组
-                    // $("#imgPath").val(initImgPathArr);
+                    resImgPathArr.push(res.src);
 
                     layer.closeAll('loading'); //关闭loading
 
                     //上传完毕
-                     $('#imgs').html("");//清空操作
+                    //  $('#imgs').html("");//清空操作
 
                     layer.msg("上传成功！");
 
@@ -500,10 +481,6 @@ function sign_in(){
                     return false;
                 });
 
-                $("div[class=upload-img] img").each(function() {
-                    var src = $(this).attr("src");
-                    initImgPathArr.push(src);
-                });
             });
 
             //查询计划种类
@@ -523,22 +500,40 @@ function sign_in(){
             });
 
 
+                //批量删除 单击事件
+                $('#dele_imgs').click(function () {
+                    $('input:checked').each(function (index, value) {
+                        var filename=$(this).parent().attr("filename");
+                        if(indexArr.includes(filename)){
+
+                        }else{
+                            if(imgFiles != undefined || imgFiles != null ){
+                                delete imgFiles[filename];
+                            }
+                            $(this).parent().remove()
+                        }
+
+                    });
+
+                });
+
+
+
             form.on('submit(formDemo)', function () {
-                if (deletedPathArr.length > 0) {
-                    deletedPathArr.splice(0,1);
-                    alert("deletedPathArr: "+deletedPathArr);
+                $("div[class=upload-img] img").each(function() {
+                    var src=$(this).attr("src");
+                    var patrn=/^([/0-9a-zA-Z_.]+)?$/;
 
-                    deletedPathArr.push(resImgPathArr);
+                    if(patrn.exec(src)){
+                        deletedPathArr.push(src);
+                    }
+                });
+
+                    finishImgPathArr.push(resImgPathArr);
                     finishImgPathArr.push(deletedPathArr);
-
+/*
                     alert("resImgPathArr: "+resImgPathArr);
-                    alert("finishImgPathArr: "+finishImgPathArr);
-                }else{
-                    initImgPathArr.push(resImgPathArr);
-                    finishImgPathArr.push(initImgPathArr);
-                    alert("initImgPathArr: "+initImgPathArr);
-                    alert("finishImgPathArr: "+finishImgPathArr);
-                }
+                    alert("finishImgPathArr: "+finishImgPathArr);*/
 
                 $.ajax({
                     url: "/meeting/addMeeting",

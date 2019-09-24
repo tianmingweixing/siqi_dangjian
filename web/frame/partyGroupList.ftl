@@ -107,6 +107,8 @@
                 ,{field: 'id', title: 'ID', width:150, fixed: 'left'}
                 ,{field: 'name', title: '班子名称'}
                 ,{field: 'duty', title: '班子职责'}
+                ,{field: 'count', title: '成员数量'}
+                ,{field: 'userName', title: '班子成员'}
                 ,{field: 'founding_time',title:'成立时间'}
                 ,{field: 'change_time',title:'换届时间'}
                 ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}

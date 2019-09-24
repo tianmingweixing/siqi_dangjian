@@ -41,8 +41,7 @@ public class ConfigurationDao extends BaseDao<Configuration> implements IConfigu
     @Override
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
+
         String sql = "\tSELECT * FROM \n" +
                 "\tconfiguration c \n" +
                 "\tWHERE\n" +

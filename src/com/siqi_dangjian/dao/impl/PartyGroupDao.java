@@ -40,21 +40,26 @@ public class PartyGroupDao extends BaseDao<PartyGroup> implements IPartyGroupDao
 
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
-        session = sessionFactory.getCurrentSession();
-        String sql = "SELECT\n" +
-                "\tp.duty,\n" +
-                "\tDATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
-                "\tDATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
-                "\tp.id,\n" +
-                "\tp.`name`,\n" +
-                "\tp.party_branch_id,\n" +
-                "\tp.party_group_no,\n" +
-                "\tp.party_no,\n" +
-                "\tDATE_FORMAT(p.create_time, '%Y-%m-%d')create_time\n" +
+        session = sessionFactory.getCurrentSession();//GROUP_CONCAT(u.username) AS userName
+        String sql =
+                "SELECT\n" +
+                "  p.duty,\n" +
+                "  DATE_FORMAT(p.founding_time, '%Y-%m-%d')founding_time,\n" +
+                "  DATE_FORMAT(p.change_time, '%Y-%m-%d')change_time,\n" +
+                "  DATE_FORMAT(p.create_time, '%Y-%m-%d')create_time,\n" +
+                "  p.id,\n" +
+                "  p.`name`,\n" +
+                "  count(u.id) count,\n" +
+                "  GROUP_CONCAT(u.username) AS userName,\n" +
+                "  p.party_branch_id,\n" +
+                "  p.party_group_no,\n" +
+                "  p.party_no\n" +
                 "FROM\n" +
-                "\tparty_group p\n" +
+                "  party_group p\n" +
+                "  join user u on p.id = u.party_groups_id\n" +
                 "WHERE\n" +
-                "\tp.can_use = 1";
+                "  p.can_use = 1 and u.can_use = 1 " +
+                "  group by p.id ";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +

@@ -8,6 +8,7 @@ import com.siqi_dangjian.service.impl.TipsService;
 import com.siqi_dangjian.util.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.apache.log4j.Logger;
@@ -578,7 +579,7 @@ public class MiniProgramController extends BaseController {
                 dateMap.put("end_time", end_time);
             }
 
-            if(limit != null && page != null){
+            if(limit == null || page == null){
                 setFail("缺少分页参数limit,page");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
@@ -651,6 +652,72 @@ public class MiniProgramController extends BaseController {
 
     }
 
+
+    /**
+     * 添加或更新
+     * @param id
+     * @param username
+     * @param sex
+     * @param education
+     * @param address
+     * @param company
+     * @param age
+     * @param dutyid
+     * @param joinTime
+     * @return
+     */
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public ModelMap addUser(@RequestParam(value = "id", required = false) Long id,
+                            @RequestParam(value = "dutyid", required = false) Long dutyid,
+                            @RequestParam(value = "partyGroupsId", required = false) Long partyGroupsId,
+                            @RequestParam(value = "partyTeamId", required = false) Long partyTeamId,
+                            @RequestParam(value = "username", required = false) String username,
+                            @RequestParam(value = "sex", required = false) Integer sex,
+                            @RequestParam(value = "education", required = false) String education,
+                            @RequestParam(value = "address", required = false) String address,
+                            @RequestParam(value = "company", required = false) String company,
+                            @RequestParam(value = "age", required = false) Integer age,
+                            @RequestParam(value = "ID_cord", required = false) String ID_cord,
+                            @RequestParam(value = "phone", required = false) String phone,
+                            @RequestParam(value = "join_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime) {
+
+        modelMap = new ModelMap();
+        User user;
+
+        try {
+            if (id != null) {
+                user = userService.getUserById(id);
+            } else {
+                user = new User();
+            }
+
+            user.setDutyId(dutyid);
+            user.setPartyGroupsId(partyGroupsId);
+            user.setPartyTeamId(partyTeamId);
+            user.setId(id);
+            user.setIDCord(ID_cord);
+            user.setAddress(address);
+            user.setAge(age);
+            user.setCompany(company);
+            user.setPhone(phone);
+            user.setEducation(education);
+            user.setSex(sex);
+            user.setUserName(username);
+            user.setJoinTime(joinTime);
+            user.setCanUse(1);
+            userService.addUser(user);
+            setSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("user-->userAdd", e);
+            setFail("用户添加失败");
+            return modelMap;
+        }
+        return modelMap;
+
+    }
+
     /** @apiGroup User
      * @api {GET} /getUserList 获取展示的党员信息列表
      * @apiDescription 获取展示的党员信息列表
@@ -700,7 +767,7 @@ public class MiniProgramController extends BaseController {
             dateMap.put("change_time", change_time);
         }
 
-        if(limit != null && page != null){
+        if(limit == null || page == null){
             setFail("缺少分页参数limit,page");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -741,7 +808,7 @@ public class MiniProgramController extends BaseController {
 
         modelMap = new ModelMap();
 
-        if(limit != null && page != null){
+        if(limit == null || page == null){
             setFail("缺少分页参数limit,page");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -804,7 +871,7 @@ public class MiniProgramController extends BaseController {
             dateMap.put("end_time", end_time);
         }
 
-        if(limit != null && page != null){
+        if(limit == null || page == null){
             setFail("缺少分页参数limit,page");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -906,7 +973,7 @@ public class MiniProgramController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-        if(limit != null && page != null){
+        if(limit == null || page == null){
             setFail("缺少分页参数limit,page");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;

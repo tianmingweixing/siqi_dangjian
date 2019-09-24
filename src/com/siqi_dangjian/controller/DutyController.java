@@ -70,7 +70,6 @@ public class DutyController extends BaseController{
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-
         try {
             Map map = dutyService.selectAllCategory(blurMap, intMap, dateMap);
             setData("list", map.get("list"));
