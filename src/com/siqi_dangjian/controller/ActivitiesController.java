@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.bean.ActivitiesType;
+import com.siqi_dangjian.bean.ActivityOfUser;
+import com.siqi_dangjian.bean.MeetingOfUser;
+import com.siqi_dangjian.service.IActivityOfUserService;
 import com.siqi_dangjian.service.impl.ActivityService;
 import com.siqi_dangjian.service.impl.ActivityTypeService;
 import com.siqi_dangjian.util.CommonString;
@@ -32,7 +35,87 @@ public class ActivitiesController extends BaseController{
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private IActivityOfUserService activityOfUserService;
+
     Logger logger = Logger.getRootLogger();
+
+
+    /**
+     * 会议签到
+     * @return
+     */
+    @RequestMapping("/signIn")
+    @ResponseBody
+    public ModelMap addMeetingSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                     @RequestParam(value = "activity_id", required = false) String activity_id) {
+
+        modelMap = new ModelMap();
+        ActivityOfUser activityOfUser;
+        try {
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  activityOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String activityId = String.valueOf(map.get("activity_id"));
+                    if (activityId.equals(activity_id)) {
+                        setMsg("用户已报名");
+                        return modelMap;
+                    }
+                }
+                activityOfUser = new ActivityOfUser();
+                activityOfUser.setActivityId(Long.valueOf(activity_id));
+                activityOfUser.setUserId(user_id);
+                activityOfUser.setCanUse(1);
+                activityOfUserService.insertOrUpdate(activityOfUser);
+                setSuccess();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("添加活动报名异常");
+            return modelMap;
+        }
+        return modelMap;
+    }
+
+
+    /**
+     * 取消活动报名
+     * @return
+     */
+    @RequestMapping("/cancelSignIn")
+    @ResponseBody
+    public ModelMap cancelSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                 @RequestParam(value = "activity_id", required = false) String activity_id) {
+
+        modelMap = new ModelMap();
+        try {
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  activityOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String activityId = String.valueOf(map.get("activity_id"));
+                    if (activityId.equals(activity_id)) {
+                        activityOfUserService.cancelSignIn(user_id,activity_id);
+                        setSuccess();
+                        setMsg("取消报名成功!");
+                        return modelMap;
+                    }
+                }
+            }
+            setFail("该用户没有签到");
+            setCode(CommonString.FRONT_EXPECTION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("取消报名失败");
+            setCode(CommonString.BACK_EXPECTION);
+            return modelMap;
+        }
+        return modelMap;
+
+    }
 
     /**
      * 查询列表
@@ -100,6 +183,7 @@ public class ActivitiesController extends BaseController{
         try {
             if (id != null) {
                 Activities activities = activityService.selectById(id);
+
                 view.addObject("id", activities.getId());
                 view.addObject("title", activities.getTitle());
                 view.addObject("party_branch_id", activities.getPartyBranchId());
@@ -110,6 +194,8 @@ public class ActivitiesController extends BaseController{
                 view.addObject("start_time", activities.getStartTime());
                 view.addObject("end_time", activities.getEndTime());
                 view.addObject("is_end", activities.getIsEnd());
+                String userNameStr =  activityService.selectSignInById(id);
+                view.addObject("userNameStr", userNameStr);
                 List<String> imgarr = new ArrayList<>();
                 imgarr.add(activities.getImagePathA());
                 imgarr.add(activities.getImagePathB());

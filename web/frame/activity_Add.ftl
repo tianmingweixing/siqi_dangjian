@@ -24,6 +24,12 @@
     <div style="width: 90%">
         <div class="container_div">
 
+            <div class="layui-form-item" style="display:none">
+                <label class="layui-form-label" style="margin-left: 85px">活动ID
+                    <div class="layui-input-inline"><input id="id" name="id" type=""  value="<#if id??>${id}<#else></#if>"/></div>
+
+            </div>
+
             <div class="layui-form-item input_row_margin_top">
                 <label class="layui-form-label ">活动标题</label>
                 <div class="layui-input-inline">
@@ -80,9 +86,9 @@
                     <div class="layui-form-item layui-form-text" >
                         <label class="layui-form-label">活动报名</label>
                         <div class="layui-input-inline">
-                                <textarea name="userName" id="userName" placeholder="" readonly
+                                <textarea name="userNameStr" id="userNameStr" placeholder="" readonly
                                           style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                                              max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+                                              max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userNameStr??>${userNameStr}<#else></#if></textarea>
                         </div>
                         <div class="layui-input-inline">
                             <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">报名管理</a>
@@ -166,7 +172,7 @@
 
 
     function addSignIn(){
-        document.fileForm.name.value = $("#name").val();
+        document.fileForm.name.value = $("#title").val();
         document.fileForm.activityId.value = $("#id").val();
 
         layer.open({
@@ -201,7 +207,7 @@
             url: "/activities/cancelSignIn",
             type : 'post',
             data :{
-                meeting_id : activity_id,
+                activity_id : activity_id,
                 user_id : user_id
             },
             success : function(data){
@@ -237,7 +243,7 @@
             url: "/activities/signIn",
             type : 'post',
             data :{
-                meeting_id : activity_id,
+                activity_id : activity_id,
                 user_id : user_id
             },
             success : function(data){
@@ -488,7 +494,7 @@
         form.on('submit(formDemo)', function (data) {
             var formData = new FormData();
 
-            if(pathArr.length > 2){
+            if(pathArr.length >2){
                 layer.msg("上传数量不能大于2张");
                 return false;
             }

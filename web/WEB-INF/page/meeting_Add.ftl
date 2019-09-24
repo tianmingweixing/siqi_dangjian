@@ -59,6 +59,7 @@
 
 </head>
 <body>
+<div style="width:1100px; position: relative; left:25%;">
 
 <form class="layui-form" action="">
     <div>
@@ -213,7 +214,7 @@
     </div>
 </form>
 
-
+</div>
 
 <div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
     <form  class="layui-form" name="fileForm" style="margin-top: 10px">

@@ -157,4 +157,24 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         return resMap;
     }
 
+    @Override
+    public String selectSignInById(Long id) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\tGROUP_CONCAT(u.username) AS userName\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "JOIN activity_of_user o ON a.id = o.activity_id\n" +
+                "JOIN USER u ON u.id = o.user_id\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND a.can_use = 1\n" +
+                "AND a.id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,id);
+        String userName = (String) query.uniqueResult();
+
+        return userName;
+    }
+
 }

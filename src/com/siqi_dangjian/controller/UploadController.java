@@ -38,7 +38,7 @@ public class UploadController extends BaseController{
                     String year = String.valueOf(now.get(Calendar.YEAR));
                     String month = String.valueOf(now.get(Calendar.MONTH) + 1);
                     String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-                    //本地路径
+                    //上传文件在本地的路径
                     String file_path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + saveFilename;
 
                     // 上传文件在服务器中的位置(目录绝对路径)

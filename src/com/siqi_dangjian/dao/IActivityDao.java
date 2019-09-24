@@ -23,4 +23,6 @@ public interface IActivityDao {
     Integer selectActivityCountByType(Long type_id) throws Exception;
 
     Map selectActivityGroupCount();
+
+    String selectSignInById(Long id) throws Exception;
 }

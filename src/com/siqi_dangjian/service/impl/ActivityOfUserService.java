@@ -53,4 +53,14 @@ public class ActivityOfUserService implements IActivityOfUserService {
         Map map =  activityOfUserDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public List selectListById(Long user_id) {
+        return activityOfUserDao.selectListById(user_id);
+    }
+
+    @Override
+    public void cancelSignIn(Long user_id, String activity_id) {
+        activityOfUserDao.cancelSignIn(user_id,activity_id);
+    }
 }

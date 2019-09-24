@@ -4,6 +4,9 @@ import com.siqi_dangjian.bean.ActivityOfUser;
 import com.siqi_dangjian.dao.IActivityOfUserDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -48,8 +51,6 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
     @Override
     public Map selectAll(Map blurMap, Map dateMap, Map intMap, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "\tSELECT * FROM \n" +
                 "\tactivity_of_user a\n" +
                 "\tWHERE\n" +
@@ -68,5 +69,25 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public List selectListById(Long user_id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select activity_id from activity_of_user where can_use = 1 and user_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,user_id);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        return list;
+    }
+
+    @Override
+    public void cancelSignIn(Long user_id, String activity_id) {
+         session = sessionFactory.getCurrentSession();
+        String  sql = "delete from activity_of_user where user_id = ? and activity_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,user_id);
+        query.setParameter(1,activity_id);
+        query.executeUpdate();
     }
 }

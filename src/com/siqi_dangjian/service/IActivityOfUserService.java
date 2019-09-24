@@ -19,4 +19,8 @@ public interface IActivityOfUserService {
     ActivityOfUser selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    List selectListById(Long user_id);
+
+    void cancelSignIn(Long user_id, String activity_id);
 }

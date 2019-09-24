@@ -77,4 +77,9 @@ public class ActivityService implements IActivityService {
         return activityDao.selectActivityGroupCount();
     }
 
+    @Override
+    public String selectSignInById(Long id) throws Exception {
+        return activityDao.selectSignInById(id);
+    }
+
 }
