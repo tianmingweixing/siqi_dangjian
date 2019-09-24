@@ -65,6 +65,21 @@ public class MiniProgramController extends BaseController {
 
     Logger logger = Logger.getRootLogger();
 
+
+
+
+
+    /** @apiGroup login
+     * @api {GET} /wx_login 微信登陆接口
+     * @apiDescription 微信登陆接口
+     * @apiParam {String} data 用户信息
+     *
+     * 微信登陆接口
+     * @param request
+     * @param session
+     * @param data
+     * @return
+     */
     @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
     @ResponseBody
     public ModelMap wxLogin(HttpServletRequest request, HttpSession session, String data) {
@@ -129,7 +144,14 @@ public class MiniProgramController extends BaseController {
     }
 
 
-    /**
+    /** @apiGroup Activity
+     * @api {GET} /getActivityTipsList 获取活动心得列表
+     * @apiDescription 获取活动心得列表
+     * @apiParam {String} title 标题
+     * @apiParam {String} userName 用户名
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页号
+     *
      * 查询心得表信息
      * @param title
      * @param userName
@@ -179,8 +201,16 @@ public class MiniProgramController extends BaseController {
     }
 
 
-    /**
-     * 添加活动心得
+    /** @apiGroup Activity
+     * @api {GET} /saveActivityTips 添加活动心得
+     * @apiDescription 添加活动心得
+     * @apiParam {Long} id 心得id
+     * @apiParam {String} content 心得内容
+     * @apiParam {Long} userId 用户id
+     * @apiParam {Long} activityId 活动id
+     * @apiParam {Long} party_branch_id 支部id
+     *
+     * 添加心得
      * @param id
      * @param content
      * @param userId
@@ -269,14 +299,40 @@ public class MiniProgramController extends BaseController {
     }
 
 
-    /**
+
+    /** @apiGroup Meeting
+     * @api {GET} /addMeetingGuide 添加会议指导
+     * @apiDescription 添加会议指导
+     * @apiParam {Long} id 会议id
+     * @apiParam {Long} userId 指导人
+     * @apiParam {Date} start_time 开始时间
+     * @apiParam {Date} end_time 结束时间
+     * @apiParam {String} compere 公司
+     * @apiParam {String} recorder 记录人
+     * @apiParam {String} people_counting 心得内容
+     * @apiParam {String} attendance 心得内容
+     * @apiParam {String} address 地址
+     * @apiParam {String} name 名称
+     * @apiParam {String} imgPath 会议图
+     * @apiParam {String} guide 心得内容
+     * @apiParam {String} content 内容
+     * @apiParam {Long} party_branch_id 支部id
+     *
      * 添加会议指导
-     * @param id .
-     * @param start_time .
-     * @param guide  会议指导
-     * @param name .
-     * @param content .
-     * @param meetingTypeId  1：支委会；2：党员大会；3：廉政...
+     * @param id
+     * @param userId
+     * @param start_time
+     * @param end_time
+     * @param compere
+     * @param recorder
+     * @param people_counting
+     * @param attendance
+     * @param address
+     * @param name
+     * @param images_a
+     * @param guide
+     * @param content
+     * @param meetingTypeId
      * @return
      */
     @RequestMapping("/addMeetingGuide")
@@ -359,7 +415,13 @@ public class MiniProgramController extends BaseController {
 
 
 
-    /**
+    /** @apiGroup Meeting
+     * @api {GET} /cancelSignIn 获取活动列表
+     * @apiDescription 获取活动列表
+     * @apiParam {Long} userId 用户id
+     * @apiParam {String} meetingId 会议id
+     * @apiParam {String} token 令牌
+     *
      * 会议签到
      * @return
      */
@@ -409,7 +471,13 @@ public class MiniProgramController extends BaseController {
 
     }
 
-    /**
+    /** @apiGroup Meeting
+     * @api {GET} /cancelSignIn 获取活动列表
+     * @apiDescription 获取活动列表
+     * @apiParam {Long} userId 用户id
+     * @apiParam {String} meetingId 会议id
+     * @apiParam {String} token 令牌
+     *
      * 取消会议签到
      * @return
      */
@@ -456,10 +524,18 @@ public class MiniProgramController extends BaseController {
 
     }
 
-
-
-    /**
-     * 查询活动列表
+    /** @apiGroup Activity
+     * @api {GET} /getActivityList 获取活动列表
+     * @apiDescription 获取活动列表
+     * @apiParam {String} title 标题
+     * @apiParam {Integer} type 活动类型
+     * @apiParam {String} start_time 开始时间
+     * @apiParam {String} end_time 结束时间
+     * @apiParam {String} token 令牌
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页号
+     *
+     * 获取活动列表
      * @param title
      * @param type
      * @param start_time
@@ -526,12 +602,15 @@ public class MiniProgramController extends BaseController {
     }
 
 
-
-
-
-    /**
+    /** @apiGroup User
+     * @api {GET} /setUser 编辑用户
+     * @apiDescription 编辑用户
+     * @apiParam {Long} id 用户id
+     * @apiParam {String} token 令牌
+     *
      * 编辑用户
-     * @param  id
+     * @param id
+     * @param token
      * @return
      */
     @RequestMapping(value = "/setUser")
@@ -572,9 +651,19 @@ public class MiniProgramController extends BaseController {
 
     }
 
-    /**
-     * 模糊查询用户信息
+    /** @apiGroup User
+     * @api {GET} /getUserList 获取展示的党员信息列表
+     * @apiDescription 获取展示的党员信息列表
+     * @apiParam {String} username 用户名
+     * @apiParam {String} company 公司
+     * @apiParam {String} founding_time 入党时间
+     * @apiParam {String} change_time 修改时间
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页号
+     *
+     * 获取展示的党员信息列表
      * @param username
+     * @param company
      * @param founding_time
      * @param change_time
      * @param limit
@@ -634,7 +723,12 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
+    /** @apiGroup Notice
+     * @api {GET} /getNoticeTitle 公告轮播信息
+     * @apiDescription 公告轮播信息
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页数
+     *
      * 公告轮播信息
      * @param limit
      * @param page
@@ -669,14 +763,22 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
-     * 查询公示公告表信息
+    /** @apiGroup Notice
+     * @api {GET} /getNoticeList 获取公示公告表列表
+     * @apiDescription 获取公示公告表列表
+     * @apiParam {String} title 标题
+     * @apiParam {String} start_time_search 开始时间
+     * @apiParam {String} end_time_search 结束时间
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页数
+     *
+     * 获取公示公告表列表
      * @param title 标题
      * @param limit
      * @param page
      * @return
      */
-    @RequestMapping("list")
+    @RequestMapping("getNoticeList")
     @ResponseBody
     public ModelMap getNoticeList(@RequestParam(value = "title", required = false) String title,
                                   @RequestParam(value = "start_time_search", required = false) String start_time,
@@ -726,8 +828,14 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-
-    /**
+    /** @apiGroup DisciplineOfHonor
+     * @api {GET} /getDisciplineOfHonorList 获取荣誉和违纪列表
+     * @apiDescription 获取公示公告表列表
+     * @apiParam {String} name 名称
+     * @apiParam {String} type 类型---0：荣誉 1：违纪
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页数
+     *
      * 查询荣誉和违纪表
      * 类型  0：荣誉   1：违纪
      * @param limit
@@ -776,7 +884,12 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
+    /** @apiGroup PartBranch
+     * @api {GET} /getPartBranchList 查询党支部信息
+     * @apiDescription 查询党支部信息
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页数
+     *
      * 查询党支部信息
      * @param limit
      * @param page
@@ -817,7 +930,10 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
+    /** @apiGroup Config
+     * @api {GET} /getConfig 查询系统信息
+     * @apiDescription 查询系统信息或轮播
+     *
      * 获取系统信息
      * @return
      */
@@ -847,7 +963,10 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
+    /** @apiGroup User
+     * @api {GET} /selectGroupCount 用户分类统计
+     * @apiDescription 用户分类统计(发展对象 2 积极分子；3 预备党员；4 正式党员)的数量
+     *
      * 用户分类统计(发展对象 2 积极分子；3 预备党员；4 正式党员)的数量
      * @return modelMap
      */
@@ -869,7 +988,10 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /**
+    /** @apiGroup Activity
+     * @api {GET} /selectActivityGroupCount 活动分类统计的数量
+     * @apiDescription 活动分类统计的数量 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
+     *
      * 活动分类统计的数量 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
      * @return modelMap
      */
