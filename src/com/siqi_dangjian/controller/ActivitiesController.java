@@ -132,6 +132,7 @@ public class ActivitiesController extends BaseController{
     public ModelMap getActivityList(@RequestParam(value = "title",required = false)String title,
                                     @RequestParam(value = "type",required = false)String type_id,
                                     @RequestParam(value = "brand_id",required = false)String brand_id,
+                                    @RequestParam(value = "activity_id",required = false)String activity_id,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
                                     @RequestParam(value = "limit", required=false)Integer limit,
@@ -147,6 +148,9 @@ public class ActivitiesController extends BaseController{
 
             if(type_id != null && type_id != "") {
                 intMap.put("type_id", type_id);
+            }
+            if(activity_id != null && activity_id != "") {
+                intMap.put("id", activity_id);
             }
             if(brand_id != null && brand_id != "") {
                 intMap.put("brand_id", brand_id);

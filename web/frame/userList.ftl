@@ -18,9 +18,10 @@
         <div class="layui-input-inline">
             <input type="text" id="name_search"  placeholder="用户名" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">单位</label>
+
+        <label class="layui-form-label ">用户ID</label>
         <div class="layui-input-inline">
-            <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
+            <input type="text" id="user_id_search"  placeholder="用户ID" autocomplete="off" class="layui-input">
         </div>
 
     </div>
@@ -31,6 +32,11 @@
             <select name="type_name" id="type_name">
                 <option value="">全部</option>
             </select>
+        </div>
+
+        <label class="layui-form-label ">单位</label>
+        <div class="layui-input-inline">
+            <input type="text" id="company_search"  placeholder="单位" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -183,22 +189,6 @@
 
     }
 
-    function addSympathyBtn(){
-
-        layer.open({
-            type: 2,
-            title: '添加用户页面',
-            shadeClose: true,
-            shade: false,
-            offset: 'default',
-            maxmin: true, //开启最大化最小化按钮
-            area: ['800px', '500px'],
-            content: ['/frame/sympathy_Add.ftl']
-        });
-    }
-
-
-
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
@@ -271,13 +261,15 @@
             reload:function () {
                 var username = $("#name_search").val();
                 var dutyid = $("#type_name").val();
-                var company=$("#company_search").val();
+                var company =$("#company_search").val();
+                var userId = $("#user_id_search").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         username:username,
                         company:company,
+                        userId:userId,
                         dutyid: dutyid
                     }
                 });
@@ -366,15 +358,21 @@
                 onDetailBtn(data);
 
             } else if (layEvent === 'addSympathy') {
+                window.PartitionData=data;
+                layer.open({
+                    type: 2,
+                    title: '添加慰问页面',
+                    shadeClose: true,
+                    shade: false,
+                    offset: 'default',
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['800px', '550px'],
+                    content: ['./sympathy_Add.ftl'],
+                    end: function () { //最后执行reload
+                        location.reload();
+                    }
+                });
 
-                addSympathyBtn(data);
-                //如果没有sympathyId 则不传
-               /* if (data.sympathyId == undefined){
-                    var parameter = + data.id  + '&addSympathy=' + 1 ;
-                }else {
-                    var parameter = + data.id + '&sympathyId=' + data.sympathyId + '&addSympathy=' + 1 ;
-                }
-                    window.location.href = '/user/setUser?id=' + parameter;*/
             }else if(layEvent === 'edit') {
                 //这行是监听到的表格行数据信息
                 window.PartitionData=data;

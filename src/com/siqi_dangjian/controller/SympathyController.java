@@ -84,9 +84,9 @@ public class SympathyController extends BaseController{
                                     @RequestParam(value = "unit_and_position", required = false) String unit_and_position,
                                     @RequestParam(value = "sympathy_product", required = false) String sympathyProduct,
                                     @RequestParam(value = "note", required = false) String note,
-                                    @RequestParam(value = "username", required = false) String userName,
-                                    @RequestParam(value = "age", required = false) Integer age,
-                                    @RequestParam(value = "sex", required = false) Integer sex,
+//                                    @RequestParam(value = "username", required = false) String userName,
+//                                    @RequestParam(value = "age", required = false) Integer age,
+//                                    @RequestParam(value = "sex", required = false) Integer sex,
                                     @RequestParam(value = "difficult", required = false) Integer difficult) {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -99,11 +99,11 @@ public class SympathyController extends BaseController{
             }else{
                 sympathy = new Sympathy();
             }
-            if (userId == null) {
-                user = new User();
-            }else{
-                user =  userService.getUserById(userId);
-            }
+//            if (userId == null) {
+//                user = new User();
+//            }else{
+//                user =  userService.getUserById(userId);
+//            }
 
                 sympathy.setId(sympathyId);
                 sympathy.setSympathyTime(sympathy_time);
@@ -115,12 +115,12 @@ public class SympathyController extends BaseController{
                 sympathy.setUserId(userId);
                 sympathyService.insertOrUpdate(sympathy);
 
-                user.setUserName(userName);
-                user.setId(userId);
-                user.setAge(age);
-                user.setSex(sex);
-                user.setCanUse(1);
-                userService.addUser(user);
+//                user.setUserName(userName);
+//                user.setId(userId);
+//                user.setAge(age);
+//                user.setSex(sex);
+//                user.setCanUse(1);
+//                userService.addUser(user);
                 setSuccess();
                 modelAndView.setViewName("frame/sympathyList");
 

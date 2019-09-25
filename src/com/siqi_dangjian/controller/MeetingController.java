@@ -262,6 +262,7 @@ public class MeetingController extends BaseController {
     @ResponseBody
     public ModelMap getMeetingList(@RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "meeting_type_id", required = false) String meeting_type_id,
+                                    @RequestParam(value = "meeting_id_search", required = false) String meeting_id_search,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
                                     @RequestParam(value = "limit", required = false) Integer limit,
@@ -276,6 +277,9 @@ public class MeetingController extends BaseController {
 
         if (StringUtils.isNotEmpty(meeting_type_id)) {
             intMap.put("meeting_type_id", meeting_type_id);
+        }
+        if (StringUtils.isNotEmpty(meeting_id_search)) {
+            intMap.put("id", meeting_id_search);
         }
 
         if (StringUtils.isNotEmpty(name)) {

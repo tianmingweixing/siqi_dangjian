@@ -252,7 +252,6 @@ var headImg = [];
 
             form.on('submit(formDemo)', function () {
 
-                // $("#head_img").attr('src',parent.PartitionData.head_img);
                 if(headImg.length == 0){
                     headImg.push(parent.PartitionData.head_img)
                 }

@@ -17,11 +17,17 @@
         <div class="layui-input-inline">
             <input type="text" id="name_search"  placeholder="会议名称" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">会议类型</label>
+
+        <!--<label class="layui-form-label">会议类型</label>-->
         <div class="layui-input-inline">
             <select name="meeting_type_id" id="meeting_type_id">
-                <option value="">全部</option>
+                <option value="">会议类型</option>
             </select>
+        </div>
+
+        <!--<label class="layui-form-label ">会议ID</label>-->
+        <div class="layui-input-inline">
+            <input type="text" id="meeting_id_search"  placeholder="会议ID" autocomplete="off" class="layui-input">
         </div>
     </div>
 </form>
@@ -238,11 +244,13 @@
             reload:function () {
                 var name = $("#name_search").val();
                 var meeting_type_id=$("#meeting_type_id").val();
+                var meeting_id_search=$("#meeting_id_search").val();
 
                 table.reload('demo',{
                     method:'get',
                     where:{
                         name:name,
+                        meeting_id_search:meeting_id_search,
                         meeting_type_id:meeting_type_id
                     }
                 });

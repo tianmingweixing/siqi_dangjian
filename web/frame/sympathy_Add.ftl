@@ -21,26 +21,26 @@
     <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label">用户ID</label>
         <div class="layui-input-inline">
-            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"  value=""/>
+            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" value=""/>
         </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">姓名</label>
+        <label class="layui-form-label ">用户姓名</label>
         <div class="layui-input-inline">
-            <input id="username" name="username" lay-verify="required" placeholder="请输入姓名" maxlength="20"
+            <input id="username" readonly name="username" lay-verify="required" placeholder="请输入姓名" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label " >年龄</label>
+        <label class="layui-form-label " >慰问时间</label>
         <div class="layui-input-inline">
-            <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
+            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
     </div>
 
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
+<!--    <div class="layui-form-item input_row_margin_top" style="display:none ">
         <label class="layui-form-label" style="margin-left: -7px">性别</label>
         <div class="layui-input-inline">
             <input type="radio" name="sex" value="1" title="男" >
@@ -53,13 +53,13 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-    </div>
+    </div>-->
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label" >慰问人单位及职务</label>
+        <label class="layui-form-label" >单位及职务</label>
         <div class="layui-input-inline">
-            <input id="unit_and_position" name="unit_and_position" lay-verify="required" placeholder="请输入单位及职务" maxlength="20"
+            <input id="unit_and_position" name="unit_and_position" lay-verify="required" placeholder="单位及职务" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
@@ -75,26 +75,13 @@
 
     </div>
 
-    <div class="layui-form-item input_row_margin_top">
-
-
-        <label class="layui-form-label " >慰问时间</label>
-        <div class="layui-input-inline">
-            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">
-        </div>
-        <div class="layui-form-mid layui-word-aux"></div>
-    </div>
-
-
-
 
     <div class="layui-form-item input_row_margin_top">
 
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">慰问品及信息</label>
+            <label class="layui-form-label">慰问信息</label>
             <div class="layui-input-block">
-            <textarea name="sympathy_product" id="sympathy_product" placeholder="请输入慰问品及信息"
+            <textarea name="sympathy_product" id="sympathy_product" placeholder="请输入慰问信息"
                       style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"></textarea>
             </div>
@@ -127,8 +114,16 @@
 
     $(function() {
 
+        if (parent.PartitionData) {
+            $("#userId").val(parent.PartitionData.id);
+            $("#username").val(parent.PartitionData.username);
 
+            /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
+               $("#nation").val(parent.PartitionData.nation);
+                $("#difficulty_type").val(parent.PartitionData.difficulty_type);
+                $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
 
+        }
 
         layui.use(['laydate','form'], function () {
             var form = layui.form;
@@ -138,28 +133,9 @@
 
             laydate.render({
                 elem: '#sympathy_time' //指定元素
-                ,type: 'datetime'
             });
 
-            $("#userId").change(function(){
-                $.ajax({
-                    url: "/user/getUserById",
-                    type: 'post',
-                    data: {
-                        userId : $("#userId").val()
-                    },
-                    success: function (data) {
-                        console.log(data.user.sex);
 
-                        layer.msg('用户查询成功', {icon: 1});
-                        $("#username").val(data.user.userName);
-                        $("#age").val(data.user.age);
-                        $("#phone").val(data.user.phone);
-                        $('input:radio').eq(data.user.sex).attr('checked', 'true');
-                        form.render();
-                    }
-                });
-            });
 
             form.on('submit(formDemo)', function () {
 
@@ -168,15 +144,11 @@
                     data: {
                         sympathyId: $("#sympathyId").val(),
                         userId: $("#userId").val(),
-                        username: $("#username").val(),
                         sympathy_product: $("#sympathy_product").val(),
-                        age: $("#age").val(),
                         unit_and_position: $("#unit_and_position").val(),
                         sympathy_time: $("#sympathy_time").val(),
-                        sex: $('input[name="sex"]:checked').val(),
                         note: $("#note").val(),
-                        difficult: $("#difficult").val(),
-                        phone: $("#phone").val()
+                        difficult: $("#difficult").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});

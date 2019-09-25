@@ -6,7 +6,6 @@ import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
-
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -63,9 +62,9 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\ta.content,\n" +
-                "\tDATE_FORMAT(a.create_time,'%y-%m-%d %h:%m:%s') create_time,\n" +
-                "\tDATE_FORMAT(a.start_time,'%y-%m-%d %h:%m:%s') start_time,\n" +
-                "\tDATE_FORMAT(a.end_time,'%y-%m-%d %h:%m:%s') end_time,\n" +
+                "\tDATE_FORMAT(a.create_time,'%Y-%m-%d') create_time,\n" +
+                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d') start_time,\n" +
+                "\tDATE_FORMAT(a.end_time,'%Y-%m-%d') end_time,\n" +
                 "\ta.id,\n" +
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +

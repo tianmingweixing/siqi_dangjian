@@ -18,6 +18,11 @@
         <div class="layui-input-inline">
             <input type="text" id="title"  placeholder="活动标题" autocomplete="off" class="layui-input">
         </div>
+
+        <label class="layui-form-label ">活动ID</label>
+        <div class="layui-input-inline">
+            <input type="text" id="activity_id_search"  placeholder="活动ID" autocomplete="off" class="layui-input">
+        </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label" >活动类型</label>
@@ -178,6 +183,7 @@
         var $ = layui.$, active = {
             reload: function () {
                 var title = $("#title").val();
+                var activity_id = $("#activity_id_search").val();
                 var type = $("#type_search").val();
                 var brand_id = $("#brand_search").val();
                 var start_time = $("#start_time_search").val();
@@ -188,6 +194,7 @@
                         title: title,
                         type: type,
                         brand_id: brand_id,
+                        activity_id: activity_id,
                         start_time: start_time,
                         end_time: end_time
                     }
