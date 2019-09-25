@@ -61,8 +61,6 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "SELECT\n" +
                 "\ta.content,\n" +
                 "\tDATE_FORMAT(a.create_time,'%y-%m-%d %h:%m:%s') create_time,\n" +
@@ -71,7 +69,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.id,\n" +
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +
-                "\ta.is_end,\n" +
+                "\ta.status,\n" +
                 "\ta.party_branch_id,\n" +
                 "\ta.review,\n" +
                 "\ta.title,\n" +

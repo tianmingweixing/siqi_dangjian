@@ -108,6 +108,7 @@ public class PartyTeamController extends BaseController{
         try {
             PartyTeam partyTeam = new PartyTeam();
             partyTeam.setId(id);
+            partyTeam.setPartyBranchId(1L);
             partyTeam.setPartyGroupNo(partyGroupNo);
             partyTeam.setPartyNo(partyNo);
             partyTeam.setDuty(duty);

@@ -97,7 +97,9 @@
     <div class="layui-progress-bar " lay-percent="100%"></div>
 </div>
 
-<form class="layui-form" name="fileForm" action="">
+<div style="width:1100px; position: relative; left:26%;">
+
+<form class="layui-form " name="fileForm" action="">
 
 <br>
     <div class="layui-input-inline" style="display: none">
@@ -139,18 +141,17 @@
         <label class="layui-form-label">党支部职责</label>
         <div class="layui-input-block">
             <textarea name="duty" id="duty" placeholder="请输入党支部职责"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
+                      style="margin-top:15px;width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 180px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
         </div>
 
-        <label class="layui-form-label">党支部简介</label>
-        <div class="layui-input-block">
+        <label class="layui-form-label" >党支部简介</label>
+        <div class="layui-input-inline">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 200px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
+                      style="margin-top:15px; width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                             max-width: 1500px; height: 180px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
     </div>
-
 
 
     <div class="layui-form-item input_row_margin_top">
@@ -159,9 +160,10 @@
         <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
             <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" name ="backimg" src="<#if party_img??>${party_img}<#else></#if>" height="300" width="500" alt="" style="margin-top: 10px">
+            <img id="backimg" name ="backimg" src="<#if party_img??>${party_img}<#else>\images\defaultImg.jpg</#if>" height="200" width="300" alt="" style="margin-top: 10px">
         </div>
     </div>
+
 
 
 
@@ -176,6 +178,7 @@
 
 
 </form>
+</div>
 
 <script>
 

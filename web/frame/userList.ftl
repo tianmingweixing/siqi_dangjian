@@ -143,7 +143,6 @@
 
     function onAddUserBtn(){
 
-
         layer.open({
             type: 2,
             title: '添加用户页面',
@@ -183,6 +182,23 @@
         });
 
     }
+
+    function addSympathyBtn(){
+
+        layer.open({
+            type: 2,
+            title: '添加用户页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'default',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['800px', '500px'],
+            content: ['/frame/sympathy_Add.ftl']
+        });
+    }
+
+
+
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
@@ -281,7 +297,6 @@
             switch(obj.event){
                 case 'add':
                     onAddUserBtn();
-                    // window.location.href='/user/gotoAdd';
                     break;
                 case 'update':
                    /* if(data.length === 0){
@@ -351,13 +366,15 @@
                 onDetailBtn(data);
 
             } else if (layEvent === 'addSympathy') {
+
+                addSympathyBtn(data);
                 //如果没有sympathyId 则不传
-                if (data.sympathyId == undefined){
+               /* if (data.sympathyId == undefined){
                     var parameter = + data.id  + '&addSympathy=' + 1 ;
                 }else {
                     var parameter = + data.id + '&sympathyId=' + data.sympathyId + '&addSympathy=' + 1 ;
                 }
-                    window.location.href = '/user/setUser?id=' + parameter;
+                    window.location.href = '/user/setUser?id=' + parameter;*/
             }else if(layEvent === 'edit') {
                 //这行是监听到的表格行数据信息
                 window.PartitionData=data;

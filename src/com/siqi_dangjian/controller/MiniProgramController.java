@@ -100,27 +100,29 @@ public class MiniProgramController extends BaseController {
                 String openId = object.getString("openid");
                 String session_key = object.getString("session_key");
 
+                //获取微信用户信息
+                JSONObject wechatUserInfo = JSONObject.fromObject(data);
+                String avatarUrl = wechatUserInfo.getString("avatarUrl");
+                String nickName = wechatUserInfo.getString("nickName");
+                String gender = wechatUserInfo.getString("gender");
+
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
                     if (user == null) {
                         user = new User();
                         user.setOpenId(openId);
                         user.setCanUse(1);
+                        user.setHeadImg(avatarUrl);
                     }
 
-                    //4 . 更新sessionKey和 登陆时间U
+                    //4 . 更新sessionKey和 登陆时间
                     user.setSessionKey(session_key);
                     user.setLastTime(new Date());
 
-                    //获取微信用户信息
-                    JSONObject wechatUserInfo = JSONObject.fromObject(data);
-                    String avatarUrl = wechatUserInfo.getString("avatarUrl");
-                    String nickName = wechatUserInfo.getString("nickName");
-                    String gender = wechatUserInfo.getString("gender");
-                    user.setHeadImg(avatarUrl);
                     user.setNickName(nickName);
                     user.setSex(Integer.valueOf(gender));
                     userService.addUser(user);
+
 
                     //jwt 过期时间 7天
                     Date expiration = new Date(System.currentTimeMillis() + TOKEN_EXP);
@@ -695,6 +697,7 @@ public class MiniProgramController extends BaseController {
             user.setDutyId(dutyid);
             user.setPartyGroupsId(partyGroupsId);
             user.setPartyTeamId(partyTeamId);
+            user.setPartyBranchId(1L);
             user.setId(id);
             user.setIDCord(ID_cord);
             user.setAddress(address);
@@ -708,10 +711,12 @@ public class MiniProgramController extends BaseController {
             user.setCanUse(1);
             userService.addUser(user);
             setSuccess();
+            setMsg("用户添加成功");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("user-->userAdd", e);
             setFail("用户添加失败");
+            setCode(CommonString.BACK_EXPECTION);
             return modelMap;
         }
         return modelMap;

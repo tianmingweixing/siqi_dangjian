@@ -58,10 +58,10 @@ public class Activities extends BaseBean{
     public Date endTime;
 
     /**
-     * 是否结束
+     * 活动状态 0：筹备 1： 进行 2： 结束
      */
-    @Column(name="is_end",length = 8,nullable = true)
-    public Integer isEnd;
+    @Column(name="status",length = 8,nullable = true)
+    public Integer status;
 
 
     /**
@@ -123,12 +123,12 @@ public class Activities extends BaseBean{
         this.endTime = endTime;
     }
 
-    public Integer getIsEnd() {
-        return isEnd;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIsEnd(Integer isEnd) {
-        this.isEnd = isEnd;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getImagePathA() {

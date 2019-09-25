@@ -109,6 +109,7 @@ public class PartyGroupController extends BaseController{
         try {
             PartyGroup partyGroup = new PartyGroup();
             partyGroup.setId(id);
+            partyGroup.setPartyBranchId(1L);
             partyGroup.setDuty(duty);
             partyGroup.setFoundingTime(foundingTime);
             partyGroup.setChangeTime(changeTime);

@@ -60,9 +60,10 @@
             <div class="layui-form-item input_row_margin_top">
                 <label class="layui-form-label">活动状态</label>
                 <div class="layui-input-inline">
-                    <select id="is_end" name="is_end" lay-filter="select_first_category">
-                        <option value='0'>进行中</option>
-                        <option value='1'>已结束</option>
+                    <select id="status" name="status" lay-filter="select_first_category">
+                        <option value='0'>筹备中</option>
+                        <option value='1'>进行中</option>
+                        <option value='2'>已结束</option>
                     </select>
                 </div>
 
@@ -511,7 +512,7 @@
                     brand_id: $("#brand_search").val(),
                     start_time: $("#start_time").val(),
                     end_time: $("#end_time").val(),
-                    is_end: $("#is_end").val(),
+                    status: $("#status").val(),
                     image_path_a: pathArr[0],
                     image_path_b: pathArr[1],
                     id: id

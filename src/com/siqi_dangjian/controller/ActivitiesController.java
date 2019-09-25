@@ -193,7 +193,7 @@ public class ActivitiesController extends BaseController{
                 view.addObject("brandId", activities.getBrandId());
                 view.addObject("start_time", activities.getStartTime());
                 view.addObject("end_time", activities.getEndTime());
-                view.addObject("is_end", activities.getIsEnd());
+                view.addObject("status", activities.getStatus());
                 String userNameStr =  activityService.selectSignInById(id);
                 view.addObject("userNameStr", userNameStr);
                 List<String> imgarr = new ArrayList<>();
@@ -224,7 +224,7 @@ public class ActivitiesController extends BaseController{
      * @param type_id
      * @param start_time
      * @param end_time
-     * @param is_end
+     * @param status
      * @param image_path_a
      * @param image_path_b
      * @param party_branch_id
@@ -239,7 +239,7 @@ public class ActivitiesController extends BaseController{
                                  @RequestParam(value = "brand_id", required = false) Long brand_id,
                                  @RequestParam(value = "start_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start_time,
                                  @RequestParam(value = "end_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end_time,
-                                 @RequestParam(value = "is_end", required = false) Integer is_end,
+                                 @RequestParam(value = "status", required = false) Integer status,
                                  @RequestParam(value = "image_path_a", required = false) String image_path_a,
                                  @RequestParam(value = "image_path_b", required = false) String image_path_b,
                                  @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
@@ -256,7 +256,7 @@ public class ActivitiesController extends BaseController{
             activities.setTypeId(type_id);
             activities.setBrandId(brand_id);
             activities.setContent(content);
-            activities.setIsEnd(is_end);
+            activities.setStatus(status);
             activities.setImagePathA(image_path_a);
             activities.setImagePathB(image_path_b);
             activities.setStartTime(start_time);

@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title> 党支部后台</title>
-    <link rel="stylesheet" href="../../js/layui/css/layui.css">
-    <script src="../../js/layui/layui.js"></script>
-    <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../js/layui/css/layui.css">
+    <link  href="../js/layui/layui.all.js">
+    <script src="../js/layui/layui.js"></script>
+    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 
@@ -106,12 +107,19 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-            <label class="layui-form-label" >所属党小组</label>
-            <div class="layui-input-inline">
-                <select name="partyTeam_name" id="partyTeam_name">
-                    <option value="">没有则不选</option>
-                </select>
-            </div>
+        <label class="layui-form-label">所属党小组</label>
+        <div class="layui-input-inline">
+            <select name="partyTeam_name" id="partyTeam_name">
+                <option value="">没有则不选</option>
+            </select>
+        </div>
+
+        <div class="layui-input-inline" style="margin-left: 103px;">
+            <button type="button" style="background-color: #5fb878" class="layui-btn" id="test1">
+                <i class="layui-icon">&#xe67c;</i>上传头像
+            </button>
+        </div>
+
     </div>
 
 
@@ -128,6 +136,8 @@
 
 <script>
 
+var headImg = [];
+
     $(function() {
 
         if (parent.PartitionData) {
@@ -142,16 +152,16 @@
             $("#id").val(parent.PartitionData.id);
 
             /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
-               $("#head_img").attr('src',parent.PartitionData.head_img);
                $("#nation").val(parent.PartitionData.nation);
                 $("#difficulty_type").val(parent.PartitionData.difficulty_type);
                 $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
+
         }
 
 
-        layui.use(['laydate', 'layer', 'table', 'carousel', 'element', 'form'], function () {
+        layui.use(['laydate', 'layer','upload', 'table', 'carousel', 'element', 'form'], function () {
             var form = layui.form;
-
+            var upload = layui.upload;
             var laydate = layui.laydate //日期
                     ,layer = layui.layer //弹层
                     ,element = layui.element;//元素操作
@@ -161,6 +171,21 @@
                 ,btns: ['confirm']
                 ,theme: 'grid'
                 ,trigger: 'click'
+            });
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#test1' //绑定元素
+                ,url: '/upload/uploadImage' //上传接口
+                ,done: function(res){
+                    //上传完毕回调
+                    headImg.push(res.src);
+                    // layer.msg("上传成功！");
+                }
+                ,error: function(){
+                    //请求异常回调
+                    layer.msg("上传失败！");
+                }
             });
 
             if (parent.PartitionData) {
@@ -224,9 +249,15 @@
             });
 
 
+
             form.on('submit(formDemo)', function () {
 
-                        $.ajax({
+                // $("#head_img").attr('src',parent.PartitionData.head_img);
+                if(headImg.length == 0){
+                    headImg.push(parent.PartitionData.head_img)
+                }
+
+                $.ajax({
                             url: "/user/addUser",
                             data: {
                                 id: $("#id").val(),
@@ -241,6 +272,7 @@
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),
                                 company: $("#company").val(),
+                                head_img: headImg.toString(),
                                 phone: $("#phone").val()
                             },
                             success: function () {

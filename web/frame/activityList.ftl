@@ -162,6 +162,7 @@
                 , {field: 'content', title: '活动内容'}
                 , {field: 'type_name', title: '活动类型'}
                 , {field: 'brand_name', title: '活动品牌'}
+                , {field: 'status', title: '活动状态',hide:true}
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
                 , {field: 'review', title: '点评'}

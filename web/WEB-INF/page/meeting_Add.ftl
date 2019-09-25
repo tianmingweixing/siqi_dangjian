@@ -59,7 +59,7 @@
 
 </head>
 <body>
-<div style="width:1100px; position: relative; left:25%;">
+<div style="width:1100px; position: relative; left:17%;">
 
 <form class="layui-form" action="">
     <div>
@@ -154,7 +154,7 @@
         <label class="layui-form-label">会议内容</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入会议内容"
-                      style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                      style="width: 880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
     </div>
@@ -163,7 +163,7 @@
         <label class="layui-form-label">会议指导</label>
         <div class="layui-input-block">
                 <textarea name="guide" id="guide" placeholder="请输入会议指导"
-                          style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                          style="width: 880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
                               max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
         </div>
     </div>
@@ -173,7 +173,7 @@
             <label class="layui-form-label">会议签到</label>
             <div class="layui-input-inline">
                     <textarea name="userName" id="userName" placeholder="会议签到" readonly
-                              style="width: 931px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              style="width:880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
                                   max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
             </div>
             <div class="layui-input-inline">
@@ -192,7 +192,7 @@
                 </div>
             </blockquote>
 
-            <div class="mark_button" style=" margin-top: -30px; width: 65%;">
+            <div class="mark_button" style="    margin-top: -12px; width: 88%;">
                 <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择会议图片</button>
 <!--
                 <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
