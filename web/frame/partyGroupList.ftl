@@ -54,7 +54,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">编辑</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{

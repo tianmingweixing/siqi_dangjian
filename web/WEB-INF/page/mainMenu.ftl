@@ -27,7 +27,7 @@
                         <dd class="layui-this"><a onclick="branch_1()">支部信息</a></dd>
                         <dd><a onclick="branch_2()">班子管理</a></dd>
                         <dd><a onclick="branch_3()">党组管理</a></dd>
-                        <dd><a onclick="branch_4()">图片上传</a></dd>
+                        <!--<dd><a onclick="branch_4()">图片上传</a></dd>-->
                     </dl>
                 </li>
 
