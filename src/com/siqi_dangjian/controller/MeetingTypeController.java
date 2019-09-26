@@ -135,7 +135,6 @@ public class MeetingTypeController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-
         try {
             Map map = meetingTypeService.selectAllCategory(blurMap, intMap, dateMap);
             setData("list", map.get("list"));

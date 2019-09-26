@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -90,12 +91,13 @@ public class PartyBranchController extends BaseController{
     @RequestMapping("/setPartyBranch")
     public ModelAndView setPartyBranch(@RequestParam(value = "id", required = false) Long id,HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        PartyBranch partyBranch;
-
+        PartyBranch partyBranch = null;
+        SimpleDateFormat sdf_input = new SimpleDateFormat("yyyyMMddhhmmss");//输入格式 SimpleDateFormat sdf_target =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //转化成为的目标格式
+        String str = String.valueOf(partyBranch.getFoundingTime());
+            String dateStr = sdf_input.format(str);
         try {
             if (id != null) {
                 partyBranch = partyBranchService.selectById(id);
-
                 view.addObject("id", partyBranch.getId());
                 view.addObject("name", partyBranch.getName());
                 view.addObject("partyMemberCount", partyBranch.getPartyMemberCount());

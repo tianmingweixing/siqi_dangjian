@@ -141,14 +141,14 @@
         <label class="layui-form-label">党支部职责</label>
         <div class="layui-input-block">
             <textarea name="duty" id="duty" placeholder="请输入党支部职责"
-                      style="margin-top:15px;width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                      style="margin-top:15px;width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 180px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
         </div>
 
         <label class="layui-form-label" >党支部简介</label>
         <div class="layui-input-inline">
             <textarea name="partyInfo" id="partyInfo" placeholder="请输入支部简介"
-                      style="margin-top:15px; width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                      style="margin-top:15px; width: 600px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
                              max-width: 1500px; height: 180px; max-height: 1000px; outline: 0;"><#if partyInfo??>${partyInfo}<#else></#if></textarea>
         </div>
     </div>

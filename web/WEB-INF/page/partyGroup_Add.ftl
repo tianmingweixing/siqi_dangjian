@@ -45,7 +45,7 @@
         <label class="layui-form-label">班子职责</label>
         <div class="layui-input-block">
             <textarea name="duty" id="duty" placeholder="请输入班子职责"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if duty??>${duty}<#else></#if></textarea>
         </div>
     </div>

@@ -42,7 +42,7 @@
 
 </form>
 
-<div id="lookDetail" style="display: none;>
+<div id="lookDetail" style="display: none;">
     <form class="layui-form" id="add-form" action="">
         <input type="hidden" id="id"  value="" style="width: 240px">
 
@@ -116,21 +116,21 @@
 </div>
 
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <i class="layui-icon" lay-event="add">&#xe654;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <i class="layui-icon" lay-event="delete">&#xe640;</i>
+        </button>
+    </div>
 </script>
+
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="detail">查看</a>
-    <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy"><i class="layui-icon"></i>添加慰问</a>
+    <a class="layui-btn  layui-btn-sm layui-btn-normal" lay-event="addSympathy">添加慰问</a>
 </script>
-<style>
-    .layui_open_fail{
-        text-align: center;
-        border-radius: 5px;
-    }
-</style>
 
 
 <script type="text/html" id="img">
@@ -230,7 +230,7 @@
             ,url: '/user/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
-            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar: '#barDemo1'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
@@ -289,25 +289,6 @@
             switch(obj.event){
                 case 'add':
                     onAddUserBtn();
-                    break;
-                case 'update':
-                   /* if(data.length === 0){
-                        layer.msg('请选择一行');
-                    } else if(data.length > 1){
-                        layer.msg('只能同时编辑一个');
-                    } else {
-
-                        if (data[0].party_groups_id != undefined){
-                            var parameter = + data[0].id  + '&partyGroupsId='+data[0].party_groups_id;
-                        }
-                        if(data[0].party_team_id != undefined && data[0].party_groups_id != undefined){
-                            var parameter =  + data[0].id  + '&partyGroupsId='+data[0].party_groups_id +'&partyTeamId='+data[0].party_team_id;
-                        }
-                        if(data[0].party_team_id == undefined && data[0].party_groups_id == undefined){
-                            var parameter = + data[0].id;
-                        }
-                        window.location.href='/user/setUser?id=' + parameter;
-                    }*/
                     break;
                 case 'delete':
                     if(data.length === 0){

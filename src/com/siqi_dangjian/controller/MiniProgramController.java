@@ -28,6 +28,10 @@ import java.util.*;
 public class MiniProgramController extends BaseController {
 
     @Autowired
+    private IMeetingTypeService meetingTypeService;
+
+
+    @Autowired
     private IMeetingService meetingService;
 
     @Autowired
@@ -143,6 +147,34 @@ public class MiniProgramController extends BaseController {
         }
         return modelMap;
     }
+
+
+    /**
+     * 查询文档分类
+     * @return
+     */
+    @RequestMapping("/getMeetingCategoryList")
+    @ResponseBody
+    public ModelMap getMeetingCategoryList() {
+        modelMap = new ModelMap();
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
+
+        try {
+            Map map = meetingTypeService.selectAllCategory(blurMap, intMap, dateMap);
+            setData("list", map.get("list"));
+        } catch (Exception e) {
+            setFail("查询会议分类异常 X﹏X");
+            setCode(CommonString.BACK_EXPECTION);
+            e.printStackTrace();
+            logger.error("MeetingType--->allCategory", e);
+        }
+        setSuccess();
+        return modelMap;
+    }
+
+
 
 
     /**
