@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -31,6 +32,10 @@ public class MiniProgramController extends BaseController {
 
     @Autowired
     private IMeetingOfUserService meetingOfUserService;
+
+
+    @Autowired
+    private IActivityOfUserService activityOfUserService;
 
 
     @Autowired
@@ -67,19 +72,12 @@ public class MiniProgramController extends BaseController {
     Logger logger = Logger.getRootLogger();
 
 
-
-
-
-    /** @apiGroup login
+    /**
+     * @return
+     * @apiGroup login
      * @api {GET} /wx_login 微信登陆接口
      * @apiDescription 微信登陆接口
      * @apiParam {String} data 用户信息
-     *
-     * 微信登陆接口
-     * @param request
-     * @param session
-     * @param data
-     * @return
      */
     @RequestMapping(value = "/wx_login", method = RequestMethod.GET)
     @ResponseBody
@@ -147,45 +145,40 @@ public class MiniProgramController extends BaseController {
     }
 
 
-    /** @apiGroup Activity
+    /**
+     * @return
+     * @apiGroup Activity
      * @api {GET} /getActivityTipsList 获取活动心得列表
      * @apiDescription 获取活动心得列表
      * @apiParam {String} title 标题
      * @apiParam {String} userName 用户名
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页号
-     *
-     * 查询心得表信息
-     * @param title
-     * @param userName
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("/getActivityTipsList")
     @ResponseBody
-    public ModelMap getActivityTipsList(@RequestParam(value = "title",required = false)String title,
-                                        @RequestParam(value = "userName",required = false)String userName,
-                                        @RequestParam(value = "limit", required=false)Integer limit,
-                                        @RequestParam(value = "page", required=false)Integer page){
+    public ModelMap getActivityTipsList(@RequestParam(value = "title", required = false) String title,
+                                        @RequestParam(value = "userName", required = false) String userName,
+                                        @RequestParam(value = "limit", required = false) Integer limit,
+                                        @RequestParam(value = "page", required = false) Integer page) {
         modelMap = new ModelMap();
         try {
             Map blurMap = new HashMap<>();
             Map dateMap = new HashMap<>();
-            Map intMap  = new HashMap<>();
+            Map intMap = new HashMap<>();
 
-            if(StringUtils.isNotEmpty(title)) {
+            if (StringUtils.isNotEmpty(title)) {
                 blurMap.put("title", title);
             }
-            if(StringUtils.isNotEmpty(userName)) {
+            if (StringUtils.isNotEmpty(userName)) {
                 blurMap.put("user_name", userName);
             }
 
-            if(limit == null || page == null){
-                setFail("缺少分页参数limit,page");
+            if (limit == null || page == null) {
+                setFail("缺少分页参数limit,page (°_°) (°_°)");
                 setCode(CommonString.FRONT_EXPECTION);
-            }else{
-                Map map = tipsService.selectAll(blurMap,intMap,dateMap,limit,page);
+            } else {
+                Map map = tipsService.selectAll(blurMap, intMap, dateMap, limit, page);
 
                 List list = (List<Map>) map.get("list");
                 Integer count = (int) map.get("count");
@@ -195,16 +188,18 @@ public class MiniProgramController extends BaseController {
                 setSuccess();
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             setCode(CommonString.FRONT_EXPECTION);
-            setFail("查询活动心得信息异常");
+            setFail("查询活动心得信息异常 X﹏X");
         }
         return modelMap;
     }
 
 
-    /** @apiGroup Activity
+    /**
+     * @return
+     * @apiGroup Activity
      * @api {GET} /saveActivityTips 添加活动心得
      * @apiDescription 添加活动心得
      * @apiParam {Long} id 心得id
@@ -212,14 +207,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {Long} userId 用户id
      * @apiParam {Long} activityId 活动id
      * @apiParam {Long} party_branch_id 支部id
-     *
-     * 添加心得
-     * @param id
-     * @param content
-     * @param userId
-     * @param activityId
-     * @param party_branch_id
-     * @return
      */
     @ResponseBody
     @RequestMapping(value = "/saveActivityTips", method = RequestMethod.POST)
@@ -242,28 +229,28 @@ public class MiniProgramController extends BaseController {
             }
 
             //判断用户是否存在
-            if (userId != null){
+            if (userId != null) {
                 user = userService.getUserById(userId);
-                if (user == null){
+                if (user == null) {
                     setFail("该用户不存在");
                     setCode(CommonString.FRONT_EXPECTION);
                     return modelMap;
                 }
-            }else{
+            } else {
                 setFail("请输入用户ID");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
             }
 
             //判断活动是否存在
-            if (activityId != null){
+            if (activityId != null) {
                 activities = activityService.selectById(activityId);
-                if (activities == null){
+                if (activities == null) {
                     setFail("该活动不存在");
                     setCode(CommonString.FRONT_EXPECTION);
                     return modelMap;
                 }
-            }else{
+            } else {
                 setFail("请输入活动ID");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
@@ -275,9 +262,9 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (id != null){
+            if (id != null) {
                 tips = tipsService.selectById(id);
-            }else{
+            } else {
                 tips = new Tips();
             }
 
@@ -295,15 +282,16 @@ public class MiniProgramController extends BaseController {
             e.printStackTrace();
             setCode(CommonString.BACK_EXPECTION);
             setFail("添加活动心得失败");
-            if(CommonString.IS_OPEN_LOG)
-            logger.error("mini--->活动心得添加异常：",e);
+            if (CommonString.IS_OPEN_LOG)
+                logger.error("mini--->活动心得添加异常 X﹏X：", e);
         }
         return modelMap;
     }
 
 
-
-    /** @apiGroup Meeting
+    /**
+     * @return
+     * @apiGroup Meeting
      * @api {GET} /addMeetingGuide 添加会议指导
      * @apiDescription 添加会议指导
      * @apiParam {Long} id 会议id
@@ -320,23 +308,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {String} guide 心得内容
      * @apiParam {String} content 内容
      * @apiParam {Long} party_branch_id 支部id
-     *
-     * 添加会议指导
-     * @param id
-     * @param userId
-     * @param start_time
-     * @param end_time
-     * @param compere
-     * @param recorder
-     * @param people_counting
-     * @param attendance
-     * @param address
-     * @param name
-     * @param images_a
-     * @param guide
-     * @param content
-     * @param meetingTypeId
-     * @return
      */
     @RequestMapping("/addMeetingGuide")
     @ResponseBody
@@ -361,7 +332,7 @@ public class MiniProgramController extends BaseController {
         try {
 
             if (!JwtUtil.checkToken(token)) {
-                setFail("用户登陆信息过期,请重新登陆");
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
                 setCode(CommonString.TOKEN_CHECK_FAIL);
                 return modelMap;
             }
@@ -370,7 +341,7 @@ public class MiniProgramController extends BaseController {
                 setFail("请输入会议ID");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
-            }else{
+            } else {
                 meeting = meetingService.selectById(id);
             }
 
@@ -409,7 +380,7 @@ public class MiniProgramController extends BaseController {
             e.printStackTrace();
             setFail("会议指导添加失败");
             setCode(CommonString.BACK_EXPECTION);
-            logger.error("mini--->会议指导添加失败：",e);
+            logger.error("mini--->会议指导添加失败：", e);
 
         }
         return modelMap;
@@ -418,17 +389,114 @@ public class MiniProgramController extends BaseController {
 
 
 
-    /** @apiGroup Meeting
-     * @api {GET} /cancelSignIn 获取活动列表
-     * @apiDescription 获取活动列表
+
+    /**
+     * 活动报名
+     * @return
+     */
+    @RequestMapping("/addActivitySignIn")
+    @ResponseBody
+    public ModelMap addActivitySignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                      @RequestParam(value = "activity_id", required = false) String activity_id,
+                                     @RequestParam(value = "token", required = false) String token) {
+
+        modelMap = new ModelMap();
+        ActivityOfUser activityOfUser;
+        try {
+
+            if (!JwtUtil.checkToken(token)) {
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
+                setCode(CommonString.TOKEN_CHECK_FAIL);
+                return modelMap;
+            }
+
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  activityOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String activityId = String.valueOf(map.get("activity_id"));
+                    if (activityId.equals(activity_id)) {
+                        setMsg("用户已报名");
+                        return modelMap;
+                    }
+                }
+                activityOfUser = new ActivityOfUser();
+                activityOfUser.setActivityId(Long.valueOf(activity_id));
+                activityOfUser.setUserId(user_id);
+                activityOfUser.setCanUse(1);
+                activityOfUserService.insertOrUpdate(activityOfUser);
+                setSuccess();
+                setMsg("活动报名成功(>‿◠)✌");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("添加活动报名异常 X﹏X");
+        }
+        return modelMap;
+    }
+
+
+    /**
+     * 取消活动报名
+     * @return
+     */
+    @RequestMapping("/cancelActivitySignIn")
+    @ResponseBody
+    public ModelMap cancelActivitySignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                         @RequestParam(value = "activity_id", required = false) String activity_id,
+                                         @RequestParam(value = "token", required = false) String token) {
+
+        modelMap = new ModelMap();
+        try {
+
+            if (!JwtUtil.checkToken(token)) {
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
+                setCode(CommonString.TOKEN_CHECK_FAIL);
+                return modelMap;
+            }
+
+            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+                List  list =  activityOfUserService.selectListById(user_id);
+
+                for(int i=0;i<list.size();i++){
+                    Map map = (Map) list.get(i);
+                    String activityId = String.valueOf(map.get("activity_id"));
+                    if (activityId.equals(activity_id)) {
+                        activityOfUserService.cancelSignIn(user_id,activity_id);
+                        setSuccess();
+                        setMsg("取消报名成功(>‿◠)✌");
+                        return modelMap;
+                    }
+                }
+            }
+            setFail("该用户没有报名");
+            setCode(CommonString.FRONT_EXPECTION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("取消报名失败");
+            setCode(CommonString.BACK_EXPECTION);
+        }
+        return modelMap;
+
+    }
+
+
+
+
+
+
+
+
+    /**
+     * @apiGroup Meeting
+     * @api {GET} /addMeetingSignIn
+     * @apiDescription 会议签到
      * @apiParam {Long} userId 用户id
      * @apiParam {String} meetingId 会议id
      * @apiParam {String} token 令牌
-     *
-     * 会议签到
-     * @return
      */
-    @RequestMapping("/signIn")
+    @RequestMapping("/addMeetingSignIn")
     @ResponseBody
     public ModelMap addMeetingSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
                                      @RequestParam(value = "meeting_id", required = false) String meeting_id,
@@ -439,15 +507,15 @@ public class MiniProgramController extends BaseController {
         try {
 
             if (!JwtUtil.checkToken(token)) {
-                setFail("用户登陆信息过期,请重新登陆");
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
                 setCode(CommonString.TOKEN_CHECK_FAIL);
                 return modelMap;
             }
 
             if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
-                List  list =  meetingOfUserService.selectListById(user_id);
+                List list = meetingOfUserService.selectListById(user_id);
 
-                for(int i=0;i<list.size();i++){
+                for (int i = 0; i < list.size(); i++) {
                     Map map = (Map) list.get(i);
                     String meetingId = String.valueOf(map.get("meeting_id"));
                     if (meetingId.equals(meeting_id)) {
@@ -462,7 +530,7 @@ public class MiniProgramController extends BaseController {
                 meetingOfUser.setCanUse(1);
                 meetingOfUserService.insertOrUpdate(meetingOfUser);
                 setSuccess();
-                setMsg("添加会议签到成功");
+                setMsg("添加会议签到成功 (>‿◠)✌");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -474,44 +542,41 @@ public class MiniProgramController extends BaseController {
 
     }
 
-    /** @apiGroup Meeting
-     * @api {GET} /cancelSignIn 获取活动列表
-     * @apiDescription 获取活动列表
+    /**
+     * @apiGroup Meeting
+     * @api {GET} /cancelSignIn
+     * @apiDescription 取消会议签到
      * @apiParam {Long} userId 用户id
      * @apiParam {String} meetingId 会议id
      * @apiParam {String} token 令牌
-     *
-     * 取消会议签到
-     * @return
      */
-    @RequestMapping("/cancelSignIn")
+    @RequestMapping("/cancelMeetingSignIn")
     @ResponseBody
-    public ModelMap cancelSignIn(@RequestParam(value = "userId", required = false) Long user_id,
-                                     @RequestParam(value = "meetingId", required = false) String meeting_id,
-                                     @RequestParam(value = "token", required = false) String token
+    public ModelMap cancelMeetingSignIn(@RequestParam(value = "userId", required = false) Long user_id,
+                                 @RequestParam(value = "meetingId", required = false) String meeting_id,
+                                 @RequestParam(value = "token", required = false) String token
     ) {
 
         modelMap = new ModelMap();
-        MeetingOfUser meetingOfUser;
         try {
 
             if (!JwtUtil.checkToken(token)) {
-                setFail("用户登陆信息过期,请重新登陆");
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
                 setCode(CommonString.TOKEN_CHECK_FAIL);
                 return modelMap;
             }
 
             if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
-                List  list =  meetingOfUserService.selectListById(user_id);
+                List list = meetingOfUserService.selectListById(user_id);
 
-                for(int i=0;i<list.size();i++){
+                for (int i = 0; i < list.size(); i++) {
                     Map map = (Map) list.get(i);
                     String meetingId = String.valueOf(map.get("meeting_id"));
                     if (meetingId.equals(meeting_id)) {
-                        meetingOfUserService.cancelSignIn(user_id,meeting_id);
+                        meetingOfUserService.cancelSignIn(user_id, meeting_id);
                         setSuccess();
-                        setMsg("取消签到成功");
-                    }else{
+                        setMsg("取消签到成功 (>‿◠)✌");
+                    } else {
                         setFail("此用户未签到!");
                         return modelMap;
                     }
@@ -521,13 +586,109 @@ public class MiniProgramController extends BaseController {
             e.printStackTrace();
             setFail("添加会议签到失败");
             setCode(CommonString.BACK_EXPECTION);
+        }
+        return modelMap;
+    }
+
+
+
+
+    @RequestMapping("/getMeetingById")
+    @ResponseBody
+    public ModelMap getMeetingById(String id){
+        modelMap = new ModelMap();
+
+        //判断id是否为空
+        if(StringUtils.isEmpty(id)){
+            setFail("缺少参数会议id ㄟ( ▔, ▔ )ㄏ");
+            setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
+        }
+
+        try {
+           Meeting meeting =  meetingService.selectById(id);
+           modelMap.addAttribute("meeting",meeting);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("根据会员id查询异常 X﹏X");
+            setCode(CommonString.BACK_EXPECTION);
         }
         return modelMap;
 
     }
 
-    /** @apiGroup Activity
+
+    /**
+     * 查询会议表信息
+     * @param name
+     * @param meeting_type_id
+     * @param limit
+     * @param page
+     * @return
+     */
+    @RequestMapping("/getMeetingList")
+    @ResponseBody
+    public ModelMap getMeetingList(@RequestParam(value = "name", required = false) String name,
+                                   @RequestParam(value = "meeting_type_id", required = false) String meeting_type_id,
+                                   @RequestParam(value = "meeting_id_search", required = false) String meeting_id_search,
+                                   @RequestParam(value = "start_time", required = false) String start_time,
+                                   @RequestParam(value = "end_time", required = false) String end_time,
+                                   @RequestParam(value = "limit", required = false) Integer limit,
+                                   @RequestParam(value = "page", required = false) Integer page) {
+
+        modelMap = new ModelMap();
+
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
+
+
+        if (StringUtils.isNotEmpty(meeting_type_id)) {
+            intMap.put("meeting_type_id", meeting_type_id);
+        }
+        if (StringUtils.isNotEmpty(meeting_id_search)) {
+            intMap.put("id", meeting_id_search);
+        }
+
+        if (StringUtils.isNotEmpty(name)) {
+            blurMap.put("name", name);
+        }
+
+        if (StringUtils.isNotEmpty(start_time)) {
+            dateMap.put("start_time", start_time);
+        }
+
+        if (StringUtils.isNotEmpty(end_time)) {
+            dateMap.put("end_time", end_time);
+        }
+
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
+        try {
+            Map map = meetingService.selectAll(blurMap, intMap, dateMap, limit, page);
+
+            List list = (List<Meeting>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setMsg("查询会议列表成功 (>‿◠)✌");
+            setSuccess();
+        } catch (Exception e) {
+            setFail("查询会议信息失败");
+            setCode(CommonString.BACK_EXPECTION);
+            e.printStackTrace();
+        }
+        return modelMap;
+    }
+
+
+
+    /**
+     * @apiGroup Activity
      * @api {GET} /getActivityList 获取活动列表
      * @apiDescription 获取活动列表
      * @apiParam {String} title 标题
@@ -537,84 +698,67 @@ public class MiniProgramController extends BaseController {
      * @apiParam {String} token 令牌
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页号
-     *
-     * 获取活动列表
-     * @param title
-     * @param type
-     * @param start_time
-     * @param end_time
-     * @param token
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("/getActivityList")
     @ResponseBody
-    public ModelMap getActivityList(@RequestParam(value = "title",required = false)String title,
-                                    @RequestParam(value = "type",required = false)Integer type,
+    public ModelMap getActivityList(@RequestParam(value = "title", required = false) String title,
+                                    @RequestParam(value = "type", required = false) Integer type,
                                     @RequestParam(value = "start_time", required = false) String start_time,
                                     @RequestParam(value = "end_time", required = false) String end_time,
-                                    @RequestParam(value = "token", required = false) String token,
-                                    @RequestParam(value = "limit", required=false)Integer limit,
-                                    @RequestParam(value = "page", required=false)Integer page){
+                                    @RequestParam(value = "limit", required = false) Integer limit,
+                                    @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
 
         try {
 
-
             Map blurMap = new HashMap<>();
             Map dateMap = new HashMap<>();
-            Map intMap  = new HashMap<>();
+            Map intMap = new HashMap<>();
 
 
-            if(type != null) {
+            if (type != null) {
                 intMap.put("type", type.toString());
             }
-            if(StringUtils.isNotEmpty(title)) {
+            if (StringUtils.isNotEmpty(title)) {
                 blurMap.put("title", title);
             }
-            if(StringUtils.isNotEmpty(start_time)) {
+            if (StringUtils.isNotEmpty(start_time)) {
                 dateMap.put("start_time", start_time);
             }
-            if(StringUtils.isNotEmpty(end_time)) {
+            if (StringUtils.isNotEmpty(end_time)) {
                 dateMap.put("end_time", end_time);
             }
 
-            if(limit == null || page == null){
-                setFail("缺少分页参数limit,page");
+            if (limit == null || page == null) {
+                setFail("缺少分页参数limit,page (°_°)");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
             }
 
-            Map map = activityService.selectAll(blurMap,intMap,dateMap,limit,page);
+            Map map = activityService.selectAll(blurMap, intMap, dateMap, limit, page);
 
             List list = (List<ActivitiesType>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
             setSuccess();
-            setMsg("查询活动信息成功");
-        }catch (Exception e){
+            setMsg("查询活动信息成功 (>‿◠)✌");
+        } catch (Exception e) {
             e.printStackTrace();
             setCode(CommonString.BACK_EXPECTION);
             setFail("查询用户信息失败");
         }
-
         return modelMap;
     }
 
 
-    /** @apiGroup User
+    /**
+     * @apiGroup User
      * @api {GET} /setUser 编辑用户
      * @apiDescription 编辑用户
      * @apiParam {Long} id 用户id
      * @apiParam {String} token 令牌
-     *
-     * 编辑用户
-     * @param id
-     * @param token
-     * @return
      */
     @RequestMapping(value = "/setUser")
     @ResponseBody
@@ -627,7 +771,7 @@ public class MiniProgramController extends BaseController {
         try {
 
             if (!JwtUtil.checkToken(token)) {
-                setFail("用户登陆信息过期,请重新登陆");
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
                 setCode(CommonString.TOKEN_CHECK_FAIL);
                 return modelMap;
             }
@@ -640,13 +784,13 @@ public class MiniProgramController extends BaseController {
                 setData("duty", duty);
             }
             setData("user", user);
-            setMsg("编辑用户成功");
+            setMsg("编辑用户成功 (>‿◠)✌");
             setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("user-->setUser", e);
             if (id == null) {
-            setMsg("缺少参数：id");
+                setMsg("缺少参数：id");
             }
             setFail();
         }
@@ -657,6 +801,7 @@ public class MiniProgramController extends BaseController {
 
     /**
      * 添加或更新
+     *
      * @param id
      * @param username
      * @param sex
@@ -679,6 +824,7 @@ public class MiniProgramController extends BaseController {
                             @RequestParam(value = "education", required = false) String education,
                             @RequestParam(value = "address", required = false) String address,
                             @RequestParam(value = "company", required = false) String company,
+                            @RequestParam(value = "token", required = false) String token,
                             @RequestParam(value = "age", required = false) Integer age,
                             @RequestParam(value = "ID_cord", required = false) String ID_cord,
                             @RequestParam(value = "phone", required = false) String phone,
@@ -688,6 +834,13 @@ public class MiniProgramController extends BaseController {
         User user;
 
         try {
+
+            if (!JwtUtil.checkToken(token)) {
+                setFail("用户登陆信息过期,请重新登陆 ㄟ( ▔, ▔ )ㄏ");
+                setCode(CommonString.TOKEN_CHECK_FAIL);
+                return modelMap;
+            }
+
             if (id != null) {
                 user = userService.getUserById(id);
             } else {
@@ -711,19 +864,51 @@ public class MiniProgramController extends BaseController {
             user.setCanUse(1);
             userService.addUser(user);
             setSuccess();
-            setMsg("用户添加成功");
+            setMsg("用户添加成功 (>‿◠)✌");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("user-->userAdd", e);
             setFail("用户添加失败");
             setCode(CommonString.BACK_EXPECTION);
-            return modelMap;
         }
         return modelMap;
-
     }
 
-    /** @apiGroup User
+
+    /**
+     * 根据id查询用户信息
+     * @param id
+     * @return user
+     */
+    @RequestMapping("/getUserById")
+    @ResponseBody
+    public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id) {
+        modelMap = new ModelMap();
+        User user;
+
+        if(StringUtils.isEmpty(String.valueOf(id))){
+            setFail("没有用户id,无法查询 ^_^||| ");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+        try {
+            user = userService.getUserById(id);
+            setSuccess();
+            setData("user",user);
+            setMsg("查询用户信息成功 (@^▽^@)✌ ");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("查询用户信息异常 ^_^|||");
+            setCode(CommonString.BACK_EXPECTION);
+        }
+        return modelMap;
+    }
+
+
+
+    /**
+     * @apiGroup User
      * @api {GET} /getUserList 获取展示的党员信息列表
      * @apiDescription 获取展示的党员信息列表
      * @apiParam {String} username 用户名
@@ -732,15 +917,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {String} change_time 修改时间
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页号
-     *
-     * 获取展示的党员信息列表
-     * @param username
-     * @param company
-     * @param founding_time
-     * @param change_time
-     * @param limit
-     * @param page
-     * @return List
      */
     @RequestMapping("getUserList")
     @ResponseBody
@@ -772,8 +948,8 @@ public class MiniProgramController extends BaseController {
             dateMap.put("change_time", change_time);
         }
 
-        if(limit == null || page == null){
-            setFail("缺少分页参数limit,page");
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
@@ -785,7 +961,7 @@ public class MiniProgramController extends BaseController {
             setData("data", list);
             setData("count", count);
             setSuccess();
-            setMsg("查询用户信息成功");
+            setMsg("查询用户信息成功 (>‿◠)✌");
         } catch (Exception e) {
             setFail("查询用户信息失败");
             setCode(CommonString.BACK_EXPECTION);
@@ -795,26 +971,22 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /** @apiGroup Notice
+    /**
+     * @apiGroup Notice
      * @api {GET} /getNoticeTitle 公告轮播信息
      * @apiDescription 公告轮播信息
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页数
-     *
-     * 公告轮播信息
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("getNoticeTitle")
     @ResponseBody
     public ModelMap getNoticeTitle(@RequestParam(value = "limit", required = false) Integer limit,
-                                  @RequestParam(value = "page", required = false) Integer page) {
+                                   @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
 
-        if(limit == null || page == null){
-            setFail("缺少分页参数limit,page");
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
@@ -825,17 +997,18 @@ public class MiniProgramController extends BaseController {
             List list = (List<Notice>) map.get("list");
             setData("data", list);
             setSuccess();
-            setMsg("查询公告轮播信息成功");
+            setMsg("查询公告轮播信息成功 (>‿◠)✌");
         } catch (Exception e) {
             setFail("查询公告轮播信息错误");
-           setCode(CommonString.BACK_EXPECTION);
+            setCode(CommonString.BACK_EXPECTION);
             e.printStackTrace();
-            logger.error("mini-->getNoticeTitle",e);
+            logger.error("mini-->getNoticeTitle", e);
         }
         return modelMap;
     }
 
-    /** @apiGroup Notice
+    /**
+     * @apiGroup Notice
      * @api {GET} /getNoticeList 获取公示公告表列表
      * @apiDescription 获取公示公告表列表
      * @apiParam {String} title 标题
@@ -843,12 +1016,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {String} end_time_search 结束时间
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页数
-     *
-     * 获取公示公告表列表
-     * @param title 标题
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("getNoticeList")
     @ResponseBody
@@ -876,8 +1043,8 @@ public class MiniProgramController extends BaseController {
             dateMap.put("end_time", end_time);
         }
 
-        if(limit == null || page == null){
-            setFail("缺少分页参数limit,page");
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
@@ -889,30 +1056,25 @@ public class MiniProgramController extends BaseController {
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
-            setMsg("查询公示公告表信息成功");
+            setMsg("查询公示公告表信息成功 (>‿◠)✌");
             setSuccess();
         } catch (Exception e) {
             setFail("查询公示公告表信息错误");
             setCode(CommonString.BACK_EXPECTION);
             e.printStackTrace();
-            logger.error("mini-->getNoticeList",e);
+            logger.error("mini-->getNoticeList", e);
         }
         return modelMap;
     }
 
-    /** @apiGroup DisciplineOfHonor
+    /**
+     * @apiGroup DisciplineOfHonor
      * @api {GET} /getDisciplineOfHonorList 获取荣誉和违纪列表
      * @apiDescription 获取公示公告表列表
      * @apiParam {String} name 名称
      * @apiParam {String} type 类型---0：荣誉 1：违纪
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页数
-     *
-     * 查询荣誉和违纪表
-     * 类型  0：荣誉   1：违纪
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("getDisciplineOfHonorList")
     @ResponseBody
@@ -942,35 +1104,31 @@ public class MiniProgramController extends BaseController {
             setData("data", list);
             setData("count", count);
             setSuccess();
-            setMsg("查询荣誉和违纪信息成功");
+            setMsg("查询荣誉和违纪信息成功 (>‿◠)✌");
         } catch (Exception e) {
             setFail("查询荣誉和违纪信息错误");
             e.printStackTrace();
-            if(limit != null & page != null){
+            if (limit != null & page != null) {
                 setMsg("查询信息失败");
             }
-            setMsg("缺少分页参数limit,page");
+            setMsg("缺少分页参数limit,page (°_°)");
             logger.error("mini --> getDisciplineOfHonorList");
         }
 
         return modelMap;
     }
 
-    /** @apiGroup PartBranch
+    /**
+     * @apiGroup PartBranch
      * @api {GET} /getPartBranchList 查询党支部信息
      * @apiDescription 查询党支部信息
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页数
-     *
-     * 查询党支部信息
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("getPartBranchList")
     @ResponseBody
-    public ModelMap getPartBranchList(@RequestParam(value="limit", required=false)Integer limit,
-                                      @RequestParam(value="page", required=false)Integer page){
+    public ModelMap getPartBranchList(@RequestParam(value = "limit", required = false) Integer limit,
+                                      @RequestParam(value = "page", required = false) Integer page) {
 
         modelMap = new ModelMap();
 
@@ -978,8 +1136,8 @@ public class MiniProgramController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-        if(limit == null || page == null){
-            setFail("缺少分页参数limit,page");
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°) (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
@@ -991,7 +1149,7 @@ public class MiniProgramController extends BaseController {
             Integer count = (int) map.get("count");
             setData("list", list);
             setData("count", count);
-            setMsg("查询党支部信息成功");
+            setMsg("查询党支部信息成功 (>‿◠)✌");
             setSuccess();
         } catch (Exception e) {
             setFail("查询党支部信息错误");
@@ -1002,12 +1160,10 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /** @apiGroup Config
+    /**
+     * @apiGroup Config
      * @api {GET} /getConfig 查询系统信息
      * @apiDescription 查询系统信息或轮播
-     *
-     * 获取系统信息
-     * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getConfig")
@@ -1025,32 +1181,30 @@ public class MiniProgramController extends BaseController {
             setData("lunbo", lunbo);
             setData("comInfo", comInfo);
             setSuccess();
-            setMsg("获取轮播信息成功");
-        }catch (Exception e){
+            setMsg("获取轮播信息成功 (>‿◠)✌");
+        } catch (Exception e) {
             e.printStackTrace();
-            setFail("获取轮播信息异常");
+            setFail("获取轮播信息异常 X﹏X");
             setCode(CommonString.BACK_EXPECTION);
             logger.error("mini --> getConfig");
         }
         return modelMap;
     }
 
-    /** @apiGroup User
+    /**
+     * @apiGroup User
      * @api {GET} /selectGroupCount 用户分类统计
-     * @apiDescription 用户分类统计(发展对象 2 积极分子；3 预备党员；4 正式党员)的数量
-     *
-     * 用户分类统计(发展对象 2 积极分子；3 预备党员；4 正式党员)的数量
-     * @return modelMap
+     * @apiDescription 用户分类统计(发展对象 2 积极分子 ； 3 预备党员 ； 4 正式党员)的数量
      */
     @RequestMapping(value = "/selectGroupCount")
     @ResponseBody
     public ModelMap selectUserGroupCount() {
         modelMap = new ModelMap();
         try {
-        Map map =  userService.selectGroupCount();
-        setData("countList",map.get("countList"));
-        setSuccess();
-        setCode(CommonString.REQUEST_SUCCESS);
+            Map map = userService.selectGroupCount();
+            setData("countList", map.get("countList"));
+            setSuccess();
+            setCode(CommonString.REQUEST_SUCCESS);
         } catch (Exception e) {
             setCode(CommonString.BACK_EXPECTION);
             setFail("分组查询数量错误");
@@ -1060,32 +1214,26 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-    /** @apiGroup Activity
+    /**
+     * @apiGroup Activity
      * @api {GET} /selectActivityGroupCount 活动分类统计的数量
      * @apiDescription 活动分类统计的数量 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
-     *
-     * 活动分类统计的数量 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
-     * @return modelMap
      */
     @RequestMapping(value = "/selectActivityGroupCount")
     @ResponseBody
     public ModelMap selectActivityGroupCount() {
         modelMap = new ModelMap();
         try {
-        Map map =  activityService.selectActivityGroupCount();
-        setData("countList",map.get("countList"));
-        setSuccess();
-//        setCode(CommonString.REQUEST_SUCCESS);
+            Map map = activityService.selectActivityGroupCount();
+            setData("countList", map.get("countList"));
+            setSuccess();
         } catch (Exception e) {
             setCode(CommonString.BACK_EXPECTION);
             setFail("活动统计查询数量错误");
             logger.error("mini--->selectActivityGroupCount", e);
-            return modelMap;
         }
         return modelMap;
     }
-
-
 
 
 }

@@ -69,4 +69,9 @@ public class MeetingService implements IMeetingService {
     public String selectSignInById(Long id) throws Exception {
         return meetingDao.selectSignInById(id);
     }
+
+    @Override
+    public Meeting selectById(String id) throws Exception {
+        return meetingDao.selectById(Long.valueOf(id));
+    }
 }

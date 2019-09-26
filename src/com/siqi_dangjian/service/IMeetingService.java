@@ -27,4 +27,6 @@ public interface IMeetingService {
     void insertOrUpdate(MeetingOfUser meetingOfUser);
 
     String selectSignInById(Long id) throws Exception;
+
+    Meeting selectById(String id) throws Exception;
 }

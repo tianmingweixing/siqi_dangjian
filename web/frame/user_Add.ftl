@@ -45,21 +45,6 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
-        <div class="layui-input-inline">
-            <select name="type_name" id="type_name">
-                <option value="">全部</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">年龄</label>
-        <div class="layui-input-inline">
-            <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">
-        </div>
-
         <label class="layui-form-label" style="margin-left: 85px">学历</label>
         <div class="layui-input-inline">
             <select name="education" id="education">
@@ -72,9 +57,24 @@
                 <option value="5">硕士</option>
                 <option value="5">博士</option>
             </select>
-            <!--<input id="education" name="education" lay-verify="required" placeholder="请输入学历" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">-->
         </div>
+
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+        <label class="layui-form-label ">用户年龄</label>
+        <div class="layui-input-inline">
+            <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
+        </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
+        <div class="layui-input-inline">
+            <select name="type_name" id="type_name">
+                <option value="">全部</option>
+            </select>
+        </div>
+
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -92,13 +92,13 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" >单位</label>
+        <label class="layui-form-label" >所在单位</label>
         <div class="layui-input-inline">
             <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">所属支部班子</label>
+        <label class="layui-form-label" style="margin-left: 85px">所属班子</label>
         <div class="layui-input-inline">
             <select name="partyGroups_name" id="partyGroups_name">
                 <option value="">没有则不选</option>
@@ -107,14 +107,14 @@
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">所属党小组</label>
+        <label class="layui-form-label">所属小组</label>
         <div class="layui-input-inline">
             <select name="partyTeam_name" id="partyTeam_name">
                 <option value="">没有则不选</option>
             </select>
         </div>
 
-        <div class="layui-input-inline" style="margin-left: 103px;">
+        <div class="layui-input-inline" style="margin-left: 128px;">
             <button type="button" style="background-color: #5fb878" class="layui-btn" id="test1">
                 <i class="layui-icon">&#xe67c;</i>上传头像
             </button>
@@ -177,10 +177,15 @@ var headImg = [];
             var uploadInst = upload.render({
                 elem: '#test1' //绑定元素
                 ,url: '/upload/uploadImage' //上传接口
+
                 ,done: function(res){
                     //上传完毕回调
                     headImg.push(res.src);
-                    // layer.msg("上传成功！");
+                    layer.tips('上传成功 (>‿◠)✌', '#test1', {
+                        tips: [2, '#3595CC'],
+                        time: 1000
+                    });
+                     // layer.msg("上传成功！");
                 }
                 ,error: function(){
                     //请求异常回调

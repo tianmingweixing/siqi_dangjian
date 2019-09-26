@@ -42,12 +42,12 @@ public class ActivitiesController extends BaseController{
 
 
     /**
-     * 会议签到
+     * 活动报名
      * @return
      */
     @RequestMapping("/signIn")
     @ResponseBody
-    public ModelMap addMeetingSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+    public ModelMap addActivitySignIn(@RequestParam(value = "user_id", required = false) Long user_id,
                                      @RequestParam(value = "activity_id", required = false) String activity_id) {
 
         modelMap = new ModelMap();
@@ -60,7 +60,7 @@ public class ActivitiesController extends BaseController{
                     Map map = (Map) list.get(i);
                     String activityId = String.valueOf(map.get("activity_id"));
                     if (activityId.equals(activity_id)) {
-                        setMsg("用户已报名");
+                        setMsg("用户已报名!");
                         return modelMap;
                     }
                 }
@@ -74,7 +74,6 @@ public class ActivitiesController extends BaseController{
         } catch (Exception e) {
             e.printStackTrace();
             setFail("添加活动报名异常");
-            return modelMap;
         }
         return modelMap;
     }
@@ -86,7 +85,7 @@ public class ActivitiesController extends BaseController{
      */
     @RequestMapping("/cancelSignIn")
     @ResponseBody
-    public ModelMap cancelSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+    public ModelMap cancelActivitySignIn(@RequestParam(value = "user_id", required = false) Long user_id,
                                  @RequestParam(value = "activity_id", required = false) String activity_id) {
 
         modelMap = new ModelMap();
@@ -100,18 +99,15 @@ public class ActivitiesController extends BaseController{
                     if (activityId.equals(activity_id)) {
                         activityOfUserService.cancelSignIn(user_id,activity_id);
                         setSuccess();
-                        setMsg("取消报名成功!");
+                        setMsg("取消报名成功");
                         return modelMap;
                     }
                 }
             }
-            setFail("该用户没有签到");
-            setCode(CommonString.FRONT_EXPECTION);
+            setFail("该用户没有报名");
         } catch (Exception e) {
             e.printStackTrace();
             setFail("取消报名失败");
-            setCode(CommonString.BACK_EXPECTION);
-            return modelMap;
         }
         return modelMap;
 

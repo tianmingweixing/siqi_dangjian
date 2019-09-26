@@ -47,10 +47,10 @@
         <input type="hidden" id="id"  value="" style="width: 240px">
 
         <div class="layui-form-item center" style=" margin-top: 3px; padding: -145px;">
-            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">用户名</label>
+            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">姓名</label>
             <div class="layui-form-label" id="username" style="color: #00b0f0;margin-top: 34px;margin-left: -27px;"></div>
 
-            <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">用户头像</label>
+            <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">头像</label>
             <div class="layui-input-inline" style="padding-top: 71px;margin-top: 11px;">
                 <img id="head_img" name ="head_img" src="" height="auto" width="100" alt="" style="margin-top: -63px;">
             </div>
@@ -60,7 +60,7 @@
             <label class="layui-form-label" style="width: 60px">学历</label>
             <div class="layui-form-label" id="education" style="color: #00b0f0;margin-left: -27px;"></div>
 
-            <label class="layui-form-label" style="width: 100px">年龄</label>
+            <label class="layui-form-label" style="width: 100px">用户年龄</label>
             <div class="layui-form-label" id="age" style="color: #00b0f0;margin-left: -27px;"></div>
 
         </div>
@@ -73,8 +73,8 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">党内职务</label>
-            <div class="layui-form-label" id="dutyid" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">职务</label>
+            <div class="layui-form-label" id="look_type_name" style="color: #00b0f0;margin-left: -27px;"></div>
 
             <label class="layui-form-label" style="width: 100px">困难状态</label>
             <div class="layui-form-label" id="difficulty_type" style="color: #00b0f0;margin-left: -27px;"></div>
@@ -85,8 +85,8 @@
             <label class="layui-form-label" style="width: 60px">身份证</label>
             <div class="layui-form-label" id="ID_cord" style="color: #00b0f0;margin-left: -27px;"></div>
 
-            <label class="layui-form-label" style="width: 100px">所属党支部</label>
-            <div class="layui-form-label" id="party_branch_name" style="color: #a9f981;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">所属支部</label>
+            <div class="layui-form-label" id="look_party_branch_name" style="color: #00b0f0;margin-left: -27px;"></div>
 
         </div>
 
@@ -170,11 +170,11 @@
         $("#sex").html(data.sex);
         $("#join_time").html(data.join_time);
         $("#head_img").attr('src',data.head_img);
-        $("#dutyid").html(data.dutyid);
+        $("#look_party_branch_name").text(data.party_branch_name);
+        $("#look_type_name").html(data.type_name);
         $("#nation").html(data.nation);
         $("#ID_cord").html(data.ID_cord);
         $("#difficulty_type").html(data.difficulty_type);
-        $("#party_branch_name").html(data.party_branch_name);
 
         layer.open({
             type: 1,
@@ -244,11 +244,11 @@
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}
                 ,{field: 'ID_cord',title:'身份证'}
-                ,{field: 'party_duty',title:'党内职务',hide:true,width:125}
                 ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'dutyid',title:'职务ID',hide:true}
                 ,{field: 'sympathyId',title:'慰问ID',hide:true}
                 ,{field: 'party_branch_id',title:'党支部ID',hide:true}
+                ,{field: 'party_branch_name',title:'党支部名称',hide:true}
                 ,{field: 'party_groups_id',title:'班子ID',hide:true}
                 ,{field: 'party_team_id',title:'党小组ID',hide:true}
                 ,{field: 'difficulty_type',title:'困难情况',hide:true}

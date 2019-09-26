@@ -306,7 +306,6 @@ public class MeetingController extends BaseController {
             setFail();
             e.printStackTrace();
         }
-
         return modelMap;
     }
 }

@@ -107,34 +107,35 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public Map selectAll(Map blurParam,  Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = " SELECT\n" +
-                "\tu.id,\n" +
-                "\tu.username,\n" +
-                "\tu.nick_name,\n" +
-                "\tu.head_img,\n" +
-                "\tif(u.sex='1','男','女')sex,\n" +
-                "\tu.age,\n" +
-                "\tu.education,\n" +
-                "\tu.company,\n" +
-                "\tu.phone,\n" +
-                "\tu.dutyid,\n" +
-                "\tu.party_groups_id,\n" +
-                "\tu.party_team_id,\n" +
-                "\tu.ID_cord,\n" +
-                "\t d.type_name ,\n" +
-                "\t(case u.difficulty_type \n" +
-                "                when 0 then '非困难'  \n" +
-                "                when 1 then '困难'  \n" +
-                "                when 2 then '特困难' else '暂无信息' end)difficulty_type,\n" +
-                "\tDATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
-                "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-                "\tu.address\n" +
+        String sql = "SELECT\n" +
+                "  u.id,\n" +
+                "  u.username,\n" +
+                "  u.nick_name,\n" +
+                "  u.head_img,\n" +
+                "  if(u.sex='1','男','女')sex,\n" +
+                "  u.age,\n" +
+                "  u.education,\n" +
+                "  u.company,\n" +
+                "  u.phone,\n" +
+                "  u.dutyid,\n" +
+                "  u.party_groups_id,\n" +
+                "  u.party_team_id,\n" +
+                "  u.ID_cord,\n" +
+                "  d.type_name ,\n" +
+                "  (case u.difficulty_type\n" +
+                "   when 0 then '非困难'\n" +
+                "   when 1 then '困难'\n" +
+                "   when 2 then '特困难' else '暂无信息' end)difficulty_type,\n" +
+                "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
+                "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
+                "  u.address,\n" +
+                "  p.name party_branch_name\n" +
                 "FROM\n" +
-                "\tUSER u\n" +
-                " LEFT JOIN duty d ON u.dutyid = d.id\n" +
-                " WHERE\n" +
-                "\tu.can_use = 1\n";/* +
-                " AND d.can_use = 1";*/
+                "  USER u\n" +
+                "  LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                "  join party_branch p on u.party_branch_id = p.id\n" +
+                "WHERE\n" +
+                "  u.can_use = 1 and p.can_use = 1 and d.can_use =1";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +

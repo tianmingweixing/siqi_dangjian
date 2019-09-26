@@ -154,8 +154,8 @@
         <label class="layui-form-label">会议内容</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入会议内容"
-                      style="width: 880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+                      style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 160px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
     </div>
 
@@ -163,8 +163,8 @@
         <label class="layui-form-label">会议指导</label>
         <div class="layui-input-block">
                 <textarea name="guide" id="guide" placeholder="请输入会议指导"
-                          style="width: 880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                              max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
+                          style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                              max-width: 1500px; height: 50px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
         </div>
     </div>
 
@@ -173,11 +173,11 @@
             <label class="layui-form-label">会议签到</label>
             <div class="layui-input-inline">
                     <textarea name="userName" id="userName" placeholder="会议签到" readonly
-                              style="width:880px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
-                                  max-width: 1500px; height: 80px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+                              style="width:928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                                  max-width: 1500px; height: 40px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
             </div>
             <div class="layui-input-inline">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addSignIn()">签到管理</a>
+                <a class="layui-btn layui-btn-sm layui-btn-normal" style="margin-left: 116px;" onclick="addSignIn()">签到管理</a>
             </div>
         </div>
     <#else>
