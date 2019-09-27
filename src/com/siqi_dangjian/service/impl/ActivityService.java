@@ -87,4 +87,23 @@ public class ActivityService implements IActivityService {
         return activityDao.selectSignInById(id);
     }
 
+    @Override
+    public Map selectActivityStatusGroupCount() {
+         Map map = activityDao.selectActivityStatusGroupCount();
+        List countList = (List) map.get("countList");
+
+        //状态转换为
+        for (int i = 0; i < countList.size(); i++) {
+            Map statusMap = (Map) countList.get(i);
+            if(statusMap.get("activityStatus").equals(0)){
+                statusMap.put("activityStatus","筹备中");
+            }else if(statusMap.get("activityStatus").equals(1)){
+                statusMap.put("activityStatus","进行中");
+            }else if(statusMap.get("activityStatus").equals(2)){
+                statusMap.put("activityStatus","已结束");
+            }
+        }
+        return  map;
+    }
+
 }

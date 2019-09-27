@@ -60,26 +60,30 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
-        String sql = "SELECT\n" +
-                "\ta.content,\n" +
-                "\tDATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,\n" +
-                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
-                "\tDATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
-                "\ta.id,\n" +
-                "\ta.image_path_a,\n" +
-                "\ta.image_path_b,\n" +
-                "\ta.status,\n" +
-                "\ta.party_branch_id,\n" +
-                "\ta.review,\n" +
-                "\ta.title,\n" +
-                "\t(select b.brand_name from activities_brand b where b.id=a.brand_id and b.can_use=1) brand_name,\n" +
-                "\t(select t.type_name from activities_type t where t.id=a.type_id and t.can_use=1) type_name\n" +
-                "FROM\n" +
-                "\tactivities a\n" +
-                "WHERE\n" +
-                "\ta.can_use = 1";
+        String sql = "    SELECT                                                                                               \n" +
+                "      a.content,                                                                                         \n" +
+                "      DATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,                                                 \n" +
+                "      DATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,                                                   \n" +
+                "      DATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,                                                       \n" +
+                "      (                                                                                                  \n" +
+                "        CASE                                                                                             \n" +
+                "        WHEN end_time >= now() AND start_time <= now() THEN 0                                            \n" +
+                "        WHEN start_time > now() THEN 1                                                                   \n" +
+                "        WHEN end_time < now() THEN 2                                                                     \n" +
+                "        END                                                                                              \n" +
+                "      ) AS activityStatus,                                                                               \n" +
+                "      a.id,                                                                                              \n" +
+                "      a.image_path_a,                                                                                    \n" +
+                "      a.image_path_b,                                                                                    \n" +
+                "      a.party_branch_id,                                                                                 \n" +
+                "      a.review,                                                                                          \n" +
+                "      a.title,                                                                                           \n" +
+                "      (select b.brand_name from activities_brand b where b.id=a.brand_id and b.can_use=1) brand_name,    \n" +
+                "      (select t.type_name from activities_type t where t.id=a.type_id and t.can_use=1) type_name         \n" +
+                "    FROM                                                                                                 \n" +
+                "      activities a                                                                                       \n" +
+                "    WHERE                                                                                                \n" +
+                "      a.can_use = 1 ";
 
         String sqlCount = "SELECT count(id) count FROM activities a where a.can_use=1";
 
@@ -244,6 +248,34 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
+    }
+
+    @Override
+    public Map selectActivityStatusGroupCount() {
+        Map resMap = new HashMap();
+        session = sessionFactory.getCurrentSession();
+
+        String sql = "    SELECT                                              \n" +
+                "      count(*) statusCount,                                  \n" +
+                "      (                                                      \n" +
+                "        CASE                                                 \n" +
+                "        WHEN end_time >= now() AND start_time <= now() THEN 0\n" +
+                "        WHEN start_time > now() THEN 1                       \n" +
+                "        WHEN end_time < now() THEN 2                         \n" +
+                "        END                                                  \n" +
+                "      ) AS activityStatus                                    \n" +
+                "    FROM                                                     \n" +
+                "      activities                                             \n" +
+                "    WHERE                                                    \n" +
+                "       can_use =1                                            \n" +
+                "     GROUP BY                                                \n" +
+                "       activityStatus                                        ";
+
+        SQLQuery query = session.createSQLQuery(sql);
+        List countList = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        resMap.put("countList", countList);
+
+        return resMap;
     }
 
 }

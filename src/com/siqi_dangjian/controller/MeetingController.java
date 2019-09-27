@@ -8,10 +8,10 @@ import com.siqi_dangjian.service.IMeetingOfUserService;
 import com.siqi_dangjian.service.IMeetingService;
 import com.siqi_dangjian.util.CommonString;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Type;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,8 +157,8 @@ public class MeetingController extends BaseController {
      */
     @RequestMapping("/addMeeting")
     public ModelAndView addMeeting(@RequestParam(value = "id", required = false) Long id,
-                                   @RequestParam(value = "start_time", required = false) String start_time,
-                                   @RequestParam(value = "end_time", required = false) String end_time,
+                                   @RequestParam(value = "start_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd ") Date  start_time,
+                                   @RequestParam(value = "end_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd ") Date end_time,
                                    @RequestParam(value = "compere", required = false) String compere,
                                    @RequestParam(value = "recorder", required = false) String recorder,
                                    @RequestParam(value = "people_counting", required = false) String people_counting,
@@ -185,8 +185,8 @@ public class MeetingController extends BaseController {
             meeting.setGuide(guide);
             meeting.setMeetingTypeId(meetingTypeId);
             meeting.setImagesA(images_a);
-            meeting.setEndTime(Date.valueOf(start_time));
-            meeting.setStartTime(Date.valueOf(end_time));
+            meeting.setEndTime(start_time);
+            meeting.setStartTime(end_time);
             meeting.setCanUse(1);
             meetingService.insertOrUpdate(meeting);
             setSuccess();

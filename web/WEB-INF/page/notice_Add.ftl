@@ -135,7 +135,7 @@
         <label class="layui-form-label">公示信息</label>
         <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入公示信息"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
 
@@ -147,7 +147,7 @@
         <div class="layui-input-inline" style="padding-top: 10px">
             <label for="fileinp" id="btn">选择图片</label>
             <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else></#if>" height="300"
+            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="300"
                  width="500" alt="" style="margin-top: 10px">
         </div>
 

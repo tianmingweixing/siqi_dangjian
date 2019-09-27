@@ -203,6 +203,7 @@ public class DisciplineOfHonorController extends BaseController {
     @ResponseBody
     public ModelMap getDisciplineOfHonorList(@RequestParam(value = "name", required = false) String name,
                                              @RequestParam(value = "type", required = false) String type,
+                                             @RequestParam(value = "user_id", required = false) String user_id,
                                              @RequestParam(value = "start_time_search", required = false) String start_time,
                                              @RequestParam(value = "end_time_search", required = false) String end_time,
                                              @RequestParam(value = "limit", required = false) Integer limit,
@@ -216,6 +217,10 @@ public class DisciplineOfHonorController extends BaseController {
 
         if (StringUtils.isNotEmpty(type)) {
             intMap.put("type", type);
+        }
+
+        if (StringUtils.isNotEmpty(user_id)) {
+            intMap.put("user_id", user_id);
         }
 
         if (StringUtils.isNotEmpty(name)) {

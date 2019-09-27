@@ -239,20 +239,23 @@
                 ,{field: 'head_img',title:'头像',width:80,templet:'#img'}
                 ,{field: 'nick_name', title: '昵称',hide:true}
                 ,{field: 'sex',title:'性别'}
-                ,{field: 'age',title:'年龄'}
                 ,{field: 'education',title:'学历',hide:true}
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}
                 ,{field: 'ID_cord',title:'身份证'}
                 ,{field: 'type_name',title:'政治面貌'}
+                ,{field: 'profiles',title:'用户简介'}
                 ,{field: 'dutyid',title:'职务ID',hide:true}
                 ,{field: 'sympathyId',title:'慰问ID',hide:true}
                 ,{field: 'party_branch_id',title:'党支部ID',hide:true}
                 ,{field: 'party_branch_name',title:'党支部名称',hide:true}
                 ,{field: 'party_groups_id',title:'班子ID',hide:true}
+                ,{field: 'party_groups_name',title:'班子名称',hide:true}
                 ,{field: 'party_team_id',title:'党小组ID',hide:true}
+                ,{field: 'party_groups_name',title:'党小组名称',hide:true}
                 ,{field: 'difficulty_type',title:'困难情况',hide:true}
                 ,{field: 'join_time',title:'入党时间'}
+                ,{field: 'last_time',title:'最后登录时间',hide:true}
                 ,{field: 'look',fixed: 'right',title:'编辑',width:250,templet:'#barDemo'}
             ]]
         });

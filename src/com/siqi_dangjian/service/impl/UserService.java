@@ -22,8 +22,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Map getUserInfoById(Long id) {
-        return null;
+    public Map getUserInfoById(Long id) throws Exception {
+        return userDao.getUserInfoById(id);
     }
 
     @Override

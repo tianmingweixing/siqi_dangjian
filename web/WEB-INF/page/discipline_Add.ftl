@@ -21,25 +21,26 @@
         <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if certificate??>${certificate}<#else></#if>" style="width: 400px;"/></div>
     </div>
 
-    <div class="layui-form-item input_row_margin_top" >
-        <label class="layui-form-label">用户ID</label>
-        <div class="layui-input-inline">
-            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"  value="<#if userId??>${userId}<#else></#if>"/>
-        </div>
-    </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label ">违纪人姓名</label>
+
+        <label class="layui-form-label">用户ID</label>
+        <div class="layui-input-inline">
+            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"
+                   value="<#if userId??>${userId}<#else></#if>"/>
+        </div>
+
+        <label class="layui-form-label ">姓名</label>
         <div class="layui-input-inline">
             <input id="unit" name="unit" lay-verify="required" placeholder="请输入姓名" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if unit??>${unit}<#else></#if>">
         </div>
 
-        <label class="layui-form-label ">年龄</label>
+        <!--<label class="layui-form-label ">年龄</label>
         <div class="layui-input-inline">
             <input id="age" name="age" lay-verify="number" placeholder="请输入年龄" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if age??>${age}<#else></#if>">
-        </div>
+        </div>-->
 
     </div>
 
@@ -50,7 +51,7 @@
             <input type="radio" name="sex" value="2" title="女" <#if sex??&& sex==2>checked</#if>>
         </div>
 
-        <label class="layui-form-label" >手机号码</label>
+        <label class="layui-form-label" margin-left: 10px;>手机号码</label>
         <div class="layui-input-inline">
             <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
@@ -71,15 +72,15 @@
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label " style="margin-left: 1px">违纪时间</label>
+        <label class="layui-form-label " style="margin-left: 1px">时间</label>
         <div class="layui-input-inline">
-            <input id="time" name="time" lay-verify="required" placeholder="请输入时间" maxlength="20"
+            <input id="time" name="time" lay-verify="required" placeholder="请输入违纪时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if time??>${time}<#else></#if>">
         </div>
 
         <label class="layui-form-label " style="margin-left: 1px">违纪名称</label>
         <div class="layui-input-inline">
-            <input id="name" name="name" lay-verify="required" placeholder="请输入名称" maxlength="20"
+            <input id="name" name="name" lay-verify="required" placeholder="请输入违纪名称" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
         </div>
 
@@ -87,18 +88,18 @@
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label " style="margin-left: 1px">金额</label>
+        <label class="layui-form-label " style="margin-left: 1px">罚款</label>
         <div class="layui-input-inline">
-            <input id="amount" name="amount" lay-verify="number" placeholder="请输入金额" maxlength="20"
+            <input id="amount" name="amount"  placeholder="没有则不填" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if amount??>${amount}<#else></#if>">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">违纪详情</label>
+        <label class="layui-form-label">详情</label>
         <div class="layui-input-inline">
-            <textarea name="content" id="content" placeholder="请输入详情"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+            <textarea name="content" id="content" placeholder="请输入违纪详情"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
     </div>
@@ -107,7 +108,7 @@
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
         </div>
     </div>
@@ -116,7 +117,7 @@
         <div class="layui-upload" style="margin-left: 60px;">
             <button type="button" class="layui-btn" id="uploadImg">上传违纪凭证</button>
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>\images\defaultImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>
             </div>
         </div>
@@ -208,7 +209,11 @@
 
 
             form.on('submit(formDemo)', function (data) {
+                var defalutImg = "/images/defaultImg.jpg";
 
+                if($("#imgPath").val() == ""){
+                    $('#imgPath').val(defalutImg);
+                }
                 $.ajax({
                     url: "/disciplineOfHonor/addDisciplineOfHonor",
                     type: 'post',

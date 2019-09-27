@@ -385,10 +385,12 @@
                 , upload = layui.upload;
 
         laydate.render({
-            elem: '#start_time' //指定元素
+            elem: '#start_time'
+        //指定元素
         });
         laydate.render({
             elem: '#end_time' //指定元素
+
         });
 
 

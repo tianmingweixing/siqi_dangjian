@@ -122,6 +122,15 @@
 
     </div>
 
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">用户简介</label>
+        <div class="layui-input-inline">
+            <textarea name="profiles" id="profiles" placeholder="请输入用户简介"
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
+                              max-width: 1500px; height: 60px; max-height: 1000px; outline: 0;"></textarea>
+        </div>
+    </div>
+
 
     <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
@@ -150,6 +159,7 @@ var headImg = [];
             $("#join_time").val(parent.PartitionData.join_time);
             $("#dutyid").val(parent.PartitionData.dutyid);
             $("#id").val(parent.PartitionData.id);
+            $("#profiles").val(parent.PartitionData.profiles);
 
             /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
                $("#nation").val(parent.PartitionData.nation);
@@ -258,7 +268,12 @@ var headImg = [];
             form.on('submit(formDemo)', function () {
 
                 if(headImg.length == 0){
-                    headImg.push(parent.PartitionData.head_img)
+                    if(!parent.PartitionData == "undefined"){
+                        headImg.push(parent.PartitionData.head_img)
+                    }else{
+                        var defaultHeadImg = "/images/defaultHead.jpg";
+                        headImg.push(defaultHeadImg);
+                    }
                 }
 
                 $.ajax({
@@ -276,6 +291,7 @@ var headImg = [];
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),
                                 company: $("#company").val(),
+                                profiles: $("#profiles").val(),
                                 head_img: headImg.toString(),
                                 phone: $("#phone").val()
                             },

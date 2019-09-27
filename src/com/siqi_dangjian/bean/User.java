@@ -34,6 +34,13 @@ public class User extends BaseBean {
 
 
     /**
+     * 用户简介
+     */
+    @Column(name="profiles",nullable=true,length=2000)
+    private String profiles;
+
+
+    /**
      * 用户微信名，或者后台登陆昵称
      */
     @Column(name="nick_name",nullable=true,length=15)
@@ -172,6 +179,15 @@ public class User extends BaseBean {
      */
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
+
+
+    public String getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(String profiles) {
+        this.profiles = profiles;
+    }
 
     public String getNickName() {
         return nickName;

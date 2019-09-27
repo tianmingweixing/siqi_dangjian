@@ -706,8 +706,17 @@ public class MiniProgramController extends BaseController {
         try {
             Map map = meetingService.selectAll(blurMap, intMap, dateMap, limit, page);
 
-            List list = (List<Meeting>) map.get("list");
+            List list = (List) map.get("list");
+            //图片转为数组
+            for (int i = 0; i < list.size(); i++) {
+                Map meetingMap = (Map) list.get(i);
+                String imgs = (String) meetingMap.get("images_a");
+                String[] path = imgs.split(",");
+                meetingMap.put("images_a",path);
+            }
+
             Integer count = (int) map.get("count");
+
             setData("data", list);
             setData("count", count);
             setMsg("查询会议列表成功 (>‿◠)✌");
@@ -749,7 +758,7 @@ public class MiniProgramController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             setCode(CommonString.BACK_EXPECTION);
-            setFail("查询用户信息失败");
+            setFail("查询活动信息失败");
         }
         return modelMap;
     }
@@ -894,9 +903,9 @@ public class MiniProgramController extends BaseController {
             return modelMap;
         }
         try {
-            user = userService.getUserById(id);
+          Map  map = userService.getUserInfoById(id);
             setSuccess();
-            setData("user",user);
+          setData("user",map);
             setMsg("查询用户信息成功 (@^▽^@)✌ ");
 
         } catch (Exception e) {
@@ -924,6 +933,8 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
                                 @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "dutyid", required = false) String dutyid,
+                                @RequestParam(value = "userId", required = false) String userId,
                                 @RequestParam(value = "founding_time", required = false) String founding_time,
                                 @RequestParam(value = "change_time", required = false) String change_time,
                                 @RequestParam(value = "limit", required = false) Integer limit,
@@ -937,6 +948,14 @@ public class MiniProgramController extends BaseController {
 
         if (StringUtils.isNotEmpty(company)) {
             blurMap.put("company", company);
+        }
+
+        if (StringUtils.isNotEmpty(userId)) {
+            intMap.put("id", userId);
+        }
+
+        if (StringUtils.isNotEmpty(dutyid)) {
+            intMap.put("dutyid", dutyid);
         }
 
         if (StringUtils.isNotEmpty(username)) {
@@ -1211,7 +1230,6 @@ public class MiniProgramController extends BaseController {
             setCode(CommonString.BACK_EXPECTION);
             setFail("分组查询数量错误");
             logger.error("mini--->selectGroupCount", e);
-            return modelMap;
         }
         return modelMap;
     }
@@ -1309,6 +1327,29 @@ public class MiniProgramController extends BaseController {
             setCode(CommonString.BACK_EXPECTION);
             setFail("查询活动详情错误");
             logger.error("mini--->selectActivityByType", e);
+        }
+        return modelMap;
+    }
+
+
+
+    /**
+     * @apiGroup Activity
+     * @api {GET} /selectActivityStatusGroupCount 活动状态统计
+     * @apiDescription 活动状态统计 (0 筹备，1 进行中 2 已结束)
+     */
+    @RequestMapping(value = "/selectActivityStatusGroupCount")
+    @ResponseBody
+    public ModelMap selectActivityStatusGroupCount() {
+        modelMap = new ModelMap();
+        try {
+            Map map = activityService.selectActivityStatusGroupCount();
+            setData("countList", map.get("countList"));
+            setSuccess();
+        } catch (Exception e) {
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("活动状态统计异常 ");
+            logger.error("mini--->selectActivityGroupCount", e);
         }
         return modelMap;
     }

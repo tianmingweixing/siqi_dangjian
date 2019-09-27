@@ -95,7 +95,7 @@
             <label class="layui-form-label">慰问品及信息</label>
             <div class="layui-input-block">
             <textarea name="sympathy_product" id="sympathy_product" placeholder="请输入慰问品及信息"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if sympathy_product??>${sympathy_product}<#else></#if></textarea>
             </div>
         </div>
@@ -104,7 +104,7 @@
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
             </div>
         </div>

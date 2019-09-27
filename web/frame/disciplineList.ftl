@@ -19,6 +19,11 @@
             <input type="text" id="name"  placeholder="违纪名称" autocomplete="off" class="layui-input">
         </div>
 
+        <label class="layui-form-label label_width_100">用户ID</label>
+        <div class="layui-input-inline">
+            <input type="text" id="start_user_id"  placeholder="用户ID" autocomplete="off" class="layui-input">
+        </div>
+
     </div>
 
     <div class="layui-form-item">
@@ -101,24 +106,25 @@
             , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                , {field: 'name', title: '违纪名称'}
-                , {field: 'type', title: '类型' }
-                , {field: 'certificate', title: '荣誉凭证'}
-                , {field: 'unit', title: '违纪个人'}
+                , {field: 'id', title: '违纪ID', sort: true, fixed: 'left'}
                 , {field: 'user_id', title: '用户ID'}
+                , {field: 'unit', title: '违纪个人或单位'}
+                , {field: 'name', title: '违纪名称'}
+                , {field: 'type', title: '类型' ,hide:true}
+                , {field: 'certificate', title: '违纪凭证',hide:true}
                 , {field: 'time', title: '时间',sort:true}
-                // , {field: 'passive_unit', title: '奖惩单位', width: 200,sort:true}
-                , {field: 'amount', title: '金额',sort:true}
-                , {field: 'content', title: '奖惩内容',sort:true}
+                , {field: 'passive_unit', title: '奖惩单位', width: 200,sort:true,hide:true}
+                , {field: 'amount', title: '金额',sort:true,hide:true}
+                , {field: 'content', title: '违纪详情',sort:true}
                 , {field: 'note', title: '备注',sort:true}
-                // , {field: 'party_branch_id', title: '支部ID', width: 80,sort:true}
+                , {field: 'party_branch_id', title: '支部ID', width: 80,sort:true,hide:true}
                 ,{field: 'edit',title:'编辑',templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
             reload:function () {
                 var name = $("#name").val();
+                var user_id=$("#start_user_id").val();
                 var start_time_search=$("#start_time_search").val();
                 var end_time_search=$("#end_time_search").val();
 
@@ -126,6 +132,7 @@
                     method:'get',
                     where:{
                         name:name,
+                        user_id:user_id,
                         start_time_search:start_time_search,
                         end_time_search:end_time_search
                     }

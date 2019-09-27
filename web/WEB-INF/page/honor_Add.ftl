@@ -103,7 +103,7 @@
         <label class="layui-form-label">荣誉详情</label>
         <div class="layui-input-inline">
             <textarea name="content" id="content" placeholder="请输入详情"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
         </div>
     </div>
@@ -112,7 +112,7 @@
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
         </div>
     </div>
@@ -121,7 +121,7 @@
         <div class="layui-upload" style="margin-left: 60px;">
             <button type="button" class="layui-btn" id="uploadImg">上传荣誉凭证</button>
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/home/up_load/image/2019921/3cfbd168-3d97-465e-bb26-67b4c9c6f0f8indexImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>/images/defaultImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>
             </div>
         </div>
@@ -185,7 +185,6 @@
 
                     //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                     obj.preview(function(index, file, result){
-                        //???????
                         $('#certificate').attr('src', result); //图片链接（base64）
                     });
                 }
@@ -208,7 +207,12 @@
                 }
             });
 
-            form.on('submit(formDemo)', function (data) {
+            form.on('submit(formDemo)', function () {
+                var defalutImg = "/images/defaultImg.jpg";
+
+                if($("#imgPath").val() == ""){
+                    $('#imgPath').val(defalutImg);
+                }
 
                 $.ajax({
                     url: "/disciplineOfHonor/addDisciplineOfHonor",

@@ -87,15 +87,16 @@ public class Meeting extends BaseBean {
     /**
      * 开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="start_time",length = 1,nullable = true)
     private Date startTime;
 
     /**
      * 结束时间
      */
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="end_time",length = 1,nullable = true)
     private Date endTime;
 

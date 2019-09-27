@@ -43,13 +43,69 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public Map getUserInfoById(Long id) throws Exception{
         session = sessionFactory.getCurrentSession();
-        String sql = "SELECT *\n" +
-                "\tFROM user\n" +
+        String sql = "SELECT\n" +
+                "  u.id,\n" +
+                "  u.username,\n" +
+                "  u.nick_name,\n" +
+                "  u.head_img,\n" +
+                "  if(u.sex='1','男','女')sex,\n" +
+                "  u.age,\n" +
+                "  (case u.education\n" +
+                "   when 1 then '初中'\n" +
+                "   when 2 then '高中'\n" +
+                "   when 3 then '中专'\n" +
+                "   when 4 then '大专'\n" +
+                "   when 5 then '本科'\n" +
+                "   when 5 then '硕士'\n" +
+                "   when 5 then '博士'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )education,\n" +
+                "  u.company,\n" +
+                "  u.phone,\n" +
+                "  u.ID_cord,\n" +
+                "  u.birth,\n" +
+                "  u.activist_time,\n" +
+                "  u.nation,\n" +
+                "  u.origo,\n" +
+                "  u.official_time,\n" +
+                "  u.session_key,\n" +
+                "  u.openId,\n" +
+                "  u.last_time,\n" +
+                "  (case u.difficulty_type\n" +
+                "   when 0 then '非困难'\n" +
+                "   when 1 then '困难'\n" +
+                "   when 2 then '特困难'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )difficulty_type,\n" +
+                "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
+                "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
+                "  u.address,\n" +
+                "  u.dutyid,\n" +
+                "  d.type_name ,\n" +
+                "  u.party_branch_id,\n" +
+                "  p.name party_branch_name,\n" +
+                "  u.party_groups_id,\n" +
+                "  g.name party_groups_name,\n" +
+                "  u.party_team_id,\n" +
+                "  t.name party_team_name\n" +
+                "FROM\n" +
+                "  USER u\n" +
+                "  LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                "  join party_branch p on u.party_branch_id = p.id\n" +
+                "  join party_group g on u.party_groups_id = g.id\n" +
+                "  join party_team t on u.party_team_id = t.id\n"+
                 "WHERE\n" +
-                "\tcan_use = 1 and id = ?";
+                "   u.id = ?"
+                ;
         SQLQuery query = session.createSQLQuery(sql);
         query.setLong(0,id);
-        return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
+        Map resMap = new HashMap();
+        List list =  query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        resMap.put("list", resMap);
+        return  resMap;
+//        return (Map)query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
     }
 
     @Override
@@ -87,7 +143,8 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
         String sqlCount = "SELECT\n" +
                 "\tcount(*) count,\n" +
-                "\td.type_name typeName\n" +
+                "\td.type_name typeName,\n" +
+                "\td.id typeId \n" +
                 "FROM\n" +
                 "\tUSER u\n" +
                 "JOIN duty d ON u.dutyid = d.id\n" +
@@ -112,24 +169,47 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  u.username,\n" +
                 "  u.nick_name,\n" +
                 "  u.head_img,\n" +
+                "  u.profiles,\n" +
                 "  if(u.sex='1','男','女')sex,\n" +
                 "  u.age,\n" +
-                "  u.education,\n" +
+                "  (case u.education\n" +
+                "   when 1 then '初中'\n" +
+                "   when 2 then '高中'\n" +
+                "   when 3 then '中专'\n" +
+                "   when 4 then '大专'\n" +
+                "   when 5 then '本科'\n" +
+                "   when 5 then '硕士'\n" +
+                "   when 5 then '博士'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )education,\n" +
                 "  u.company,\n" +
                 "  u.phone,\n" +
-                "  u.dutyid,\n" +
-                "  u.party_groups_id,\n" +
-                "  u.party_team_id,\n" +
                 "  u.ID_cord,\n" +
-                "  d.type_name ,\n" +
+                "  u.birth,\n" +
+                "  u.activist_time,\n" +
+                "  u.nation,\n" +
+                "  u.origo,\n" +
+                "  u.official_time,\n" +
+                "  u.session_key,\n" +
+                "  u.openId,\n" +
+                "  u.last_time,\n" +
                 "  (case u.difficulty_type\n" +
                 "   when 0 then '非困难'\n" +
                 "   when 1 then '困难'\n" +
-                "   when 2 then '特困难' else '暂无信息' end)difficulty_type,\n" +
+                "   when 2 then '特困难'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )difficulty_type,\n" +
                 "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
                 "  u.address,\n" +
-                "  p.name party_branch_name\n" +
+                "  u.dutyid,\n" +
+                "  d.type_name ,\n" +
+                "  u.party_branch_id,\n" +
+                "  p.name party_branch_name,\n" +
+                "  u.party_groups_id,\n" +
+                "  u.party_team_id\n" +
                 "FROM\n" +
                 "  USER u\n" +
                 "  LEFT JOIN duty d ON u.dutyid = d.id\n" +
