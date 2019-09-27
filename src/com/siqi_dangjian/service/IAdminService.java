@@ -19,6 +19,8 @@ public interface IAdminService {
 
     void logicDelete(List idList) throws Exception;
 
+    void updateAuthority(Long id , String authority) throws Exception;
+
     void delete(List idList) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;

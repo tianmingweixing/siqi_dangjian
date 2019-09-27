@@ -18,6 +18,8 @@ public interface IAdminDao {
 
     void delete(List idList) throws Exception;
 
+    void updateAuthority(Long id , String authority) throws Exception;
+
     Admin selectById(Long id) throws Exception;
 
     Map selectAll(Map blurParam, Map intParam,

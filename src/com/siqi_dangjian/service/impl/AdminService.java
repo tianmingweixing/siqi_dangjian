@@ -58,6 +58,11 @@ public class AdminService implements IAdminService {
     }
 
     @Override
+    public void updateAuthority(Long id, String authority) throws Exception {
+        adminDao.updateAuthority(id, authority);
+    }
+
+    @Override
     public void delete(List idList) throws Exception {
         adminDao.delete(idList);
     }

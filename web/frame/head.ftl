@@ -21,7 +21,7 @@
         <li class="layui-nav-item">
             <a href="javascript:;">
                 <img src="../images/head.jpg" class="layui-nav-img">
-                贤心
+                <span id="adminName">贤心</span>
             </a>
             <dl class="layui-nav-child">
                 <dd><a onclick="logout()">退出登陆</a></dd>
@@ -46,5 +46,27 @@
                 break;
         }
     }
+
+    function initAdmin(){
+        $.ajax({
+            url: "/admin/getAdmin",
+            type: "POST",
+            data: {
+                // party_branch_id: $("#party_branch_id").val(),
+            },
+            success: function (data) {
+                //console.log(data);
+                if (data.code == 0){
+                    $("#adminName").html(data.admin.userName);
+                }
+            }
+        });
+    }
+
+    $().ready(function () {
+        //初始化信息
+        initAdmin();
+
+    });
 
 </script>

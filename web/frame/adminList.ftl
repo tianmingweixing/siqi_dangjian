@@ -60,6 +60,21 @@
         window.location.reload();
     }
 
+    function onAuthorityBtn(data){
+        window.PartitionData=data;
+        layer.open({
+            type: 2,
+            title: '权限管理页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'default',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '500px'],
+            content: ['/frame/authority.ftl']
+        });
+    }
+
+
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
                 ,laypage = layui.laypage //分页
@@ -126,7 +141,10 @@
                     //向服务端发送删除指令
                 });
             } else if(layEvent === 'edit'){
-                layer.msg('编辑操作');
+
+                onAuthorityBtn(data);
+
+                //layer.msg('编辑操作');
             }
         });
 

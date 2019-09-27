@@ -22,5 +22,7 @@ public interface IActivityService {
 
     Map selectActivityGroupCount();
 
+    Map selectActivitysByState(int state, int limit, int page) throws Exception;
+
     String selectSignInById(Long id) throws Exception;
 }

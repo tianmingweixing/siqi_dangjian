@@ -83,13 +83,40 @@ public class AdminController extends BaseController{
                               @RequestParam(value = "authority", required = false) String authority,
                               @RequestParam(value = "headImg", required = false) String headImg,
                               @RequestParam(value = "admin_account", required = false) String admin_account,
-                              @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
+                              @RequestParam(value = "party_branch_id", required = false) Long party_branch_id,HttpSession session) {
         modelMap = new ModelMap();
         String md5Str = "";
         try {
-            Admin admin= new Admin();
+
+            //检查权限
+            String account = (String) session.getAttribute("account");
+            Admin loginAdmin = adminService.getAdminByAccount(account);
+            if (loginAdmin != null){
+                Integer type = loginAdmin.getAdminType();
+                if (type == 2){
+                    setFail("您不为超级管理员，权限不够。");
+                    return modelMap;
+                }
+            }else {
+                setFail("请登录。");
+                return modelMap;
+            }
+
+            Admin admin;
             if (id != null){
-                admin.setId(id);
+                admin = adminService.selectById(id);
+                String acount = admin.getAccount();
+                if (!acount.equals(admin_account)){
+                    //检查账号
+                    Admin admin2 = adminService.getAdminByAccount(admin_account);
+                    if (admin2 != null){
+                        setFail("该账号已使用");
+                        return modelMap;
+                    }
+                }
+
+            }else {
+                admin = new Admin();
             }
 
             admin.setAccount(admin_account);
@@ -214,6 +241,77 @@ public class AdminController extends BaseController{
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             setFail("后台异常");
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("后台异常");
+        }
+
+        return modelMap;
+    }
+
+
+    @RequestMapping("/setAuthority")
+    @ResponseBody
+    public ModelMap setAuthority(@RequestParam(value = "adminId", required = false) Long adminId,
+                                 @RequestParam(value = "authority", required = false) String authority, HttpSession session) throws IOException {
+        modelMap = new ModelMap();
+
+        try {
+            //检查权限
+            String account = (String) session.getAttribute("account");
+            Admin admin = adminService.getAdminByAccount(account);
+            if (admin != null){
+                Integer type = admin.getAdminType();
+                if (type == 2){
+                    setFail("您不为超级管理员，权限不够。");
+                }else {
+                    adminService.updateAuthority(adminId,authority);
+                    setSuccess();
+                }
+
+            }else {
+                setFail("查询不到该管理员。");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("后台异常");
+        }
+
+        return modelMap;
+    }
+
+    @RequestMapping("/getAuthority")
+    @ResponseBody
+    public ModelMap getAuthority(@RequestParam(value = "adminId", required = false) Long adminId,
+                                 HttpSession session) throws IOException {
+        modelMap = new ModelMap();
+        try {
+            Admin admin = adminService.selectById(adminId);
+            String json = admin.getAuthority();
+            setData("authority",json);
+            setSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("后台异常");
+        }
+
+        return modelMap;
+    }
+
+    @RequestMapping("/getAdmin")
+    @ResponseBody
+    public ModelMap getAdmin(HttpSession session) throws IOException {
+        modelMap = new ModelMap();
+        try {
+            String account = (String) session.getAttribute("account");
+            Admin admin = adminService.getAdminByAccount(account);
+            if (admin != null){
+                setData("admin",admin);
+                setSuccess();
+            }else {
+                setFail("查询不到该管理员。");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             setFail("后台异常");

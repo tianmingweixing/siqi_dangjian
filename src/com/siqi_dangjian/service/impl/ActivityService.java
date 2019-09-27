@@ -78,6 +78,11 @@ public class ActivityService implements IActivityService {
     }
 
     @Override
+    public Map selectActivitysByState(int state, int limit, int page) throws Exception {
+        return activityDao.selectActivitysByState(state, limit, page);
+    }
+
+    @Override
     public String selectSignInById(Long id) throws Exception {
         return activityDao.selectSignInById(id);
     }

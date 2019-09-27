@@ -720,26 +720,17 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-
-
     /**
      * @apiGroup Activity
-     * @api {GET} /getActivityList 获取活动列表
-     * @apiDescription 获取活动列表
-     * @apiParam {String} title 标题
-     * @apiParam {Integer} type 活动类型
-     * @apiParam {String} start_time 开始时间
-     * @apiParam {String} end_time 结束时间
-     * @apiParam {String} token 令牌
+     * @api {GET} /getActivitysByState 根据活动状态查询活动列表
+     * @apiDescription 根据活动状态查询活动列表
+     * @apiParam {Integer} state 活动状态：0-全部；1-进行中；2-筹办中；3-已完成
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页号
      */
-    @RequestMapping("/getActivityList")
+    @RequestMapping("/getActivitysByState")
     @ResponseBody
-    public ModelMap getActivityList(@RequestParam(value = "title", required = false) String title,
-                                    @RequestParam(value = "type", required = false) Integer type,
-                                    @RequestParam(value = "start_time", required = false) String start_time,
-                                    @RequestParam(value = "end_time", required = false) String end_time,
+    public ModelMap getActivitysByState(@RequestParam(value = "state", required = false) Integer state,
                                     @RequestParam(value = "limit", required = false) Integer limit,
                                     @RequestParam(value = "page", required = false) Integer page) {
 
@@ -747,33 +738,9 @@ public class MiniProgramController extends BaseController {
 
         try {
 
-            Map blurMap = new HashMap<>();
-            Map dateMap = new HashMap<>();
-            Map intMap = new HashMap<>();
+            Map map = activityService.selectActivitysByState(state, limit, page);
 
-
-            if (type != null) {
-                intMap.put("type", type.toString());
-            }
-            if (StringUtils.isNotEmpty(title)) {
-                blurMap.put("title", title);
-            }
-            if (StringUtils.isNotEmpty(start_time)) {
-                dateMap.put("start_time", start_time);
-            }
-            if (StringUtils.isNotEmpty(end_time)) {
-                dateMap.put("end_time", end_time);
-            }
-
-            if (limit == null || page == null) {
-                setFail("缺少分页参数limit,page (°_°)");
-                setCode(CommonString.FRONT_EXPECTION);
-                return modelMap;
-            }
-
-            Map map = activityService.selectAll(blurMap, intMap, dateMap, limit, page);
-
-            List list = (List<ActivitiesType>) map.get("list");
+            List list =(List<Map>) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
@@ -1251,7 +1218,7 @@ public class MiniProgramController extends BaseController {
 
     /**
      * @apiGroup Activity
-     * @api {GET} /selectActivityGroupCount 活动分类统计的数量
+     * @api {GET} /selectActivityGroupCount 活动分类统计的数量和名称
      * @apiDescription 活动分类统计的数量 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
      */
     @RequestMapping(value = "/selectActivityGroupCount")
