@@ -43,8 +43,11 @@
                 <label class="layui-form-label" style="margin-left: 85px">类型</label>
                 <div class="layui-input-inline">
                     <select id="admin_type" name="admin_type">
-                        <!--<option value='1'>超级管理员</option>-->
-                        <option value='2'>普通管理员</option>
+                        <#if admin_type??>
+                            <#if admin_type == 1><option value='1'>超级管理员</option><#else><option value='2'>普通管理员</option></#if>
+                        </#if>
+                        <!--<option value='1'>超级管理员</option>
+                        <option value='2'>普通管理员</option>-->
                     </select>
                 </div>
             </div>
@@ -78,6 +81,7 @@
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
+
         </div>
     </div>
 

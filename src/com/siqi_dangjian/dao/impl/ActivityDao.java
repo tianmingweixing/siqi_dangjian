@@ -192,4 +192,58 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         return userName;
     }
 
+    /**
+     * 根据活动状态查询活动列表
+     * @param state
+     * @param limit
+     * @param page
+     * @return  Map
+     * @throws Exception
+     */
+    @Override
+    public Map selectActivitysByState(int state, int limit, int page) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        String sql = "SELECT\n" +
+                "\ta.content,\n" +
+                "\tDATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,\n" +
+                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
+                "\tDATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
+                "\ta.id,\n" +
+                "\ta.image_path_a,\n" +
+                "\ta.image_path_b,\n" +
+                "\ta.status,\n" +
+                "\ta.party_branch_id,\n" +
+                "\ta.review,\n" +
+                "\ta.title,\n" +
+                "\t(select b.brand_name from activities_brand b where b.id=a.brand_id and b.can_use=1) brand_name,\n" +
+                "\t(select t.type_name from activities_type t where t.id=a.type_id and t.can_use=1) type_name\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "WHERE\n" +
+                "\ta.can_use = 1";
+
+        String sqlCount = "SELECT count(id) count FROM activities a where a.can_use=1";
+
+        if(state == 1){
+            //查进行中活动
+            sql = sql + " and NOW() BETWEEN a.start_time and a.end_time";
+            sqlCount = sqlCount + " and NOW() BETWEEN a.start_time and a.end_time";
+        }else if (state == 2){
+            //查筹办中活动
+            sql = sql + " and a.start_time > NOW()";
+            sqlCount = sqlCount + " and a.start_time > NOW()";
+        }else if (state == 3){
+            //查已完成活动
+            sql = sql + " and a.end_time < NOW()";
+            sqlCount = sqlCount + " and a.start_time > NOW()";
+        }else {
+            //查全部
+        }
+
+        Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
+        return resMap;
+
+    }
+
 }

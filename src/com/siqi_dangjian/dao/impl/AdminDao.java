@@ -39,6 +39,16 @@ public class AdminDao extends BaseDao<Admin> implements IAdminDao {
     }
 
     @Override
+    public void updateAuthority(Long id , String authority) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "update admin set authority = ? where id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,authority);
+        query.setParameter(1,id);
+        query.executeUpdate();
+    }
+
+    @Override
     public void delete(List idList) throws Exception{
         session = sessionFactory.getCurrentSession();
         String sql = "delete from admin";
