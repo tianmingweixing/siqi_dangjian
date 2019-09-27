@@ -298,7 +298,7 @@ public class ActivitiesController extends BaseController{
     }
 
     /**
-     * 删除活动
+     * 获取活动
      * @return
      */
     @RequestMapping("/getActivities")

@@ -53,6 +53,9 @@ public class MiniProgramController extends BaseController {
     private IActivityService activityService;
 
     @Autowired
+    private IActivityTypeService activityTypeService;
+
+    @Autowired
     private ISympathyService sympathyService;
 
     @Autowired
@@ -1266,6 +1269,83 @@ public class MiniProgramController extends BaseController {
         }
         return modelMap;
     }
+
+    /** @apiGroup Activity
+     * @api {GET} /selectActivityType 查询活动分类
+     * @apiDescription 查询活动分类 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
+     *
+     * 查询活动分类 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
+     * @return modelMap
+     */
+    @RequestMapping(value = "/selectActivityType")
+    @ResponseBody
+    public ModelMap selectActivityType() {
+        modelMap = new ModelMap();
+        try {
+            List types =  activityTypeService.selectList();
+            setData("types",types);
+            setSuccess();
+
+        } catch (Exception e) {
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("查询活动分类错误");
+            logger.error("mini--->selectActivityType", e);
+        }
+        return modelMap;
+    }
+
+
+    /** @apiGroup Activity
+     * @api {GET} /selectActivityById 查询活动详情
+     * @apiDescription 查询活动详情
+     * @apiParam {Long} activityId 活动id
+     *
+     * 查询活动详情
+     * @return modelMap
+     */
+    @RequestMapping(value = "/selectActivityById")
+    @ResponseBody
+    public ModelMap selectActivityById(Long activityId) {
+        modelMap = new ModelMap();
+        try {
+            Activities activities =  activityService.selectById(activityId);
+            setData("activities",activities);
+            setSuccess();
+
+        } catch (Exception e) {
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("查询活动详情错误");
+            logger.error("mini--->selectActivityById", e);
+        }
+        return modelMap;
+    }
+
+
+    /** @apiGroup Activity
+     * @api {GET} /selectActivityByType 根据类型查询活动
+     * @apiDescription 查询活动详情
+     * @apiParam {Integer} activityType 活动类型
+     *
+     * 根据类型查询活动
+     * @return modelMap
+     */
+    @RequestMapping(value = "/selectActivityByType")
+    @ResponseBody
+    public ModelMap selectActivityByType(Integer activityType) {
+        modelMap = new ModelMap();
+        try {
+            Map res =  activityService.getActivityByType(activityType);
+            setData("data",res);
+            setSuccess();
+
+        } catch (Exception e) {
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("查询活动详情错误");
+            logger.error("mini--->selectActivityByType", e);
+        }
+        return modelMap;
+    }
+
 
 
 }

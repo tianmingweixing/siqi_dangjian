@@ -61,9 +61,9 @@
 
 <script type="text/html" id="barDemo">
 
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="add">添加签到</a>
-    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">编辑</a>
+    <!--<a class="layui-btn layui-btn-xs" lay-event="add">添加签到</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>-->
 </script>
 <style>
@@ -171,7 +171,7 @@
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
                 , {field: 'review', title: '点评'}
-                , {field: 'id',title:'操作',width:200,fixed: 'right',toolbar: '#barDemo'}
+                , {field: 'id',title:'操作',width:120,fixed: 'right',toolbar: '#barDemo'}
                 // , {field: 'image_path_a', title: '图片1'}
                 // , {field: 'image_path_b', title: '图片2'}
                 // ,{field: 'address',title:'地址',width:200,sort: true}
@@ -264,6 +264,24 @@
                     break;
             }
         });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                    ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'detail'){
+                window.location.href = '/activities/goto?id=' + data.id;
+            } else if(layEvent === 'edit'){
+                layer.msg('edit');
+                console.log(data);
+                window.location.href='/activities/goto?id='+data.id;
+            }else if(layEvent === 'add'){
+                layer.msg('add');
+            }else if(layEvent === 'delete'){
+                layer.msg('del');
+            }
+        });
+
 
         //分页
         laypage.render({

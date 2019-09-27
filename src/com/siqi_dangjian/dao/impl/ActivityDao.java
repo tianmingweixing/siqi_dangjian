@@ -60,11 +60,13 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
+//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
+//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "SELECT\n" +
                 "\ta.content,\n" +
-                "\tDATE_FORMAT(a.create_time,'%Y-%m-%d') create_time,\n" +
-                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d') start_time,\n" +
-                "\tDATE_FORMAT(a.end_time,'%Y-%m-%d') end_time,\n" +
+                "\tDATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,\n" +
+                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
+                "\tDATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
                 "\ta.id,\n" +
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +
@@ -102,10 +104,26 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
     public Map selectActivityByType(Integer type) throws Exception {
         Map map = new HashMap();
         session = sessionFactory.getCurrentSession();
-        String sql = "SELECT *\n" +
-                "\tFROM activities\n" +
+        String sql = "SELECT\n" +
+                "\ta.brand_id,\n" +
+                "\ta.content,\n" +
+                "\ta.id,\n" +
+                "\ta.end_time,\n" +
+                "\ta.start_time,\n" +
+                "\ta.`status`,\n" +
+                "\ta.image_path_a,\n" +
+                "\ta.image_path_b,\n" +
+                "\ta.title,\n" +
+                "\ta.type_id,\n" +
+                "\ta.review,\n" +
+                "\tact.type_name\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "LEFT JOIN activities_type act ON a.type_id = act.id\n" +
                 "WHERE\n" +
-                "\tcan_use = 1 and type_id = ?";
+                "\ta.can_use = 1\n" +
+                "AND act.can_use = 1\n" +
+                "AND a.type_id = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setInteger(0,type);
         map.put("list",query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list());
@@ -138,7 +156,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
 
         String sqlCount = "SELECT\n" +
                 "\tcount(*) count,\n" +
-                "\tAT.type_name typeName\n" +
+                "\tAT.type_name typeName,AT.id\n" +
                 "FROM\n" +
                 "\tactivities a\n" +
                 "JOIN activities_type AT ON AT.id = a.type_id\n" +
