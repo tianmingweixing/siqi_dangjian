@@ -58,6 +58,13 @@ public class Activities extends BaseBean{
     public Date endTime;
 
     /**
+     * 截至报名时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name="end_join_time",length = 30,nullable = true)
+    public Date endJoinTime;
+
+    /**
      * 活动状态 0：筹备 1： 进行 2： 结束
      */
     @Column(name="status",length = 8,nullable = true)
@@ -121,6 +128,14 @@ public class Activities extends BaseBean{
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getEndJoinTime() {
+        return endJoinTime;
+    }
+
+    public void setEndJoinTime(Date endJoinTime) {
+        this.endJoinTime = endJoinTime;
     }
 
     public Integer getStatus() {

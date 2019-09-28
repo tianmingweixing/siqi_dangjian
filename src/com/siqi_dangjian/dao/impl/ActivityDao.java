@@ -67,6 +67,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\tDATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,\n" +
                 "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
                 "\tDATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
+                "\tDATE_FORMAT(a.end_join_time,'%Y-%m-%d %T') end_join_time,\n" +
                 "\ta.id,\n" +
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +
@@ -109,6 +110,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.content,\n" +
                 "\ta.id,\n" +
                 "\ta.end_time,\n" +
+                "\ta.end_join_time,\n" +
                 "\ta.start_time,\n" +
                 "\ta.`status`,\n" +
                 "\ta.image_path_a,\n" +
@@ -209,6 +211,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\tDATE_FORMAT(a.create_time,'%Y-%m-%d %T') create_time,\n" +
                 "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
                 "\tDATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
+                "\tDATE_FORMAT(a.end_join_time,'%Y-%m-%d %T') end_join_time,\n" +
                 "\ta.id,\n" +
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +

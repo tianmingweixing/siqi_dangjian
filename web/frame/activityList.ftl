@@ -170,6 +170,7 @@
                 , {field: 'status', title: '活动状态',hide:true}
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
+                , {field: 'end_join_time', title: '截至报名'}
                 , {field: 'review', title: '点评'}
                 , {field: 'id',title:'操作',width:120,fixed: 'right',toolbar: '#barDemo'}
                 // , {field: 'image_path_a', title: '图片1'}

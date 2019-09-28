@@ -76,7 +76,6 @@ public class MiniProgramController extends BaseController {
 
 
     /**
-     * @return
      * @apiGroup login
      * @api {GET} /wx_login 微信登陆接口
      * @apiDescription 微信登陆接口
@@ -149,7 +148,6 @@ public class MiniProgramController extends BaseController {
 
 
     /**
-     * @return
      * @apiGroup Activity
      * @api {GET} /getActivityTipsList 获取活动心得列表
      * @apiDescription 获取活动心得列表
@@ -201,7 +199,6 @@ public class MiniProgramController extends BaseController {
 
 
     /**
-     * @return
      * @apiGroup Activity
      * @api {GET} /saveActivityTips 添加活动心得
      * @apiDescription 添加活动心得
@@ -293,7 +290,6 @@ public class MiniProgramController extends BaseController {
 
 
     /**
-     * @return
      * @apiGroup Meeting
      * @api {GET} /addMeetingGuide 添加会议指导
      * @apiDescription 添加会议指导
@@ -394,8 +390,14 @@ public class MiniProgramController extends BaseController {
 
 
     /**
+     * @apiGroup Activity
+     * @api {GET} /addActivitySignIn 活动报名
+     * @apiDescription 活动报名
+     * @apiParam {Long} user_id 用户id
+     * @apiParam {String} activity_id 活动id
+     * @apiParam {String} token 令牌
+     *
      * 活动报名
-     * @return
      */
     @RequestMapping("/addActivitySignIn")
     @ResponseBody
@@ -441,7 +443,17 @@ public class MiniProgramController extends BaseController {
 
 
     /**
+     * @apiGroup Activity
+     * @api {GET} /cancelActivitySignIn 取消活动报名
+     * @apiDescription 取消活动报名
+     * @apiParam {Long} user_id 用户id
+     * @apiParam {String} activity_id 活动id
+     * @apiParam {String} token 令牌
+     *
      * 取消活动报名
+     * @param user_id
+     * @param activity_id
+     * @param token
      * @return
      */
     @RequestMapping("/cancelActivitySignIn")
@@ -595,7 +607,16 @@ public class MiniProgramController extends BaseController {
 
 
 
-
+    /**
+     * @apiGroup Meeting
+     * @api {GET} /getMeetingById 查询会议详情
+     * @apiDescription 查询会议详情
+     * @apiParam {String} id 会议id
+     *
+     * 查询会议表信息
+     * @param id
+     * @return
+     */
     @RequestMapping("/getMeetingById")
     @ResponseBody
     public ModelMap getMeetingById(String id){
@@ -622,6 +643,13 @@ public class MiniProgramController extends BaseController {
 
 
     /**
+     * @apiGroup Meeting
+     * @api {GET} /getMeetingList 查询会议表信息
+     * @apiDescription 查询会议表信息
+     * @apiParam {String} name 会议名称
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页号
+     *
      * 查询会议表信息
      * @param name
      * @param meeting_type_id
@@ -770,16 +798,38 @@ public class MiniProgramController extends BaseController {
 
 
     /**
-     * 添加或更新
+     * @apiGroup User
+     * @api {GET} /addUser 添加或更新用户
+     * @apiDescription 添加或更新用户
+     * @apiParam {Long} id 用户id
+     * @apiParam {String} username 用户名
+     * @apiParam {Integer} sex 用户性别
+     * @apiParam {String} education 学历
+     * @apiParam {String} ID_cord 用户身份
+     * @apiParam {String} token 令牌
+     * @apiParam {String} address 地址
+     * @apiParam {String} phone 用户号码
+     * @apiParam {String} company 公司
+     * @apiParam {Integer} age 用户年龄
+     * @apiParam {Integer} dutyid 政治面貌
+     * @apiParam {Date} joinTime 用户加入时间
+     * @apiParam {Long} partyGroupsId 班子
+     * @apiParam {Long} partyTeamId 党组
      *
+     * 添加或更新用户
      * @param id
+     * @param dutyid
+     * @param partyGroupsId
+     * @param partyTeamId
      * @param username
      * @param sex
      * @param education
      * @param address
      * @param company
+     * @param token
      * @param age
-     * @param dutyid
+     * @param ID_cord
+     * @param phone
      * @param joinTime
      * @return
      */
@@ -844,8 +894,12 @@ public class MiniProgramController extends BaseController {
         return modelMap;
     }
 
-
     /**
+     * @apiGroup User
+     * @api {GET} /getUserById 根据id查询用户信息
+     * @apiDescription 根据id查询用户信息和参加活动的次数以及荣誉次数
+     * @apiParam {Long} id 用户id
+     *
      * 根据id查询用户信息
      * @param id
      * @return user
@@ -1243,8 +1297,8 @@ public class MiniProgramController extends BaseController {
     public ModelMap selectActivityById(Long activityId) {
         modelMap = new ModelMap();
         try {
-            Activities activities =  activityService.selectById(activityId);
-            setData("activities",activities);
+            Map acticityInfo =  activityService.selectActivitiesInfoById(activityId);
+            setData("acticityInfo",acticityInfo);
             setSuccess();
 
         } catch (Exception e) {

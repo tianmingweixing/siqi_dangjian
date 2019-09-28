@@ -58,15 +58,19 @@
             </div>
 
             <div class="layui-form-item input_row_margin_top">
-                <label class="layui-form-label">活动状态</label>
+                <!--<label class="layui-form-label">活动状态</label>
                 <div class="layui-input-inline">
                     <select id="status" name="status" lay-filter="select_first_category">
                         <option value='0'>筹备中</option>
                         <option value='1'>进行中</option>
                         <option value='2'>已结束</option>
                     </select>
+                </div>-->
+                <label class="layui-form-label ">截止报名</label>
+                <div class="layui-input-inline">
+                    <input id="end_join_time" name="end_join_time" lay-verify="text" placeholder="截止报名时间"
+                           autocomplete="off" class="layui-input" value="<#if end_join_time??>${end_join_time}<#else></#if>">
                 </div>
-
                 <label class="layui-form-label" >活动品牌</label>
                 <div class="layui-input-inline">
                     <select id="brand_search" name="brand_search" lay-verify="">
@@ -397,7 +401,10 @@
             elem: '#end_time' //指定元素
             ,type: 'datetime'
         });
-
+        laydate.render({
+            elem: '#end_join_time' //指定元素
+            ,type: 'datetime'
+        });
         //初始化下活动类型下拉框
         initSelectOfType(form);
 
@@ -512,7 +519,8 @@
                     brand_id: $("#brand_search").val(),
                     start_time: $("#start_time").val(),
                     end_time: $("#end_time").val(),
-                    status: $("#status").val(),
+                    end_join_time: $("#end_join_time").val(),
+                    status: 0,
                     image_path_a: pathArr[0],
                     image_path_b: pathArr[1],
                     id: id

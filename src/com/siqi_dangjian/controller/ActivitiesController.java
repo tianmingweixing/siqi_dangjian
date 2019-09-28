@@ -193,6 +193,7 @@ public class ActivitiesController extends BaseController{
                 view.addObject("brandId", activities.getBrandId());
                 view.addObject("start_time", activities.getStartTime());
                 view.addObject("end_time", activities.getEndTime());
+                view.addObject("end_join_time", activities.getEndJoinTime());
                 view.addObject("status", activities.getStatus());
                 String userNameStr =  activityService.selectSignInById(id);
                 view.addObject("userNameStr", userNameStr);
@@ -239,6 +240,7 @@ public class ActivitiesController extends BaseController{
                                  @RequestParam(value = "brand_id", required = false) Long brand_id,
                                  @RequestParam(value = "start_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start_time,
                                  @RequestParam(value = "end_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end_time,
+                                 @RequestParam(value = "end_join_time", required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end_join_time,
                                  @RequestParam(value = "status", required = false) Integer status,
                                  @RequestParam(value = "image_path_a", required = false) String image_path_a,
                                  @RequestParam(value = "image_path_b", required = false) String image_path_b,
@@ -251,12 +253,13 @@ public class ActivitiesController extends BaseController{
             }
 
             activities.setTitle(title);
-            activities.setPartyBranchId(1L);
+            activities.setPartyBranchId(party_branch_id);
             activities.setCanUse(1);
             activities.setTypeId(type_id);
             activities.setBrandId(brand_id);
             activities.setContent(content);
             activities.setStatus(status);
+            activities.setEndJoinTime(end_join_time);
             activities.setImagePathA(image_path_a);
             activities.setImagePathB(image_path_b);
             activities.setStartTime(start_time);
