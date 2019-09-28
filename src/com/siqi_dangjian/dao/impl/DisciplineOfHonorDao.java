@@ -4,7 +4,6 @@ package com.siqi_dangjian.dao.impl;
 import com.siqi_dangjian.bean.DisciplineOfHonor;
 import com.siqi_dangjian.dao.IDisciplineOfHonorDao;
 import com.siqi_dangjian.util.CommonUtil;
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 

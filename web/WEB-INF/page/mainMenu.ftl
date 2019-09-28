@@ -117,7 +117,6 @@
     $.ajax({
         url: "/admin/getAdmin",
         type: "POST",
-        Content-Type: "text/html",
         data: {
             // party_branch_id: $("#party_branch_id").val(),
         },

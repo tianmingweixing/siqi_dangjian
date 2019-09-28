@@ -79,6 +79,18 @@ public class ActivityService implements IActivityService {
      */
     @Override
     public Activities selectById(Long id) throws Exception {
+        Activities activities = activityDao.selectById(id);
+        return activities;
+    }
+
+    /**
+     * 根据id查询活动
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Map selectActivitiesInfoById(Long id) throws Exception {
         Map data = new HashMap();
         Map intParme = new HashMap();
         Activities activities = activityDao.selectById(id);
@@ -87,13 +99,13 @@ public class ActivityService implements IActivityService {
         intParme.put("activity_id",activities.getId().toString());
         Map userMap = activityOfUserService.selectAll(new HashMap(),intParme,new HashMap(),5,1);
         data.put("activities",activities);
-        if (partyBranch !=null) {
+        if (partyBranch != null) {
             data.put("partuName", partyBranch.getName());
             data.put("partuImg", partyBranch.getPartyImg());
         }
         data.put("userMap",userMap);
 
-        return activities;
+        return data;
     }
 
     @Override
