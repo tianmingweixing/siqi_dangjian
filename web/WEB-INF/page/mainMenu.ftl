@@ -117,6 +117,7 @@
     $.ajax({
         url: "/admin/getAdmin",
         type: "POST",
+        Content-Type: "text/html",
         data: {
             // party_branch_id: $("#party_branch_id").val(),
         },
@@ -129,7 +130,6 @@
                 var arr = Object.keys(obj2);
                 console.log(arr);
                 //$("#authority[group]").removeClass("layui-hide");
-
 
                 for(var key in obj2){
                     if (key == "authority[play]"){

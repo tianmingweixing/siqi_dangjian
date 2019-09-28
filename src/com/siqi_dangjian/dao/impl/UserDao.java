@@ -43,10 +43,60 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     @Override
     public Map getUserInfoById(Long id) throws Exception{
         session = sessionFactory.getCurrentSession();
-        String sql = "SELECT *\n" +
-                "\tFROM user\n" +
+        String sql = "SELECT\n" +
+                "\tu.id,\n" +
+                "\tu.activist_time,\n" +
+                "\tu.address,\n" +
+                "\tu.age,\n" +
+                "\tu.birth,\n" +
+                "\tu.company,\n" +
+                "\tu.develop_time,\n" +
+                "\tu.difficulty_type,\n" +
+                "\tu.education,\n" +
+                "\tu.head_img,\n" +
+                "\tu.ID_cord,\n" +
+                "\tu.join_time,\n" +
+                "\tu.last_time,\n" +
+                "\tu.nation,\n" +
+                "\tu.nick_name,\n" +
+                "\tu.official_time,\n" +
+                "\tu.origo,\n" +
+                "\tu.phone,\n" +
+                "\tu.ready_time,\n" +
+                "\tu.sex,\n" +
+                "\tu.train_people,\n" +
+                "\tu.username,\n" +
+                "\tu.party_team_id,\n" +
+                "\tu.party_groups_id,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\td.type_name\n" +
+                "\t\tFROM\n" +
+                "\t\t\tduty d\n" +
+                "\t\tWHERE\n" +
+                "\t\t\td.id = u.dutyid\n" +
+                "\t) dutyName,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tg.`name`\n" +
+                "\t\tFROM\n" +
+                "\t\t\tparty_group g\n" +
+                "\t\tWHERE\n" +
+                "\t\t\tg.id = u.party_groups_id\n" +
+                "\t) groupName,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tt.`name`\n" +
+                "\t\tFROM\n" +
+                "\t\t\tparty_team t\n" +
+                "\t\tWHERE\n" +
+                "\t\t\tt.id = u.party_team_id\n" +
+                "\t) teamName\n" +
+                "FROM\n" +
+                "\tUSER u\n" +
                 "WHERE\n" +
-                "\tcan_use = 1 and id = ?";
+                "\tu.can_use = 1\n" +
+                "AND u.id = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setLong(0,id);
         return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();

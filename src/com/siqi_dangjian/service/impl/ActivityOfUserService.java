@@ -55,12 +55,17 @@ public class ActivityOfUserService implements IActivityOfUserService {
     }
 
     @Override
-    public List selectListById(Long user_id) {
+    public List selectListById(Long user_id) throws Exception {
         return activityOfUserDao.selectListById(user_id);
     }
 
     @Override
-    public void cancelSignIn(Long user_id, String activity_id) {
+    public void cancelSignIn(Long user_id, String activity_id) throws Exception {
         activityOfUserDao.cancelSignIn(user_id,activity_id);
+    }
+
+    @Override
+    public Integer selectCountByUserId(Long UserId) throws Exception {
+        return activityOfUserDao.selectCountByUserId(UserId);
     }
 }

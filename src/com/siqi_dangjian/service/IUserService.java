@@ -9,7 +9,7 @@ public interface IUserService {
 
     Map getUserByType(Integer type);
 
-    Map getUserInfoById(Long id);
+    Map getUserInfoById(Long id) throws Exception;
 
     User getUserById(Long id) throws Exception;
 

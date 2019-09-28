@@ -862,9 +862,9 @@ public class MiniProgramController extends BaseController {
             return modelMap;
         }
         try {
-            user = userService.getUserById(id);
+            Map userInfo = userService.getUserInfoById(id);
             setSuccess();
-            setData("user",user);
+            setData("user",userInfo);
             setMsg("查询用户信息成功 (@^▽^@)✌ ");
 
         } catch (Exception e) {
@@ -1248,6 +1248,7 @@ public class MiniProgramController extends BaseController {
             setSuccess();
 
         } catch (Exception e) {
+            e.printStackTrace();
             setCode(CommonString.BACK_EXPECTION);
             setFail("查询活动详情错误");
             logger.error("mini--->selectActivityById", e);

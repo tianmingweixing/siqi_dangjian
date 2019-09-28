@@ -1,11 +1,17 @@
 package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.Activities;
+import com.siqi_dangjian.bean.PartyBranch;
 import com.siqi_dangjian.dao.IActivityDao;
+import com.siqi_dangjian.service.IActivityOfUserService;
 import com.siqi_dangjian.service.IActivityService;
+import com.siqi_dangjian.service.IConfigurationService;
+import com.siqi_dangjian.service.IPartyBranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +21,15 @@ public class ActivityService implements IActivityService {
 
     @Autowired
     private IActivityDao activityDao;
+
+    @Autowired
+    private IConfigurationService configurationService;
+
+    @Autowired
+    private IPartyBranchService partyBranchService;
+
+    @Autowired
+    private IActivityOfUserService activityOfUserService;
 
 
     /**
@@ -64,7 +79,21 @@ public class ActivityService implements IActivityService {
      */
     @Override
     public Activities selectById(Long id) throws Exception {
-        return activityDao.selectById(id);
+        Map data = new HashMap();
+        Map intParme = new HashMap();
+        Activities activities = activityDao.selectById(id);
+        //Configuration config = configurationService.selectById(1L);
+        PartyBranch partyBranch = partyBranchService.selectById(activities.getBrandId());
+        intParme.put("activity_id",activities.getId().toString());
+        Map userMap = activityOfUserService.selectAll(new HashMap(),intParme,new HashMap(),5,1);
+        data.put("activities",activities);
+        if (partyBranch !=null) {
+            data.put("partuName", partyBranch.getName());
+            data.put("partuImg", partyBranch.getPartyImg());
+        }
+        data.put("userMap",userMap);
+
+        return activities;
     }
 
     @Override
@@ -86,5 +115,7 @@ public class ActivityService implements IActivityService {
     public String selectSignInById(Long id) throws Exception {
         return activityDao.selectSignInById(id);
     }
+
+
 
 }
