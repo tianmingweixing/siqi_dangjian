@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,37 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
     public DisciplineOfHonor selectById(Long id) throws Exception {
         return getObjectById(id);
     }
+
+    /**
+     * 根据UserId和type查询用户荣誉、违纪的次数
+     * @param UserId
+     * @param type 0：荣誉   1：违纪  2:全部
+     * @return
+     */
+    @Override
+    public Integer selectCountByUserIdAndType(Long UserId, Integer type) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT count(id) count\n" +
+                "\tFROM discipline_of_honor\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and user_id = ?";
+        if (type == 0 || type == 1){
+            sql = "SELECT count(id) count\n" +
+                    "\tFROM discipline_of_honor\n" +
+                    "WHERE\n" +
+                    "\tcan_use = 1 and user_id = ? and type = ?";
+        }
+
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,UserId);
+        if (type == 0 || type == 1) {
+            query.setParameter(1, type);
+        }
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
+    }
+
 
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
@@ -89,4 +121,7 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
         return resMap;
 
     }
+
+
+
 }

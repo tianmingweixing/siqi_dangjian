@@ -16,4 +16,6 @@ public interface IDisciplineOfHonorDao {
 
     Map selectAll(Map blurParam,Map intParam, Map dateParam,
                    int limit, int page) throws Exception;
+
+    Integer selectCountByUserIdAndType(Long UserId, Integer type) throws Exception;
 }

@@ -9,6 +9,7 @@ import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -51,28 +52,37 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
     @Override
     public Map selectAll(Map blurMap, Map dateMap, Map intMap, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "\tSELECT * FROM \n" +
-                "\tactivity_of_user a\n" +
-                "\tWHERE\n" +
-                "\ta.can_use=1";
+        String sql = "SELECT\n" +
+                "\tau.user_id,au.activity_id,a.title,u.username,u.head_img,u.nick_name\n" +
+                "FROM\n" +
+                "\tactivity_of_user au\n" +
+                "INNER JOIN `user` u ON au.user_id = u.id\n" +
+                "INNER JOIN activities a ON au.activity_id = a.id\n" +
+                "WHERE\n" +
+                "\tau.can_use = 1 and a.can_use = 1 and u.can_use = 1";
 
         String sqlCount = "SELECT\n" +
-                "  count(*) count\n" +
-                "FROM activity_of_user a where a.can_use = 1";
+                "\tcount(au.id) count\n" +
+                "FROM\n" +
+                "\tactivity_of_user au\n" +
+                "INNER JOIN `user` u ON au.user_id = u.id\n" +
+                "INNER JOIN activities a ON au.activity_id = a.id\n" +
+                "WHERE\n" +
+                "\tau.can_use = 1 and a.can_use = 1 and u.can_use = 1";
 
         sql = CommonUtil.appendBlurStr(sql,blurMap);
-        sql = CommonUtil.appendDateStr(sql,dateMap,"a");
-        sql = CommonUtil.appendIntStr(sql,intMap,"a");
+        sql = CommonUtil.appendDateStr(sql,dateMap,"au");
+        sql = CommonUtil.appendIntStr(sql,intMap,"au");
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"a");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"a");
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"au");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"au");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 
     }
 
     @Override
-    public List selectListById(Long user_id) {
+    public List selectListById(Long user_id) throws Exception{
         session = sessionFactory.getCurrentSession();
         String sql = "select activity_id from activity_of_user where can_use = 1 and user_id = ?";
         SQLQuery query = session.createSQLQuery(sql);
@@ -82,12 +92,31 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
     }
 
     @Override
-    public void cancelSignIn(Long user_id, String activity_id) {
+    public void cancelSignIn(Long user_id, String activity_id) throws Exception{
          session = sessionFactory.getCurrentSession();
         String  sql = "delete from activity_of_user where user_id = ? and activity_id = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setParameter(0,user_id);
         query.setParameter(1,activity_id);
         query.executeUpdate();
+    }
+
+    /**
+     * 根据UserId查询用户参加活动的次数
+     * @param UserId
+     * @return
+     */
+    @Override
+    public Integer selectCountByUserId(Long UserId) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT count(id) count\n" +
+                "\tFROM activity_of_user\n" +
+                "WHERE\n" +
+                "\tcan_use = 1 and userid = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,UserId);
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
     }
 }

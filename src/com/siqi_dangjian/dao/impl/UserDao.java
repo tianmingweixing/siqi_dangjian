@@ -44,68 +44,62 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     public Map getUserInfoById(Long id) throws Exception{
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
-                "  u.id,\n" +
-                "  u.username,\n" +
-                "  u.nick_name,\n" +
-                "  u.head_img,\n" +
-                "  if(u.sex='1','男','女')sex,\n" +
-                "  u.age,\n" +
-                "  (case u.education\n" +
-                "   when 1 then '初中'\n" +
-                "   when 2 then '高中'\n" +
-                "   when 3 then '中专'\n" +
-                "   when 4 then '大专'\n" +
-                "   when 5 then '本科'\n" +
-                "   when 5 then '硕士'\n" +
-                "   when 5 then '博士'\n" +
-                "   else '暂无信息'\n" +
-                "   end\n" +
-                "  )education,\n" +
-                "  u.company,\n" +
-                "  u.phone,\n" +
-                "  u.ID_cord,\n" +
-                "  u.birth,\n" +
-                "  u.activist_time,\n" +
-                "  u.nation,\n" +
-                "  u.origo,\n" +
-                "  u.official_time,\n" +
-                "  u.session_key,\n" +
-                "  u.openId,\n" +
-                "  u.last_time,\n" +
-                "  (case u.difficulty_type\n" +
-                "   when 0 then '非困难'\n" +
-                "   when 1 then '困难'\n" +
-                "   when 2 then '特困难'\n" +
-                "   else '暂无信息'\n" +
-                "   end\n" +
-                "  )difficulty_type,\n" +
-                "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
-                "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-                "  u.address,\n" +
-                "  u.dutyid,\n" +
-                "  d.type_name ,\n" +
-                "  u.party_branch_id,\n" +
-                "  p.name party_branch_name,\n" +
-                "  u.party_groups_id,\n" +
-                "  g.name party_groups_name,\n" +
-                "  u.party_team_id,\n" +
-                "  t.name party_team_name\n" +
+                "\tu.id,\n" +
+                "\tu.activist_time,\n" +
+                "\tu.address,\n" +
+                "\tu.age,\n" +
+                "\tu.birth,\n" +
+                "\tu.company,\n" +
+                "\tu.develop_time,\n" +
+                "\tu.difficulty_type,\n" +
+                "\tu.education,\n" +
+                "\tu.head_img,\n" +
+                "\tu.ID_cord,\n" +
+                "\tu.join_time,\n" +
+                "\tu.last_time,\n" +
+                "\tu.nation,\n" +
+                "\tu.nick_name,\n" +
+                "\tu.official_time,\n" +
+                "\tu.origo,\n" +
+                "\tu.phone,\n" +
+                "\tu.ready_time,\n" +
+                "\tif(u.sex='1','男','女')sex,\n" +
+                "\tu.train_people,\n" +
+                "\tu.username,\n" +
+                "\tu.party_team_id,\n" +
+                "\tu.party_groups_id,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\td.type_name\n" +
+                "\t\tFROM\n" +
+                "\t\t\tduty d\n" +
+                "\t\tWHERE\n" +
+                "\t\t\td.id = u.dutyid\n" +
+                "\t) dutyName,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tg.`name`\n" +
+                "\t\tFROM\n" +
+                "\t\t\tparty_group g\n" +
+                "\t\tWHERE\n" +
+                "\t\t\tg.id = u.party_groups_id\n" +
+                "\t) groupName,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tt.`name`\n" +
+                "\t\tFROM\n" +
+                "\t\t\tparty_team t\n" +
+                "\t\tWHERE\n" +
+                "\t\t\tt.id = u.party_team_id\n" +
+                "\t) teamName\n" +
                 "FROM\n" +
-                "  USER u\n" +
-                "  LEFT JOIN duty d ON u.dutyid = d.id\n" +
-                "  join party_branch p on u.party_branch_id = p.id\n" +
-                "  join party_group g on u.party_groups_id = g.id\n" +
-                "  join party_team t on u.party_team_id = t.id\n"+
+                "\tUSER u\n" +
                 "WHERE\n" +
-                "   u.id = ?"
-                ;
+                "\tu.can_use = 1\n" +
+                "AND u.id = ?";
         SQLQuery query = session.createSQLQuery(sql);
         query.setLong(0,id);
-        Map resMap = new HashMap();
-        List list =  query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
-        resMap.put("list", resMap);
-        return  resMap;
-//        return (Map)query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
+        return (Map) query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).uniqueResult();
     }
 
     @Override
@@ -172,35 +166,16 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  u.profiles,\n" +
                 "  if(u.sex='1','男','女')sex,\n" +
                 "  u.age,\n" +
-                "  (case u.education\n" +
-                "   when 1 then '初中'\n" +
-                "   when 2 then '高中'\n" +
-                "   when 3 then '中专'\n" +
-                "   when 4 then '大专'\n" +
-                "   when 5 then '本科'\n" +
-                "   when 5 then '硕士'\n" +
-                "   when 5 then '博士'\n" +
-                "   else '暂无信息'\n" +
-                "   end\n" +
-                "  )education,\n" +
+                "  u.education,\n" +
                 "  u.company,\n" +
                 "  u.phone,\n" +
                 "  u.ID_cord,\n" +
-                "  u.birth,\n" +
-                "  u.activist_time,\n" +
-                "  u.nation,\n" +
-                "  u.origo,\n" +
-                "  u.official_time,\n" +
-                "  u.session_key,\n" +
-                "  u.openId,\n" +
-                "  u.last_time,\n" +
+                "  d.type_name ,\n" +
                 "  (case u.difficulty_type\n" +
                 "   when 0 then '非困难'\n" +
                 "   when 1 then '困难'\n" +
-                "   when 2 then '特困难'\n" +
-                "   else '暂无信息'\n" +
-                "   end\n" +
-                "  )difficulty_type,\n" +
+                "   when 2 then '特困难'" +
+                "   else '暂无信息' end)difficulty_type,\n" +
                 "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
                 "  u.address,\n" +

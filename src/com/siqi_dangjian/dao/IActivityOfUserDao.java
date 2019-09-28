@@ -21,7 +21,9 @@ public interface IActivityOfUserDao {
     Map selectAll(Map blurParam, Map dateParam,
                   Map intParam, int limit, int page) throws Exception;
 
-    List selectListById(Long user_id);
+    List selectListById(Long user_id) throws Exception;
 
-    void cancelSignIn(Long user_id, String activity_id);
+    void cancelSignIn(Long user_id, String activity_id) throws Exception;
+
+    Integer selectCountByUserId(Long UserId) throws Exception;
 }

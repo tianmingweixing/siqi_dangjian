@@ -903,9 +903,9 @@ public class MiniProgramController extends BaseController {
             return modelMap;
         }
         try {
-          Map  map = userService.getUserInfoById(id);
+            Map userInfo = userService.getUserInfoById(id);
             setSuccess();
-          setData("user",map);
+            setData("user",userInfo);
             setMsg("查询用户信息成功 (@^▽^@)✌ ");
 
         } catch (Exception e) {
@@ -933,8 +933,6 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
                                 @RequestParam(value = "company", required = false) String company,
-                                @RequestParam(value = "dutyid", required = false) String dutyid,
-                                @RequestParam(value = "userId", required = false) String userId,
                                 @RequestParam(value = "founding_time", required = false) String founding_time,
                                 @RequestParam(value = "change_time", required = false) String change_time,
                                 @RequestParam(value = "limit", required = false) Integer limit,
@@ -948,14 +946,6 @@ public class MiniProgramController extends BaseController {
 
         if (StringUtils.isNotEmpty(company)) {
             blurMap.put("company", company);
-        }
-
-        if (StringUtils.isNotEmpty(userId)) {
-            intMap.put("id", userId);
-        }
-
-        if (StringUtils.isNotEmpty(dutyid)) {
-            intMap.put("dutyid", dutyid);
         }
 
         if (StringUtils.isNotEmpty(username)) {
@@ -1298,6 +1288,7 @@ public class MiniProgramController extends BaseController {
             setSuccess();
 
         } catch (Exception e) {
+            e.printStackTrace();
             setCode(CommonString.BACK_EXPECTION);
             setFail("查询活动详情错误");
             logger.error("mini--->selectActivityById", e);

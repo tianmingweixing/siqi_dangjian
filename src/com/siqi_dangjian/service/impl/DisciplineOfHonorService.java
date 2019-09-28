@@ -52,4 +52,9 @@ public class DisciplineOfHonorService implements IDisciplineOfHonorService {
         Map map =  disciplineOfHonorDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public Integer selectCountByUserIdAndType(Long UserId, Integer type) throws Exception {
+        return disciplineOfHonorDao.selectCountByUserIdAndType(UserId, type);
+    }
 }

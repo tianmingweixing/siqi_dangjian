@@ -19,4 +19,6 @@ public interface IDisciplineOfHonorService {
     DisciplineOfHonor selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    Integer selectCountByUserIdAndType(Long UserId, Integer type) throws Exception;
 }

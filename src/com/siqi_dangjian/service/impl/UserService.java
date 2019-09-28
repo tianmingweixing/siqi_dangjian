@@ -2,6 +2,9 @@ package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
+import com.siqi_dangjian.service.IActivityOfUserService;
+import com.siqi_dangjian.service.IActivityService;
+import com.siqi_dangjian.service.IDisciplineOfHonorService;
 import com.siqi_dangjian.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,13 @@ public class UserService implements IUserService {
     @Autowired
     private IUserDao userDao;
 
+    @Autowired
+    private IActivityOfUserService activityOfUserService;
+
+    @Autowired
+    private IDisciplineOfHonorService disciplineOfHonorService;
+
+
     @Override
     public User wxLogin(String openId) {
         return userDao.getUserByOpenId(openId);
@@ -23,7 +33,13 @@ public class UserService implements IUserService {
 
     @Override
     public Map getUserInfoById(Long id) throws Exception {
-        return userDao.getUserInfoById(id);
+        Map userInfo = userDao.getUserInfoById(id);
+        //查参加的活动次数和受奖励次数
+        Integer joinNum = activityOfUserService.selectCountByUserId(id);
+        Integer honorNum = disciplineOfHonorService.selectCountByUserIdAndType(id,0);
+        userInfo.put("joinNum",joinNum);
+        userInfo.put("honorNum",honorNum);
+        return userInfo;
     }
 
     @Override
