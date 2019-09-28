@@ -168,6 +168,7 @@
                 , {field: 'type_name', title: '活动类型'}
                 , {field: 'brand_name', title: '活动品牌'}
                 , {field: 'status', title: '活动状态',hide:true}
+                , {field: 'activityStatus', title: '活动状态'}
                 , {field: 'start_time', title: '开始时间'}
                 , {field: 'end_time', title: '结束时间'}
                 , {field: 'end_join_time', title: '截至报名'}

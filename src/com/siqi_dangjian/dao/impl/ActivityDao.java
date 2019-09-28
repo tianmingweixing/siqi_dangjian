@@ -72,6 +72,17 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +
                 "\ta.status,\n" +
+                "\t(\n" +
+                "\t\tCASE\n" +
+                "\t\tWHEN a.end_time >= now()\n" +
+                "\t\tAND a.start_time <= now() THEN\n" +
+                "\t\t\t'进行中'\n" +
+                "\t\tWHEN a.start_time > now() THEN\n" +
+                "\t\t\t'筹备中'\n" +
+                "\t\tWHEN a.end_time < now() THEN\n" +
+                "\t\t\t'已结束'\n" +
+                "\t\tEND\n" +
+                "\t) AS activityStatus," +
                 "\ta.party_branch_id,\n" +
                 "\ta.review,\n" +
                 "\ta.title,\n" +
@@ -216,6 +227,17 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.image_path_a,\n" +
                 "\ta.image_path_b,\n" +
                 "\ta.status,\n" +
+                "\t(\n" +
+                "\t\tCASE\n" +
+                "\t\tWHEN a.end_time >= now()\n" +
+                "\t\tAND a.start_time <= now() THEN\n" +
+                "\t\t\t'进行中'\n" +
+                "\t\tWHEN a.start_time > now() THEN\n" +
+                "\t\t\t'筹备中'\n" +
+                "\t\tWHEN a.end_time < now() THEN\n" +
+                "\t\t\t'已结束'\n" +
+                "\t\tEND\n" +
+                "\t) AS activityStatus," +
                 "\ta.party_branch_id,\n" +
                 "\ta.review,\n" +
                 "\ta.title,\n" +
