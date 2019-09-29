@@ -152,31 +152,39 @@
                             icon:0
                         }, function () {
                             var a = [];
+                            var flag = false;
                             $.each(data,function(index,value){
+                                console.log(value.id == 1);
+                                if (value.id == 1) {
+                                    flag = true;
+                                }
                                 a.push(value.id)
                             });
-
-                            $.ajax({
-                                url:"/duty/logicDelete",
-                                data:{
-                                    deleteArray:JSON.stringify(a)
-                                },
-                                success:function (data) {
-                                    if(data.result == "fail"){
-                                        layer.open({
-                                            icon: 2,
-                                            title: '消息提醒',
-                                            content: '删除失败',
-                                            skin:'layui_open_fail'
-                                        });
-                                    } else {
-                                        layer.msg('删除成功', {icon: 1});
-                                        setTimeout(function () {
-                                            location.reload()
-                                        },1000)
+                            console.log(false);
+                            if (flag) { layer.msg('不能删除基本类型：普通用户', {icon: 2});}else {
+                                $.ajax({
+                                    url:"/duty/logicDelete",
+                                    data:{
+                                        deleteArray:JSON.stringify(a)
+                                    },
+                                    success:function (data) {
+                                        if(data.result == "fail"){
+                                            layer.open({
+                                                icon: 2,
+                                                title: '消息提醒',
+                                                content: '删除失败',
+                                                skin:'layui_open_fail'
+                                            });
+                                        } else {
+                                            layer.msg('删除成功', {icon: 1});
+                                            setTimeout(function () {
+                                                location.reload()
+                                            },1000)
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
+
                         })
 
                     }

@@ -134,6 +134,7 @@ public class MiniProgramController extends BaseController {
                     //5 . JWT 返回自定义登陆态 Token
                     String token = JwtUtil.getToken(user, expiration);
                     modelMap.addAttribute("token", token);
+                    modelMap.addAttribute("user", user);
                     setSuccess();
 
                 } else {
