@@ -76,7 +76,7 @@ public class User extends BaseBean {
     /**
      * 政治面貌：1：积极分子，2：发展党员，3：预备党员，4：正式党员,5:党委
      */
-    @Column(name="dutyid",nullable=true,length=5)
+    @Column(name="dutyid",nullable=true,length=5,columnDefinition="bigint default 1")
     private Long dutyId;
 
     /**
