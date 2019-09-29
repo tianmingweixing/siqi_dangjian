@@ -53,4 +53,9 @@ public class TipsService implements ITipsService {
         Map map =  tipsDao.selectAll(blurMap,intMap,dateMap,limit, page);
         return map;
     }
+
+    @Override
+    public List selectActivityTips(Long id, Integer limit, Integer type, Integer page) throws Exception {
+        return tipsDao.selectActivityTips(id,type,limit,page);
+    }
 }

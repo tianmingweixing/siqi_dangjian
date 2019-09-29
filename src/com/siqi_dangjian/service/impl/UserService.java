@@ -2,19 +2,19 @@ package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
-import com.siqi_dangjian.service.IActivityOfUserService;
-import com.siqi_dangjian.service.IActivityService;
-import com.siqi_dangjian.service.IDisciplineOfHonorService;
-import com.siqi_dangjian.service.IUserService;
+import com.siqi_dangjian.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
 public class UserService implements IUserService {
+    @Autowired
+    private ITipsService tipsService;
 
     @Autowired
     private IUserDao userDao;
@@ -40,6 +40,13 @@ public class UserService implements IUserService {
         userInfo.put("joinNum",joinNum);
         userInfo.put("honorNum",honorNum);
         return userInfo;
+    }
+
+    @Override
+    public List getUserTipsById(Long id, Integer limit, Integer type, Integer page) throws Exception {
+        //查用户参加的活动的心得
+        List list = tipsService.selectActivityTips(id,type,limit,page);
+        return list;
     }
 
     @Override

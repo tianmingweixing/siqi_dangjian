@@ -960,15 +960,17 @@ public class MiniProgramController extends BaseController {
      */
     @RequestMapping("/getUserById")
     @ResponseBody
-    public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id) {
+    public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id,
+                                @RequestParam(value = "limit", required = false) Integer limit,
+                                @RequestParam(value = "page", required = false) Integer page) {
         modelMap = new ModelMap();
-        User user;
 
         if(StringUtils.isEmpty(String.valueOf(id))){
             setFail("没有用户id,无法查询 ^_^||| ");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
+
         try {
             Map userInfo = userService.getUserInfoById(id);
             setSuccess();
@@ -984,6 +986,50 @@ public class MiniProgramController extends BaseController {
     }
 
 
+    /**
+     * @apiGroup User
+     * @api {GET} /getUserTipsById 根据id查询用户心得
+     * @apiDescription 根据id查询用户参加活动的心得
+     * @apiParam {Long} id 用户id
+     * @apiParam {Integer} type 心得类型 1：活动心得 0： 会议心得
+     *
+     */
+    @RequestMapping("/getUserTipsById")
+    @ResponseBody
+    public ModelMap getUserTipsById(Long id,Integer limit,Integer type,Integer page) {
+
+        modelMap = new ModelMap();
+
+        if(StringUtils.isEmpty(String.valueOf(id))){
+            setFail("没有用户id,无法查询 ^_^||| ");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+        if(type == null){
+            setFail("没有心得类型参数:type,无法查询 ^_^||| ");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
+        //查用户参加的活动的心得
+        try {
+            List list = userService.getUserTipsById(id,type,limit,page);
+            setSuccess();
+            setData("tipList",list);
+            setMsg("查询用户心得成功 (@^▽^@)✌ ");
+        } catch (Exception e) {
+            e.printStackTrace();
+            setFail("查询用户心得异常 ^_^|||");
+            setCode(CommonString.BACK_EXPECTION);
+        }
+        return modelMap;
+    }
 
     /**
      * @apiGroup User

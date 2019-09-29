@@ -51,7 +51,17 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.company,\n" +
                 "\tu.develop_time,\n" +
                 "\tu.difficulty_type,\n" +
-                "\tu.education,\n" +
+                "(case u.education\n" +
+                "   when 1 then '初中'\n" +
+                "   when 2 then '高中'\n" +
+                "   when 3 then '中专'\n" +
+                "   when 4 then '大专'\n" +
+                "   when 5 then '本科'\n" +
+                "   when 5 then '硕士'\n" +
+                "   when 5 then '博士'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )education,\n" +
                 "\tu.head_img,\n" +
                 "\tu.ID_cord,\n" +
                 "\tu.join_time,\n" +
