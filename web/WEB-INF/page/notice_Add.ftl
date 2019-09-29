@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/css/public.css">
 
     <!--上传图片样式-->
     <style type="text/css">
@@ -99,73 +100,79 @@
 
 </head>
 <body>
-<div class="layui-progress">
-    <div class="layui-progress-bar " lay-percent="100%"></div>
-</div>
-<form class="layui-form" name="fileForm" action="">
-
-    <br>
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
-        <label class="layui-form-label" style="margin-left: 85px">公示公告ID</label>
-        <input id="id" name="id" type="hidden" maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+    <div style="width: 90%">
+        <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
+                    style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
+            添加公示公告
+        </blockquote>
     </div>
+    <div style="width:90%">
+        <div class="container_div">
+            <form class="layui-form" name="fileForm" action="">
 
-
-    <div class="layui-form-item input_row_margin_top">
-
-        <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
-        <div class="layui-input-inline">
-            <input id="title" name="title" lay-verify="required" placeholder="请输入标题" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
+        <br>
+        <div class="layui-form-item input_row_margin_top" style="display:none ">
+            <label class="layui-form-label" style="margin-left: 85px">公示公告ID</label>
+            <input id="id" name="id" type="hidden" maxlength="20" value="<#if id??>${id}<#else></#if>"/>
         </div>
 
-    </div>
 
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
-
-        <label class="layui-form-label">支部ID</label>
-        <div class="layui-input-inline">
-            <input id="party_branch_id" name="party_branch_id" lay-verify="" placeholder="支部ID" maxlength="20"
-                   autocomplete="off" class="layui-input"
-                   value="<#if party_branch_id??>${party_branch_id}<#else></#if>">
-        </div>
-    </div>
-
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">公示信息</label>
-        <div class="layui-input-block">
-            <textarea name="content" id="content" placeholder="请输入公示信息"
-                      style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
-                              max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
-        </div>
-
-    </div>
-
-    <div class="layui-form-item input_row_margin_top">
-
-        <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
-        <div class="layui-input-inline" style="padding-top: 10px">
-            <label for="fileinp" id="btn">选择图片</label>
-            <input type="file" id="fileinp" name="file" onchange="reads(this)">
-            <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="300"
-                 width="500" alt="" style="margin-top: 10px">
-        </div>
-
-    </div>
-
-    <div class="layui-form-item">
         <div class="layui-form-item input_row_margin_top">
-            <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
-                <#if id??><#else>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
 
+            <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
+            <div class="layui-input-inline">
+                <input id="title" name="title" lay-verify="required" style="width: 800px;" placeholder="请输入标题" maxlength="200"
+                       autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item input_row_margin_top" style="display:none ">
+
+            <label class="layui-form-label">支部ID</label>
+            <div class="layui-input-inline">
+                <input id="party_branch_id" name="party_branch_id" lay-verify="" placeholder="支部ID" maxlength="20"
+                       autocomplete="off" class="layui-input"
+                       value="<#if party_branch_id??>${party_branch_id}<#else></#if>">
             </div>
         </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">公示信息</label>
+            <div class="layui-input-block">
+                <textarea name="content" id="content" placeholder="请输入公示信息"
+                          style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
+                                  max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item input_row_margin_top">
+
+            <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
+            <div class="layui-input-inline" style="padding-top: 10px">
+                <label for="fileinp" id="btn">选择图片</label>
+                <input type="file" id="fileinp" name="file" onchange="reads(this)">
+                <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="250"
+                     width="400" alt="" style="margin-top: 10px">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-form-item input_row_margin_top">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+                    <#if id??><#else>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+        </div>
     </div>
-
-</form>
-
 <script>
 
     $(function () {

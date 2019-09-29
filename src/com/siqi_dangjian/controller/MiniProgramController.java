@@ -774,6 +774,17 @@ public class MiniProgramController extends BaseController {
 
         modelMap = new ModelMap();
 
+
+        if (state == null ) {
+            setFail("缺少参数state (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }else if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
         try {
 
             Map map = activityService.selectActivitysByState(state, limit, page);
