@@ -153,6 +153,10 @@ public class MiniProgramController extends BaseController {
 
 
     /**
+     * @apiGroup Word
+     * @api {GET} /getMeetingCategoryList 查询文档分类
+     * @apiDescription 查询文档分类
+     *
      * 查询文档分类
      * @return
      */
@@ -528,12 +532,6 @@ public class MiniProgramController extends BaseController {
         return modelMap;
 
     }
-
-
-
-
-
-
 
 
     /**
@@ -1028,7 +1026,7 @@ public class MiniProgramController extends BaseController {
 
         try {
             Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
-            List list = (List<PartyTeam>) map.get("list");
+            List list = (List) map.get("list");
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
@@ -1184,6 +1182,39 @@ public class MiniProgramController extends BaseController {
                 setMsg("查询信息失败");
             }
             setMsg("缺少分页参数limit,page (°_°)");
+            logger.error("mini --> getDisciplineOfHonorList");
+        }
+
+        return modelMap;
+    }
+
+    /**
+     * @apiGroup DisciplineOfHonor
+     * @api {GET} /getDisciplineOfHonor 获取荣誉和违纪详情
+     * @apiDescription 获取荣誉和违纪列表
+     * @apiParam {String} id 名称
+     */
+    @RequestMapping("getDisciplineOfHonor")
+    @ResponseBody
+    public ModelMap getDisciplineOfHonor(@RequestParam(value = "id", required = false) Long id) {
+
+        modelMap = new ModelMap();
+
+
+        if (!StringUtils.isNotEmpty(id.toString())) {
+            setFail("缺少id");
+            return modelMap;
+        }
+
+        try {
+            Map map = disciplineOfHonorService.selectDisciplineOfHonorInfoById(id);
+
+            setData("data", map);
+            setSuccess();
+            setMsg("查询荣誉和违纪信息成功 (>‿◠)✌");
+        } catch (Exception e) {
+            setFail("查询荣誉和违纪信息错误");
+            e.printStackTrace();
             logger.error("mini --> getDisciplineOfHonorList");
         }
 

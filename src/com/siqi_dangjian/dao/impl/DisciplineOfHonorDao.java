@@ -97,7 +97,7 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
                 "\t\tEND\n" +
                 "\t) type,\n" +
                 "\td.unit,\n" +
-                "\td.user_id \n" +
+                "\td.user_id,u.username,u.nick_name \n" +
                 "FROM\n" +
                 "\tdiscipline_of_honor d\n" +
                 "JOIN  user u\n" +
@@ -107,7 +107,12 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
-                "FROM discipline_of_honor d where d.can_use = 1";
+                "FROM\n" +
+                "\tdiscipline_of_honor d\n" +
+                "JOIN  user u \n" +
+                "ON  d.user_id = u.id \n" +
+                "WHERE\n" +
+                "\td.can_use = 1 and u.can_use = 1";
 
 
         sql = CommonUtil.appendBlurStr(sql,blurParam);

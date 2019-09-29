@@ -5,6 +5,8 @@ import com.siqi_dangjian.dao.IConfigurationDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +60,20 @@ public class ConfigurationDao extends BaseDao<Configuration> implements IConfigu
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"c");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
+
+    }
+
+    @Override
+    public Long selectPartyBranchId() throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        String sql = "\tSELECT c.party_branch_id FROM \n" +
+                "\tconfiguration c \n" +
+                "\tWHERE\n" +
+                "\tc.can_use = 1";
+
+        SQLQuery query = session.createSQLQuery(sql);
+        return (Long)query.uniqueResult();
 
     }
 }

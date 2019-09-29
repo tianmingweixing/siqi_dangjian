@@ -204,8 +204,13 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  u.can_use = 1 and p.can_use = 1 and d.can_use =1";
 
         String sqlCount = "SELECT\n" +
-                "  count(*) count\n" +
-                "FROM user u where u.can_use = 1";
+                " count(u.id) count\n" +
+                " FROM\n" +
+                " USER u\n" +
+                " LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                " join party_branch p on u.party_branch_id = p.id\n" +
+                " WHERE\n" +
+                " u.can_use = 1 and p.can_use = 1 and d.can_use =1";
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendDateStr(sql,dateParam,"u");
         sql = CommonUtil.appendIntStr(sql,intParam,"u");

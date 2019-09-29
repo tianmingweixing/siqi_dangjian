@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface IDisciplineOfHonorService {
-    Map getUserNameByType(Integer type) throws Exception;
-
-    Map getUserNameById(Long id) throws Exception;
 
     void insertOrUpdate(DisciplineOfHonor disciplineOfHonor) throws Exception;
 
@@ -19,6 +16,8 @@ public interface IDisciplineOfHonorService {
     DisciplineOfHonor selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    Map selectDisciplineOfHonorInfoById(Long id) throws Exception;
 
     Integer selectCountByUserIdAndType(Long UserId, Integer type) throws Exception;
 }

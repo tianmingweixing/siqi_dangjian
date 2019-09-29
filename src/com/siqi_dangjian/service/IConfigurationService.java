@@ -16,4 +16,6 @@ public interface IConfigurationService {
 
     Map selectAll(Map blurParam, Map dateParam,
                   Map intParam, int limit, int page) throws Exception;
+
+    Long selectPartyBranchId() throws Exception;
 }

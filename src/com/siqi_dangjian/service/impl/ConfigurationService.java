@@ -41,4 +41,9 @@ public class ConfigurationService implements IConfigurationService {
     public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
         return configurationDao.selectAll(blurParam, dateParam, intParam, limit, page);
     }
+
+    @Override
+    public Long selectPartyBranchId() throws Exception {
+        return configurationDao.selectPartyBranchId();
+    }
 }
