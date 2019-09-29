@@ -1141,7 +1141,7 @@ public class MiniProgramController extends BaseController {
     /**
      * @apiGroup DisciplineOfHonor
      * @api {GET} /getDisciplineOfHonorList 获取荣誉和违纪列表
-     * @apiDescription 获取公示公告表列表
+     * @apiDescription 获取荣誉和违纪列表
      * @apiParam {String} name 名称
      * @apiParam {String} type 类型---0：荣誉 1：违纪
      * @apiParam {Integer} limit 页大小
@@ -1149,7 +1149,7 @@ public class MiniProgramController extends BaseController {
      */
     @RequestMapping("getDisciplineOfHonorList")
     @ResponseBody
-    public ModelMap getDisciplineOfHonorList(@RequestParam(value = "name", required = false) String name,
+    public ModelMap getDisciplineOfHonorList(@RequestParam(value = "user_id", required = false) String user_id,
                                              @RequestParam(value = "type", required = false) String type,
                                              @RequestParam(value = "limit", required = false) Integer limit,
                                              @RequestParam(value = "page", required = false) Integer page) {
@@ -1163,8 +1163,8 @@ public class MiniProgramController extends BaseController {
             intMap.put("type", type);
         }
 
-        if (StringUtils.isNotEmpty(name)) {
-            blurMap.put("name", name);
+        if (StringUtils.isNotEmpty(user_id)) {
+            blurMap.put("user_id", user_id);
         }
 
         try {

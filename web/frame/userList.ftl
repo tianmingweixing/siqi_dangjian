@@ -105,7 +105,7 @@
 </div>
 
 
-<div class="layui-input-inline search_div" style="margin-left: 440px">
+<div class="layui-input-inline search_div" style="margin-left: 115px">
     <button class="layui-btn" data-type="reload">提交</button>
     <button onclick="reset_search()" class="layui-btn layui-btn-primary">重置</button>
 </div>
@@ -237,7 +237,7 @@
                 ,{field: 'username', title: '用户名'}
                 ,{field: 'head_img',title:'头像',width:80,templet:'#img'}
                 ,{field: 'nick_name', title: '昵称',hide:true}
-                ,{field: 'sex',title:'性别'}
+                ,{field: 'sex',title:'性别',width:80}
                 ,{field: 'education',title:'学历',hide:true}
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}

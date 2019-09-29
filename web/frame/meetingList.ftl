@@ -13,9 +13,9 @@
 <body>
 <form class="layui-form" style="margin-top:10px">
     <div class="layui-form-item">
-        <label class="layui-form-label label_width_100">会议名称</label>
+        <label class="layui-form-label label_width_100">会议标题</label>
         <div class="layui-input-inline">
-            <input type="text" id="name_search"  placeholder="会议名称" autocomplete="off" class="layui-input">
+            <input type="text" id="name_search"  placeholder="会议标题" autocomplete="off" class="layui-input">
         </div>
 
         <!--<label class="layui-form-label">会议类型</label>-->
@@ -50,9 +50,9 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label ">会议名称</label>
+            <label class="layui-form-label ">会议标题</label>
             <div class="layui-input-inline">
-                <input type="text" id="name" name="name" readonly  placeholder="会议名称" autocomplete="off" class="layui-input">
+                <input type="text" id="name" name="name" readonly  placeholder="会议标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -224,13 +224,13 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '会议名称'}
+                ,{field: 'name', title: '会议标题'}
                 ,{field: 'type_name',title:'会议类型'}
                 ,{field: 'compere', title: '主持人'}
                 // ,{field: 'recorder', title: '记录人'}
                 ,{field: 'people_counting', title: '应到人数'}
                 ,{field: 'attendance', title: '实到人数'}
-                ,{field: 'address', title: '地点'}
+                ,{field: 'address', title: '会议地点'}
                 ,{field: 'content',title:'会议内容'}
                 ,{field: 'guide',title:'会议指导',hide:true}
                 ,{field: 'images_a',title:'会议图片',templet:'#images_a'}

@@ -94,7 +94,7 @@
                 ,{field: 'party_info',title:'党支部简介'}
                 ,{field: 'founding_time',title:'成立时间',}
                 ,{field: 'change_time',title:'换届时间',}
-                ,{field: 'activity_area',title:'活动面积',}
+                ,{field: 'activity_area',title:'活动面积(m²)',}
                 ,{field: 'edit',fixed:'right',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });

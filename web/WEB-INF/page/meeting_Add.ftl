@@ -59,12 +59,17 @@
 
 </head>
 <body>
-<div style="width:1100px; position: relative; left:17%;">
 
-    <form class="layui-form" action="">
-        <div>
+<form class="layui-form" action="">
+    <div style="width: 90%">
+        <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
+                    style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
+            修改会议信息
+        </blockquote>
+    </div>
 
-            <br>
+    <div style="width:90%">
+        <div class="container_div">
             <div class="layui-form-item" style="display:none">
                 <label class="layui-form-label" style="margin-left: 85px">会议ID
                     <div class="layui-input-inline"><input id="id" name="id" type=""
@@ -90,7 +95,7 @@
                            autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
                 </div>
 
-                <label class="layui-form-label">组织生活记录</label>
+                <label class="layui-form-label">会议类型</label>
                 <div class="layui-input-inline">
                     <select name="meeting_type" id="meeting_type">
                         <option value="">全部</option>
@@ -159,7 +164,7 @@
                 <label class="layui-form-label">会议内容</label>
                 <div class="layui-input-block">
             <textarea name="content" id="content" placeholder="请输入会议内容"
-                      style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                      style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;padding: 0px 4px;
                               max-width: 1500px; height: 160px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
                 </div>
             </div>
@@ -168,7 +173,7 @@
                 <label class="layui-form-label">会议指导</label>
                 <div class="layui-input-block">
                 <textarea name="guide" id="guide" placeholder="请输入会议指导"
-                          style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #56aa17;
+                          style="width: 920px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px; padding: 0px 4px;
                               max-width: 1500px; height: 50px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
                 </div>
             </div>
@@ -215,11 +220,10 @@
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
-
         </div>
-    </form>
+    </div>
+</form>
 
-</div>
 
 <div id="lookDetail" style="display: none;">
     <form class="layui-form" name="fileForm" style="margin-top: 10px">
@@ -386,11 +390,11 @@
 
         laydate.render({
             elem: '#start_time'
-            ,type: 'datetime'//指定元素
+            , type: 'datetime'//指定元素
         });
         laydate.render({
             elem: '#end_time' //指定元素
-            ,type: 'datetime'
+            , type: 'datetime'
         });
 
 

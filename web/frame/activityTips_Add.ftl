@@ -17,7 +17,7 @@
     <div style="width: 90%">
         <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
                     style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
-            添加活动
+            添加活动心得
         </blockquote>
     </div>
 
@@ -38,9 +38,9 @@
             </div>
 
             <div class="layui-form-item layui-form-text input_row_margin_top">
-                <label class="layui-form-label">活动内容</label>
+                <label class="layui-form-label">心得内容</label>
                 <div class="layui-input-block">
-            <textarea name="content" id="content" placeholder="请输入活动内容" style="width: 500px; height: 200px;" maxlength="1000"
+            <textarea name="content" id="content" placeholder="请输入心得内容" style="width: 500px; height: 200px;" maxlength="1000"
                       class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
                 </div>
             </div>

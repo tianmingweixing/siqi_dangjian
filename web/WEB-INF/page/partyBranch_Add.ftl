@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 党支部add页面后台</title>
+    <title>思齐党建管理系统</title>
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/public.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/css/public.css">
     <!--上传图片样式-->
     <style type="text/css">
         .body {
@@ -123,13 +123,11 @@
                            autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
                 </div>
 
-                <label class="layui-form-label ">活动面积</label>
-                <div class="layui-input-inline">
-                    <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积"
-                           maxlength="20"
-                           autocomplete="off" class="layui-input"
-                           value="<#if activityArea??>${activityArea}<#else></#if>">
-                </div>
+        <label class="layui-form-label " >活动面积</label>
+        <div class="layui-input-inline">
+            <input id="activityArea" name="activityArea" lay-verify="number" placeholder="请输入活动面积/㎡" maxlength="20"
+                   autocomplete="off" class="layui-input" value="<#if activityArea??>${activityArea}<#else></#if>">
+        </div>
 
             </div>
 
