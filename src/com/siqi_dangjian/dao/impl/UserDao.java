@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
-
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -164,9 +163,21 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  u.nick_name,\n" +
                 "  u.head_img,\n" +
                 "  u.profiles,\n" +
+                "  u.company_office,\n" +
+                "  u.party_posts,\n" +
                 "  if(u.sex='1','男','女')sex,\n" +
                 "  u.age,\n" +
-                "  u.education,\n" +
+                "  (case u.education\n" +
+                "   when 1 then '初中'\n" +
+                "   when 2 then '高中'\n" +
+                "   when 3 then '中专'\n" +
+                "   when 4 then '大专'\n" +
+                "   when 5 then '本科'\n" +
+                "   when 5 then '硕士'\n" +
+                "   when 5 then '博士'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )education,\n" +
                 "  u.company,\n" +
                 "  u.phone,\n" +
                 "  u.ID_cord,\n" +
@@ -174,17 +185,17 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  (case u.difficulty_type\n" +
                 "   when 0 then '非困难'\n" +
                 "   when 1 then '困难'\n" +
-                "   when 2 then '特困难'" +
-                "   else '暂无信息' end)difficulty_type,\n" +
+                "   when 2 then '特困难'   else '暂无信息' end)difficulty_type,\n" +
                 "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
                 "  u.address,\n" +
                 "  u.dutyid,\n" +
-                "  d.type_name ,\n" +
                 "  u.party_branch_id,\n" +
                 "  p.name party_branch_name,\n" +
                 "  u.party_groups_id,\n" +
-                "  u.party_team_id\n" +
+                "  u.party_team_id,\n" +
+                "  (select g.name from party_group g where u.party_groups_id = g.id) as groupName,\n" +
+                "  (select t.name from party_team t where u.party_groups_id = t.id) as teamName\n" +
                 "FROM\n" +
                 "  USER u\n" +
                 "  LEFT JOIN duty d ON u.dutyid = d.id\n" +

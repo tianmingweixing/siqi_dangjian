@@ -48,17 +48,15 @@
         <label class="layui-form-label" style="margin-left: 85px">学历</label>
         <div class="layui-input-inline">
             <select name="education" id="education">
-                <option value="">请选择</option>
                 <option value="1">初中</option>
                 <option value="2">高中</option>
                 <option value="3">中专</option>
                 <option value="4">大专</option>
-                <option value="5">本科</option>
-                <option value="5">硕士</option>
-                <option value="5">博士</option>
+                <option value="5" selected >本科</option>
+                <option value="6">硕士</option>
+                <option value="7">博士</option>
             </select>
         </div>
-
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -71,10 +69,8 @@
         <label class="layui-form-label" style="margin-left: 85px">政治面貌</label>
         <div class="layui-input-inline">
             <select name="type_name" id="type_name">
-                <option value="">全部</option>
             </select>
         </div>
-
     </div>
 
     <div class="layui-form-item input_row_margin_top">
@@ -94,17 +90,38 @@
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label" >所在单位</label>
         <div class="layui-input-inline">
-            <input id="company" name="company" lay-verify="required" placeholder="请输入单位" maxlength="20"
+            <input id="company" name="company" lay-verify="required" placeholder="请输入所在单位" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label" style="margin-left: 85px">所属班子</label>
+        <label class="layui-form-label" style="margin-left: 85px">单位职务</label>
+        <div class="layui-input-inline">
+            <input id="company_office" name="company_office" lay-verify="required" placeholder="请输入单位职务" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label">所属班子</label>
         <div class="layui-input-inline">
             <select name="partyGroups_name" id="partyGroups_name">
                 <option value="">没有则不选</option>
             </select>
         </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">党内职务</label>
+        <div class="layui-input-inline">
+            <select name="party_posts" id="party_posts">
+                <option value="">党内职务</option>
+                <option value="书记">书记</option>
+                <option value="副书记">副书记</option>
+                <option value="委员">委员</option>
+                <option value="普通党员">普通党员</option>
+            </select>
+        </div>
     </div>
+
 
     <div class="layui-form-item input_row_margin_top">
         <label class="layui-form-label">所属小组</label>
@@ -126,8 +143,8 @@
         <label class="layui-form-label">用户简介</label>
         <div class="layui-input-inline">
             <textarea name="profiles" id="profiles" placeholder="请输入用户简介"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
-                              max-width: 1500px; height: 60px; max-height: 1000px; outline: 0;"></textarea>
+                      style="width: 592px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
+                              max-width: 1500px; height: 79px; max-height: 1000px; outline: 0;"></textarea>
         </div>
     </div>
 
@@ -153,18 +170,14 @@ var headImg = [];
             $("#username").val(parent.PartitionData.username);
             $("#age").val(parent.PartitionData.age);
             $("#company").val(parent.PartitionData.company);
-            $("#education").val(parent.PartitionData.education);
             $("#phone").val(parent.PartitionData.phone);
             $("#ID_cord").val(parent.PartitionData.ID_cord);
             $("#join_time").val(parent.PartitionData.join_time);
             $("#dutyid").val(parent.PartitionData.dutyid);
             $("#id").val(parent.PartitionData.id);
             $("#profiles").val(parent.PartitionData.profiles);
-
-            /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
-               $("#nation").val(parent.PartitionData.nation);
-                $("#difficulty_type").val(parent.PartitionData.difficulty_type);
-                $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
+            $("#company_office").val(parent.PartitionData.company_office);
+            $("#party_posts").val(parent.PartitionData.party_posts);
 
         }
 
@@ -210,6 +223,26 @@ var headImg = [];
                     var sex = 2;
                 }
                 $("input:radio[value='"+sex+"']").prop("checked", "checked");
+                form.render();
+            }
+
+            if (parent.PartitionData) {
+                if (parent.PartitionData.education == '初中'){
+                    var education = 1;
+                }else if(parent.PartitionData.education == '高中'){
+                    var education = 2;
+                }else if(parent.PartitionData.education == '中专'){
+                    var education = 3;
+                }else if(parent.PartitionData.education == '大专'){
+                    var education = 4;
+                }else if(parent.PartitionData.education == '本科'){
+                    var education = 5;
+                }else if(parent.PartitionData.education == '硕士'){
+                    var education = 6;
+                }else if(parent.PartitionData.education == '博士'){
+                    var education = 7;
+                }
+                $("#education").val(education);
                 form.render();
             }
 
@@ -268,16 +301,17 @@ var headImg = [];
             form.on('submit(formDemo)', function () {
 
                 if(headImg.length == 0){
-                    if(!parent.PartitionData == "undefined"){
-                        headImg.push(parent.PartitionData.head_img)
-                    }else{
+                    if(parent.PartitionData == undefined || parent.PartitionData == ""){
                         var defaultHeadImg = "/images/defaultHead.jpg";
                         headImg.push(defaultHeadImg);
+                    }else{
+                        headImg.push(parent.PartitionData.head_img);
                     }
                 }
 
                 $.ajax({
                             url: "/user/addUser",
+                            type:'post',
                             data: {
                                 id: $("#id").val(),
                                 username: $("#username").val(),
@@ -291,6 +325,8 @@ var headImg = [];
                                 sex: $('input[name="sex"]:checked').val(),
                                 ID_cord: $("#ID_cord").val(),
                                 company: $("#company").val(),
+                                company_office: $("#company_office").val(),
+                                party_posts: $("#party_posts").val(),
                                 profiles: $("#profiles").val(),
                                 head_img: headImg.toString(),
                                 phone: $("#phone").val()

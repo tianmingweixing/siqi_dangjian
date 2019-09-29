@@ -62,8 +62,8 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
 
         String sql = "SELECT\n" +
                 "  m.content,\n" +
-                "  DATE_FORMAT(m.end_time, '%Y-%m-%d') end_time,\n" +
-                "  DATE_FORMAT(m.start_time, '%Y-%m-%d') start_time,\n" +
+                "  DATE_FORMAT(m.end_time, '%Y-%m-%d %T') end_time,\n" +
+                "  DATE_FORMAT(m.start_time, '%Y-%m-%d %T') start_time,\n" +
                 "  m.guide,\n" +
                 "  m.id,\n" +
                 "  m.compere,\n" +

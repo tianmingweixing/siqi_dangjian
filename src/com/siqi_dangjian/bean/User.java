@@ -98,6 +98,20 @@ public class User extends BaseBean {
     private String company;
 
     /**
+     * 单位职务
+     */
+    @Column(name="company_office",nullable=true,length=100)
+    private String companyOffice;
+
+
+    /**
+     * 党内职务 1 书记、2 副书记 3 普通党员、4 委员、
+     */
+    @Column(name="party_posts",nullable=true,length=100)
+    private String partyPosts;
+
+
+    /**
      * 培养人
      */
     @Column(name="train_people",nullable=true,length=50)
@@ -180,6 +194,21 @@ public class User extends BaseBean {
     @Column(name="party_branch_id",length = 8,nullable = true)
     private Long partyBranchId;
 
+    public String getCompanyOffice() {
+        return companyOffice;
+    }
+
+    public void setCompanyOffice(String companyOffice) {
+        this.companyOffice = companyOffice;
+    }
+
+    public String getPartyPosts() {
+        return partyPosts;
+    }
+
+    public void setPartyPosts(String partyPosts) {
+        this.partyPosts = partyPosts;
+    }
 
     public String getProfiles() {
         return profiles;

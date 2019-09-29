@@ -3,94 +3,85 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title> 违纪表</title>
-    <link rel="stylesheet" href="../../js/layui/css/layui.css">
-    <script src="../../js/layui/layui.js"></script>
-    <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
+    <title> 荣誉表</title>
+    <link rel="stylesheet" href="../js/layui/css/layui.css">
+    <script src="../js/layui/layui.js"></script>
+    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<div class="layui-progress">
-    <div class="layui-progress-bar " lay-percent="100%"></div>
-</div>
+
 <form class="layui-form" action="">
-    <br>
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
-        <label class="layui-form-label" style="margin-left: 85px">违纪ID</label>
-        <input id="id" name="id" type="hidden"  maxlength="20" value="<#if id??>${id}<#else></#if>"/>
-        <label class="layui-form-label" style="margin-left: 85px">违纪凭证</label>
-        <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="<#if certificate??>${certificate}<#else></#if>" style="width: 400px;"/></div>
+<br>
+    <div class="layui-form-item input_row_margin_top" style="display: none">
+        <label class="layui-form-label" style="margin-left: 85px">荣誉ID</label>
+        <input id="id" name="id" type="hidden"  maxlength="20" value=""/>
+
+        <label class="layui-form-label" style="margin-left: 85px">荣誉凭证</label>
+        <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="" style="width: 400px;"/></div>
     </div>
 
-
-    <div class="layui-form-item input_row_margin_top" style="display:none ">
+    <div class="layui-form-item input_row_margin_top" style="display: none" >
         <label class="layui-form-label">用户ID</label>
         <div class="layui-input-inline">
-            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"
-                   value="<#if userId??>${userId}<#else></#if>"/>
+            <input id="userId" name="userId" class="layui-input" placeholder="请输入用户ID" onchange="function()"  value=""/>
         </div>
-
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-
         <label class="layui-form-label ">姓名</label>
         <div class="layui-input-inline">
-            <input id="unit" name="unit" lay-verify="required" placeholder="请输入姓名" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if unit??>${unit}<#else></#if>">
+            <input id="userName" name="userName" readonly lay-verify="required" placeholder="被授奖人姓名" maxlength="20"
+                   autocomplete="off" class="layui-input" >
         </div>
 
-        <label class="layui-form-label" style="margin-left: -7px">性别</label>
-        <div class="layui-input-inline">
-            <input type="radio" name="sex" value="1" title="男" <#if sex??&& sex==1>checked</#if>>
-            <input type="radio" name="sex" value="2" title="女" <#if sex??&& sex==2>checked</#if>>
-        </div>
     </div>
 
-    <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label" margin-left: 10px;>手机号码</label>
-        <div class="layui-input-inline">
-            <input id="phone" name="phone" lay-verify="number" placeholder="请输入手机号码" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if phone??>${phone}<#else></#if>">
-        </div>
-
-        <label class="layui-form-label " style="margin-left: 1px">时间</label>
-        <div class="layui-input-inline">
-            <input id="time" name="time" lay-verify="required" placeholder="请输入违纪时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if time??>${time}<#else></#if>">
-        </div>
-    </div>
 
     <div class="layui-form-item input_row_margin_top" style="display: none">
         <label class="layui-form-label">类型</label>
-        <div class="layui-input-inline" >
+        <div class="layui-input-inline">
             <select name="type" id="type">
-                <option value="1" <#if type?? && type==1>selected</#if>>违纪</option>
-                <option value="0" <#if type?? && type==0>selected</#if>>荣誉</option>
+                <option value="0" >荣誉</option>
+                <option value="1" >违纪</option>
             </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item input_row_margin_top">
+
+        <label class="layui-form-label " style="margin-left: 1px">荣誉时间</label>
+        <div class="layui-input-inline">
+            <input id="time" name="time" lay-verify="required" placeholder="请输入时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
+        </div>
+
+        <label class="layui-form-label " style="margin-left: 1px">荣誉名称</label>
+        <div class="layui-input-inline">
+            <input id="name" name="name" lay-verify="required" placeholder="请输入名称" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
         </div>
 
     </div>
 
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label " style="margin-left: 1px">违纪名称</label>
+        <label class="layui-form-label " style="margin-left: 1px">金额</label>
         <div class="layui-input-inline">
-            <input id="name" name="name" lay-verify="required" placeholder="请输入违纪名称" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
+            <input id="amount" name="amount" lay-verify="required|number" placeholder="请输入金额" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label " style="margin-left: 1px">罚款</label>
+        <label class="layui-form-label">授奖单位</label>
         <div class="layui-input-inline">
-            <input id="amount" name="amount"  placeholder="没有则不填" maxlength="20"
-                   autocomplete="off" class="layui-input" value="<#if amount??>${amount}<#else></#if>">
+            <input class="layui-input" name="passive_unit" id="passive_unit" placeholder="请输入授奖单位" value="">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">详情</label>
+        <label class="layui-form-label">荣誉详情</label>
         <div class="layui-input-inline">
-            <textarea name="content" id="content" placeholder="请输入违纪详情"
+            <textarea name="content" id="content" placeholder="请输入详情"
                       style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
-                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"></textarea>
         </div>
     </div>
 
@@ -99,15 +90,15 @@
         <div class="layui-input-inline">
             <textarea name="note" id="note" placeholder="请输入备注"
                       style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
-                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"><#if note??>${note}<#else></#if></textarea>
+                              max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item input_row_margin_top">
         <div class="layui-upload" style="margin-left: 60px;">
-            <button type="button" class="layui-btn" id="uploadImg">上传违纪凭证</button>
+            <button type="button" class="layui-btn" id="uploadImg">上传荣誉凭证</button>
             <div class="layui-upload-list">
-                <img class="layui-upload-img" id="certificate" src="<#if certificate??>${certificate}<#else>\images\defaultImg.jpg</#if>" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                <img class="layui-upload-img" id="certificate" src="/images/defaultImg.jpg" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>
             </div>
         </div>
@@ -117,7 +108,8 @@
         <div class="layui-form-item input_row_margin_top">
             <div class="layui-input-block">
                 <button  class="layui-btn layui-btn-normal"  lay-submit lay-filter="formDemo">立即提交</button>
-                <#if id??><#else><button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
+
+                <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
 
             </div>
         </div>
@@ -129,12 +121,16 @@
 
     $(function() {
 
+        if (parent.PartitionData) {
+            $("#userName").val(parent.PartitionData[0].username);
+            $("#userId").val(parent.PartitionData[0].id);
+        }
+
         layui.use(['laydate','form','upload'], function () {
             var form = layui.form;
             var laydate = layui.laydate //日期
                     ,layer = layui.layer; //弹层
             var upload = layui.upload;
-
 
             laydate.render({
                 elem: '#time' //指定元素
@@ -172,7 +168,6 @@
 
                     //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                     obj.preview(function(index, file, result){
-                        //???????
                         $('#certificate').attr('src', result); //图片链接（base64）
                     });
                 }
@@ -195,20 +190,20 @@
                 }
             });
 
-
-            form.on('submit(formDemo)', function (data) {
+            form.on('submit(formDemo)', function () {
                 var defalutImg = "/images/defaultImg.jpg";
 
                 if($("#imgPath").val() == ""){
                     $('#imgPath').val(defalutImg);
                 }
+
                 $.ajax({
                     url: "/disciplineOfHonor/addDisciplineOfHonor",
                     type: 'post',
                     data: {
                         id: $("#id").val(),
                         userId: $("#userId").val(),
-                        unit: $("#unit").val(),
+                        unit: $("#userName").val(),
                         content: $("#content").val(),
                         type: $("#type").val(),
                         passive_unit: $("#passive_unit").val(),
@@ -221,7 +216,7 @@
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
                         setTimeout(function () {
-                            window.location.href = '/frame/disciplineList.ftl'
+                            window.location.href = '/frame/honorList.ftl'
                         }, 1500);
                     }
                 });

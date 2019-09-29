@@ -149,7 +149,6 @@
                     if (data.code == 0){
                         layer.msg(data.msg, {icon: 1});
                         setTimeout(function () {
-                            //location.reload()
                             window.location.href = '/frame/adminList.ftl';
                         }, 1500);
                     }else {

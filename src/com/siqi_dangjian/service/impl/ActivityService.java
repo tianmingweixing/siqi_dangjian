@@ -95,7 +95,7 @@ public class ActivityService implements IActivityService {
         Map intParme = new HashMap();
         Activities activities = activityDao.selectById(id);
         //Configuration config = configurationService.selectById(1L);
-        PartyBranch partyBranch = partyBranchService.selectById(activities.getBrandId());
+        PartyBranch partyBranch = partyBranchService.selectById(activities.getPartyBranchId());
         intParme.put("activity_id",activities.getId().toString());
         Map userMap = activityOfUserService.selectAll(new HashMap(),intParme,new HashMap(),5,1);
         data.put("activities",activities);

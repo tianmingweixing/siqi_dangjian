@@ -114,7 +114,7 @@ public class DisciplineOfHonorController extends BaseController {
                                          @RequestParam(value = "content", required = false) String content,
                                          @RequestParam(value = "note", required = false) String note) {
 
-        ModelMap modelMap = new ModelMap();
+         modelMap = new ModelMap();
 
         try {
             DisciplineOfHonor disciplineOfHonor = new DisciplineOfHonor();

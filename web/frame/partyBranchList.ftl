@@ -17,10 +17,10 @@
         <div class="layui-input-inline">
             <input type="text" id="name_search"  placeholder="党支部名称" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label ">党支部编号</label>
+      <!--  <label class="layui-form-label ">党支部编号</label>
         <div class="layui-input-inline">
             <input type="text" id="partyNo"  placeholder="党支部编号" autocomplete="off" class="layui-input">
-        </div>
+        </div>-->
     </div>
 
 </form>

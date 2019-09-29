@@ -117,12 +117,11 @@
 
 <script type="text/html" id="barDemo1">
     <div class="layui-btn-group">
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <i class="layui-icon" lay-event="add">&#xe654;</i>
-        </button>
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <i class="layui-icon" lay-event="delete">&#xe640;</i>
-        </button>
+        <a class="layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon" lay-event="add">&#xe654;</i></a>
+        <a class="layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon" lay-event="delete">&#xe640;</i></a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addHonor">表彰奖励</a>
+        <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="addDiscipline">违法违纪</a>
+
     </div>
 </script>
 
@@ -156,7 +155,7 @@
             shade: false,
             offset: 'default',
             maxmin: true, //开启最大化最小化按钮
-            area: ['800px', '500px'],
+            area: ['800px', '580px'],
             content: ['/frame/user_Add.ftl']
         });
     }
@@ -245,6 +244,8 @@
                 ,{field: 'ID_cord',title:'身份证'}
                 ,{field: 'type_name',title:'政治面貌'}
                 ,{field: 'profiles',title:'用户简介'}
+                ,{field: 'company_office',title:'单位职务',hide:true}
+                ,{field: 'party_posts',title:'党内职务',hide:true}
                 ,{field: 'dutyid',title:'职务ID',hide:true}
                 ,{field: 'sympathyId',title:'慰问ID',hide:true}
                 ,{field: 'party_branch_id',title:'党支部ID',hide:true}
@@ -329,7 +330,51 @@
                         })
 
                     }
-                break;
+                    break;
+                case 'addHonor':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('请选择一行');
+                    } else {
+                        window.PartitionData = data;
+                        layer.open({
+                            type: 2,
+                            title: '表彰奖励页面',
+                            shadeClose: true,
+                            shade: false,
+                            offset: 'auto',
+                            maxmin: true, //开启最大化最小化按钮
+                            area: ['805px', '800px'],
+                            content: ['./honor_Add.ftl'],
+                            end: function () { //最后执行reload
+                                location.reload();
+                            }
+                        });
+                    }
+                    break;
+                case 'addDiscipline':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('请选择一行');
+                    } else {
+                        window.PartitionData = data;
+                        layer.open({
+                            type: 2,
+                            title: '违纪违法页面',
+                            shadeClose: true,
+                            shade: false,
+                            offset: 'auto',
+                            maxmin: true, //开启最大化最小化按钮
+                            area: ['805px', '800px'],
+                            content: ['./discipline_Add.ftl'],
+                            end: function () { //最后执行reload
+                                location.reload();
+                            }
+                        });
+                    }
+                    break;
             };
         });
 
@@ -366,7 +411,7 @@
                         maxmin: true,
                         type: 2,
                         content: './user_Add.ftl',
-                        area: ['800px', '500px'],
+                        area: ['800px', '660px'],
                         end: function () { //最后执行reload
                             location.reload();
                         }

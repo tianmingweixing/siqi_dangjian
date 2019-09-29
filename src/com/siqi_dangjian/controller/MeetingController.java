@@ -157,8 +157,8 @@ public class MeetingController extends BaseController {
      */
     @RequestMapping("/addMeeting")
     public ModelAndView addMeeting(@RequestParam(value = "id", required = false) Long id,
-                                   @RequestParam(value = "start_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd ") Date  start_time,
-                                   @RequestParam(value = "end_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd ") Date end_time,
+                                   @RequestParam(value = "start_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date  start_time,
+                                   @RequestParam(value = "end_time", required = false)@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date end_time,
                                    @RequestParam(value = "compere", required = false) String compere,
                                    @RequestParam(value = "recorder", required = false) String recorder,
                                    @RequestParam(value = "people_counting", required = false) String people_counting,

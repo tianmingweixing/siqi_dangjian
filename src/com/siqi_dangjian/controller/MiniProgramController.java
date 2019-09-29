@@ -664,6 +664,7 @@ public class MiniProgramController extends BaseController {
         try {
            Meeting meeting =  meetingService.selectById(id);
            modelMap.addAttribute("meeting",meeting);
+           setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
             setFail("根据会员id查询异常 X﹏X");
@@ -987,6 +988,7 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
                                 @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "dutyid", required = false) String dutyid,
                                 @RequestParam(value = "founding_time", required = false) String founding_time,
                                 @RequestParam(value = "change_time", required = false) String change_time,
                                 @RequestParam(value = "limit", required = false) Integer limit,
@@ -1004,6 +1006,10 @@ public class MiniProgramController extends BaseController {
 
         if (StringUtils.isNotEmpty(username)) {
             blurMap.put("username", username);
+        }
+
+        if (StringUtils.isNotEmpty(dutyid)) {
+            intMap.put("dutyid", dutyid);
         }
 
         if (StringUtils.isNotEmpty(founding_time)) {

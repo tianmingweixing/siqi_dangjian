@@ -80,7 +80,7 @@
 
         <label class="layui-form-label " >慰问时间</label>
         <div class="layui-input-inline">
-            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
+            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入慰问时间" maxlength="20"
                    autocomplete="off" class="layui-input" value="<#if sympathy_time??>${sympathy_time}<#else></#if>">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>

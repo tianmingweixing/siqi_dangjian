@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>思齐党建 - Layui</title>
+    <title>思齐党建管理系统</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
     <link rel="shortcut icon" href="https://www.baidu.com/favicon.ico" type="image/x-icon">
     <script src="../../js/layui/layui.js"></script>

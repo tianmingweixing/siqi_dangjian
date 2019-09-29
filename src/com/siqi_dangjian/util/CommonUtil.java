@@ -43,7 +43,8 @@ public class CommonUtil {
             String month = String.valueOf(now.get(Calendar.MONTH) + 1);
             String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
             // 上传文件在服务器中的位置(目录绝对路径)
-            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day);
+//            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day);
+            String saveServerPath = CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day;
             File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
             if (!filePath.getParentFile().exists()) {
                 filePath.getParentFile().mkdirs();

@@ -102,6 +102,8 @@ public class UserController extends BaseController {
                             @RequestParam(value = "ID_cord", required = false) String ID_cord,
                             @RequestParam(value = "phone", required = false) String phone,
                             @RequestParam(value = "profiles", required = false) String profiles,
+                            @RequestParam(value = "company_office", required = false) String company_office,
+                            @RequestParam(value = "party_posts", required = false) String party_posts,
                             @RequestParam(value = "head_img", required = false) String head_img,
                             @RequestParam(value = "join_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date joinTime) {
 
@@ -129,6 +131,8 @@ public class UserController extends BaseController {
             user.setSex(sex);
             user.setHeadImg(head_img);
             user.setProfiles(profiles);
+            user.setCompanyOffice(company_office);
+            user.setPartyPosts(party_posts);
             user.setUserName(username);
             user.setJoinTime(joinTime);
             user.setCanUse(1);
