@@ -17,4 +17,8 @@ public interface ITipsDao {
 
     Map selectAll(Map blurParam, Map dateParam,
                       Map intParam, int limit, int page) throws Exception;
+
+    List selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception;
+
+
 }

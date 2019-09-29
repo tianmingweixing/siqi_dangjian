@@ -39,7 +39,7 @@ public class Conclusion extends BaseBean{
     /**
      * 标题
      */
-    @Column(name="title",length = 30)
+    @Column(name="title",length = 100)
     private String title;
 
     /**

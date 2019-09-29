@@ -4,8 +4,11 @@ import com.siqi_dangjian.bean.Tips;
 import com.siqi_dangjian.dao.ITipsDao;
 import com.siqi_dangjian.util.CommonUtil;
 import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,5 +57,19 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"t");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
+    }
+
+
+    @Override
+    public List selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select t.content,t.user_name,t.create_time from tips t where type = ? and user_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setParameter(0,type);
+        query.setParameter(1,id);
+        query.setFirstResult(limit * (page - 1));
+        query.setMaxResults(limit);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        return list;
     }
 }

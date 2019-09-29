@@ -119,4 +119,6 @@ public class ActivityOfUserDao extends BaseDao<ActivityOfUser> implements IActiv
         Integer count = temp.intValue();
         return count;
     }
+
+
 }

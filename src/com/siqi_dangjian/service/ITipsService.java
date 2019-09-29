@@ -20,4 +20,6 @@ public interface ITipsService {
     Tips selectById(Long id) throws Exception;
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
+
+    List selectActivityTips(Long id, Integer limit, Integer type, Integer page) throws Exception;
 }
