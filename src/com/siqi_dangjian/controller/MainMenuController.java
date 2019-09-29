@@ -2,6 +2,7 @@ package com.siqi_dangjian.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("mainMenu")
 public class MainMenuController {
 
-    @RequestMapping(value = "/goto1",produces="text/html; charset=UTF-8")
+    @RequestMapping(value = "/goto1", method = RequestMethod.GET)
     public ModelAndView go(HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("WEB-INF/page/mainMenu");

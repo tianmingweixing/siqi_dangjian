@@ -97,6 +97,7 @@
     function login(){
         $.ajax({
             url:"/login/admin_login",
+            type:"POST",
             data:{
                 account:$("#form-username").val(),
                 passWord:$('#form-password').val()

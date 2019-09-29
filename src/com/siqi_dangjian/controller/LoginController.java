@@ -76,7 +76,7 @@ public class LoginController extends BaseController{
     }
 
 
-    @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_login", method = RequestMethod.POST)
     @ResponseBody
     public ModelMap adminLogin(@RequestParam(value = "account", required = false) String account,
                                @RequestParam(value = "passWord", required = false) String passWord,
