@@ -1,7 +1,6 @@
 package com.siqi_dangjian.dao;
 
 import com.siqi_dangjian.bean.Tips;
-import com.siqi_dangjian.bean.User;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,10 @@ public interface ITipsDao {
     Map selectAll(Map blurParam, Map dateParam,
                       Map intParam, int limit, int page) throws Exception;
 
-    List selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception;
+    Map selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception;
 
 
+    List selectByUserId(Long id);
+
+    String selectActivityIdByUserId(Long id);
 }
