@@ -44,7 +44,7 @@
 
                     <label class="layui-form-label ">用户姓名</label>
                     <div class="layui-input-inline">
-                        <input id="unit" name="unit" lay-verify="required" placeholder="请输入姓名" maxlength="20"
+                        <input id="unit" name="unit" lay-verify="required" placeholder="请输入姓名" maxlength="20" readonly
                                autocomplete="off" class="layui-input" value="<#if unit??>${unit}<#else></#if>">
                     </div>
 

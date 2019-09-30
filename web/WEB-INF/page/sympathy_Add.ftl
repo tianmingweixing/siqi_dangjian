@@ -39,7 +39,7 @@
                 <div class="layui-form-item input_row_margin_top">
                     <label class="layui-form-label ">姓名</label>
                     <div class="layui-input-inline">
-                        <input id="username" name="username" lay-verify="required" placeholder="请输入姓名" maxlength="20"
+                        <input id="username" name="username" lay-verify="required" placeholder="请输入姓名" maxlength="20" disabled
                                autocomplete="off" class="layui-input" value="<#if username??>${username}<#else></#if>">
                     </div>
 

@@ -57,7 +57,7 @@
                     <div class="layui-upload">
                         <button type="button" class="layui-btn" id="test1">上传图片</button>
                         <div class="layui-upload-list">
-                            <img class="layui-upload-img" id="demo1" src="" alt="公司图片" style="width: 90px; height: auto; min-height: 60px; border: 1px solid #CCCCCC;">
+                            <img class="layui-upload-img" id="demo1" src="/images/defaultImg.jpg" alt="公司图片" style="width: 200px; height: auto; min-height: 60px; border: 1px solid #CCCCCC;">
                             <p id="demoText"></p>
                         </div>
                     </div>

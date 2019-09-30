@@ -39,7 +39,6 @@
                 <label class="layui-form-label" >活动类型</label>
                 <div class="layui-input-inline">
                     <select id="type_search" name="type_search" lay-verify="">
-                        <option value="">请选择</option>
                     </select>
                 </div>
             </div>

@@ -59,7 +59,7 @@
                         alert(data.msg)
                     } else if(data.msg=="注册成功"){
                         alert(data.msg)
-                        window.location.href='../login.ftl';
+                        window.location.href='../login/js/login.ftl';
                     }
                 }
             })

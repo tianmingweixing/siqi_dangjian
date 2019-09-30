@@ -56,6 +56,7 @@
 </script>
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="getJoin">查看成员</a>
 </script>
 <style>
     .layui_open_fail{
@@ -72,6 +73,22 @@
     function reset_search(){
         window.location.reload();
     }
+
+    function onAddBtn(teamid){
+        window.PartitionData=teamid;
+
+        layer.open({
+            type: 2,
+            title: '成员列表页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'lt',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['90vw', '50vw'],
+            content: ['/frame/intrantOfTeams.ftl']
+        });
+    }
+
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element', ], function(){
         var laydate = layui.laydate //日期
@@ -108,11 +125,11 @@
                 ,{field: 'id', title: 'ID', width:150, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '党小组名称'}
                 ,{field: 'duty', title: '党小组职责'}
-                ,{field: 'count', title: '人员数量'}
-                ,{field: 'userName', title: '党小组成员'}
+                ,{field: 'userCount', title: '人员数量'}
+                // ,{field: 'userName', title: '党小组成员'}
                 ,{field: 'change_time',title:'换届时间'}
                 ,{field: 'founding_time',title:'成立时间'}
-                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -200,8 +217,9 @@
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                     ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'detail'){
-                layer.msg('查看操作');
+            if(layEvent === 'getJoin'){
+                //layer.msg('查看操作');
+                onAddBtn(data.id);
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
                  console.log(data);

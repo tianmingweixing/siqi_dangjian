@@ -58,6 +58,7 @@
 </script>
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="getJoin">查看成员</a>
 </script>
 <style>
     .layui_open_fail {
@@ -74,6 +75,21 @@
 
     function reset_search() {
         window.location.reload();
+    }
+
+    function onAddBtn(groupid){
+        window.PartitionData=groupid;
+
+        layer.open({
+            type: 2,
+            title: '成员列表页面',
+            shadeClose: true,
+            shade: false,
+            offset: 'lt',
+            maxmin: true, //开启最大化最小化按钮
+            area: ['90vw', '50vw'],
+            content: ['/frame/intrantOfGroup.ftl']
+        });
     }
 
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'element',], function () {
@@ -111,11 +127,11 @@
                 , {field: 'id', title: 'ID', width: 150, fixed: 'left'}
                 , {field: 'name', title: '班子名称'}
                 , {field: 'duty', title: '班子职责'}
-                , {field: 'count', title: '成员数量'}
-                , {field: 'userName', title: '班子成员'}
+                , {field: 'userCount', title: '成员数量'}
+                // , {field: 'userName', title: '班子成员'}
                 , {field: 'founding_time', title: '成立时间'}
                 , {field: 'change_time', title: '换届时间'}
-                , {field: 'edit', title: '编辑', width: 250, templet: '#barDemo1'}
+                , {field: 'edit', title: '编辑', width: 200, templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -200,8 +216,9 @@
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                     , layEvent = obj.event; //获得 lay-event 对应的值
-            if (layEvent === 'detail') {
-                layer.msg('查看操作');
+            if (layEvent === 'getJoin') {
+                //layer.msg('查看操作');
+                onAddBtn(data.id);
             } else if (layEvent === 'edit') {
                 //layer.msg('操作');
                 window.location.href = '/partyGroup/setPartyGroup?id=' + data.id;

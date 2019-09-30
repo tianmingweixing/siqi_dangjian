@@ -75,10 +75,14 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
         sql = CommonUtil.appendBlurStr(sql,blurParam);
         sql = CommonUtil.appendCustomDateStr(sql,dateParam,"c","year_limit");
         sql = CommonUtil.appendIntStr(sql,intParam,"t");
-        sql = sql +" ORDER BY c.year_limit DESC";
+
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"c");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"t");
+
+        sql = sql +" ORDER BY c.year_limit DESC";
+        sqlCount = sqlCount + "ORDER BY c.year_limit DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

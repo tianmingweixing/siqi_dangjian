@@ -49,7 +49,7 @@ public class User extends BaseBean {
     /**
      * 性别 1代表男，2代表女
      */
-    @Column(name="sex",nullable=true,length=8,columnDefinition="INT default 1")
+    @Column(name="sex",nullable=true,length=8,columnDefinition="int default 1")
     private Integer sex;
 
     /**
@@ -64,7 +64,7 @@ public class User extends BaseBean {
     @Column(name="age",nullable=true,length=3)
     private Integer age;
 
-    @Column(name="birth",length = 1,nullable = true)
+    @Column(name="birth",length = 20,nullable = true)
     private Timestamp birth;
 
     /**
@@ -142,7 +142,7 @@ public class User extends BaseBean {
     /**
      * 困难状态；0：非困难；1：困难；2：特困难
      */
-    @Column(name="difficulty_type",length=1,columnDefinition="INT default 0")
+    @Column(name="difficulty_type",length=2,columnDefinition="int default 0")
     private Integer difficultyType;
 
     /**

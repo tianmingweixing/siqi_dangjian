@@ -55,6 +55,10 @@ public class MemconDao extends BaseDao<Memcon> implements IMemconDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+
+        sql = sql +" ORDER BY u.year_limit DESC";
+        sqlCount = sqlCount + "ORDER BY u.year_limit DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

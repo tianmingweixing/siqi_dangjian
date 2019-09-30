@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +122,19 @@ public class ActivityService implements IActivityService {
 
     @Override
     public Map selectActivitysByState(int state, int limit, int page) throws Exception {
-        return activityDao.selectActivitysByState(state, limit, page);
+
+        Map map = activityDao.selectActivitysByState(state, limit, page);
+        /*List<Map> activits = (List)map.get("list");
+        if (activits != null) {
+            for (Map activity : activits) {
+                List imgList = new ArrayList();
+                imgList.add(activity.get("image_path_a"));
+                imgList.add(activity.get("image_path_b"));
+                activity.put("imgList",imgList);
+            }
+        }*/
+
+        return map;
     }
 
     @Override

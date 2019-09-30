@@ -116,6 +116,7 @@ public class MiniProgramController extends BaseController {
                         user = new User();
                         user.setOpenId(openId);
                         user.setCanUse(1);
+                        user.setDutyId(1L);
                         user.setHeadImg(avatarUrl);
                     }
 
@@ -1383,6 +1384,7 @@ public class MiniProgramController extends BaseController {
     public ModelMap selectActivityGroupCount() {
         modelMap = new ModelMap();
         try {
+
             Map map = activityService.selectActivityGroupCount();
             setData("countList", map.get("countList"));
             setSuccess();

@@ -316,4 +316,70 @@ public class UserController extends BaseController {
         }
         return modelMap;
     }
+
+    /**
+     * 模糊查询成员信息
+     * @param username
+     * @param company
+     * @param dutyid
+     * @param userId
+     * @param groupid
+     * @param limit
+     * @param page
+     * @return
+     */
+    @RequestMapping("intrant")
+    @ResponseBody
+    public ModelMap getIntrantList(@RequestParam(value = "username", required = false) String username,
+                                @RequestParam(value = "company", required = false) String company,
+                                @RequestParam(value = "dutyid", required = false) String dutyid,
+                                @RequestParam(value = "userId", required = false) String userId,
+                                @RequestParam(value = "groupid", required = false) String groupid,
+                                @RequestParam(value = "teamid", required = false) String teamid,
+                                @RequestParam(value = "limit", required = false) Integer limit,
+                                @RequestParam(value = "page", required = false) Integer page) {
+
+        modelMap = new ModelMap();
+        Map blurMap = new HashMap<>();
+        Map dateMap = new HashMap<>();
+        Map intMap = new HashMap<>();
+
+
+        if (StringUtils.isNotEmpty(company)) {
+            blurMap.put("company", company);
+        }
+
+        if (StringUtils.isNotEmpty(userId)) {
+            intMap.put("id", userId);
+        }
+
+        if (StringUtils.isNotEmpty(dutyid)) {
+            intMap.put("dutyid", dutyid);
+        }
+
+        if (StringUtils.isNotEmpty(username)) {
+            blurMap.put("username", username);
+        }
+
+        if (StringUtils.isNotEmpty(groupid)) {
+            intMap.put("party_groups_id", groupid);
+        }
+        if (StringUtils.isNotEmpty(teamid)) {
+            intMap.put("party_team_id", teamid);
+        }
+        try {
+            Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
+            List list = (List<User>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setSuccess();
+        } catch (Exception e) {
+            setFail();
+            e.printStackTrace();
+            logger.error("intrant-->list", e);
+
+        }
+        return modelMap;
+    }
 }

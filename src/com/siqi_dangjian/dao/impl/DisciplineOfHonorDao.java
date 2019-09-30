@@ -121,6 +121,10 @@ public class DisciplineOfHonorDao extends BaseDao<DisciplineOfHonor>implements I
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"d");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"d");
+
+        sql = sql +" ORDER BY d.year_limit DESC";
+        sqlCount = sqlCount + "ORDER BY d.year_limit DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

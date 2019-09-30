@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>用户列表管理</title>
+    <title>成员列表</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
 
     <script src="/js/layui/layui.js"></script>
@@ -115,16 +115,6 @@
     <table class="layui-hide" id="demo" lay-filter="test"></table>
 </div>
 
-<script type="text/html" id="barDemo1">
-    <div class="layui-btn-group">
-        <a class="layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon" lay-event="add">&#xe654;</i></a>
-        <a class="layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon" lay-event="delete">&#xe640;</i></a>
-        <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addHonor">表彰奖励</a>
-        <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="addDiscipline">违法违纪</a>
-
-    </div>
-</script>
-
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="detail">查看</a>
@@ -142,50 +132,16 @@
         version: '1551352891272' //为了更新 js 缓存，可忽略
     });
 
+
+
+    var teamid = 0;
+    if (parent.PartitionData) {
+        teamid =  parent.PartitionData;
+    }
+    console.log(teamid);
+
     function reset_search(){
         window.location.reload();
-    }
-
-    function onAddUserBtn(){
-
-        layer.open({
-            type: 2,
-            title: '添加用户页面',
-            shadeClose: true,
-            shade: false,
-            offset: 'default',
-            maxmin: true, //开启最大化最小化按钮
-            area: ['80vw', '60vh'],
-            content: ['/frame/user_Add.ftl']
-        });
-    }
-
-    function onDetailBtn(data){
-        $("#username").html(data.username);
-        $("#age").html(data.age);
-        $("#company").html(data.company);
-        $("#education").html(data.education);
-        $("#phone").html(data.phone);
-        $("#sex").html(data.sex);
-        $("#join_time").html(data.join_time);
-        $("#head_img").attr('src',data.head_img);
-        $("#look_party_branch_name").text(data.party_branch_name);
-        $("#look_type_name").html(data.type_name);
-        $("#nation").html(data.nation);
-        $("#ID_cord").html(data.ID_cord);
-        $("#difficulty_type").html(data.difficulty_type);
-
-        layer.open({
-            type: 1,
-            title: '用户详情',
-            shadeClose: true,
-            shade: false,
-            offset: 'default',
-            maxmin: true, //开启最大化最小化按钮
-            area: ['500px', '500px'],
-            content: $("#lookDetail")
-        });
-
     }
 
 
@@ -210,7 +166,7 @@
             });
         });
 
-        //查询计划种类
+        //初始化政治面貌下拉框
         $.ajax({
             url: "/duty/allCategory",
             async: false,
@@ -226,10 +182,10 @@
         table.render({
             elem: '#demo'
             ,height: 563
-            ,url: '/user/list' //数据接口
+            ,url: '/user/intrant?teamid='+teamid //数据接口
             ,title: '用户表'
             ,page: true //开启分页
-            ,toolbar: '#barDemo1'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar: false
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
@@ -241,23 +197,19 @@
                 ,{field: 'education',title:'学历',hide:true}
                 ,{field: 'company',title:'单位'}
                 ,{field: 'phone',title:'手机号码'}
-                ,{field: 'ID_cord',title:'身份证'}
+                ,{field: 'ID_cord',title:'身份证',hide:true}
                 ,{field: 'type_name',title:'政治面貌'}
-                ,{field: 'profiles',title:'用户简介'}
+                ,{field: 'profiles',title:'用户简介',hide:true}
                 ,{field: 'company_office',title:'单位职务',hide:true}
-                ,{field: 'party_posts',title:'党内职务'}
+                ,{field: 'party_posts',title:'党内职务',hide:true}
                 ,{field: 'dutyid',title:'职务ID',hide:true}
-                ,{field: 'sympathyId',title:'慰问ID',hide:true}
                 ,{field: 'party_branch_id',title:'党支部ID',hide:true}
                 ,{field: 'party_branch_name',title:'党支部名称',hide:true}
-                ,{field: 'party_groups_id',title:'班子ID',hide:true}
-                ,{field: 'groupName',title:'班子名称'}
-                ,{field: 'party_team_id',title:'党小组ID',hide:true}
-                ,{field: 'teamName',title:'党小组名称'}
-                ,{field: 'difficulty_type',title:'困难情况',hide:true}
+                ,{field: 'party_groups_id',title:'班子ID'}
+                ,{field: 'party_groups_name',title:'班子名称',hide:true}
+                ,{field: 'party_team_id',title:'党小组ID'}
+                ,{field: 'party_groups_name',title:'党小组名称',hide:true}
                 ,{field: 'join_time',title:'入党时间'}
-                ,{field: 'last_time',title:'最后登录时间',hide:true}
-                ,{field: 'look',fixed: 'right',title:'编辑',width:250,templet:'#barDemo'}
             ]]
         });
 
@@ -285,141 +237,6 @@
         });
 
 
-
-        //监听头工具栏事件
-        table.on('toolbar(test)', function(obj){
-            var checkStatus = table.checkStatus(obj.config.id)
-                    ,data = checkStatus.data; //获取选中的数据
-            switch(obj.event){
-                case 'add':
-                    onAddUserBtn();
-                    break;
-                case 'delete':
-                    if(data.length === 0){
-                        layer.msg('请选择一行');
-                    } else {
-                        layer.confirm("确认要删除吗", {
-                            icon:0
-                        }, function () {
-                            var a = [];
-                            $.each(data,function(index,value){
-                                a.push(value.id)
-                            });
-
-                            $.ajax({
-                                url:"/user/logicDelete",
-                                data:{
-                                    deleteArray:JSON.stringify(a)
-                                },
-                                success:function (data) {
-                                    if(data.result == "fail"){
-                                        layer.open({
-                                            icon: 2,
-                                            title: '消息提醒',
-                                            content: '删除失败',
-                                            skin:'layui_open_fail'
-                                        });
-                                    } else {
-                                        layer.msg('删除成功', {icon: 1});
-                                        setTimeout(function () {
-                                            location.reload()
-                                        },1000)
-                                    }
-                                }
-                            })
-                        })
-
-                    }
-                    break;
-                case 'addHonor':
-                    if(data.length === 0){
-                        layer.msg('请选择一行');
-                    } else if (data.length > 1) {
-                        layer.msg('请选择一行');
-                    } else {
-                        window.PartitionData = data;
-                        layer.open({
-                            type: 2,
-                            title: '表彰奖励页面',
-                            shadeClose: true,
-                            shade: false,
-                            offset: 'auto',
-                            maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '800px'],
-                            content: ['./honor_Add.ftl'],
-                            end: function () { //最后执行reload
-                                location.reload();
-                            }
-                        });
-                    }
-                    break;
-                case 'addDiscipline':
-                    if(data.length === 0){
-                        layer.msg('请选择一行');
-                    } else if (data.length > 1) {
-                        layer.msg('请选择一行');
-                    } else {
-                        window.PartitionData = data;
-                        layer.open({
-                            type: 2,
-                            title: '违纪违法页面',
-                            shadeClose: true,
-                            shade: false,
-                            offset: 'auto',
-                            maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '800px'],
-                            content: ['./discipline_Add.ftl'],
-                            end: function () { //最后执行reload
-                                location.reload();
-                            }
-                        });
-                    }
-                    break;
-            };
-        });
-
-        //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            var data = obj.data //获得当前行数据
-                    ,layEvent = obj.event; //获得 lay-event 对应的值
-            if (layEvent === 'detail') {
-                layer.msg('查看操作');
-                onDetailBtn(data);
-
-            } else if (layEvent === 'addSympathy') {
-                window.PartitionData=data;
-                layer.open({
-                    type: 2,
-                    title: '添加慰问页面',
-                    shadeClose: true,
-                    shade: false,
-                    offset: 'default',
-                    maxmin: true, //开启最大化最小化按钮
-                    area: ['800px', '550px'],
-                    content: ['./sympathy_Add.ftl'],
-                    end: function () { //最后执行reload
-                        location.reload();
-                    }
-                });
-
-            }else if(layEvent === 'edit') {
-                //这行是监听到的表格行数据信息
-                window.PartitionData=data;
-                layui.use('layer', function () {
-                    layer.open({
-                        title: '编辑用户',
-                        maxmin: true,
-                        type: 2,
-                        content: './user_Add.ftl',
-                        area: ['800px', '660px'],
-                        end: function () { //最后执行reload
-                            location.reload();
-                        }
-                    });
-
-                });
-            }
-        });
         //分页
         laypage.render({
             elem: 'pageDemo' //分页容器的id

@@ -69,7 +69,7 @@
                 <div class="layui-upload">
                     <button type="button" class="layui-btn" id="test1">上传图片</button>
                     <div class="layui-upload-list">
-                        <img class="layui-upload-img" id="demo1" src="<#if admin_head??>${admin_head}<#else></#if>" style="width: 90px; height: 90px; border: 1px solid #CCCCCC;">
+                        <img class="layui-upload-img" id="demo1" src="<#if admin_head??>${admin_head}<#else>/images/defaultImg.jpg</#if>" style="width: 90px; height: 90px; border: 1px solid #CCCCCC;">
                         <p id="demoText"></p>
                     </div>
                 </div>
