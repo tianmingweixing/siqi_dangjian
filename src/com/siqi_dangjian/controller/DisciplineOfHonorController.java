@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.DisciplineOfHonor;
 import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IDisciplineOfHonorService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +38,9 @@ public class DisciplineOfHonorController extends BaseController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
 
     Logger logger = Logger.getRootLogger();
@@ -118,6 +122,8 @@ public class DisciplineOfHonorController extends BaseController {
 
         try {
             DisciplineOfHonor disciplineOfHonor = new DisciplineOfHonor();
+
+            party_branch_id = configurationService.selectPartyBranchId();
             disciplineOfHonor.setId(id);
             disciplineOfHonor.setUserId(userId);
             disciplineOfHonor.setAmount(amount);

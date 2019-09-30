@@ -53,6 +53,7 @@ public class PartyBranchController extends BaseController{
         PartyBranch partyBranch;
         try {
              partyBranch = new PartyBranch();
+
             if (file != null) {
                 String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
                 partyBranch.setPartyImg(path);

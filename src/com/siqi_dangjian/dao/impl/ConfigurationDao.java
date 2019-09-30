@@ -73,7 +73,8 @@ public class ConfigurationDao extends BaseDao<Configuration> implements IConfigu
                 "\tc.can_use = 1";
 
         SQLQuery query = session.createSQLQuery(sql);
-        return (Long)query.uniqueResult();
+        BigInteger branchId = (BigInteger)query.uniqueResult();
+        return branchId.longValue();
 
     }
 }

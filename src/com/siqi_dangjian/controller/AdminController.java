@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Admin;
 import com.siqi_dangjian.service.IAdminService;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.MD5;
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,9 @@ public class AdminController extends BaseController{
 
     @Autowired
     private IAdminService adminService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -87,7 +91,7 @@ public class AdminController extends BaseController{
         modelMap = new ModelMap();
         String md5Str = "";
         try {
-
+            party_branch_id = configurationService.selectPartyBranchId();
             //检查权限
             String account = (String) session.getAttribute("account");
             Admin loginAdmin = adminService.getAdminByAccount(account);

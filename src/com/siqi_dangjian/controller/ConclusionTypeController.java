@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.ConclusionType;
 import com.siqi_dangjian.service.IConclusionTypeService;
+import com.siqi_dangjian.service.IConfigurationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class ConclusionTypeController extends BaseController {
 
     @Autowired
     private IConclusionTypeService conclusionTypeService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -73,7 +77,9 @@ public class ConclusionTypeController extends BaseController {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
+            Long party_branch_id = configurationService.selectPartyBranchId();
             ConclusionType conclusionType = new ConclusionType();
+            conclusionType.setPartyBranchId(party_branch_id);
             conclusionType.setId(id);
             conclusionType.setTypeName(typeName);
             conclusionType.setType(type);

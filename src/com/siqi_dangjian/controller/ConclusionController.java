@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.service.IConclusionService;
 import com.siqi_dangjian.service.IConclusionTypeService;
+import com.siqi_dangjian.service.IConfigurationService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ConclusionController extends BaseController {
 
     @Autowired
     private IConclusionTypeService conclusionTypeService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
 
     Logger logger = Logger.getRootLogger();
@@ -120,6 +124,8 @@ public class ConclusionController extends BaseController {
         ModelMap modelMap = new ModelMap();
         Conclusion conclusion;
         try {
+            Long party_branch_id = configurationService.selectPartyBranchId();
+
             if (id == null) {
                  conclusion = new Conclusion();
             }else{
@@ -130,6 +136,7 @@ public class ConclusionController extends BaseController {
             conclusion.setPlanContent(plan_content);
             conclusion.setTitle(title);
             conclusion.setYearLimit(year_limit);
+            conclusion.setPartyBranchId(party_branch_id);
             conclusion.setCanUse(1);
             conclusionService.insertOrUpdate(conclusion);
             setSuccess();

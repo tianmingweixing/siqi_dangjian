@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.ActivitiesType;
 import com.siqi_dangjian.service.IActivityTypeService;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.util.CommonString;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class ActivtiesTypeController extends BaseController {
 
     @Autowired
     private IActivityTypeService activityTypeService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -100,13 +104,14 @@ public class ActivtiesTypeController extends BaseController {
                               @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
         modelMap = new ModelMap();
         try {
+            party_branch_id = configurationService.selectPartyBranchId();
             ActivitiesType activitiesType= new ActivitiesType();
             if (id != null){
                 activitiesType = activityTypeService.selectById(id);
             }
 
             activitiesType.setTypeName(type_name);
-            activitiesType.setPartyBranchId(1L);
+            activitiesType.setPartyBranchId(party_branch_id);
             activitiesType.setCanUse(1);
             activityTypeService.insertOrUpdate(activitiesType);
             setMsg("添加成功");

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Sympathy;
 import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.ISympathyService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +33,9 @@ public class SympathyController extends BaseController{
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -93,11 +97,12 @@ public class SympathyController extends BaseController{
         Sympathy sympathy;
         User user;
         try {
-
+            Long party_branch_id = configurationService.selectPartyBranchId();
             if(sympathyId != null ){
                 sympathy = sympathyService.selectById(sympathyId);
             }else{
                 sympathy = new Sympathy();
+                sympathy.setPartyBranchId(party_branch_id);
             }
 //            if (userId == null) {
 //                user = new User();

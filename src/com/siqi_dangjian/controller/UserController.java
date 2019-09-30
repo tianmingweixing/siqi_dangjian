@@ -40,6 +40,9 @@ public class UserController extends BaseController {
     @Autowired
     private IPartyGroupService partyGroupService;
 
+    @Autowired
+    private IConfigurationService configurationService;
+
     Logger logger = Logger.getRootLogger();
 
     @RequestMapping("/gotoAdd")
@@ -114,11 +117,12 @@ public class UserController extends BaseController {
             if (id != null) {
                 user = userService.getUserById(id);
             } else {
+                Long party_branch_id = configurationService.selectPartyBranchId();
                 user = new User();
+                user.setPartyBranchId(party_branch_id);
             }
 
             user.setDutyId(dutyid);
-            user.setPartyBranchId(1L);
             user.setPartyGroupsId(partyGroupsId);
             user.setPartyTeamId(partyTeamId);
             user.setId(id);

@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.bean.Notice;
 import com.siqi_dangjian.service.IConclusionService;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.INoticeService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.CommonUtil;
@@ -39,6 +40,9 @@ public class NoticeController extends BaseController {
 
     @Autowired
     private INoticeService noticeService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -93,6 +97,9 @@ public class NoticeController extends BaseController {
         ModelMap modelMap = new ModelMap();
         Notice notice;
         try {
+
+            Long party_branch_id = configurationService.selectPartyBranchId();
+
             if (id != null) {
                 notice = noticeService.selectById(id);
             } else {
@@ -105,7 +112,7 @@ public class NoticeController extends BaseController {
                 String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
                 notice.setImagePath(path);
             }
-
+            notice.setPartyBranchId(party_branch_id);
             notice.setContent(content);
             notice.setTitle(title);
             notice.setCanUse(1);
