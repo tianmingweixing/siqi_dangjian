@@ -147,4 +147,9 @@ public class ActivityService implements IActivityService {
         return  map;
     }
 
+    @Override
+    public Activities selectActivitiesInfoByUserId(Long id) {
+        return activityDao.selectActivitiesInfoByUserId(id);
+    }
+
 }

@@ -276,27 +276,38 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         Map resMap = new HashMap();
         session = sessionFactory.getCurrentSession();
 
-        String sql = "    SELECT                                              \n" +
-                "      count(*) statusCount,                                  \n" +
-                "      (                                                      \n" +
-                "        CASE                                                 \n" +
-                "        WHEN end_time >= now() AND start_time <= now() THEN 0\n" +
-                "        WHEN start_time > now() THEN 1                       \n" +
-                "        WHEN end_time < now() THEN 2                         \n" +
-                "        END                                                  \n" +
-                "      ) AS activityStatus                                    \n" +
-                "    FROM                                                     \n" +
-                "      activities                                             \n" +
-                "    WHERE                                                    \n" +
-                "       can_use =1                                            \n" +
-                "     GROUP BY                                                \n" +
-                "       activityStatus                                        ";
+        String sql = "    SELECT                                                    \n" +
+                     "      count(*) statusCount,                                   \n" +
+                     "      (                                                       \n" +
+                     "        CASE                                                  \n" +
+                     "        WHEN end_time > now() AND start_time > now() THEN 0   \n" +
+                     "        WHEN start_time < now() AND end_time > now() THEN 1   \n" +
+                     "        WHEN end_time < now() THEN 2                          \n" +
+                     "        END                                                   \n" +
+                     "      ) AS activityStatus                                     \n" +
+                     "    FROM                                                      \n" +
+                     "      activities                                              \n" +
+                     "    WHERE                                                     \n" +
+                     "       can_use =1                                             \n" +
+                     "     GROUP BY                                                 \n" +
+                     "       activityStatus                                           ";
 
         SQLQuery query = session.createSQLQuery(sql);
         List countList = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
         resMap.put("countList", countList);
 
         return resMap;
+    }
+
+    @Override
+    public Activities selectActivitiesInfoByUserId(Long id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select activities a  where  a.user_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+
+        Activities activities = (Activities) query.uniqueResult();
+
+        return activities;
     }
 
 }

@@ -1017,9 +1017,9 @@ public class MiniProgramController extends BaseController {
 
         //查用户参加的活动的心得
         try {
-            List list = userService.getUserTipsById(id,type,limit,page);
+            Map tipsInfo = userService.getUserTipsById(id,type,limit,page);
             setSuccess();
-            setData("tipList",list);
+            setData("tipsInfo",tipsInfo);
             setMsg("查询用户心得成功 (@^▽^@)✌ ");
         } catch (Exception e) {
             e.printStackTrace();

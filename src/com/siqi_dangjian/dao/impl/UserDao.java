@@ -48,6 +48,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.address,\n" +
                 "\tu.age,\n" +
                 "\tu.birth,\n" +
+                "  u.profiles,\n" +
                 "\tu.company,\n" +
                 "\tu.develop_time,\n" +
                 "\tu.difficulty_type,\n" +

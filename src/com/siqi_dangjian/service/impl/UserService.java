@@ -1,5 +1,6 @@
 package com.siqi_dangjian.service.impl;
 
+import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IUserDao;
 import com.siqi_dangjian.service.*;
@@ -13,6 +14,10 @@ import java.util.Map;
 @Service
 @Transactional
 public class UserService implements IUserService {
+
+    @Autowired
+    IActivityService activityService;
+
     @Autowired
     private ITipsService tipsService;
 
@@ -43,10 +48,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List getUserTipsById(Long id, Integer limit, Integer type, Integer page) throws Exception {
+    public Map getUserTipsById(Long id, Integer type, Integer limit, Integer page) throws Exception {
         //查用户参加的活动的心得
-        List list = tipsService.selectActivityTips(id,type,limit,page);
-        return list;
+        Map mapList = tipsService.selectActivityTips( id, type, limit, page);
+//        String activityId= tipsService.selectActivityIdByUserId(id);
+//        Activities activities = activityService.selectById(Long.valueOf(activityId));
+//        mapList.put("activityId",activities.getId());
+//        mapList.put("activityName",activities.getTitle());
+        return mapList;
     }
 
     @Override

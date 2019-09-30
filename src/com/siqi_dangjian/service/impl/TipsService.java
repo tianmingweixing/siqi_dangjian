@@ -1,7 +1,6 @@
 package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.Tips;
-import com.siqi_dangjian.dao.IActivityOfUserDao;
 import com.siqi_dangjian.dao.ITipsDao;
 import com.siqi_dangjian.service.ITipsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,17 @@ public class TipsService implements ITipsService {
     }
 
     @Override
-    public List selectActivityTips(Long id, Integer limit, Integer type, Integer page) throws Exception {
+    public Map selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception {
         return tipsDao.selectActivityTips(id,type,limit,page);
+    }
+
+    @Override
+    public List selectByUserId(Long id) {
+        return tipsDao.selectByUserId(id);
+    }
+
+    @Override
+    public String selectActivityIdByUserId(Long id) {
+        return tipsDao.selectActivityIdByUserId(id);
     }
 }

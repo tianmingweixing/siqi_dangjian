@@ -7,7 +7,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,15 +60,55 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
 
 
     @Override
-    public List selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception {
+    public Map selectActivityTips(Long id, Integer type, Integer limit, Integer page) throws Exception {
         session = sessionFactory.getCurrentSession();
-        String sql = "select t.content,t.user_name,t.create_time from tips t where type = ? and user_id = ?";
+        String sql = "select  h.activityId,\n" +
+                "        h.userId,\n" +
+                "        h.title,\n" +
+                "        h.type,\n" +
+                "        h.create_time,\n" +
+                "        h.content,\n" +
+                "        h.username\n" +
+                "     from    (SELECT  u.id userId,\n" +
+                "                   u.username,\n" +
+                "                   a.title,\n" +
+                "                   a.id activityId,\n" +
+                "                   t.content,\n" +
+                "                   t.create_time,\n" +
+                "                   t.type\n" +
+                "             FROM tips t\n" +
+                "               JOIN activities a ON a.id = t.activity_id\n" +
+                "               join user u on t.user_id = u.id\n" +
+                "             WHERE u.can_use = 1 and u.can_use = 1\n" +
+                "             ) h\n" +
+                "     where userId = ? and type = ?";
         SQLQuery query = session.createSQLQuery(sql);
-        query.setParameter(0,type);
-        query.setParameter(1,id);
+        query.setParameter(0,id);
+        query.setParameter(1,type);
         query.setFirstResult(limit * (page - 1));
         query.setMaxResults(limit);
         List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        Map res = new HashMap();
+        res.put("list",list);
+        return res;
+    }
+
+    @Override
+    public List selectByUserId(Long id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select t.content,t.user_name,t.create_time from tips t where type = ? and user_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
         return list;
+    }
+
+    @Override
+    public String selectActivityIdByUserId(Long id) {
+        session = sessionFactory.getCurrentSession();
+        String sql = "select t.activity_id from tips t where  user_id = ?";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setLong(0,id);
+        Object activityId = query.uniqueResult();
+        return  activityId.toString();
     }
 }

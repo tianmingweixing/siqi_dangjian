@@ -29,4 +29,6 @@ public interface IActivityService {
     String selectSignInById(Long id) throws Exception;
 
     Map selectActivityStatusGroupCount();
+
+    Activities selectActivitiesInfoByUserId(Long id);
 }

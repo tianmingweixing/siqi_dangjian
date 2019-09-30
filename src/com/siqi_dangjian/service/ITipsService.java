@@ -21,5 +21,9 @@ public interface ITipsService {
 
     Map selectAll(Map blurMap, Map intMap, Map dateMap, Integer limit, Integer page) throws Exception;
 
-    List selectActivityTips(Long id, Integer limit, Integer type, Integer page) throws Exception;
+    Map selectActivityTips(Long id, Integer limit, Integer type, Integer page) throws Exception;
+
+    List selectByUserId(Long id);
+
+    String selectActivityIdByUserId(Long id);
 }

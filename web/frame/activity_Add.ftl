@@ -137,8 +137,8 @@
 </form>
 
 
-<div id="lookDetail" style="display: none;padding: 50px; line-height: 22px; color: #56aa17; font-weight: 300;">
-    <form  class="layui-form" name="fileForm" style="margin-top: 10px">
+<div id="lookDetail" style="display: none;padding: 0px; line-height: 22px; color: #56aa17; font-weight: 300;">
+    <form  class="layui-form" name="fileForm" style="margin-top: 5px">
 
         <div style="display: none">
             <label class="layui-form-label ">活动ID</label>
@@ -183,10 +183,10 @@
         layer.open({
             type: 1
             ,title: '报名管理 ' //不显示标题栏
-            ,area:['500px', '300px']
+            , area: ['368px', '215px']
             ,shadeClose: true
             ,shade: false
-            ,offset: 'r'
+            ,offset: ['40%', '61%']
             ,maxmin: true //开启最大化最小化按钮
             ,content: $("#lookDetail")
         });
@@ -198,7 +198,7 @@
             shade: false,
             offset: 'lt',
             maxmin: true, //开启最大化最小化按钮
-            area: ['1200px', '800px'],
+            area: ['60%', '90%'],
             content: ['/frame/userList.ftl']
         });
     }
