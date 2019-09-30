@@ -5,7 +5,10 @@ import com.siqi_dangjian.service.IUserService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.ui.ModelMap;
+
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Jwt 的工具类
@@ -45,12 +48,17 @@ public class JwtUtil {
     }
 
 
+
     /**
      * 检查token,只要不正确就会抛出异常
      **/
-    public static boolean checkToken(String token) {
+    public static Integer checkToken(String token) {
 
         try {
+
+            if(token == null || token == ""){
+                return 0;
+            }
                 Jws<Claims> claims = Jwts.parser()
                         .setSigningKey(SecretKey)
                         .requireSubject("user")
@@ -58,12 +66,11 @@ public class JwtUtil {
                         .require("sessionKey",  getSessionKeyByToken(token))
                         .parseClaimsJws(token);
 
-                return true;
+                return 1;
             }catch (Exception e) {
-            e.printStackTrace();
-        }
-            return false;
-
+                e.printStackTrace();
+            }
+            return 2;
     }
 
     /**
