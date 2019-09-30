@@ -85,6 +85,9 @@ public class AdminDao extends BaseDao<Admin> implements IAdminDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"a");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
+
+        sql = sql +" ORDER BY a.create_time DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

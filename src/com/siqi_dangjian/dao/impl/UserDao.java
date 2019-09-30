@@ -228,6 +228,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+
+        sql = sql +" ORDER BY u.create_time DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

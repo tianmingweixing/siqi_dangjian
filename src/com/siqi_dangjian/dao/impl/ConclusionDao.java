@@ -81,7 +81,6 @@ public class ConclusionDao extends BaseDao<Conclusion> implements IConclusionDao
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"t");
 
         sql = sql +" ORDER BY c.year_limit DESC";
-        sqlCount = sqlCount + "ORDER BY c.year_limit DESC";
 
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;

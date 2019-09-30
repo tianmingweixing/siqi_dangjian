@@ -55,7 +55,7 @@ public class ActivityBrandDao extends BaseDao<ActivitiesBrand> implements IActiv
                 "FROM\n" +
                 "\tactivities_brand a\n" +
                 "WHERE\n" +
-                "\ta.can_use = 1";
+                "\ta.can_use = 1 order by a.create_time desc";
         String sqlCount = "SELECT count(*) count FROM activities_brand a WHERE a.can_use = 1";
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;

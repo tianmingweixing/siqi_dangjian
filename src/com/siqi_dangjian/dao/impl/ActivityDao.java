@@ -102,8 +102,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         sqlCount = CommonUtil.appendCustomDateStr(sqlCount,dateParam,"a","start_time");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"a");
 
-        sql = sql + "ORDER BY a.create_time desc";
-        sqlCount = sqlCount + "ORDER BY a.create_time desc";
+        sql = sql + " ORDER BY a.create_time desc";
 
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;

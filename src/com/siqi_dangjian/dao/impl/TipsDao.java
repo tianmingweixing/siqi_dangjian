@@ -54,6 +54,9 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"t");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"t");
+
+        sql = sql +" ORDER BY t.create_time DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
     }

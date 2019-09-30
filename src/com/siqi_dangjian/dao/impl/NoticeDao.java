@@ -52,7 +52,7 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
                 "\tnotice n\n" +
                 "WHERE\n" +
                 "\tn.can_use = 1\n" +
-                "ORDER BY create_time DESC";
+                " ORDER BY n.create_time DESC";
 
         String sqlCount = "SELECT\n" +
                 "  count(*) count\n" +
@@ -65,6 +65,7 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"n");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"n");
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

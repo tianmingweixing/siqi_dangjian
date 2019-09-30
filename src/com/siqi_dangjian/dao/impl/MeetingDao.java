@@ -92,8 +92,7 @@ public class MeetingDao extends BaseDao<Meeting> implements IMeetingDao {
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"m");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"m");
 
-        sql = sql +" ORDER BY m.year_limit DESC";
-        sqlCount = sqlCount + "ORDER BY m.year_limit DESC";
+        sql = sql +" ORDER BY m.create_time DESC";
 
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;

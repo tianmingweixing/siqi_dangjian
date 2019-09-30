@@ -83,6 +83,9 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"s");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"s");
+
+        sql = sql +" ORDER BY s.create_time DESC";
+
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
     }

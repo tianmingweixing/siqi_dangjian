@@ -167,7 +167,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('layui-icon-ok');
-                        window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id + '&type=' + 0;
+                        window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id + '&type=' + 0 + '&userId=' + data[0].user_id;
                     }
                     break;
                 case 'delete':
@@ -218,7 +218,7 @@
                 layer.msg('查看操作');
             } else if (layEvent === 'edit') {
                 layer.msg('edit');
-                console.log(data);
+                //console.log(data);
                 window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data.id + '&type=' + 0 + '&userId=' + data.user_id;
             } else if (layEvent === 'add') {
                 layer.msg('add');

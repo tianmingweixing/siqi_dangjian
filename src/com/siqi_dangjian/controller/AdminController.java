@@ -126,7 +126,7 @@ public class AdminController extends BaseController{
             admin.setPassword(md5Str);
             admin.setAdminType(admin_type);
             admin.setUserName(username);
-            admin.setAuthority(authority);
+            //admin.setAuthority(authority);
             admin.setPartyBranchId(party_branch_id);
             admin.setHeadImg(headImg);
             admin.setCanUse(1);

@@ -69,6 +69,7 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
         sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
         sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"p");
         sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"p");
+        sql = sql +" ORDER BY p.create_time DESC";
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

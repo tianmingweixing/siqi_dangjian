@@ -162,7 +162,7 @@
                         layer.msg('只能同时编辑一个');
                     } else {
                         layer.msg('正在编辑中..');
-                        window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id+'&type='+1;
+                        window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id + '&type=' + 1 + '&userId=' + data[0].user_id;
                     }
                     break;
                 case 'delete':
