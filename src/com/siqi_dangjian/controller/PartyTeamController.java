@@ -3,6 +3,7 @@ package com.siqi_dangjian.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.PartyTeam;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IPartyTeamService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +29,9 @@ public class PartyTeamController extends BaseController{
 
     @Autowired
     private IPartyTeamService partyTeamService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -104,11 +108,12 @@ public class PartyTeamController extends BaseController{
 
         ModelMap modelMap = new ModelMap();
 
-
         try {
+            Long party_branch_id = configurationService.selectPartyBranchId();
+
             PartyTeam partyTeam = new PartyTeam();
             partyTeam.setId(id);
-            partyTeam.setPartyBranchId(1L);
+            partyTeam.setPartyBranchId(party_branch_id);
             partyTeam.setPartyGroupNo(partyGroupNo);
             partyTeam.setPartyNo(partyNo);
             partyTeam.setDuty(duty);

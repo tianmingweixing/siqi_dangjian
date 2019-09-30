@@ -93,6 +93,7 @@ public class MiniProgramController extends BaseController {
 
         try {
             modelMap = new ModelMap();
+            Long party_branch_id = configurationService.selectPartyBranchId();
 
             String user_code = request.getParameter("code");
             if (StringUtils.isEmpty(user_code)) {
@@ -125,6 +126,7 @@ public class MiniProgramController extends BaseController {
                     user.setLastTime(new Date());
 
                     user.setNickName(nickName);
+                    user.setPartyBranchId(party_branch_id);
                     user.setSex(Integer.valueOf(gender));
                     userService.addUser(user);
 

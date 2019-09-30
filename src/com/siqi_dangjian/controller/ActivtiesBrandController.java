@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.ActivitiesBrand;
 import com.siqi_dangjian.service.IActivityBrandService;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.util.CommonString;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class ActivtiesBrandController extends BaseController {
 
     @Autowired
     private IActivityBrandService activityBrandService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -100,13 +104,15 @@ public class ActivtiesBrandController extends BaseController {
                               @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
         modelMap = new ModelMap();
         try {
+            party_branch_id = configurationService.selectPartyBranchId();
+
             ActivitiesBrand activitiesBrand= new ActivitiesBrand();
             if (id != null){
                 activitiesBrand = activityBrandService.selectById(id);
             }
 
             activitiesBrand.setBrandName(brand_name);
-            activitiesBrand.setPartyBranchId(1L);
+            activitiesBrand.setPartyBranchId(party_branch_id);
             activitiesBrand.setCanUse(1);
             activityBrandService.insertOrUpdate(activitiesBrand);
             setMsg("添加成功");

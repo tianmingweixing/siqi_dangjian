@@ -45,6 +45,7 @@
                     <select id="admin_type" name="admin_type">
                         <#if admin_type??>
                             <#if admin_type == 1><option value='1'>超级管理员</option><#else><option value='2'>普通管理员</option></#if>
+                        <#else><option value='2'>普通管理员</option>
                         </#if>
                         <!--<option value='1'>超级管理员</option>
                         <option value='2'>普通管理员</option>-->

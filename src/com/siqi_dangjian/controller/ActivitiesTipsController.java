@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.bean.Tips;
 import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.impl.ActivityService;
 import com.siqi_dangjian.service.impl.TipsService;
 import com.siqi_dangjian.service.impl.UserService;
@@ -35,6 +36,9 @@ public class ActivitiesTipsController extends BaseController{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -133,7 +137,7 @@ public class ActivitiesTipsController extends BaseController{
         Activities activities;
         Tips tips = new Tips();
         try {
-
+            party_branch_id = configurationService.selectPartyBranchId();
             //判断用户是否存在
             if (userId != null){
                 user = userService.getUserById(userId);
@@ -162,7 +166,7 @@ public class ActivitiesTipsController extends BaseController{
             tips.setContent(content);
             tips.setCanUse(1);
             tips.setUserId(userId);
-            tips.setPartyBranchId(1L);
+            tips.setPartyBranchId(party_branch_id);
             tips.setType(1);
             tips.setUserName(user.getUserName());
             tipsService.insertOrUpdate(tips);

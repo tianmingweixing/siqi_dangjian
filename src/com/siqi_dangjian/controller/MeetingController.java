@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.Meeting;
 import com.siqi_dangjian.bean.MeetingOfUser;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IMeetingOfUserService;
 import com.siqi_dangjian.service.IMeetingService;
 import com.siqi_dangjian.util.CommonString;
@@ -35,6 +36,9 @@ public class MeetingController extends BaseController {
 
     @Autowired
     private IMeetingOfUserService meetingOfUserService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -174,6 +178,9 @@ public class MeetingController extends BaseController {
 
         try {
             Meeting meeting = new Meeting();
+
+            Long party_branch_id = configurationService.selectPartyBranchId();
+
             meeting.setId(id);
             meeting.setName(name);
             meeting.setAddress(address);

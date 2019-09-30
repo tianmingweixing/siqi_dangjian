@@ -7,6 +7,7 @@ import com.siqi_dangjian.bean.ActivitiesType;
 import com.siqi_dangjian.bean.ActivityOfUser;
 import com.siqi_dangjian.bean.MeetingOfUser;
 import com.siqi_dangjian.service.IActivityOfUserService;
+import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.impl.ActivityService;
 import com.siqi_dangjian.service.impl.ActivityTypeService;
 import com.siqi_dangjian.util.CommonString;
@@ -37,6 +38,9 @@ public class ActivitiesController extends BaseController{
 
     @Autowired
     private IActivityOfUserService activityOfUserService;
+
+    @Autowired
+    private IConfigurationService configurationService;
 
     Logger logger = Logger.getRootLogger();
 
@@ -247,6 +251,8 @@ public class ActivitiesController extends BaseController{
                                  @RequestParam(value = "party_branch_id", required = false) Long party_branch_id) {
         modelMap = new ModelMap();
         try {
+            party_branch_id = configurationService.selectPartyBranchId();
+
             Activities activities = new Activities();
             if (id != null){
                 activities = activityService.selectById(id);
