@@ -6,6 +6,7 @@ import com.siqi_dangjian.service.impl.ConfigurationService;
 import com.siqi_dangjian.service.impl.PartyBranchService;
 import com.siqi_dangjian.service.impl.TipsService;
 import com.siqi_dangjian.util.*;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -373,7 +374,6 @@ public class MiniProgramController extends BaseController {
                 setCode(CommonString.TOKEN_CHECK_FAIL);
                 return modelMap;
             }
-
             if (id == null) {
                 setFail("请输入会议ID");
                 setCode(CommonString.FRONT_EXPECTION);
@@ -453,9 +453,12 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+            if (user_id != null || activity_id != "") {
                 List  list =  activityOfUserService.selectListById(user_id);
-
+                if (activity_id == null || activity_id == "") {
+                    setMsg("没有活动ID(activity_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
+                    return modelMap;
+                }
                 for(int i=0;i<list.size();i++){
                     Map map = (Map) list.get(i);
                     String activityId = String.valueOf(map.get("activity_id"));
@@ -471,6 +474,9 @@ public class MiniProgramController extends BaseController {
                 activityOfUserService.insertOrUpdate(activityOfUser);
                 setSuccess();
                 setMsg("活动报名成功(>‿◠)✌");
+            }else{
+                setMsg("没有用户ID(user_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
+                return modelMap;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -509,8 +515,12 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+            if (user_id != null || activity_id != "") {
                 List  list =  activityOfUserService.selectListById(user_id);
+                if (activity_id == null || activity_id == "") {
+                    setMsg("没有活动ID(activity_id),我怎么取消报名ㄟ( ▔, ▔ )ㄏ");
+                    return modelMap;
+                }
 
                 for(int i=0;i<list.size();i++){
                     Map map = (Map) list.get(i);
@@ -522,6 +532,9 @@ public class MiniProgramController extends BaseController {
                         return modelMap;
                     }
                 }
+            }else{
+                setMsg("没有用户ID(user_id),我怎么取消报名ㄟ( ▔, ▔ )ㄏ");
+                return modelMap;
             }
             setFail("该用户没有报名");
             setCode(CommonString.FRONT_EXPECTION);
@@ -559,9 +572,12 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
+            if (user_id != null || meeting_id != "") {
                 List list = meetingOfUserService.selectListById(user_id);
-
+                if (meeting_id == null || meeting_id == "") {
+                    setMsg("没有会议ID(meeting_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
+                    return modelMap;
+                }
                 for (int i = 0; i < list.size(); i++) {
                     Map map = (Map) list.get(i);
                     String meetingId = String.valueOf(map.get("meeting_id"));
@@ -578,6 +594,9 @@ public class MiniProgramController extends BaseController {
                 meetingOfUserService.insertOrUpdate(meetingOfUser);
                 setSuccess();
                 setMsg("添加会议签到成功 (>‿◠)✌");
+            }else{
+                setMsg("没有用户ID(user_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
+                return modelMap;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -599,8 +618,8 @@ public class MiniProgramController extends BaseController {
      */
     @RequestMapping("/cancelMeetingSignIn")
     @ResponseBody
-    public ModelMap cancelMeetingSignIn(@RequestParam(value = "userId", required = false) Long user_id,
-                                 @RequestParam(value = "meetingId", required = false) String meeting_id,
+    public ModelMap cancelMeetingSignIn(@RequestParam(value = "user_id", required = false) Long user_id,
+                                 @RequestParam(value = "meeting_id", required = false) String meeting_id,
                                  @RequestParam(value = "token", required = false) String token
     ) {
 
@@ -613,9 +632,13 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (StringUtils.isNotEmpty(String.valueOf(user_id))) {
-                List list = meetingOfUserService.selectListById(user_id);
 
+            if (user_id != null || meeting_id != "") {
+                List list = meetingOfUserService.selectListById(user_id);
+                if (meeting_id == null || meeting_id == "") {
+                    setMsg("没有会议ID(meeting_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
+                    return modelMap;
+                }
                 for (int i = 0; i < list.size(); i++) {
                     Map map = (Map) list.get(i);
                     String meetingId = String.valueOf(map.get("meeting_id"));
@@ -623,15 +646,19 @@ public class MiniProgramController extends BaseController {
                         meetingOfUserService.cancelSignIn(user_id, meeting_id);
                         setSuccess();
                         setMsg("取消签到成功 (>‿◠)✌");
-                    } else {
-                        setFail("此用户未签到!");
                         return modelMap;
                     }
                 }
+            }else{
+                setMsg("没有用户ID(user_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
+                return modelMap;
             }
+
+            setFail("此用户未签到");
+            setCode(CommonString.FRONT_EXPECTION);
         } catch (Exception e) {
             e.printStackTrace();
-            setFail("添加会议签到失败");
+            setFail("取消会议签到失败");
             setCode(CommonString.BACK_EXPECTION);
         }
         return modelMap;
@@ -662,9 +689,15 @@ public class MiniProgramController extends BaseController {
         }
 
         try {
-           Meeting meeting =  meetingService.selectById(id);
-           modelMap.addAttribute("meeting",meeting);
-           setSuccess();
+                Meeting meeting =  meetingService.selectById(id);
+                //图片转为数组
+                String imgs = (String) meeting.getImagesA();
+                String[] path = imgs.split(",");
+                String[] ImgArr= CommonUtil.removeArrayEmptyTextBackNewArray(path);
+                meeting.setImagesA(String.valueOf(JSONArray.fromObject(ImgArr)));
+                modelMap.addAttribute("meeting",meeting);
+                modelMap.addAttribute("ImgArr",ImgArr);
+               setSuccess();
         } catch (Exception e) {
             e.printStackTrace();
             setFail("根据会员id查询异常 X﹏X");
@@ -741,7 +774,8 @@ public class MiniProgramController extends BaseController {
                 Map meetingMap = (Map) list.get(i);
                 String imgs = (String) meetingMap.get("images_a");
                 String[] path = imgs.split(",");
-                meetingMap.put("images_a",path);
+                String[] ImgArr= CommonUtil.removeArrayEmptyTextBackNewArray(path);
+                meetingMap.put("images_a",ImgArr);
             }
 
             Integer count = (int) map.get("count");
