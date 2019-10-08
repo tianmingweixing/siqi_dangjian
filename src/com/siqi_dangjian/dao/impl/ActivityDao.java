@@ -312,4 +312,43 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         return activities;
     }
 
+    @Override
+    public Map selectActivityByUserId(Long userId) {
+        HashMap map = new HashMap();
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\ta.title,\n" +
+                "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
+                "  DATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
+                "(\n" +
+                "\t\tCASE\n" +
+                "\t\tWHEN a.end_time >= now()\n" +
+                "\t\tAND a.start_time <= now() THEN\n" +
+                "\t\t\t'进行中'\n" +
+                "\t\tWHEN a.start_time > now() THEN\n" +
+                "\t\t\t'筹备中'\n" +
+                "\t\tWHEN a.end_time < now() THEN\n" +
+                "\t\t\t'已结束'\n" +
+                "\t\tEND\n" +
+                "\t) AS activityStatus,\n" +
+                "\ta.id AS activityId,\n" +
+                "\tu.id AS user_id,\n" +
+                "\tu.username\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "INNER JOIN activity_of_user au ON a.id = au.activity_id\n" +
+                "INNER JOIN USER u ON au.user_id = u.id\n" +
+                "WHERE\n" +
+                "\ta.can_use = 1\n" +
+                "AND u.can_use = 1\n" +
+                "AND au.user_id = ? ";
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setLong(0,userId);
+
+        List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        map.put("result",list);
+
+        return map;
+    }
+
 }

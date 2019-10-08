@@ -31,4 +31,6 @@ public interface IActivityDao {
     Map selectActivityStatusGroupCount();
 
     Activities selectActivitiesInfoByUserId(Long id);
+
+    Map selectActivityByUserId(Long userId);
 }

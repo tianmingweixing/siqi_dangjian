@@ -153,9 +153,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tUSER u\n" +
                 "JOIN duty d ON u.dutyid = d.id\n" +
                 "WHERE\n" +
-                "\td.can_use = 1\n" +
+                "\td.can_use = 1 and u.can_use = 1\n" +
                 "GROUP BY\n" +
-                "\ttypeName";
+                "\td.id";
 
         SQLQuery query1 = session.createSQLQuery(sqlCount);
         List countList = query1.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();

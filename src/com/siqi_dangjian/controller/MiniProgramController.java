@@ -1471,8 +1471,6 @@ public class MiniProgramController extends BaseController {
     /** @apiGroup Activity
      * @api {GET} /selectActivityType 查询活动分类
      * @apiDescription 查询活动分类 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
-     *
-     * 查询活动分类 (党委会、党员大会、集中学习、党日活动、廉政教育、专题讨论、特色活动、党课记录、其他)
      * @return modelMap
      */
     @RequestMapping(value = "/selectActivityType")
@@ -1497,17 +1495,22 @@ public class MiniProgramController extends BaseController {
      * @api {GET} /selectActivityById 查询活动详情
      * @apiDescription 查询活动详情
      * @apiParam {Long} activityId 活动id
-     *
-     * 查询活动详情
      * @return modelMap
      */
     @RequestMapping(value = "/selectActivityById")
     @ResponseBody
     public ModelMap selectActivityById(Long activityId) {
         modelMap = new ModelMap();
+
+        if (activityId == null || activityId.equals("")) {
+            setFail("缺少参数 activityId (°_°) (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
         try {
-            Map acticityInfo =  activityService.selectActivitiesInfoById(activityId);
-            setData("acticityInfo",acticityInfo);
+            Map activityInfo =  activityService.selectActivitiesInfoById(activityId);
+            setData("activityInfo",activityInfo);
             setSuccess();
 
         } catch (Exception e) {
@@ -1521,11 +1524,41 @@ public class MiniProgramController extends BaseController {
 
 
     /** @apiGroup Activity
+     * @api {GET} /selectActivityByUserId 根据用户id查询个人参加的活动
+     * @apiDescription 根据用户id查询个人参加的活动
+     * @apiParam {Long} userId 用户id
+     * @return modelMap
+     */
+    @RequestMapping(value = "/selectActivityByUserId")
+    @ResponseBody
+    public ModelMap selectActivityByUserId(Long userId) {
+        modelMap = new ModelMap();
+
+        if (userId == null || userId.equals("")) {
+            setFail("缺少参数 userId (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
+        try {
+            Map userActivityInfo =  activityService.selectActivityByUserId(userId);
+            setData("userActivityInfo",userActivityInfo);
+            setSuccess();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("查询个人的活动详情错误");
+            logger.error("mini--->selectActivityByUserId", e);
+        }
+        return modelMap;
+    }
+
+
+    /** @apiGroup Activity
      * @api {GET} /selectActivityByType 根据类型查询活动
      * @apiDescription 查询活动详情
      * @apiParam {Integer} activityType 活动类型
-     *
-     * 根据类型查询活动
      * @return modelMap
      */
     @RequestMapping(value = "/selectActivityByType")
