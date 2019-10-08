@@ -77,8 +77,11 @@ public class NoticeDao extends BaseDao<Notice> implements INoticeDao {
         session = sessionFactory.getCurrentSession();
 
         String sql = "SELECT\n" +
+                "\tn.content,\n" +
                 "\tn.id,\n" +
                 "\tDATE_FORMAT(n.create_time, '%Y-%m-%d')create_time,\n" +
+                "\tn.image_path,\n" +
+                "\tn.party_branch_id,\n" +
                 "\tn.title\n" +
                 "FROM\n" +
                 "\tnotice n\n" +

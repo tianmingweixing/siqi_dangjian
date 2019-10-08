@@ -41,21 +41,35 @@ public class MeetingOfUserDao extends BaseDao<MeetingOfUser> implements IMeeting
         return getObjectById(id);
     }
 
+
     @Override
-    public Map selectAll(Map blurParam, Map dateParam, Map intParam, int limit, int page) throws Exception {
+    public Map selectAll(Map blurMap, Map dateMap, Map intMap, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "\ta.name,a.meeting_type_id,au.user_id,au.meeting_id,a.content,a.address,a.guide,a.images_a,a.images_b," +
+                "a.start_time,a.end_time,u.username,u.head_img,u.nick_name\n" +
+                "FROM\n" +
+                "\tmeeting_of_user au\n" +
+                "INNER JOIN `user` u ON au.user_id = u.id\n" +
+                "INNER JOIN meeting a ON au.meeting_id = a.id\n" +
+                "WHERE\n" +
+                "\tau.can_use = 1 and a.can_use = 1 and u.can_use = 1";
 
-        String sql = "\tSELECT * FROM meeting_of_user u WHERE u.can_use = 1\n";
+        String sqlCount = "SELECT\n" +
+                "\tcount(au.id) count\n" +
+                "FROM\n" +
+                "\tmeeting_of_user au\n" +
+                "INNER JOIN `user` u ON au.user_id = u.id\n" +
+                "INNER JOIN meeting a ON au.meeting_id = a.id\n" +
+                "WHERE\n" +
+                "\tau.can_use = 1 and a.can_use = 1 and u.can_use = 1";
 
-        String sqlCount = "SELECT \n" +
-                "count(*) count \n" +
-                "FROM meeting_of_user u WHERE u.can_use = 1";
-        sql = CommonUtil.appendBlurStr(sql,blurParam);
-        sql = CommonUtil.appendDateStr(sql,dateParam,"u");
-        sql = CommonUtil.appendIntStr(sql,intParam,"u");
-        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
-        sqlCount = CommonUtil.appendDateStr(sqlCount,dateParam,"u");
-        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+        sql = CommonUtil.appendBlurStr(sql,blurMap);
+        sql = CommonUtil.appendDateStr(sql,dateMap,"au");
+        sql = CommonUtil.appendIntStr(sql,intMap,"au");
+        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurMap);
+        sqlCount = CommonUtil.appendDateStr(sqlCount,dateMap,"au");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intMap,"au");
         Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
         return resMap;
 

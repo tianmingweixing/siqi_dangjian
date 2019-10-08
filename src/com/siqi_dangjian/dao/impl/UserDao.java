@@ -68,6 +68,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "\tu.join_time,\n" +
                 "\tu.last_time,\n" +
                 "\tu.nation,\n" +
+                "\tu.party_posts,\n" +
                 "\tu.nick_name,\n" +
                 "\tu.official_time,\n" +
                 "\tu.origo,\n" +

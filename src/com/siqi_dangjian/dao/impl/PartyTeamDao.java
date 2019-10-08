@@ -53,17 +53,12 @@ public class PartyTeamDao extends BaseDao<PartyTeam> implements IPartyTeamDao {
                 "  p.party_no,\n" +
                 "  p.id,\n" +
                 "  p.`name`,\n" +
-                "  count(u.id) count,\n" +
-                "  group_concat(u.username) userName,\n" +
                 "  p.party_branch_id,\n" +
                 "  p.party_group_no\n" +
                 "FROM\n" +
                 "  party_team p\n" +
-                "join user u\n" +
-                "on p.id = u.party_team_id\n" +
                 "WHERE\n" +
-                "  p.can_use = 1 and u.can_use = 1\n" +
-                "group by p.id";
+                "  p.can_use = 1";
 
         String sqlCount = "SELECT \n" +
                 "count(*) count \n" +

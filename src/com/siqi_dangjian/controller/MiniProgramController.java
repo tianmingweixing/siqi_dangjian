@@ -113,6 +113,7 @@ public class MiniProgramController extends BaseController {
 
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
+                    Long userId = user.getId();
                     if (user == null) {
                         user = new User();
                         user.setOpenId(openId);
@@ -137,7 +138,8 @@ public class MiniProgramController extends BaseController {
                     //5 . JWT 返回自定义登陆态 Token
                     String token = JwtUtil.getToken(user, expiration);
                     modelMap.addAttribute("token", token);
-                    modelMap.addAttribute("user", user);
+                    Map userInfo = userService.getUserInfoById(userId);
+                    modelMap.addAttribute("user", userInfo);
                     setSuccess();
 
                 } else {
@@ -434,6 +436,46 @@ public class MiniProgramController extends BaseController {
         }
         return modelMap;
 
+    }
+
+    /**
+     * @apiGroup Meeting
+     * @api {GET} /getMeetingListByUserId 获取用户会议列表
+     * @apiDescription 获取用户会议列表
+     * @apiParam {String} userId 用户id
+     * @apiParam {Integer} limit 页大小
+     * @apiParam {Integer} page 页号
+     */
+    @RequestMapping("/getMeetingListByUserId")
+    @ResponseBody
+    public ModelMap getMeetingListByUserId(@RequestParam(value = "userId", required = false) String userId,
+                                        @RequestParam(value = "limit", required = false) Integer limit,
+                                        @RequestParam(value = "page", required = false) Integer page) {
+        modelMap = new ModelMap();
+        try {
+            Map blurMap = new HashMap();
+            Map dateMap = new HashMap();
+            Map intMap = new HashMap();
+
+            if (StringUtils.isNotEmpty(userId)){
+                intMap.put("user_id",userId);
+            }
+
+            Map map = meetingOfUserService.selectAll(blurMap, dateMap, intMap, limit, page);
+
+            List list = (List<Map>) map.get("list");
+            Integer count = (int) map.get("count");
+            setData("data", list);
+            setData("count", count);
+            setMsg("查询活动心得信息成功");
+            setSuccess();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            setCode(CommonString.FRONT_EXPECTION);
+            setFail("查询活动心得信息异常 X﹏X");
+        }
+        return modelMap;
     }
 
 
