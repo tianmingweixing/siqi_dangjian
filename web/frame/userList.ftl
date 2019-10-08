@@ -153,9 +153,9 @@
             title: '添加用户页面',
             shadeClose: true,
             shade: false,
-            offset: 'default',
+            offset: ['8%', '24%'],
             maxmin: true, //开启最大化最小化按钮
-            area: ['80vw', '60vh'],
+            area: ['741px', '600px'],
             content: ['/frame/user_Add.ftl']
         });
     }

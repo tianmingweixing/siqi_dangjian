@@ -1066,19 +1066,13 @@ public class MiniProgramController extends BaseController {
      * @api {GET} /getUserById 根据id查询用户信息
      * @apiDescription 根据id查询用户信息和参加活动的次数以及荣誉次数
      * @apiParam {Long} id 用户id
-     *
-     * 根据id查询用户信息
-     * @param id
      * @return user
      */
     @RequestMapping("/getUserById")
     @ResponseBody
-    public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id,
-                                @RequestParam(value = "limit", required = false) Integer limit,
-                                @RequestParam(value = "page", required = false) Integer page) {
+    public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id) {
         modelMap = new ModelMap();
-//TODO
-        if(StringUtils.isEmpty(String.valueOf(id))){
+        if(id == null || id.equals("") ){
             setFail("没有用户id,无法查询 ^_^||| ");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -1112,8 +1106,8 @@ public class MiniProgramController extends BaseController {
     public ModelMap getUserTipsById(Long id,Integer limit,Integer type,Integer page) {
 
         modelMap = new ModelMap();
-//TODO
-        if(StringUtils.isEmpty(String.valueOf(id))){
+
+        if(id == null || id.equals("") ){
             setFail("没有用户id,无法查询 ^_^||| ");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
