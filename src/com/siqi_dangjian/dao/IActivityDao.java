@@ -32,5 +32,6 @@ public interface IActivityDao {
 
     Activities selectActivitiesInfoByUserId(Long id);
 
-    Map selectActivityByUserId(Long userId);
+    Map selectActivityByUserId(Long userId, Integer limit , Integer page);
+
 }

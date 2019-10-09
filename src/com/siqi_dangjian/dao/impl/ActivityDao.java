@@ -313,7 +313,7 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
     }
 
     @Override
-    public Map selectActivityByUserId(Long userId) {
+    public Map selectActivityByUserId(Long userId, Integer limit , Integer page) {
         HashMap map = new HashMap();
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
@@ -342,13 +342,31 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
                 "\ta.can_use = 1\n" +
                 "AND u.can_use = 1\n" +
                 "AND au.user_id = ? ";
+
+        String sqlCount = "SELECT count(*)\n" +
+                "FROM\n" +
+                "\tactivities a\n" +
+                "INNER JOIN activity_of_user au ON a.id = au.activity_id\n" +
+                "INNER JOIN USER u ON au.user_id = u.id\n" +
+                "WHERE\n" +
+                "\ta.can_use = 1\n" +
+                "AND u.can_use = 1\n" +
+                "AND au.user_id = ?";
+
         SQLQuery query = session.createSQLQuery(sql);
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        query1.setLong(0,userId);
         query.setLong(0,userId);
-
+        query.setFirstResult(limit * (page - 1));
+        query.setMaxResults(limit);
         List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
-        map.put("result",list);
+        BigInteger temp = (BigInteger) query1.uniqueResult();
+        int count = temp.intValue();
+        Map res = new HashMap();
+        res.put("list", list);
+        res.put("count", count);
 
-        return map;
+        return res;
     }
 
 }

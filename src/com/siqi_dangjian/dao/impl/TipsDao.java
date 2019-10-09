@@ -7,6 +7,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,15 +85,36 @@ public class TipsDao extends BaseDao<Tips> implements ITipsDao {
                 "               join user u on t.user_id = u.id\n" +
                 "             WHERE u.can_use = 1 and u.can_use = 1\n" +
                 "             ) h\n" +
-                "     where userId = ? and type = ?";
+                "     where h.userId = ? and h.type = ?";
+
+        String sqlCount = "SELECT\n" +
+                "\tcount(*)\n" +
+                "FROM\n" +
+                "\ttips t\n" +
+                "JOIN activities a ON a.id = t.activity_id\n" +
+                "JOIN USER u ON t.user_id = u.id\n" +
+                "WHERE\n" +
+                "\tu.can_use = 1\n" +
+                "AND t.can_use = 1\n" +
+                "AND t.user_id = ?\n" +
+                "AND t.type = ?";
+
+        sql = sql +" ORDER BY h.create_time DESC";
+
         SQLQuery query = session.createSQLQuery(sql);
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        query1.setParameter(0,id);
+        query1.setParameter(1,type);
         query.setParameter(0,id);
         query.setParameter(1,type);
         query.setFirstResult(limit * (page - 1));
         query.setMaxResults(limit);
         List list = query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        BigInteger temp = (BigInteger) query1.uniqueResult();
+        int count = temp.intValue();
         Map res = new HashMap();
-        res.put("list",list);
+        res.put("list", list);
+        res.put("count", count);
         return res;
     }
 

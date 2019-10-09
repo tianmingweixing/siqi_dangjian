@@ -612,7 +612,7 @@ public class MiniProgramController extends BaseController {
 
     /**
      * @apiGroup Meeting
-     * @api {GET} /addMeetingSignIn
+     * @api {GET} /addMeetingSignIn 会议签到
      * @apiDescription 会议签到
      * @apiParam {Long} userId 用户id
      * @apiParam {String} meetingId 会议id
@@ -1099,7 +1099,8 @@ public class MiniProgramController extends BaseController {
      * @apiDescription 根据id查询用户参加活动的心得
      * @apiParam {Long} id 用户id
      * @apiParam {Integer} type 心得类型 1：活动心得 0： 会议心得
-     *
+     * @apiParam {Integer} limit
+     * @apiParam {Integer} page
      */
     @RequestMapping("/getUserTipsById")
     @ResponseBody
@@ -1567,7 +1568,7 @@ public class MiniProgramController extends BaseController {
      */
     @RequestMapping(value = "/selectActivityByUserId")
     @ResponseBody
-    public ModelMap selectActivityByUserId(Long userId) {
+    public ModelMap selectActivityByUserId(Long userId, Integer limit, Integer page) {
         modelMap = new ModelMap();
 
         if (userId == null || userId.equals("")) {
@@ -1577,7 +1578,7 @@ public class MiniProgramController extends BaseController {
         }
 
         try {
-            Map userActivityInfo =  activityService.selectActivityByUserId(userId);
+            Map userActivityInfo =  activityService.selectActivityByUserId(userId,limit,page);
             setData("userActivityInfo",userActivityInfo);
             setSuccess();
 
