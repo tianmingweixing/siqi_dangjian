@@ -74,6 +74,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">党务管理</a>
                     <dl class="layui-nav-child">
+                        <dd id="applicationForm" ><a onclick="partywork_5()">入党申请列表</a></dd>
                         <dd id="honor" class="layui-hide"><a onclick="partywork_1()">表彰奖励列表</a></dd>
                         <dd id="discipline" class="layui-hide"><a onclick="partywork_2()">违纪违法列表</a></dd>
                         <dd id="condole" class="layui-hide"><a onclick="partywork_3()">慰问情况列表</a></dd>
@@ -204,6 +205,10 @@
                         $("dd#lunbo").removeClass("layui-hide");
                     }
 
+                    /*if (key == "authority[applicationForm]"){
+                        $("dd#lunbo").removeClass("layui-hide");
+                    }*/
+
                 }
 
             }
@@ -278,6 +283,10 @@
 
     function partywork_4() {
         $("#mainIframe").attr("src", "/frame/noticeList.ftl");
+    }
+
+    function partywork_5() {
+        $("#mainIframe").attr("src", "/frame/ApplicationFormList.ftl");
     }
 
     function set_1() {

@@ -44,6 +44,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\tu.id,\n" +
+                "\tu.create_time,\n" +
                 "\tu.activist_time,\n" +
                 "\tu.address,\n" +
                 "\tu.age,\n" +

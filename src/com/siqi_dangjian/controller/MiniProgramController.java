@@ -220,6 +220,7 @@ public class MiniProgramController extends BaseController {
             if (limit == null || page == null) {
                 setFail("缺少分页参数limit,page (°_°) (°_°)");
                 setCode(CommonString.FRONT_EXPECTION);
+                return modelMap;
             } else {
                 Map map = tipsService.selectAll(blurMap, intMap, dateMap, limit, page);
 
@@ -263,16 +264,8 @@ public class MiniProgramController extends BaseController {
         Activities activities;
         Tips tips;
         try {
-
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            //判断token：是否为空,是否过期
+            if (jwtUtilCheckToken(token)) return modelMap;
 
             //判断用户是否存在
             if (userId != null) {
@@ -336,6 +329,25 @@ public class MiniProgramController extends BaseController {
 
 
     /**
+     * 判断 token
+     * @param token
+     * @return
+     */
+    public boolean jwtUtilCheckToken(@RequestParam(value = "token", required = false) String token) {
+        if (JwtUtil.checkToken(token) == 0) {
+            setFail("没有token,请添加token");
+            setCode(CommonString.TOKEN_CHECK_FAIL);
+            return true;
+        }else if (JwtUtil.checkToken(token) == 2) {
+            setFail("用户登陆信息过期,请重新登陆");
+            setCode(CommonString.TOKEN_CHECK_FAIL);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
      * @apiGroup Meeting
      * @api {GET} /addMeetingGuide 添加会议指导
      * @apiDescription 添加会议指导
@@ -376,17 +388,7 @@ public class MiniProgramController extends BaseController {
         Meeting meeting;
         try {
 
-
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
-
+            if (jwtUtilCheckToken(token)) return modelMap;
 
             if (id == null) {
                 setFail("请输入会议ID");
@@ -402,7 +404,7 @@ public class MiniProgramController extends BaseController {
                 return modelMap;
             }
 
-            if (guide == null) {
+            if (guide == null || guide == "") {
                 setFail("您还没有输入会议指导");
                 setCode(CommonString.FRONT_EXPECTION);
                 return modelMap;
@@ -467,13 +469,13 @@ public class MiniProgramController extends BaseController {
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
-            setMsg("查询活动心得信息成功");
+            setMsg("查询会议列表信息成功");
             setSuccess();
 
         } catch (Exception e) {
             e.printStackTrace();
             setCode(CommonString.FRONT_EXPECTION);
-            setFail("查询活动心得信息异常 X﹏X");
+            setFail("查询会议列表信息异常 X﹏X");
         }
         return modelMap;
     }
@@ -501,27 +503,20 @@ public class MiniProgramController extends BaseController {
         ActivityOfUser activityOfUser;
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            if (jwtUtilCheckToken(token)) return modelMap;
 
-            if (user_id != null || activity_id != "") {
+            if (user_id != null ) {
                 List  list =  activityOfUserService.selectListById(user_id);
                 if (activity_id == null || activity_id == "") {
-                    setMsg("没有活动ID(activity_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
+                    setFail("没有活动ID(activity_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
                     return modelMap;
                 }
                 for(int i=0;i<list.size();i++){
                     Map map = (Map) list.get(i);
                     String activityId = String.valueOf(map.get("activity_id"));
                     if (activityId.equals(activity_id)) {
-                        setMsg("用户已报名");
+                        setFail("用户已报名!");
+                        setCode(CommonString.FRONT_EXPECTION);
                         return modelMap;
                     }
                 }
@@ -533,7 +528,7 @@ public class MiniProgramController extends BaseController {
                 setSuccess();
                 setMsg("活动报名成功(>‿◠)✌");
             }else{
-                setMsg("没有用户ID(user_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
+                setFail("没有用户ID(user_id),我怎么报名ㄟ( ▔, ▔ )ㄏ");
                 return modelMap;
             }
         } catch (Exception e) {
@@ -551,12 +546,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {Long} user_id 用户id
      * @apiParam {String} activity_id 活动id
      * @apiParam {String} token 令牌
-     *
-     * 取消活动报名
-     * @param user_id
-     * @param activity_id
-     * @param token
-     * @return
      */
     @RequestMapping("/cancelActivitySignIn")
     @ResponseBody
@@ -567,17 +556,9 @@ public class MiniProgramController extends BaseController {
         modelMap = new ModelMap();
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            if (jwtUtilCheckToken(token)) return modelMap;
 
-            if (user_id != null || activity_id != "") {
+            if (user_id != null ) {
                 List  list =  activityOfUserService.selectListById(user_id);
                 if (activity_id == null || activity_id == "") {
                     setMsg("没有活动ID(activity_id),我怎么取消报名ㄟ( ▔, ▔ )ㄏ");
@@ -614,8 +595,8 @@ public class MiniProgramController extends BaseController {
      * @apiGroup Meeting
      * @api {GET} /addMeetingSignIn 会议签到
      * @apiDescription 会议签到
-     * @apiParam {Long} userId 用户id
-     * @apiParam {String} meetingId 会议id
+     * @apiParam {Long} user_id 用户id
+     * @apiParam {String} meeting_id 会议id
      * @apiParam {String} token 令牌
      */
     @RequestMapping("/addMeetingSignIn")
@@ -628,20 +609,12 @@ public class MiniProgramController extends BaseController {
         MeetingOfUser meetingOfUser;
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            if (jwtUtilCheckToken(token)) return modelMap;
 
-            if (user_id != null || meeting_id != "") {
+            if (user_id != null ) {
                 List list = meetingOfUserService.selectListById(user_id);
                 if (meeting_id == null || meeting_id == "") {
-                    setMsg("没有会议ID(meeting_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
+                    setFail("没有会议ID(meeting_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
                     return modelMap;
                 }
                 for (int i = 0; i < list.size(); i++) {
@@ -661,7 +634,7 @@ public class MiniProgramController extends BaseController {
                 setSuccess();
                 setMsg("添加会议签到成功 (>‿◠)✌");
             }else{
-                setMsg("没有用户ID(user_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
+                setFail("没有用户ID(user_id),我怎么签到ㄟ( ▔, ▔ )ㄏ");
                 return modelMap;
             }
         } catch (Exception e) {
@@ -692,20 +665,12 @@ public class MiniProgramController extends BaseController {
         modelMap = new ModelMap();
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            if (jwtUtilCheckToken(token)) return modelMap;
 
-            if (user_id != null || meeting_id != "") {
+            if (user_id != null ) {
                 List list = meetingOfUserService.selectListById(user_id);
                 if (meeting_id == null || meeting_id == "") {
-                    setMsg("没有会议ID(meeting_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
+                    setFail("没有会议ID(meeting_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
                     return modelMap;
                 }
                 for (int i = 0; i < list.size(); i++) {
@@ -719,7 +684,7 @@ public class MiniProgramController extends BaseController {
                     }
                 }
             }else{
-                setMsg("没有用户ID(user_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
+                setFail("没有用户ID(user_id),我怎么取消签到ㄟ( ▔, ▔ )ㄏ");
                 return modelMap;
             }
 
@@ -741,16 +706,13 @@ public class MiniProgramController extends BaseController {
      * @apiDescription 查询会议详情
      * @apiParam {String} id 会议id
      *
-     * 查询会议表信息
-     * @param id
-     * @return
      */
     @RequestMapping("/getMeetingById")
     @ResponseBody
     public ModelMap getMeetingById(String id){
         modelMap = new ModelMap();
 
-        //判断id是否为空  TODO
+        //判断id是否为空
         if(StringUtils.isEmpty(id)){
             setFail("缺少参数会议id ㄟ( ▔, ▔ )ㄏ");
             setCode(CommonString.FRONT_EXPECTION);
@@ -785,12 +747,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {Integer} limit 页大小
      * @apiParam {Integer} page 页号
      *
-     * 查询会议表信息
-     * @param name
-     * @param meeting_type_id
-     * @param limit
-     * @param page
-     * @return
      */
     @RequestMapping("/getMeetingList")
     @ResponseBody
@@ -808,7 +764,7 @@ public class MiniProgramController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-//TODO
+
         if (StringUtils.isNotEmpty(meeting_type_id)) {
             intMap.put("meeting_type_id", meeting_type_id);
         }
@@ -877,7 +833,7 @@ public class MiniProgramController extends BaseController {
 
         modelMap = new ModelMap();
 
-//TODO
+
         if (state == null ) {
             setFail("缺少参数state (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
@@ -924,17 +880,7 @@ public class MiniProgramController extends BaseController {
         modelMap = new ModelMap();
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
-
-
+            if (jwtUtilCheckToken(token)) return modelMap;
 
 
             user = userService.getUserById(id);
@@ -978,22 +924,6 @@ public class MiniProgramController extends BaseController {
      * @apiParam {Long} partyGroupsId 班子
      * @apiParam {Long} partyTeamId 党组
      *
-     * 添加或更新用户
-     * @param id
-     * @param dutyid
-     * @param partyGroupsId
-     * @param partyTeamId
-     * @param username
-     * @param sex
-     * @param education
-     * @param address
-     * @param company
-     * @param token
-     * @param age
-     * @param ID_cord
-     * @param phone
-     * @param joinTime
-     * @return
      */
     @RequestMapping("/addUser")
     @ResponseBody
@@ -1017,15 +947,7 @@ public class MiniProgramController extends BaseController {
 
         try {
 
-            if (JwtUtil.checkToken(token) == 0) {
-                setFail("没有token,请添加token");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }else if (JwtUtil.checkToken(token) == 2) {
-                setFail("用户登陆信息过期,请重新登陆");
-                setCode(CommonString.TOKEN_CHECK_FAIL);
-                return modelMap;
-            }
+            if (jwtUtilCheckToken(token)) return modelMap;
 
 
             if (id != null) {
@@ -1072,7 +994,7 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap getUserById(@RequestParam(value = "id", required = false) Long id) {
         modelMap = new ModelMap();
-        if(id == null || id.equals("") ){
+        if(id == null){
             setFail("没有用户id,无法查询 ^_^||| ");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -1108,7 +1030,7 @@ public class MiniProgramController extends BaseController {
 
         modelMap = new ModelMap();
 
-        if(id == null || id.equals("") ){
+        if(id == null ){
             setFail("没有用户id,无法查询 ^_^||| ");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -1333,6 +1255,12 @@ public class MiniProgramController extends BaseController {
             blurMap.put("user_id", user_id);
         }
 
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°) (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
         try {
             Map map = disciplineOfHonorService.selectAll(blurMap, intMap, dateMap, limit, page);
 
@@ -1345,10 +1273,6 @@ public class MiniProgramController extends BaseController {
         } catch (Exception e) {
             setFail("查询荣誉和违纪信息错误");
             e.printStackTrace();
-            if (limit != null & page != null) {
-                setMsg("查询信息失败");
-            }
-            setMsg("缺少分页参数limit,page (°_°)");
             logger.error("mini --> getDisciplineOfHonorList");
         }
 
@@ -1539,7 +1463,7 @@ public class MiniProgramController extends BaseController {
     public ModelMap selectActivityById(Long activityId) {
         modelMap = new ModelMap();
 
-        if (activityId == null || activityId.equals("")) {
+        if (activityId == null ) {
             setFail("缺少参数 activityId (°_°) (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
@@ -1571,8 +1495,14 @@ public class MiniProgramController extends BaseController {
     public ModelMap selectActivityByUserId(Long userId, Integer limit, Integer page) {
         modelMap = new ModelMap();
 
-        if (userId == null || userId.equals("")) {
+        if (userId == null ) {
             setFail("缺少参数 userId (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
+
+        if (limit == null || page == null) {
+            setFail("缺少分页参数limit,page (°_°) (°_°)");
             setCode(CommonString.FRONT_EXPECTION);
             return modelMap;
         }
@@ -1602,6 +1532,11 @@ public class MiniProgramController extends BaseController {
     @ResponseBody
     public ModelMap selectActivityByType(Integer activityType) {
         modelMap = new ModelMap();
+        if (activityType == null ) {
+            setFail("缺少参数 activityType (°_°)");
+            setCode(CommonString.FRONT_EXPECTION);
+            return modelMap;
+        }
         try {
             Map res =  activityService.getActivityByType(activityType);
             setData("data",res);

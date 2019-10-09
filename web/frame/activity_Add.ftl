@@ -258,7 +258,7 @@
                         content: '报名失败',
                         skin:'layui_open_fail'
                     });
-                } else if(data.msg == "用户已签到"){
+                } else if(data.msg == "用户已报名!"){
                     layer.open({
                         icon: 2,
                         title: '消息提醒',

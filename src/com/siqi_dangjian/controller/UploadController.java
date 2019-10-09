@@ -42,8 +42,8 @@ public class UploadController extends BaseController{
                     String file_path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + saveFilename;
 
                     // 上传文件在服务器中的位置(目录绝对路径)
-                    String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
-                    //String saveServerPath = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
+//                    String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
+                    String saveServerPath = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
                     File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + saveFilename);//文件的完整路径
                     if (!filePath.getParentFile().exists()) {
                         filePath.getParentFile().mkdirs();

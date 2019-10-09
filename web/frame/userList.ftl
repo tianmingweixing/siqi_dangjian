@@ -155,7 +155,7 @@
             shade: false,
             offset: ['8%', '24%'],
             maxmin: true, //开启最大化最小化按钮
-            area: ['741px', '600px'],
+            area: ['741px', '80%'],
             content: ['/frame/user_Add.ftl']
         });
     }
@@ -345,7 +345,7 @@
                             shade: false,
                             offset: 'auto',
                             maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '800px'],
+                            area: ['805px', '90%'],
                             content: ['./honor_Add.ftl'],
                             end: function () { //最后执行reload
                                 location.reload();
@@ -367,7 +367,7 @@
                             shade: false,
                             offset: 'auto',
                             maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '800px'],
+                            area: ['805px', '90%'],
                             content: ['./discipline_Add.ftl'],
                             end: function () { //最后执行reload
                                 location.reload();

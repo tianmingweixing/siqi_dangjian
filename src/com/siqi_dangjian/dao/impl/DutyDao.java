@@ -47,6 +47,16 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
         return getObjectById(id);
     }
 
+    public Long selectByTypeName(String typeName) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT id from duty where type_name = ? and can_use = 1\n" ;
+        Query query = session.createSQLQuery(sql);
+        query.setParameter(0,typeName);
+        BigInteger duty_id = (BigInteger) query.uniqueResult();
+        Long dutyId = duty_id.longValue();
+        return dutyId;
+    }
+
     @Override
     public Map selectAll(Map blurParam,  Map intParam,Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();

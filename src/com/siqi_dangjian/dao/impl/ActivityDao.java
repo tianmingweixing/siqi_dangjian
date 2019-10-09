@@ -318,6 +318,8 @@ public class ActivityDao extends BaseDao<Activities> implements IActivityDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\ta.title,\n" +
+                "\ta.content,\n" +
+                "\ta.review,\n" +
                 "\tDATE_FORMAT(a.start_time,'%Y-%m-%d %T') start_time,\n" +
                 "  DATE_FORMAT(a.end_time,'%Y-%m-%d %T') end_time,\n" +
                 "(\n" +
