@@ -26,4 +26,6 @@ public interface IDutyService {
     List<Duty> selectList() throws Exception;
 
     Map selectAllCategory(Map blurMap, Map intMap, Map dateMap);
+
+    Long selectByTypeName(Map blurMap) throws Exception;
 }

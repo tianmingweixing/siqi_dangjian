@@ -69,4 +69,9 @@ public class DutyService implements IDutyService {
         Map map =  dutyDao.selectAllCategory(blurMap,intMap,dateMap);
         return map;
     }
+
+    @Override
+    public Long selectByTypeName(Map blurMap) throws Exception {
+        return dutyDao.selectByTypeName(blurMap);
+    }
 }

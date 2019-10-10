@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -26,6 +27,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/mini")
 public class MiniProgramController extends BaseController {
+
+    @Autowired
+    private IApplicationFormService applicationFormService;
 
     @Autowired
     private IMeetingTypeService meetingTypeService;
@@ -113,7 +117,6 @@ public class MiniProgramController extends BaseController {
 
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
-                    Long userId = user.getId();
                     if (user == null) {
                         user = new User();
                         user.setOpenId(openId);
@@ -138,7 +141,8 @@ public class MiniProgramController extends BaseController {
                     //5 . JWT 返回自定义登陆态 Token
                     String token = JwtUtil.getToken(user, expiration);
                     modelMap.addAttribute("token", token);
-                    Map userInfo = userService.getUserInfoById(userId);
+                    User saveUser = userService.wxLogin(openId);
+                    Map userInfo = userService.getUserInfoById(saveUser.getId());
                     modelMap.addAttribute("user", userInfo);
                     setSuccess();
 
@@ -187,7 +191,73 @@ public class MiniProgramController extends BaseController {
     }
 
 
+    /**
+     * 添加入党申请
+     * @param userName
+     * @param phone
+     * @param userId
+     * @param appForm
+     * @return
+     */
+    @RequestMapping("/addApplicationForm")
+    @ResponseBody
+    public ModelMap addApplicationForm( @RequestParam(value = "userName", required = false) String userName,
+                                       @RequestParam(value = "token", required = false) String token,
+                                       @RequestParam(value = "phone", required = false) String phone,
+                                       @RequestParam(value = "userId", required = false) Long userId,
+                                       @RequestParam(value = "appForm", required = false) String appForm) {
+        modelMap = new ModelMap();
 
+
+        ApplicationForm applicationForm;
+        try {
+            if (jwtUtilCheckToken(token)) return modelMap;
+
+            if (userId == null) {
+                setFail("请输入用户ID");
+                setCode(CommonString.FRONT_EXPECTION);
+                return modelMap;
+            }
+
+            if (phone == null) {
+                setFail("请输入用户phone");
+                setCode(CommonString.FRONT_EXPECTION);
+                return modelMap;
+            }
+
+            if (appForm == null) {
+                setFail("请输入appForm");
+                setCode(CommonString.FRONT_EXPECTION);
+                return modelMap;
+            }
+
+            if (userName == null) {
+                setFail("请输入用户名");
+                setCode(CommonString.FRONT_EXPECTION);
+                return modelMap;
+            }
+
+            applicationForm = new ApplicationForm();
+            applicationForm.setReviewTime(new Timestamp(new Date().getTime()));
+            applicationForm.setUserName(userName);
+            applicationForm.setPhone(phone);
+            applicationForm.setAppFrom(appForm);
+            applicationForm.setStatus(0);
+            Long party_branch_id = configurationService.selectPartyBranchId();
+            applicationForm.setPartyBranchId(party_branch_id);
+            applicationForm.setUserId(Long.valueOf(userId));
+            applicationForm.setCanUse(1);
+            applicationFormService.insertOrUpdateApplicationForm(applicationForm);
+            setSuccess();
+            setMsg("添加入党申请成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("--->addApplicationForm", e);
+            setCode(CommonString.BACK_EXPECTION);
+            setFail("添加入党申请错误");
+        }
+        return modelMap;
+    }
 
     /**
      * @apiGroup Activity

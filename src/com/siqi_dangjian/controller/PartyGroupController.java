@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.PartyGroup;
 import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IPartyGroupService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,8 +153,8 @@ public class PartyGroupController extends BaseController{
                 view.addObject("partyGroupNo", partyGroup.getPartyGroupNo());
                 view.addObject("partyNo", partyGroup.getPartyNo());
                 view.addObject("duty", partyGroup.getDuty());
-                view.addObject("foundingTime", partyGroup.getFoundingTime());
-                view.addObject("changeTime", partyGroup.getChangeTime());
+                view.addObject("foundingTime", CommonUtil.timeFormat(partyGroup.getFoundingTime()));
+                view.addObject("changeTime", CommonUtil.timeFormat(partyGroup.getChangeTime()));
 
                 view.setViewName("WEB-INF/page/partyGroup_Add");
             } catch (Exception e) {

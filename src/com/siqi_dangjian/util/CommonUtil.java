@@ -420,6 +420,33 @@ public class CommonUtil {
         return buff;
     }
 
+
+    /**
+     * 时间戳转换成时间 yyyy-MM-dd
+     */
+    public static String timeFormat(Date s) {
+        /** 时间戳 */
+        long it = s.getTime();
+        Date date = new Date(it);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String res = simpleDateFormat.format(date);
+        return res;
+    }
+
+    /**
+     * 时间戳转换成时间 yyyy-MM-dd HH:mm:ss
+     */
+    public static String timeFormat2(Date s) {
+        /** 时间戳 */
+        long it = s.getTime();
+//        long it = new Long(time);
+        Date date = new Date(it);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String res = simpleDateFormat.format(date);
+        return res;
+    }
+
+
     public static String timeStrToDateStr(String timeStr){
         if (null == timeStr) {
             return null; }

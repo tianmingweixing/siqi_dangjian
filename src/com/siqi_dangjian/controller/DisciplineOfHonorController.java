@@ -7,6 +7,7 @@ import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IDisciplineOfHonorService;
 import com.siqi_dangjian.service.IUserService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,7 +170,7 @@ public class DisciplineOfHonorController extends BaseController {
             view.addObject("id", disciplineOfHonor.getId());
             view.addObject("party_branch_id", disciplineOfHonor.getPartyBranchId());
             view.addObject("name", disciplineOfHonor.getName());
-            view.addObject("time", disciplineOfHonor.getTime());
+            view.addObject("time", CommonUtil.timeFormat(disciplineOfHonor.getTime()));
             view.addObject("type", disciplineOfHonor.getType());
             view.addObject("unit", disciplineOfHonor.getUnit());
             view.addObject("passive_unit", disciplineOfHonor.getPassiveUnit());

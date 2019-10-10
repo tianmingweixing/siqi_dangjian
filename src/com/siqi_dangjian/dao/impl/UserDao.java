@@ -44,6 +44,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\tu.id,\n" +
+                "\tu.dutyid dutyId,\n" +
                 "\tu.create_time,\n" +
                 "\tu.activist_time,\n" +
                 "\tu.address,\n" +
@@ -172,8 +173,8 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "  u.id,\n" +
-                "  u.username,\n" +
-                "  u.nick_name,\n" +
+                "  IFNULL(u.username, \"暂无信息\") username,\n" +
+                "  IFNULL(u.nick_name, \"暂无信息\") nick_name,\n" +
                 "  u.head_img,\n" +
                 "  u.profiles,\n" +
                 "  u.company_office,\n" +

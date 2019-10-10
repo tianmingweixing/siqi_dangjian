@@ -46,20 +46,31 @@ public class ApplicationFormDao extends BaseDao<ApplicationForm> implements IApp
     @Override
     public Map getApplicationFormList(int limit, int page, Map blurMap, Map intMap, Map dateMap) {
         session = sessionFactory.getCurrentSession();
-        String sql = "SELECT a.id,a.app_form,a.phone,a.user_name,a.user_id,a.refuse_reason,\n" +
-                "             DATE_FORMAT(a.review_time,'%Y-%m-%d') review_time,\n" +
-                "             DATE_FORMAT(a.create_time,'%Y-%m-%d') create_time,\n" +
-                "  a.status,\t(case a.status\n" +
-                "              when 0 then '待审核'\n" +
-                "              when 1 then '通过'\n" +
-                "              when 2 then '拒绝' else '空的' end)ReviewStatus\n" +
-                "FROM application_form a INNER JOIN user u ON a.user_id=u.id\n" +
-                "WHERE a.can_use = 1 and u.can_use = 1 ";
+        String sql = "SELECT    a.id,\n" +
+                "          a.app_form,\n" +
+                "          a.phone,\n" +
+                "          a.user_name,\n" +
+                "          a.user_id,\n" +
+                "          a.refuse_reason,\n" +
+                "          u.dutyid,\n" +
+                "          u.head_img,\n" +
+                "          d.type_name,\n" +
+                "          DATE_FORMAT(a.review_time,'%Y-%m-%d') review_time,\n" +
+                "          DATE_FORMAT(a.create_time,'%Y-%m-%d') create_time,\n" +
+                "          a.status,\n" +
+                "          (case a.status\n" +
+                "           when 0 then '待审核'\n" +
+                "           when 1 then '通过'\n" +
+                "           when 2 then '拒绝' else '空的' end)ReviewStatus\n" +
+                "FROM      application_form a\n" +
+                " JOIN     user u ON a.user_id=u.id\n" +
+                " JOIN     duty d on u.dutyid = d.id\n" +
+                "WHERE     a.can_use = 1 and u.can_use = 1 and d.can_use = 1\n" ;
 
 
         String sqlCount = "SELECT COUNT(*) count\n" +
-                "FROM application_form a INNER JOIN user u ON a.user_id=u.id \n" +
-                "WHERE a.can_use = 1 and u.can_use = 1 ";
+                "FROM application_form a INNER JOIN user u ON a.user_id=u.id JOIN duty d on u.dutyid = d.id\n" +
+                "WHERE a.can_use = 1 and u.can_use = 1 and d.can_use = 1";
 
         sql = CommonUtil.appendBlurStr(sql,blurMap);
         sql = CommonUtil.appendDateStr(sql,dateMap,"a");

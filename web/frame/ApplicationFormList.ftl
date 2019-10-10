@@ -46,6 +46,9 @@
             <input type="text" class="layui-input"  placeholder="结束日期" id="end_time_search">
         </div>
     </div>
+
+
+
 </form>
 
 <div class="layui-input-inline search_div" style="margin-left: 110px">
@@ -91,6 +94,7 @@
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="pass">通过</a>
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="end">拒绝</a>
 </script>
@@ -104,6 +108,29 @@
 
 
 <script src="../js/layui/layui.js"></script>
+
+<!--<div id="layer-photos-demo" class="layer-photos-demo">
+    <img layer-pid="图片id，可以不写" layer-src="大图地址" src="缩略图" alt="图片名">
+    <img layer-pid="图片id，可以不写" layer-src="大图地址" src="缩略图" alt="图片名">
+</div>-->
+
+<script type="text/html" id="img" class="layer-photos-demo">
+    <div id="layer-photos-demo" class="layer-photos-demo"><img id="headUrlImg" style="height:35px;width:35px;border-radius:50%;line-height:50px!important;" layer-src="{{d.head_img}}" src="{{d.head_img}}" alt="{{d.head_img}}"></div>
+</script>
+
+<script type="text/html" id="app_form">
+    {{# var srr=d.app_form.split(",");
+    for(var j in srr) { srr[j] }}
+    <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
+        <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}" />
+    </div>
+    {{# } }}
+
+</script>
+
+<script type="text/html" id="main" >
+</script>
+
 <script>
     layui.config({
         version: '1551352891272' //为了更新 js 缓存，可忽略
@@ -116,48 +143,6 @@
 
 
 
-  /*  function set_status(status){
-        $.ajax({
-            url: "/newProductReview/changeStatus",//请求地址
-            type: "POST",//请求方式
-            dataType: "JSON",//返回数据类型
-            data: {
-                address: $("#set_credit_address").val(),
-                id:$("#set_credit_id").val(),
-                user_name:$("#set_credit_userName").val(),
-                phone:$("#set_credit_phone").val(),
-                refuse_reason:$("#set_credit_reason").val(),
-                status: status
-            },//发送的参数
-            success: function (data) {
-                $("#set_credit_id").val("");
-                $("#set_credit_address").val("");
-                $("#set_credit_userName").val("");
-                $("#set_credit_phone").val("");
-                if(data.result=="success"){
-                    layer.msg('保存成功', {icon: 1});
-                    setTimeout(function(){
-                        window.location.reload();
-                    }, 1500);
-                }
-            },
-            error: function () {
-                //失败执行的方法
-                layer.msg('保存失败', {icon: 2});
-            }
-        });
-    }
-*/
-
-    /*function close_self(status){
-        if(status=="0"){
-
-            window.parent.location.reload();//刷新父页面
-            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-            parent.layer.close(index);
-        }
-    }*/
-
     function onPassBtn(data) {
         $.ajax({
             url: "/applicationForm/changeStatus",//请求地址
@@ -169,14 +154,15 @@
             },//发送的参数
             success: function (data) {
                 if(data.result=="success"){
-                    layer.msg('保存成功', {icon: 1});
+                    // layer.msg('保存成功', {icon: 1});
                     setTimeout(function(){
                         window.location.reload();
                     }, 1500);
                 }
             }
-
         });
+
+        layer.msg('已通过审核', {icon: 6});
 
     }
 
@@ -188,7 +174,7 @@
             formType: 2,
             value: '请输入拒绝理由',
             title: '拒绝理由',
-            area: ['350px', '350px'] //自定义文本域宽高
+            area: ['350px', '200px'] //自定义文本域宽高
         }, function(value, index, elem){
             // alert(data.id); //得到value
 
@@ -248,7 +234,7 @@
                 , laypage = layui.laypage //分页
                 , layer = layui.layer //弹层
                 , table = layui.table //表格
-                , element = layui.element //元素操作
+                , element = layui.element;//元素操作
 
 
         element.on('tab(demo)', function (data) {
@@ -270,13 +256,15 @@
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'user_name', title: '用户名称', width:200}
-                ,{field: 'phone',title:'号码',width:200}
-                ,{field: 'review_time',title:'审核时间',width:120}
-                ,{field: 'app_form',title:'申请表',width:120}
-                ,{field: 'refuse_reason',title:'拒绝理由',width:150}
-                ,{field: 'ReviewStatus',title:'审核状态',width:150}
-                ,{field: '',title:'审核',width:150,templet: '#barDemo'}
+                ,{field: 'user_name', title: '用户名称'}
+                ,{field: 'head_img', title: '用户头像',width:100,templet:'#img'}
+                ,{field: 'phone',title:'号码'}
+                ,{field: 'review_time',title:'审核时间'}
+                ,{field: 'app_form',title:'申请表',templet:'#app_form'}
+                ,{field: 'refuse_reason',title:'拒绝理由'}
+                ,{field: 'type_name',title:'政治面貌'}
+                ,{field: 'ReviewStatus',title:'审核状态'}
+                ,{field: '',title:'审核',width:200,templet: '#barDemo'}
             ]]
         });
 
@@ -304,23 +292,25 @@
             active[type] ? active[type].call(this) : '';
         });
 
+
+
         //监听工具栏事件4
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                    // window.location.href='/frame/applicationForm_Add.ftl';
+                     // window.location.href='/frame/applicationForm_Add.ftl';
                     break;
                 case 'update':
-                    if(data.length === 0){
+                    /*if(data.length === 0){
                         layer.msg('请选择一行');
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href='/applicationForm/delete?id='+data[0].id;
+                        window.location.href='/applicationForm/setApplicationForm?id='+data[0].id;
                     }
-                    break;
+                    break;*/
                 case 'delete':
                     if(data.length === 0){
                         layer.msg('请选择一行');
@@ -333,7 +323,7 @@
                                 a.push(value.id)
                             });
                             $.ajax({
-                                url:"/newProductReview/deleteNewProductReview",
+                                url:"/applicationForm/delete",
                                 data:{
                                     deleteArray:JSON.stringify(a)
                                 },
@@ -368,6 +358,10 @@
             if (layEvent === 'edit') {
                 onAddBtn(data.id, data.user_name,data.phone,data.refuse_reason);
             }
+            if (layEvent === 'detail') {
+                onDetailBtn(data);
+            }
+
             if (layEvent === 'pass') {
                 onPassBtn(data);
             }
@@ -391,6 +385,32 @@
             }
         });
 
+        function onDetailBtn(data) {
+            $("#main").html("");
+            var srr=data.app_form.split(",");
+
+            for(var i=0;i<srr.length;i++){
+                if(srr[i] != ""){
+                    $("#main").append('<img style="margin-bottom:10px;max-width: 240px;" class="list" id="list'+i+'" src='+srr[i]+' />')
+                }
+            }
+
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: '240px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#main')
+            });
+
+            //调用示例
+            layer.photos({
+                photos: '#main'
+                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });
+        }
 
     });
 </script>

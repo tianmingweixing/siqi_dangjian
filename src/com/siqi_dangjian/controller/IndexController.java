@@ -21,6 +21,9 @@ public class IndexController extends BaseController{
     private ActivityTypeService activityTypeService;
 
     @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
     private ActivityService activityService;
 
     @Autowired
@@ -178,8 +181,8 @@ public class IndexController extends BaseController{
 
         modelMap = new ModelMap();
         try {
-
-            PartyBranch partyBranch = partyBranchService.selectById(1L);
+            Long branchId= configurationService.selectPartyBranchId();
+            PartyBranch partyBranch = partyBranchService.selectById(branchId);
             if (partyBranch != null){
                 /*
                 Date foundingTime = partyBranch.getFoundingTime();

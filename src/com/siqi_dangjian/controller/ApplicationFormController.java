@@ -1,10 +1,13 @@
 package com.siqi_dangjian.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.ApplicationForm;
 import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.dao.IDutyDao;
 import com.siqi_dangjian.dao.impl.DutyDao;
 import com.siqi_dangjian.service.IApplicationFormService;
+import com.siqi_dangjian.service.IDutyService;
 import com.siqi_dangjian.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -29,10 +33,12 @@ public class ApplicationFormController extends BaseController {
     private IApplicationFormService applicationFormService;
 
     @Autowired
-    private IUserService userService;
+    private IDutyService dutyService;
+
 
     @Autowired
-    private DutyDao dutyDao;
+    private IUserService userService;
+
 
     @RequestMapping("/changeStatus")
     @ResponseBody
@@ -41,6 +47,7 @@ public class ApplicationFormController extends BaseController {
                                  @RequestParam(value = "refuse_reason", required = false) String refuseReason) {
         modelMap = new ModelMap();
 
+        Map blurMap = new HashMap<>();
 
         ApplicationForm applicationForm;
         try {
@@ -55,11 +62,14 @@ public class ApplicationFormController extends BaseController {
             applicationForm.setId(id);
             applicationForm.setCanUse(1);
             if(status == 1){
+                applicationForm.setRefuseReason("无");
                Long userId = applicationForm.getUserId();
                if(userId != null){
                  User user = userService.getUserById(userId);
-                 Long dutyId = dutyDao.selectByTypeName("正式党员");
+                 blurMap.put("type_name", "正式党员");
+                 Long dutyId = dutyService.selectByTypeName(blurMap);
                  user.setDutyId(dutyId);
+                 userService.saveOrUpDate(user);
                }
 
             }else if(status == 2){
@@ -167,6 +177,7 @@ public class ApplicationFormController extends BaseController {
             Map map = applicationFormService.getApplicationFormList(limit, page, blurMap, intMap, dateMap);
 
             List list = (List) map.get("list");
+
             Integer count = (int) map.get("count");
             setData("data", list);
             setData("count", count);
@@ -183,16 +194,16 @@ public class ApplicationFormController extends BaseController {
     /* *//**
      * 逻辑删除商品
      * @return
-     *//*
-    @RequestMapping("/deleteNewProductReview")
+     */
+    @RequestMapping("/delete")
     @ResponseBody
-    public ModelMap deleteNewProductReview(@RequestParam(value="deleteArray", required=false)String deleteArray){
+    public ModelMap deleteApplicationForm(@RequestParam(value="deleteArray", required=false)String deleteArray){
         modelMap = new ModelMap();
         Gson gson = new Gson();
         Type type = new TypeToken<List<String>>() {}.getType();
         List<String> jsonList = gson.fromJson(deleteArray,type);
         try {
-            newProductReviewService.deleteNewProductReview(jsonList);
+            applicationFormService.deleteApplicationForm(jsonList);
         } catch (Exception e){
             setFail("删除失败");
             logger.error("good--->deleteGood",e);
@@ -201,7 +212,6 @@ public class ApplicationFormController extends BaseController {
         setSuccess();
         return modelMap;
     }
-*/
 
 
 }

@@ -6,6 +6,7 @@ import com.siqi_dangjian.bean.Conclusion;
 import com.siqi_dangjian.service.IConclusionService;
 import com.siqi_dangjian.service.IConclusionTypeService;
 import com.siqi_dangjian.service.IConfigurationService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,7 +165,7 @@ public class ConclusionController extends BaseController {
             try {
                 conclusion = conclusionService.selectById(id);
                 view.addObject("id", conclusion.getId());
-                view.addObject("year_limit", conclusion.getYearLimit());
+                view.addObject("year_limit", CommonUtil.timeFormat(conclusion.getYearLimit()));
                 view.addObject("plan_content", conclusion.getPlanContent());
                 view.addObject("title", conclusion.getTitle());
                 view.addObject("conclusion_type_id", conclusion.getConclusionTypeId());

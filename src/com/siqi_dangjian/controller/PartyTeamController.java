@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.siqi_dangjian.bean.PartyTeam;
 import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.IPartyTeamService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,11 +151,10 @@ public class PartyTeamController extends BaseController{
                 view.addObject("partyGroupNo", partyTeam.getPartyGroupNo());
                 view.addObject("partyNo", partyTeam.getPartyNo());
                 view.addObject("duty", partyTeam.getDuty());
-                view.addObject("foundingTime", partyTeam.getFoundingTime());
-                view.addObject("changeTime", partyTeam.getChangeTime());
+                view.addObject("foundingTime", CommonUtil.timeFormat(partyTeam.getFoundingTime()));
+                view.addObject("changeTime", CommonUtil.timeFormat(partyTeam.getChangeTime()));
 
                 view.setViewName("WEB-INF/page/partyTeam_Add");
-//                view.setViewName("frame/PartyTeam_Add");
             } catch (Exception e) {
                 e.printStackTrace();
                 setMsg("获取数据错误");

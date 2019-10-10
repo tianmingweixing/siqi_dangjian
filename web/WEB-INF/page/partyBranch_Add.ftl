@@ -201,10 +201,12 @@
 
             laydate.render({
                 elem: '#changeTime' //指定元素
+                ,type: 'date'
             });
 
             laydate.render({
                 elem: '#foundingTime'
+                ,type: 'date'
             });
 
             form.on('submit(formDemo)', function () {

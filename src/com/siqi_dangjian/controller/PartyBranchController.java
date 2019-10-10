@@ -105,8 +105,8 @@ public class PartyBranchController extends BaseController{
                 view.addObject("party_img", partyBranch.getPartyImg());
                 view.addObject("duty", partyBranch.getDuty());
                 view.addObject("activityArea", partyBranch.getActivityArea());
-                view.addObject("foundingTime", partyBranch.getFoundingTime());
-                view.addObject("changeTime", partyBranch.getChangeTime());
+                view.addObject("foundingTime", CommonUtil.timeFormat(partyBranch.getFoundingTime()));
+                view.addObject("changeTime", CommonUtil.timeFormat(partyBranch.getChangeTime()));
             }
 
             view.setViewName("WEB-INF/page/partyBranch_Add");
