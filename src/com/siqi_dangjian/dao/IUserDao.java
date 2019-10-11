@@ -22,6 +22,8 @@ public interface IUserDao {
 
     Map selectGroupCount() throws Exception;
 
+    Integer selectUserCountOfGroup() throws Exception;
+
     Map selectAll(Map blurParam, Map dateParam,Map intParam, int limit, int page) throws Exception;
 
     Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception;

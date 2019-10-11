@@ -168,6 +168,26 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
     }
 
+
+    /**
+     * 查班子成员数量
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer selectUserCountOfGroup() throws Exception {
+
+        session = sessionFactory.getCurrentSession();
+        String sqlCount = "SELECT COUNT(u.id) count from user u where u.party_groups_id <> '' and u.can_use = 1";
+
+        SQLQuery query = session.createSQLQuery(sqlCount);
+        BigInteger temp = (BigInteger) query.uniqueResult();
+        Integer count = temp.intValue();
+
+        return count;
+
+    }
+
     @Override
     public Map selectAll(Map blurParam,  Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
