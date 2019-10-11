@@ -98,6 +98,7 @@ public class UserController extends BaseController {
                             @RequestParam(value = "partyTeamId", required = false) Long partyTeamId,
                             @RequestParam(value = "username", required = false) String username,
                             @RequestParam(value = "sex", required = false) Integer sex,
+                            @RequestParam(value = "difficult", required = false) Integer difficult,
                             @RequestParam(value = "education", required = false) String education,
                             @RequestParam(value = "address", required = false) String address,
                             @RequestParam(value = "company", required = false) String company,
@@ -133,6 +134,7 @@ public class UserController extends BaseController {
             user.setPhone(phone);
             user.setEducation(education);
             user.setSex(sex);
+            user.setDifficultyType(difficult);
             user.setHeadImg(head_img);
             user.setProfiles(profiles);
             user.setCompanyOffice(company_office);

@@ -26,6 +26,10 @@ public interface IUserDao {
 
     Map selectAll(Map blurParam, Map dateParam,Map intParam, int limit, int page) throws Exception;
 
+    Integer selectDifficultToPartyMembersCount(Long dutyid) throws Exception;
+
+    Integer selectNeedyWorkerCount(Long dutyid) throws Exception;
+
     Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception;
 
 }

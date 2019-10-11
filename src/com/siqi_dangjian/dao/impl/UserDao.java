@@ -53,15 +53,18 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  u.profiles,\n" +
                 "\tu.company,\n" +
                 "\tu.develop_time,\n" +
-                "\tu.difficulty_type,\n" +
+                "  (case u.difficulty_type\n" +
+                "   when 0 then '非困难'\n" +
+                "   when 1 then '困难'\n" +
+                "   when 2 then '非常困难'   else '暂无信息' end)difficulty_type,\n" +
                 "(case u.education\n" +
                 "   when 1 then '初中'\n" +
                 "   when 2 then '高中'\n" +
                 "   when 3 then '中专'\n" +
                 "   when 4 then '大专'\n" +
                 "   when 5 then '本科'\n" +
-                "   when 5 then '硕士'\n" +
-                "   when 5 then '博士'\n" +
+                "   when 6 then '硕士'\n" +
+                "   when 7 then '博士'\n" +
                 "   else '暂无信息'\n" +
                 "   end\n" +
                 "  )education,\n" +
@@ -162,9 +165,59 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
         SQLQuery query1 = session.createSQLQuery(sqlCount);
         List countList = query1.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
-        resMap.put("countList", countList);
+        resMap.put("userTypeCount", countList);
 
         return resMap;
+
+    }
+
+
+
+    /**
+     * 困难党员数量
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer selectDifficultToPartyMembersCount(Long dutyid) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        String sqlCount = "SELECT\n" +
+                "  count(id) count\n" +
+                "FROM\n" +
+                "  USER u\n" +
+                "WHERE\n" +
+                "  u.difficulty_type in(1,2) and u.dutyid = ? and u.can_use = 1";
+
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        query1.setParameter(0,dutyid);
+        BigInteger temp = (BigInteger) query1.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
+
+    }
+    /**
+     * 困难职工数量
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer selectNeedyWorkerCount(Long dutyid) throws Exception {
+        session = sessionFactory.getCurrentSession();
+
+        String sqlCount = "SELECT\n" +
+                "  count(id) count\n" +
+                "FROM\n" +
+                "  USER u\n" +
+                "WHERE\n" +
+                "  u.difficulty_type in(1,2) and u.dutyid != ? and u.can_use = 1";
+
+        SQLQuery query1 = session.createSQLQuery(sqlCount);
+        query1.setParameter(0,dutyid);
+        BigInteger temp = (BigInteger) query1.uniqueResult();
+        Integer count = temp.intValue();
+        return count;
+
 
     }
 
@@ -207,8 +260,8 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "   when 3 then '中专'\n" +
                 "   when 4 then '大专'\n" +
                 "   when 5 then '本科'\n" +
-                "   when 5 then '硕士'\n" +
-                "   when 5 then '博士'\n" +
+                "   when 6 then '硕士'\n" +
+                "   when 7 then '博士'\n" +
                 "   else '暂无信息'\n" +
                 "   end\n" +
                 "  )education,\n" +
@@ -219,7 +272,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                 "  (case u.difficulty_type\n" +
                 "   when 0 then '非困难'\n" +
                 "   when 1 then '困难'\n" +
-                "   when 2 then '特困难'   else '暂无信息' end)difficulty_type,\n" +
+                "   when 2 then '非常困难'   else '暂无信息' end)difficulty_type,\n" +
                 "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
                 "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
                 "  u.address,\n" +

@@ -74,7 +74,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">党务管理</a>
                     <dl class="layui-nav-child">
-                        <dd id="applicationForm" ><a onclick="partywork_5()">入党申请列表</a></dd>
+                        <!--<dd id="applicationForm" ><a onclick="partywork_5()">入党申请列表</a></dd>-->
                         <dd id="honor" class="layui-hide"><a onclick="partywork_1()">表彰奖励列表</a></dd>
                         <dd id="discipline" class="layui-hide"><a onclick="partywork_2()">违纪违法列表</a></dd>
                         <dd id="condole" class="layui-hide"><a onclick="partywork_3()">慰问情况列表</a></dd>

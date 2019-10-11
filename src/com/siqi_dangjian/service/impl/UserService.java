@@ -2,12 +2,15 @@ package com.siqi_dangjian.service.impl;
 
 import com.siqi_dangjian.bean.Activities;
 import com.siqi_dangjian.bean.User;
+import com.siqi_dangjian.dao.IDutyDao;
 import com.siqi_dangjian.dao.IUserDao;
 import com.siqi_dangjian.service.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +26,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private IDutyDao dutyDao;
 
     @Autowired
     private IActivityOfUserService activityOfUserService;
@@ -51,10 +57,6 @@ public class UserService implements IUserService {
     public Map getUserTipsById(Long id, Integer type, Integer limit, Integer page) throws Exception {
         //查用户参加的活动的心得
         Map mapList = tipsService.selectActivityTips( id, type, limit, page);
-//        String activityId= tipsService.selectActivityIdByUserId(id);
-//        Activities activities = activityService.selectById(Long.valueOf(activityId));
-//        mapList.put("activityId",activities.getId());
-//        mapList.put("activityName",activities.getTitle());
         return mapList;
     }
 
@@ -97,7 +99,15 @@ public class UserService implements IUserService {
 
     @Override
     public Map selectGroupCount() throws Exception {
-        return userDao.selectGroupCount();
+        Map userCountMap = userDao.selectGroupCount();
+        Map blurParam = new HashMap<>();
+        blurParam.put("type_name", "正式党员");
+        Long dutyId = dutyDao.selectByTypeName(blurParam);
+        Integer difficultToPartyMembersCount = userDao.selectDifficultToPartyMembersCount(dutyId);
+        Integer needyWorkerCount = userDao.selectNeedyWorkerCount(dutyId);
+        userCountMap.put("difficultToPartyMembersCount",difficultToPartyMembersCount);
+        userCountMap.put("needyWorkerCount",needyWorkerCount);
+        return userCountMap;
     }
 
 

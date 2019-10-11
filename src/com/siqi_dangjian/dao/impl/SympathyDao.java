@@ -48,13 +48,13 @@ public class SympathyDao extends BaseDao<Sympathy> implements ISympathyDao {
                 "\ts.id sympathyId,\n" +
                 "\tu.id userId,\n" +
                 "\tu.username,\n" +
-                "\t(case s.difficult \n" +
-                "   when 1 then '非困难' \n" +
-                "   when 2 then '困难' \n" +
-                "   when 3 then '非常困难' else '空的' end) difficult,\n" +
+                "\t(case u.difficulty_type \n" +
+                "   when 0 then '非困难' \n" +
+                "   when 1 then '困难' \n" +
+                "   when 2 then '非常困难' else '空的' end) difficult,\n" +
                 "\ts.note,\n" +
                 "\ts.sympathy_product,\n" +
-                "\tDATE_FORMAT(s.sympathy_time, '%Y-%m-%d %H:%m:%s') sympathy_time,\n" +
+                "\tDATE_FORMAT(s.sympathy_time, '%Y-%m-%d') sympathy_time,\n" +
                 "\ts.unit_and_position,\n" +
                 "\tu.age,\n" +
                 "\tif(u.sex='1','男','女') sex,\n" +

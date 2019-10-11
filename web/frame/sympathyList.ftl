@@ -55,9 +55,10 @@
 </div>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
+   <!-- <a class="layui-btn layui-btn-primary layui-btn-xs"  lay-event="add">添加</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>-->
+    <a class="layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon" lay-event="delete">&#xe640;</i></a>
 </script>
 <script type="text/html" id="barDemo1">
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
@@ -105,7 +106,7 @@
             ,url: '/sympathy/list' //数据接口
             ,title: '慰问表'
             ,page: true //开启分页
-            ,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar: '#barDemo'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}

@@ -1467,7 +1467,7 @@ public class MiniProgramController extends BaseController {
         modelMap = new ModelMap();
         try {
             Map map = userService.selectGroupCount();
-            setData("countList", map.get("countList"));
+            setData("countList", map);
             setSuccess();
             setCode(CommonString.REQUEST_SUCCESS);
         } catch (Exception e) {

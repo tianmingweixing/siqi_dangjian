@@ -7,6 +7,7 @@ import com.siqi_dangjian.bean.User;
 import com.siqi_dangjian.service.IConfigurationService;
 import com.siqi_dangjian.service.ISympathyService;
 import com.siqi_dangjian.service.IUserService;
+import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,6 @@ public class SympathyController extends BaseController{
      * @param unit_and_position 慰问人单位及职务
      * @param sympathyProduct 慰问品及信息
      * @param note 备注
-     * @param difficult  1 非困难  2困难  3非常困难
      * @return
      */
     @RequestMapping("/addSympathy")
@@ -87,15 +87,10 @@ public class SympathyController extends BaseController{
                                     @RequestParam(value = "sympathy_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sympathy_time,
                                     @RequestParam(value = "unit_and_position", required = false) String unit_and_position,
                                     @RequestParam(value = "sympathy_product", required = false) String sympathyProduct,
-                                    @RequestParam(value = "note", required = false) String note,
-//                                    @RequestParam(value = "username", required = false) String userName,
-//                                    @RequestParam(value = "age", required = false) Integer age,
-//                                    @RequestParam(value = "sex", required = false) Integer sex,
-                                    @RequestParam(value = "difficult", required = false) Integer difficult) {
+                                    @RequestParam(value = "note", required = false) String note) {
 
         ModelAndView modelAndView = new ModelAndView();
         Sympathy sympathy;
-        User user;
         try {
             Long party_branch_id = configurationService.selectPartyBranchId();
             if(sympathyId != null ){
@@ -104,28 +99,15 @@ public class SympathyController extends BaseController{
                 sympathy = new Sympathy();
                 sympathy.setPartyBranchId(party_branch_id);
             }
-//            if (userId == null) {
-//                user = new User();
-//            }else{
-//                user =  userService.getUserById(userId);
-//            }
 
                 sympathy.setId(sympathyId);
                 sympathy.setSympathyTime(sympathy_time);
                 sympathy.setUnitAndPosition(unit_and_position);
                 sympathy.setSympathyProduct(sympathyProduct);
                 sympathy.setNote(note);
-                sympathy.setDifficult(difficult);
                 sympathy.setCanUse(1);
                 sympathy.setUserId(userId);
                 sympathyService.insertOrUpdate(sympathy);
-
-//                user.setUserName(userName);
-//                user.setId(userId);
-//                user.setAge(age);
-//                user.setSex(sex);
-//                user.setCanUse(1);
-//                userService.addUser(user);
                 setSuccess();
                 modelAndView.setViewName("frame/sympathyList");
 
@@ -155,14 +137,14 @@ public class SympathyController extends BaseController{
         try {
             sympathy = sympathyService.selectById(sympathyId);
             view.addObject("sympathyId", sympathy.getId());
-            view.addObject("difficult", sympathy.getDifficult());
-            view.addObject("sympathy_time", sympathy.getSympathyTime());
+            view.addObject("sympathy_time", CommonUtil.timeFormat(sympathy.getSympathyTime()));
             view.addObject("unit_and_position", sympathy.getUnitAndPosition());
             view.addObject("sympathy_product", sympathy.getSympathyProduct());
             view.addObject("note", sympathy.getNote());
 
             user = userService.getUserById(userId);
             view.addObject("username", user.getUserName());
+            view.addObject("difficult", user.getDifficultyType());
             view.addObject("sex", user.getSex());
             view.addObject("userId", user.getId());
             view.addObject("age", user.getAge());

@@ -99,14 +99,18 @@
             <input id="company_office" name="company_office" lay-verify="required" placeholder="请输入单位职务" maxlength="20"
                    autocomplete="off" class="layui-input" value="">
         </div>
+
     </div>
 
     <div class="layui-form-item input_row_margin_top">
 
-        <label class="layui-form-label">所属班子</label>
+        <label class="layui-form-label">困难情况</label>
         <div class="layui-input-inline">
-            <select name="partyGroups_name" id="partyGroups_name">
-                <option value="">没有则不选</option>
+            <select name="difficult" id="difficult">
+                <option value="">全部</option>
+                <option value="0" >非困难</option>
+                <option value="1" >困难</option>
+                <option value="2" >非常困难</option>
             </select>
         </div>
 
@@ -122,16 +126,28 @@
         </div>
     </div>
 
-
     <div class="layui-form-item input_row_margin_top">
-        <label class="layui-form-label">所属小组</label>
+
+        <label class="layui-form-label" >所属班子</label>
+        <div class="layui-input-inline">
+            <select name="partyGroups_name" id="partyGroups_name">
+                <option value="">没有则不选</option>
+            </select>
+        </div>
+
+        <label class="layui-form-label" style="margin-left: 85px">所属小组</label>
         <div class="layui-input-inline">
             <select name="partyTeam_name" id="partyTeam_name">
                 <option value="">没有则不选</option>
             </select>
         </div>
+    </div>
 
-        <div class="layui-input-inline" style="margin-left: 128px;">
+
+    <div class="layui-form-item input_row_margin_top">
+
+
+        <div class="layui-input-inline" style="margin-left: 116px;">
             <button type="button" style="background-color: #5fb878" class="layui-btn" id="test1">
                 <i class="layui-icon">&#xe67c;</i>上传头像
             </button>
@@ -216,6 +232,8 @@ var headImg = [];
                 }
             });
 
+
+
             if (parent.PartitionData) {
                 if (parent.PartitionData.sex == '男'){
                     var sex = 1;
@@ -243,6 +261,18 @@ var headImg = [];
                     var education = 7;
                 }
                 $("#education").val(education);
+                form.render();
+            }
+
+            if (parent.PartitionData) {
+                if (parent.PartitionData.difficulty_type == '非困难'){
+                    var difficulty_type = 0;
+                }else if(parent.PartitionData.difficulty_type == '困难'){
+                    var difficulty_type = 1;
+                }else if(parent.PartitionData.difficulty_type == '非常困难'){
+                    var difficulty_type = 2;
+                }
+                $("#difficult").val(difficulty_type);
                 form.render();
             }
 
@@ -319,6 +349,7 @@ var headImg = [];
                                 education: $("#education").val(),
                                 age: $("#age").val(),
                                 dutyid : $("#type_name").val(),
+                                difficult : $("#difficult").val(),
                                 partyGroupsId : $("#partyGroups_name").val(),
                                 partyTeamId : $("#partyTeam_name").val(),
                                 join_time: $("#join_time").val(),

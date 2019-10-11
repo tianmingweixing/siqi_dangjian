@@ -32,10 +32,14 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label " >慰问时间</label>
+        <label class="layui-form-label">困难情况</label>
         <div class="layui-input-inline">
-            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
-                   autocomplete="off" class="layui-input" value="">
+            <select name="difficult" id="difficult">
+                <option value="">全部</option>
+                <option value="0" >非困难</option>
+                <option value="1" >困难</option>
+                <option value="2" >非常困难</option>
+            </select>
         </div>
 
     </div>
@@ -63,14 +67,10 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
 
-        <label class="layui-form-label">困难情况</label>
+        <label class="layui-form-label " >慰问时间</label>
         <div class="layui-input-inline">
-            <select name="difficult" id="difficult">
-                <option value="">全部</option>
-                <option value="1" >非困难</option>
-                <option value="2" >困难</option>
-                <option value="3" >非常困难</option>
-            </select>
+            <input id="sympathy_time" name="sympathy_time" lay-verify="required" placeholder="请输入入党时间" maxlength="20"
+                   autocomplete="off" class="layui-input" value="">
         </div>
 
     </div>
@@ -82,7 +82,7 @@
             <label class="layui-form-label">慰问信息</label>
             <div class="layui-input-block">
             <textarea name="sympathy_product" id="sympathy_product" placeholder="请输入慰问信息"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"></textarea>
             </div>
         </div>
@@ -91,7 +91,7 @@
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
             <textarea name="note" id="note" placeholder="请输入备注"
-                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #56aa17;
+                      style="width: 500px; border:1px solid #e6e6e6; font-size: 10px; line-height: 23px;color: #0c060f;
                               max-width: 1500px; height: 100px; max-height: 1000px; outline: 0;"></textarea>
             </div>
         </div>
@@ -120,7 +120,6 @@
 
             /*   $("input:radio][value='"+parent.PartitionData.sex+"']").prop("checked", "checked");
                $("#nation").val(parent.PartitionData.nation);
-                $("#difficulty_type").val(parent.PartitionData.difficulty_type);
                 $("#party_branch_name").html(parent.PartitionData.party_branch_name);*/
 
         }
@@ -135,10 +134,19 @@
                 elem: '#sympathy_time' //指定元素
             });
 
-
+            if (parent.PartitionData) {
+                if (parent.PartitionData.difficulty_type == '非困难'){
+                    var difficulty_type = 0;
+                }else if(parent.PartitionData.difficulty_type == '困难'){
+                    var difficulty_type = 1;
+                }else if(parent.PartitionData.difficulty_type == '非常困难'){
+                    var difficulty_type = 2;
+                }
+                $("#difficult").val(difficulty_type);
+                form.render();
+            }
 
             form.on('submit(formDemo)', function () {
-
                 $.ajax({
                     url: "/sympathy/addSympathy",
                     data: {
@@ -147,8 +155,7 @@
                         sympathy_product: $("#sympathy_product").val(),
                         unit_and_position: $("#unit_and_position").val(),
                         sympathy_time: $("#sympathy_time").val(),
-                        note: $("#note").val(),
-                        difficult: $("#difficult").val()
+                        note: $("#note").val()
                     },
                     success: function () {
                         layer.msg('保存成功', {icon: 1});
