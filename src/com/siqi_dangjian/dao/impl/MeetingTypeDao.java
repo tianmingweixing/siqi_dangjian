@@ -50,7 +50,9 @@ public class MeetingTypeDao extends BaseDao<MeetingType> implements IMeetingType
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\tm.id,\n" +
-                "\tm.type_name\n" +
+                "\tm.type_name,\n" +
+                "\tDATE_FORMAT(m.update_time, '%Y-%m-%d') update_time,\n" +
+                "\tDATE_FORMAT(m.create_time, '%Y-%m-%d') create_time\n" +
                 "FROM\n" +
                 "\tmeeting_type m\n" +
                 "WHERE\n" +

@@ -40,7 +40,9 @@ public class PartyBranchController extends BaseController{
     @RequestMapping("/addPartBranch")
     @ResponseBody
     public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
+                                  @RequestParam(value = "file2", required = false) CommonsMultipartFile file2,
                                   @RequestParam(value = "img_path", required = false) String img_path,
+                                  @RequestParam(value = "structure_img", required = false) String structure_img,
                                   @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "id", required = false) Long id,
                                   @RequestParam(value = "duty", required = false) String duty,
@@ -61,6 +63,13 @@ public class PartyBranchController extends BaseController{
                 String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
                 partyBranch.setPartyImg(path);
             }
+            if (file2 != null) {
+                String path2 = CommonUtil.uploadImg(file2,request);//调用公共的上传单张图片方法
+                partyBranch.setStructureImg(path2);
+            }else{
+                String path2 = CommonUtil.subImgPathString(structure_img);//调用公共的截取字符串方法,获取图片相对路径
+                partyBranch.setStructureImg(path2);
+            }
 
             partyBranch.setId(id);
             partyBranch.setPartyNo(String.valueOf(System.currentTimeMillis()));
@@ -76,8 +85,6 @@ public class PartyBranchController extends BaseController{
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
-
-            return modelMap;
         }
         return modelMap;
 
@@ -103,6 +110,7 @@ public class PartyBranchController extends BaseController{
                 view.addObject("partyInfo", partyBranch.getPartyInfo());
                 view.addObject("partyNo", partyBranch.getPartyNo());
                 view.addObject("party_img", partyBranch.getPartyImg());
+                view.addObject("structure_img", partyBranch.getStructureImg());
                 view.addObject("duty", partyBranch.getDuty());
                 view.addObject("activityArea", partyBranch.getActivityArea());
                 view.addObject("foundingTime", CommonUtil.timeFormat(partyBranch.getFoundingTime()));

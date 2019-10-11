@@ -57,7 +57,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -82,7 +82,7 @@
                 , table = layui.table //表格
                 , element = layui.element; //元素操作
         var form = layui.form;
-
+        var $ = jQuery;
 
         element.on('tab(demo)', function (data) {
             layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
@@ -95,6 +95,18 @@
         });
         laydate.render({
             elem: '#end_time_search' //指定元素
+        });
+
+        //查询总结种类
+        $.ajax({
+            url: "/conclusion/allCategory?type=1",
+            async: false,
+            success: function (data) {
+                $.each(data.list, function (i, item) {
+                    $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
+                });
+                form.render('select');
+            }
         });
 
         //执行一个 table 实例
@@ -114,7 +126,7 @@
                 , {field: 'conclusion_type_id', title: '类型ID',hide:true}
                 , {field: 'plan_content', title: '内容'}
                 , {field: 'year_limit', title: '时间',sort:true}
-                ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+                , {field: 'edit',title:'操作',width:250,templet: '#barDemo1'}
 
             ]]
         });
@@ -233,17 +245,6 @@
             }
         });
 
-        //查询总结种类
-        $.ajax({
-            url: "/conclusion/allCategory?default_type=总结",
-            async: false,
-            success: function (data) {
-                $.each(data.list, function (i, item) {
-                    $("#conclusion_type").append("<option  value='" + item.id + "'>" + item.type_name + "</option>");
-                });
-                form.render('select');
-            }
-        });
 
 
     });

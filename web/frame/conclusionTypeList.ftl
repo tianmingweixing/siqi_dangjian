@@ -24,7 +24,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -69,7 +69,9 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, sort: true, fixed: 'left'}
                 , {field: 'type_name', title: '季度类型名称'}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                , {field: 'create_time', title: '创建时间'}
+                , {field: 'update_time', title: '修改时间'}
+                , {field: 'edit',title:'操作',width:200,templet: '#barDemo1'}
             ]]
         });
 
@@ -145,7 +147,7 @@
                 } else if (data.length > 1) {
                     layer.msg('只能同时编辑一个');
                 } else {
-                    layer.msg('data.id');
+                    //layer.msg('data.id');
                     window.location.href = '/conclusionType/setConclusionType?Id=' + data.id;
                 }
             }else if(layEvent === 'add'){

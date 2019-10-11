@@ -63,7 +63,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 
 <script src="/js/layui/layui.js"></script>
@@ -101,7 +101,7 @@
 
             //查询计划种类
             $.ajax({
-                url: "/conclusion/allCategory?default_type=计划",
+                url: "/conclusion/allCategory?type=2",
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
@@ -128,7 +128,7 @@
                     , {field: 'conclusion_type_id', title: '类型ID',hide:true}
                     , {field: 'plan_content', title: '内容'}
                     , {field: 'year_limit', title: '时间'}
-                    ,{field: 'edit',title:'编辑',width:250,templet: '#barDemo1'}
+                    ,{field: 'edit',title:'操作',width:250,templet: '#barDemo1'}
                 ]]
             });
 

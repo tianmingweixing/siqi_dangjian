@@ -63,7 +63,8 @@ public class DutyDao extends BaseDao<Duty> implements IDutyDao {
         session = sessionFactory.getCurrentSession();
         String sql = "SELECT\n" +
                 "\td.id,\n" +
-                "\td.create_time,\n" +
+                "\tDATE_FORMAT(d.create_time, '%Y-%m-%d') create_time,\n" +
+                "\tDATE_FORMAT(d.update_time, '%Y-%m-%d') update_time,\n" +
                 "\td.description,\n" +
                 "\td.party_branch_id,\n" +
                 "\td.type_name\n" +

@@ -90,12 +90,12 @@
                 ,{field: 'party_img',title:'党支部图片',templet: function(d){return '<div><img src="'+d.party_img+'" alt="" width="50%" height="50%"></div>';}}
                 ,{field: 'UserCount', title: '成员总数'}
                 ,{field: 'duty', title: '党支部职责'}
-                ,{field: 'party_no',title:'党支部编号'}
+                ,{field: 'party_no',title:'党支部编号',hide:true}
                 ,{field: 'party_info',title:'党支部简介'}
                 ,{field: 'founding_time',title:'成立时间',}
                 ,{field: 'change_time',title:'换届时间',}
                 ,{field: 'activity_area',title:'活动面积(m²)',}
-                ,{field: 'edit',fixed:'right',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',fixed:'right',title:'操作',width:200,templet: '#barDemo1'}
             ]]
         });
 

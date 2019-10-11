@@ -18,9 +18,10 @@
 </div>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
 </script>
 <style>
     .layui_open_fail{
@@ -64,6 +65,7 @@
                 ,{field: 'type_name', title: '类型名称'}
                 ,{field: 'create_time', title: '创建时间'}
                 ,{field: 'update_time', title: '修改时间'}
+                ,{field: 'edit',title:'操作',width:200,templet: '#barDemo'}
             ]]
         });
        /* var $ = layui.$, active = {
@@ -161,7 +163,8 @@
                     //向服务端发送删除指令
                 });
             } else if(layEvent === 'edit'){
-                layer.msg('编辑操作');
+                //layer.msg('编辑操作');
+                window.location.href='/activityType/goto?id='+data.id;
             }
         });
 

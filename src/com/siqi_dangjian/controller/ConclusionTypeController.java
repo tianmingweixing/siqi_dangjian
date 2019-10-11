@@ -77,10 +77,15 @@ public class ConclusionTypeController extends BaseController {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
+            ConclusionType conclusionType;
             Long party_branch_id = configurationService.selectPartyBranchId();
-            ConclusionType conclusionType = new ConclusionType();
+
+            if (id != null){
+                conclusionType = conclusionTypeService.selectById(id);
+            }else {
+                conclusionType = new ConclusionType();
+            }
             conclusionType.setPartyBranchId(party_branch_id);
-            conclusionType.setId(id);
             conclusionType.setTypeName(typeName);
             conclusionType.setType(type);
             conclusionType.setCanUse(1);

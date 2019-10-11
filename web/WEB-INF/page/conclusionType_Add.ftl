@@ -38,6 +38,17 @@
                     </div>
 
                 </div>
+                <div class="layui-form-item input_row_margin_top">
+
+                    <label class="layui-form-label " style="margin-left: 1px">文档类型</label>
+                    <div class="layui-input-inline">
+                        <select name="cType" id="cType">
+                            <option value="1" <#if type??&&type==1>selected</#if>>总结</option>
+                            <option value="2" <#if type??&&type==2>selected</#if>>计划</option>
+                        </select>
+                    </div>
+
+                </div>
 
 
                 <div class="layui-form-item">
@@ -74,7 +85,7 @@
                     url: "/conclusionType/addConclusionType",
                     data: {
                         id: $("#id").val(),
-                        type: $("#type").val(),
+                        type: $("#cType").val(),
                         type_name: $("#type_name").val()
                     },
                     success: function () {

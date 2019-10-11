@@ -19,7 +19,7 @@
             width: 200px
         }
 
-        #btn {
+        #btn,#btn2 {
             padding: 5px 10px;
             background: #00b0f0;
             color: #FFF;
@@ -31,14 +31,14 @@
             position: relative;
         }
 
-        #fileinp {
+        #fileinp,#structure_img {
             position: absolute;
             left: 0;
             top: 0;
             opacity: 0;
         }
 
-        #btn {
+        #btn,#btn2 {
             margin-right: 5px;
         }
 
@@ -162,7 +162,6 @@
                 </div>
             </div>
 
-
             <div class="layui-form-item input_row_margin_top">
 
                 <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">支部图片</label>
@@ -171,6 +170,17 @@
                     <input type="file" id="fileinp" name="file" onchange="reads(this)">
                     <img id="backimg" name="backimg"
                          src="<#if party_img??>${party_img}<#else>\images\defaultImg.jpg</#if>" height="200" width="300"
+                         alt="" style="margin-top: 10px">
+                </div>
+            </div>
+            <div class="layui-form-item input_row_margin_top">
+
+                <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">组织结构图</label>
+                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
+                    <label for="structure_img" id="btn2">选择图片</label>
+                    <input type="file" id="structure_img" name="structure_img" onchange="reads2(this)">
+                    <img id="imgbox" name="imgbox"
+                         src="<#if structure_img??>${structure_img}<#else>\images\defaultImg.jpg</#if>" height="200" width="300"
                          alt="" style="margin-top: 10px">
                 </div>
             </div>
@@ -200,11 +210,13 @@
             var element = layui.element;
 
             laydate.render({
+                type: 'date',
                 elem: '#changeTime' //指定元素
                 ,type: 'date'
             });
 
             laydate.render({
+                type: 'date',
                 elem: '#foundingTime'
                 ,type: 'date'
             });
@@ -213,13 +225,18 @@
 
                 var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
                 var file = document.fileForm.file.files[0];
+                var file2 = document.fileForm.structure_img.files[0];
 
                 if (file != null) {
                     formData.append("file", file);
                 }
+                if (file2 != null) {
+                    formData.append("file2", file2);
+                }
 
 
                 formData.append("img_path", document.fileForm.backimg.src);
+                formData.append("structure_img", document.fileForm.imgbox.src);
                 formData.append("id", document.fileForm.id.value);
                 formData.append("name", document.fileForm.name.value);
                 formData.append("duty", document.fileForm.duty.value);
@@ -260,7 +277,18 @@
             $("#backimg").attr("src", ev.target.result);
         }
     }
-
+    function reads2(obj) {
+        var file = obj.files[0];
+        if (file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#imgbox").attr("src", ev.target.result);
+        }
+    }
 
 </script>
 

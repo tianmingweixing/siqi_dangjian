@@ -43,7 +43,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
 </script>
 <style>
     .layui_open_fail{
@@ -103,7 +103,9 @@
                 ,{field: 'id', title: 'ID', width:200, sort: true, fixed: 'left'}
                 ,{field: 'type_name', title: '政治面貌'}
                 ,{field: 'description',title:'描述'}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'create_time',title:'创建时间'}
+                ,{field: 'update_time',title:'修改时间'}
+                ,{field: 'edit',title:'操作',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {
@@ -200,7 +202,7 @@
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
                  layer.msg('edit');
-                 console.log(data);
+                 //console.log(data);
                 window.location.href='/duty/setDuty?id='+data.id;
             }else if(layEvent === 'add'){
                 layer.msg('add');

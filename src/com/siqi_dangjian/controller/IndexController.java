@@ -181,8 +181,8 @@ public class IndexController extends BaseController{
 
         modelMap = new ModelMap();
         try {
-            Long branchId= configurationService.selectPartyBranchId();
-            PartyBranch partyBranch = partyBranchService.selectById(branchId);
+            Long partyBranchId = configurationService.selectPartyBranchId();
+            PartyBranch partyBranch = partyBranchService.selectById(partyBranchId);
             if (partyBranch != null){
                 /*
                 Date foundingTime = partyBranch.getFoundingTime();

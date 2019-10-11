@@ -46,6 +46,12 @@ public class PartyBranch extends BaseBean {
     private String partyImg;
 
     /**
+     * 组织结构图
+     */
+    @Column(name="structure_img",nullable=true,length=300)
+    private String structureImg;
+
+    /**
      * 活动面积
      */
     @Column(name="activity_area",nullable=true,length=5)
@@ -135,5 +141,13 @@ public class PartyBranch extends BaseBean {
 
     public void setDuty(String duty) {
         this.duty = duty;
+    }
+
+    public String getStructureImg() {
+        return structureImg;
+    }
+
+    public void setStructureImg(String structureImg) {
+        this.structureImg = structureImg;
     }
 }

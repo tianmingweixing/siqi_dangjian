@@ -83,7 +83,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="barDemo1">
-    <a class="layui-btn layui-btn-sm layui-btn-danger"  lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger"  lay-event="edit">编辑</a>
 <!--
     <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="signIn">添加签到</a>
 -->
@@ -236,7 +236,7 @@
                 ,{field: 'images_a',title:'会议图片',templet:'#images_a'}
                 ,{field: 'start_time',title:'开始时间',sort: true}
                 ,{field: 'end_time',title:'结束时间',sort: true}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',title:'操作',width:200,templet: '#barDemo1'}
 
             ]]
         });

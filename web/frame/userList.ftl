@@ -234,9 +234,9 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', width:50, sort: true, fixed: 'left'}
-                ,{field: 'username', title: '用户名'}
+                ,{field: 'username', title: '姓名'}
                 ,{field: 'head_img',title:'头像',width:80,templet:'#img'}
-                ,{field: 'nick_name', title: '昵称',hide:true}
+                ,{field: 'nick_name', title: '昵称'}
                 ,{field: 'sex',title:'性别',width:80}
                 ,{field: 'education',title:'学历',hide:true}
                 ,{field: 'company',title:'单位'}

@@ -49,6 +49,7 @@ public class PartyBranchDao extends BaseDao<PartyBranch> implements IPartyBranch
                 "\tp.duty,\n" +
                 "\tDATE_FORMAT(p.founding_time, '%Y-%m-%d') founding_time,\n" +
                 "\tp.party_img,\n" +
+                "\tp.structure_img,\n" +
                 "\tp.party_info,\n" +
                 "\tp.party_no,\n" +
                 "\tu.count UserCount\n" +

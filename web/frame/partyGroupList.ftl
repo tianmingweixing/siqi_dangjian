@@ -131,7 +131,7 @@
                 // , {field: 'userName', title: '班子成员'}
                 , {field: 'founding_time', title: '成立时间'}
                 , {field: 'change_time', title: '换届时间'}
-                , {field: 'edit', title: '编辑', width: 200, templet: '#barDemo1'}
+                , {field: 'edit', title: '操作', width: 200, templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {

@@ -81,7 +81,7 @@ public class ConclusionController extends BaseController {
      */
     @RequestMapping("/allCategory")
     @ResponseBody
-    public ModelMap getAllCategoryList(@RequestParam(value = "default_type", required = false) String type_name,
+    public ModelMap getAllCategoryList(@RequestParam(value = "type", required = false) Integer type,
                                        @RequestParam(value = "limit", required = false) Integer limit,
                                        @RequestParam(value = "page", required = false) Integer page) {
         modelMap = new ModelMap();
@@ -89,8 +89,8 @@ public class ConclusionController extends BaseController {
         Map dateMap = new HashMap<>();
         Map intMap = new HashMap<>();
 
-        if (StringUtils.isNotEmpty(type_name)) {
-            blurMap.put("type_name", type_name);
+        if (StringUtils.isNotEmpty(type.toString())) {
+            intMap.put("type", type.toString());
         }
 
         try {

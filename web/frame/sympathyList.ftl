@@ -161,8 +161,8 @@
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.msg('data[0].id');
-                    window.location.href='/sympathy/setSympathy?sympathyId='+data[0].sympathyId +'&userId='+data[0].userId;
+                        //layer.msg('data[0].id');
+                        window.location.href='/sympathy/setSympathy?sympathyId='+data[0].sympathyId +'&userId='+data[0].userId;
                     }
                     break;
                 case 'delete':
@@ -212,8 +212,6 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                 layer.msg('edit');
-                 console.log(data);
                 window.location.href='/sympathy/setSympathy?sympathyId='+data.sympathyId +'&userId='+data.userId;
             }else if(layEvent === 'add'){
                 layer.msg('add');

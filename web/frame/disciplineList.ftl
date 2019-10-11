@@ -161,7 +161,7 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.msg('正在编辑中..');
+                        //layer.msg('正在编辑中..');
                         window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data[0].id + '&type=' + 1 + '&userId=' + data[0].user_id;
                     }
                     break;
@@ -212,8 +212,6 @@
             if(layEvent === 'detail'){
                 layer.msg('查看操作');
             } else if(layEvent === 'edit'){
-                 layer.msg('edit');
-                 console.log(data);
                 window.location.href = '/disciplineOfHonor/setDisciplineOfHonor?Id=' + data.id+'&type='+1+'&userId='+data.user_id;
             }else if(layEvent === 'add'){
                 layer.msg('add');

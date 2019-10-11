@@ -19,6 +19,7 @@ public interface IDutyDao {
 
     List<Duty> selectList() throws Exception;
 
-
     Map selectAllCategory(Map blurMap, Map intMap, Map dateMap);
+
+    Long selectByTypeName(Map blurParam) throws Exception;
 }

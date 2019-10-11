@@ -47,6 +47,8 @@ public class ConclusionTypeDao extends BaseDao<ConclusionType> implements IConcl
         String sql = "SELECT\n" +
                 "\tc.id,\n" +
                 "\tc.type_name,\n" +
+                "\tDATE_FORMAT(c.update_time, '%Y-%m-%d') update_time,\n" +
+                "\tDATE_FORMAT(c.create_time, '%Y-%m-%d') create_time,\n" +
                 "\t(\n" +
                 "\t\tCASE c.type\n" +
                 "\t\tWHEN 0 THEN\n" +

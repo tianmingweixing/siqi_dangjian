@@ -129,7 +129,7 @@
                 // ,{field: 'userName', title: '党小组成员'}
                 ,{field: 'change_time',title:'换届时间'}
                 ,{field: 'founding_time',title:'成立时间'}
-                ,{field: 'edit',title:'编辑',width:200,templet: '#barDemo1'}
+                ,{field: 'edit',title:'操作',width:200,templet: '#barDemo1'}
             ]]
         });
         var $ = layui.$, active = {

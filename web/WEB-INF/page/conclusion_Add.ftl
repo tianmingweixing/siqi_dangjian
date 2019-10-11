@@ -97,7 +97,7 @@
 
             //查询计划种类
             $.ajax({
-                url: "allCategory?default_type=计划",
+                url: "allCategory?type=2",
                 async: false,
                 success: function (data) {
                     $.each(data.list, function (i, item) {
