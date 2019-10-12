@@ -7,6 +7,8 @@ import org.hibernate.transform.Transformers;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sun.misc.BASE64Encoder;
@@ -35,7 +37,8 @@ public class CommonUtil {
      * @return path 返回图片路径
      * @throws IOException
      */
-    public static String uploadImg(@RequestParam(value = "file", required = false) CommonsMultipartFile file,HttpServletRequest request) throws IOException {
+    @RequestMapping(method = RequestMethod.POST)
+    public static String uploadImg(@RequestParam(value = "file", required = false) CommonsMultipartFile file) throws IOException {
 
             String fileName = UUID.randomUUID().toString() + file.getOriginalFilename();
             Calendar now = Calendar.getInstance();

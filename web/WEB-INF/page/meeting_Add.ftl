@@ -59,17 +59,16 @@
 
 </head>
 <body>
+<div style="width: 90%">
+    <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
+                style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
+        修改会议信息
+    </blockquote>
+</div>
+<div style="width:90%">
+    <div class="container_div">
+        <form class="layui-form" action="">
 
-<form class="layui-form" action="">
-    <div style="width: 90%">
-        <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
-                    style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
-            修改会议信息
-        </blockquote>
-    </div>
-
-    <div style="width:90%">
-        <div class="container_div">
             <div class="layui-form-item" style="display:none">
                 <label class="layui-form-label" style="margin-left: 85px">会议ID
                     <div class="layui-input-inline"><input id="id" name="id" type=""
@@ -88,110 +87,125 @@
 
 
             <div class="layui-form-item input_row_margin_top">
-
-                <label class="layui-form-label ">会议名称</label>
-                <div class="layui-input-inline">
-                    <input id="name" name="name" lay-verify="required" placeholder="请输入名称" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
+                <div class="layui-inline">
+                    <label class="layui-form-label ">会议名称</label>
+                    <div class="layui-input-inline">
+                        <input id="name" name="name" lay-verify="required" placeholder="请输入名称" maxlength="20"
+                               autocomplete="off" class="layui-input" value="<#if name??>${name}<#else></#if>">
+                    </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">会议类型</label>
+                    <div class="layui-input-inline">
+                        <select name="meeting_type" id="meeting_type">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-                <label class="layui-form-label">会议类型</label>
-                <div class="layui-input-inline">
-                    <select name="meeting_type" id="meeting_type">
-                        <option value="">全部</option>
-                    </select>
+            <div class="layui-form-item input_row_margin_top">
+                <div class="layui-inline">
+                    <label class="layui-form-label ">主持人</label>
+                    <div class="layui-input-inline">
+                        <input id="compere" name="compere" lay-verify="required" placeholder="请输入主持人" maxlength="20"
+                               autocomplete="off" class="layui-input" value="<#if compere??>${compere}<#else></#if>">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label ">记录人</label>
+                    <div class="layui-input-inline">
+                        <input id="recorder" name="recorder" lay-verify="required" placeholder="请输入记录人" maxlength="20"
+                               autocomplete="off" class="layui-input" value="<#if recorder??>${recorder}<#else></#if>">
+                    </div>
                 </div>
 
             </div>
 
-            <div class="layui-form-item input_row_margin_top">
-
-                <label class="layui-form-label ">主持人</label>
-                <div class="layui-input-inline">
-                    <input id="compere" name="compere" lay-verify="required" placeholder="请输入主持人" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if compere??>${compere}<#else></#if>">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">应到人数</label>
+                    <div class="layui-input-inline">
+                        <input id="people_counting" name="people_counting" lay-verify="required" placeholder="请输入应到人数"
+                               maxlength="20"
+                               autocomplete="off" class="layui-input"
+                               value="<#if people_counting??>${people_counting}<#else></#if>">
+                    </div>
                 </div>
-
-                <label class="layui-form-label ">记录人</label>
-                <div class="layui-input-inline">
-                    <input id="recorder" name="recorder" lay-verify="required" placeholder="请输入记录人" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if recorder??>${recorder}<#else></#if>">
+                <div class="layui-inline">
+                    <label class="layui-form-label">实到人数</label>
+                    <div class="layui-input-inline">
+                        <input id="attendance" name="attendance" lay-verify="required" placeholder="请输入实到人数"
+                               maxlength="20"
+                               autocomplete="off" class="layui-input"
+                               value="<#if attendance ??>${attendance}<#else></#if>">
+                    </div>
                 </div>
-
             </div>
 
-            <div class="layui-form-item input_row_margin_top">
-
-                <label class="layui-form-label ">应到人数</label>
-                <div class="layui-input-inline">
-                    <input id="people_counting" name="people_counting" lay-verify="required" placeholder="请输入应到人数"
-                           maxlength="20"
-                           autocomplete="off" class="layui-input"
-                           value="<#if people_counting??>${people_counting}<#else></#if>">
+            <div class="layui-form-item ">
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-inline">
+                        <input id="start_time" name="start_time" lay-verify="required" placeholder="请输入开始时间"
+                               maxlength="20"
+                               autocomplete="off" class="layui-input"
+                               value="<#if start_time??>${start_time}<#else></#if>">
+                    </div>
                 </div>
-
-                <label class="layui-form-label ">实到人数</label>
-                <div class="layui-input-inline">
-                    <input id="attendance" name="attendance" lay-verify="required" placeholder="请输入实到人数" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if attendance ??>${attendance}<#else></#if>">
+                <div class="layui-inline">
+                    <label class="layui-form-label ">结束时间</label>
+                    <div class="layui-input-inline">
+                        <input id="end_time" name="end_time" lay-verify="required" placeholder="请输入结束时间" maxlength="20"
+                               autocomplete="off" class="layui-input" value="<#if end_time??>${end_time}<#else></#if>">
+                    </div>
                 </div>
-
             </div>
 
-            <div class="layui-form-item input_row_margin_top">
 
-                <label class="layui-form-label " style="margin-left: 1px">时间范围</label>
-                <div class="layui-input-inline">
-                    <input id="start_time" name="start_time" lay-verify="required" placeholder="请输入开始时间" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if start_time??>${start_time}<#else></#if>">
-                </div>
-                <div class="layui-form-mid layui-word-aux">至</div>
-                <div class="layui-input-inline">
-                    <input id="end_time" name="end_time" lay-verify="required" placeholder="请输入结束时间" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if end_time??>${end_time}<#else></#if>">
-                </div>
-
-                <div class="layui-input-inline">
-                    <input id="address" name="address" lay-verify="required" placeholder="请输入会议地点" maxlength="150"
-                           autocomplete="off"
-                           style="display: block; width: 260%; padding-left: 8px;height: 38px;border-color: #D2D2D2!important; line-height: 1.3; line-height: 38px\9; border-width: 1px; border-style: solid; background-color: #fff; border-radius: 2px;"
-                           value="<#if address ??>${address}<#else></#if>">
+            <div class="layui-form-item ">
+                <div class="layui-inline">
+                    <label class="layui-form-label ">会议地址</label>
+                    <div class="layui-input-inline">
+                        <input id="address" name="address" lay-verify="required" placeholder="请输入会议地址" maxlength="150"
+                               autocomplete="off"
+                               style="display: block; width: 268%; padding-left: 8px;height: 38px;border-color: #D2D2D2!important; line-height: 1.3; line-height: 38px\9; border-width: 1px; border-style: solid; background-color: #fff; border-radius: 2px;"
+                               value="<#if address ??>${address}<#else></#if>">
+                    </div>
                 </div>
 
             </div>
 
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">会议内容</label>
-                <div class="layui-input-block">
-            <textarea name="content" id="content" placeholder="请输入会议内容"
-                      style="width: 928px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;padding: 0px 4px;
-                              max-width: 1500px; height: 160px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
-                </div>
+                    <label class="layui-form-label">会议内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content" id="content" placeholder="请输入会议内容"
+                                  class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
+                    </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">会议指导</label>
-                <div class="layui-input-block">
-                <textarea name="guide" id="guide" placeholder="请输入会议指导"
-                          style="width: 920px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px; padding: 0px 4px;
-                              max-width: 1500px; height: 50px; max-height: 1000px; outline: 0;"><#if guide??>${guide}<#else></#if></textarea>
-                </div>
+                    <label class="layui-form-label">会议指导</label>
+                    <div class="layui-input-block">
+                        <textarea name="guide" id="guide" placeholder="请输入会议指导"
+                                  class="layui-textarea"><#if guide??>${guide}<#else></#if></textarea>
+                    </div>
             </div>
 
-    <#if id??>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">会议签到</label>
-            <div class="layui-input-block">
-                    <textarea name="userName" id="userName" placeholder="会议签到" readonly
-                              style="width:920px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;
-                                  max-width: 1500px; height: 40px; max-height: 1000px; outline: 0;"><#if userName??>${userName}<#else></#if></textarea>
+        <#if id??>
+            <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">会议签到</label>
+                    <div class="layui-input-block">
+                        <textarea name="userName" id="userName" placeholder="会议签到" class="layui-textarea"
+                                  readonly><#if userName??>${userName}<#else></#if></textarea>
+                    </div>
             </div>
-            <div class="layui-input-inline">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" style="margin-left: 116px;" onclick="addSignIn()">签到管理</a>
-            </div>
-        </div>
-    <#else>
-    </#if>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" style="margin-left: 116px;"
+                       onclick="addSignIn()">签到管理</a>
+                </div>
+        <#else>
+        </#if>
 
             <div class="layui-upload ">
 
@@ -202,7 +216,7 @@
                     </div>
                 </blockquote>
 
-                <div class="mark_button" style="margin-top: -24px; width:86%;">
+                <div class="mark_button" style="margin-top: -8px; width:86%;">
                     <button type="button" class="layui-btn layui-btn-normal" id="sele_imgs">选择会议图片</button>
                     <!--
                                     <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
@@ -220,10 +234,9 @@
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
-</form>
-
+</div>
 
 <div id="lookDetail" style="display: none;padding: 0px; line-height: 22px; color: #56aa17; font-weight: 300;">
     <form class="layui-form" name="fileForm" style="margin-top: 10px">
@@ -289,7 +302,7 @@
             , area: ['346px', '205px']
             , shadeClose: true
             , shade: false
-            , offset:  ['40%', '61%']
+            , offset: ['40%', '61%']
             , maxmin: true //开启最大化最小化按钮
             , content: $("#lookDetail")
         });

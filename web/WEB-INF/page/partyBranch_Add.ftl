@@ -234,9 +234,18 @@
                     formData.append("file2", file2);
                 }
 
+                var img_path = document.fileForm.backimg.src;
+                // 图片正则
+                var patrn = /\.(png|jpe?g|gif|svg)(\?.*)?$/
+                if (patrn.exec(img_path)) {
+                    formData.append("img_path", img_path);
+                }
+                var structure_img = document.fileForm.imgbox.src;
+                // 图片正则
+                if (patrn.exec(structure_img)) {
+                    formData.append("structure_img", structure_img);
+                }
 
-                formData.append("img_path", document.fileForm.backimg.src);
-                formData.append("structure_img", document.fileForm.imgbox.src);
                 formData.append("id", document.fileForm.id.value);
                 formData.append("name", document.fileForm.name.value);
                 formData.append("duty", document.fileForm.duty.value);
@@ -267,7 +276,7 @@
 
     function reads(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
+        if (file.size > 1024 * 1024 * 5) {
             alert('图片大小不能超过 2MB!');
             return false;
         }
@@ -279,7 +288,7 @@
     }
     function reads2(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
+        if (file.size > 1024 * 1024 * 5) {
             alert('图片大小不能超过 2MB!');
             return false;
         }

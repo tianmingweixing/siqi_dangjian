@@ -88,7 +88,7 @@ public class NoticeController extends BaseController {
      */
     @RequestMapping("/addNotice")
     @ResponseBody
-    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
+    public ModelMap addNotice(@RequestParam(value = "file", required = false) CommonsMultipartFile file,
                               @RequestParam(value = "img_path", required = false) String img_path,
                               @RequestParam(value = "id", required = false) Long id,
                               @RequestParam(value = "title", required = false) String title,
@@ -106,7 +106,7 @@ public class NoticeController extends BaseController {
                 notice = new Notice();
             }
             if (file != null) {
-                String path = CommonUtil.uploadImg(file, request);//调用公共的上传单张图片方法,返回图片相对路径
+                String path = CommonUtil.uploadImg(file);//调用公共的上传单张图片方法,返回图片相对路径
                 notice.setImagePath(path);
             } else {
                 String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径

@@ -194,7 +194,15 @@
                 if (file != null) {
                     formData.append("file", file);
                 }
-                formData.append("img_path", document.fileForm.backimg.src);
+                var img_path = document.fileForm.backimg.src;
+                // 图片正则
+                var patrn = /\.(png|jpe?g|gif|svg)(\?.*)?$/
+                // const picReg = new RegExp (PICTURE_EXPRESSION)
+                // var patrn = /^([/0-9a-zA-Z_.]+)?$/;
+                if (patrn.exec(img_path)) {
+                    formData.append("img_path", img_path);
+                }
+
                 formData.append("content", document.fileForm.content.value);
                 formData.append("title", document.fileForm.title.value);
                 formData.append("id", document.fileForm.id.value);

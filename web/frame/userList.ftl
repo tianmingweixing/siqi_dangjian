@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>用户列表管理</title>
     <link rel="stylesheet" href="/js/layui/css/layui.css">
-
     <script src="/js/layui/layui.js"></script>
     <script src="../js/jquery/jquery-3.3.1.min.js"></script>
 
@@ -43,59 +42,59 @@
 </form>
 
 <div id="lookDetail" style="display: none;">
-    <form class="layui-form" id="add-form" action="">
+    <form class="layui-form" id="add-form" style="text-align: left" action="">
         <input type="hidden" id="id"  value="" style="width: 240px">
 
         <div class="layui-form-item center" style=" margin-top: 3px; padding: -145px;">
-            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">姓名</label>
-            <div class="layui-form-label" id="username" style="color: #00b0f0;margin-top: 34px;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px;margin-top: 34px;">姓名:</label>
+            <div class="layui-form-label" id="username" style="color: #00b0f0;margin-top: 34px;margin-left: -27px;text-align: left"></div>
 
-            <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">头像</label>
+            <label class="layui-form-label " style="margin-left: -9px;margin-top: 34px;">头像:</label>
             <div class="layui-input-inline" style="padding-top: 71px;margin-top: 11px;">
                 <img id="head_img" name ="head_img" src="" height="auto" width="100" alt="" style="margin-top: -63px;">
             </div>
         </div>
 
         <div class="layui-form-item center">
-            <label class="layui-form-label" style="width: 60px">学历</label>
-            <div class="layui-form-label" id="education" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">学历:</label>
+            <div class="layui-form-label" id="education" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
-            <label class="layui-form-label" style="width: 100px">用户年龄</label>
-            <div class="layui-form-label" id="age" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">用户年龄:</label>
+            <div class="layui-form-label" id="age" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">性别</label>
-            <div class="layui-form-label" id="sex" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">性别:</label>
+            <div class="layui-form-label" id="sex" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
-            <label class="layui-form-label" style="width: 100px">手机号码</label>
-            <div class="layui-form-label" id="phone" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">手机号码:</label>
+            <div class="layui-form-label" id="phone" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">职务</label>
-            <div class="layui-form-label" id="look_type_name" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">职务:</label>
+            <div class="layui-form-label" id="look_type_name" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
-            <label class="layui-form-label" style="width: 100px">困难状态</label>
-            <div class="layui-form-label" id="difficulty_type" style="color: #00b0f0;margin-left: -27px;"></div>
-
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">身份证</label>
-            <div class="layui-form-label" id="ID_cord" style="color: #00b0f0;margin-left: -27px;"></div>
-
-            <label class="layui-form-label" style="width: 100px">所属支部</label>
-            <div class="layui-form-label" id="look_party_branch_name" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">困难状态:</label>
+            <div class="layui-form-label" id="difficulty_type" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 60px">单位</label>
-            <div class="layui-form-label" id="company" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 60px">身份证:</label>
+            <div class="layui-form-label" id="ID_cord" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
-            <label class="layui-form-label" style="width: 100px">入党时间</label>
-            <div class="layui-form-label" id="join_time" style="color: #00b0f0;margin-left: -27px;"></div>
+            <label class="layui-form-label" style="width: 100px">所属支部:</label>
+            <div class="layui-form-label" id="look_party_branch_name" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px">单位:</label>
+            <div class="layui-form-label" id="company" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
+
+            <label class="layui-form-label" style="width: 100px">入党时间:</label>
+            <div class="layui-form-label" id="join_time" style="color: #00b0f0;margin-left: -27px;text-align: left"></div>
 
         </div>
 

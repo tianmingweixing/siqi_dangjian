@@ -105,8 +105,10 @@ public class UserService implements IUserService {
         Long dutyId = dutyDao.selectByTypeName(blurParam);
         Integer difficultToPartyMembersCount = userDao.selectDifficultToPartyMembersCount(dutyId);
         Integer needyWorkerCount = userDao.selectNeedyWorkerCount(dutyId);
+        Integer partyGroupCount = userDao.selectUserCountOfGroup();
         userCountMap.put("difficultToPartyMembersCount",difficultToPartyMembersCount);
         userCountMap.put("needyWorkerCount",needyWorkerCount);
+        userCountMap.put("partyGroupCount",partyGroupCount);//班子成员
         return userCountMap;
     }
 
