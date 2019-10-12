@@ -53,24 +53,25 @@ public class PartyBranchController extends BaseController{
 
         ModelMap modelMap = new ModelMap();
         PartyBranch partyBranch;
+
         try {
              partyBranch = new PartyBranch();
-
+            String path = "";
             if (file != null) {
-                String path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
+                path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
                 partyBranch.setPartyImg(path);
             }else{
-                String path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
+                path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
                 partyBranch.setPartyImg(path);
-            }
-            if (file2 != null) {
-                String path2 = CommonUtil.uploadImg(file2,request);//调用公共的上传单张图片方法
-                partyBranch.setStructureImg(path2);
-            }else{
-                String path2 = CommonUtil.subImgPathString(structure_img);//调用公共的截取字符串方法,获取图片相对路径
-                partyBranch.setStructureImg(path2);
             }
 
+           if (file2 != null) {
+                path = CommonUtil.uploadImg(file2,request);//调用公共的上传单张图片方法
+                partyBranch.setStructureImg(path);
+            }else{
+                path = CommonUtil.subImgPathString(structure_img);//调用公共的截取字符串方法,获取图片相对路径
+                partyBranch.setStructureImg(path);
+            }
             partyBranch.setId(id);
             partyBranch.setPartyNo(String.valueOf(System.currentTimeMillis()));
             partyBranch.setActivityArea(activityArea);
