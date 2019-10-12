@@ -34,7 +34,7 @@ public class CommonString {
     public final static String APP_SECRET="12360f6fc1cd764d05a8a9bfe4c9fc0e";//小程序secret
     public final static String MCH_ID ="1539812551";//微信支付商户Id
     public final static String APP_PAY_TYPE="JSAPI";
-    public final static String APP_WX_PAYMENT_BODY="丁府茶行-用户购买商品";
+    public final static String APP_WX_PAYMENT_BODY="用户购买商品";
     public final static String APP_SPBILL_CREATE_IP = "118.190.151.241";
     public final static String APP_WX_PAY_NOTIFY_URL = "https://demo.yz-demo.ml/mini/weixinotify";
     public final static String BUSINESS_REC_NAME_CODE = "business_rec_name";

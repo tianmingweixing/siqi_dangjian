@@ -254,21 +254,22 @@
                 formData.append("foundingTime", document.fileForm.foundingTime.value);
                 formData.append("changeTime", document.fileForm.changeTime.value);
 
-
                 $.ajax({
                     url: "/partyBranch/addPartBranch",
                     type: 'post',
                     data: formData,
                     cache: false,
                     contentType: false,
-                    processData: false,
-                    success: function () {
-                        layer.msg('保存成功', {icon: 1});
-                        setTimeout(function () {
-                            window.location.href = '/frame/partyBranchList.ftl'
-                        }, 1500);
-                    }
+                    processData: false
+                }).done(function(res) {
+                    layer.msg('保存成功', {icon: 1});
+                    setTimeout(function () {
+                        window.location.href = '/frame/partyBranchList.ftl'
+                    }, 1500);
+                }).fail(function(res) {
+                    alert('上传文件失败');
                 });
+
                 return false;
             });
         });
