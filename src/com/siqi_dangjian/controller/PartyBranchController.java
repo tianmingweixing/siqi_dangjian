@@ -6,6 +6,7 @@ import com.siqi_dangjian.service.IPartyBranchService;
 import com.siqi_dangjian.util.CommonString;
 import com.siqi_dangjian.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -27,6 +29,7 @@ public class PartyBranchController extends BaseController{
     @Autowired
     private IPartyBranchService partyBranchService;
 
+    Logger logger = Logger.getRootLogger();
 
     /**
      * 添加或更新党支部信息
@@ -51,9 +54,10 @@ public class PartyBranchController extends BaseController{
                                   @RequestParam(value = "foundingTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date foundingTime,
                                   @RequestParam(value = "changeTime", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date changeTime){
 
-        ModelMap modelMap = new ModelMap();
+        modelMap = new ModelMap();
         PartyBranch partyBranch;
-
+    /*    String[] arr = new String[2];
+        String a = arr[3];*/
         try {
              partyBranch = new PartyBranch();
             String path = "";
@@ -72,6 +76,7 @@ public class PartyBranchController extends BaseController{
                 path = CommonUtil.subImgPathString(structure_img);//调用公共的截取字符串方法,获取图片相对路径
                 partyBranch.setStructureImg(path);
             }
+
             partyBranch.setId(id);
             partyBranch.setPartyNo(String.valueOf(System.currentTimeMillis()));
             partyBranch.setActivityArea(activityArea);
@@ -83,9 +88,11 @@ public class PartyBranchController extends BaseController{
             partyBranch.setCanUse(1);
             partyBranchService.insertOrUpdate(partyBranch);
             setSuccess();
+
         } catch (Exception e) {
             e.printStackTrace();
             setFail();
+            logger.error("addPartBranch-->uploadImage", e);
         }
         return modelMap;
 
