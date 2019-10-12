@@ -245,21 +245,22 @@
                 formData.append("foundingTime", document.fileForm.foundingTime.value);
                 formData.append("changeTime", document.fileForm.changeTime.value);
 
-
                 $.ajax({
                     url: "/partyBranch/addPartBranch",
                     type: 'post',
                     data: formData,
                     cache: false,
                     contentType: false,
-                    processData: false,
-                    success: function () {
-                        layer.msg('保存成功', {icon: 1});
-                        setTimeout(function () {
-                            window.location.href = '/frame/partyBranchList.ftl'
-                        }, 1500);
-                    }
+                    processData: false
+                }).done(function(res) {
+                    layer.msg('保存成功', {icon: 1});
+                    setTimeout(function () {
+                        window.location.href = '/frame/partyBranchList.ftl'
+                    }, 1500);
+                }).fail(function(res) {
+                    alert('上传文件失败');
                 });
+
                 return false;
             });
         });
@@ -267,7 +268,7 @@
 
     function reads(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
+        if (file.size > 1024 * 1024 * 5) {
             alert('图片大小不能超过 2MB!');
             return false;
         }
@@ -279,7 +280,7 @@
     }
     function reads2(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
+        if (file.size > 1024 * 1024 * 5) {
             alert('图片大小不能超过 2MB!');
             return false;
         }

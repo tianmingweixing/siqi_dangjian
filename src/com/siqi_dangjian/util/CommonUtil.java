@@ -1,6 +1,7 @@
 package com.siqi_dangjian.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CommonUtil {
+
 
     public static Timestamp getNowTimeStamp() {
         Date date = new Date();
