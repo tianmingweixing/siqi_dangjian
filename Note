@@ -1,31 +1,292 @@
-添加签到窗口自适应？？
-列表图片显示太小？？
-慰问添加改窗口？？
-党小组-班子-人数？？
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title> 添加公示公告</title>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css">
+    <script src="../../js/layui/layui.js"></script>
+    <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/css/public.css">
 
-多图
-https://blog.csdn.net/qq_43690617/article/details/90600582
-jwt校验？？
-https://gitee.com/wjtree/codes/fzgtr64ah9pol2w7bj1mv51
+    <!--上传图片样式-->
+    <style type="text/css">
+        .body {
+            width: 800px;
+            margin: 0 auto 0 auto;
+        }
 
- form.on('submit(formDemo)', function () {
+        .layui-unselect {
+            width: 200px
+        }
 
-                var src=$("div[class=upload-img] img").attr("src");
+        #btn {
+            padding: 5px 10px;
+            background: #00b0f0;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+        }
 
-                    $("div[class=upload-img] img").each(function() {
-                        var src=$(this).attr("src");
-                        deletedPathArr.push(src);
+        label {
+            position: relative;
+        }
+
+        #fileinp {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        #btn {
+            margin-right: 5px;
+        }
+
+        #text {
+            color: #009688;
+        }
+
+        /* table 样式 */
+        table {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+        }
+
+        table td,
+        table th {
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            padding: 3px 5px;
+        }
+
+        table th {
+            border-bottom: 2px solid #ccc;
+            text-align: center;
+        }
+
+        /* blockquote 样式 */
+        blockquote {
+            display: block;
+            border-left: 8px solid #d0e5f2;
+            padding: 5px 10px;
+            margin: 10px 0;
+            line-height: 1.4;
+            font-size: 100%;
+            background-color: #f1f1f1;
+        }
+
+        /* code 样式 */
+        code {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+            padding: 3px 5px;
+            margin: 0 3px;
+        }
+
+        pre code {
+            display: block;
+        }
+
+        /* ul ol 样式 */
+        ul, ol {
+            margin: 10px 0 10px 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div style="width: 90%">
+        <blockquote class="layui-elem-quote layui-quote-nm" id="footer"
+                    style="margin-top: 50px;margin-left: 5%;padding-left: 45px;border-color: #009688;color: #009688;font-weight: bold">
+            添加公示公告
+        </blockquote>
+    </div>
+    <div style="width:90%">
+        <div class="container_div">
+            <form class="layui-form" name="fileForm" action="">
+
+        <br>
+        <div class="layui-form-item input_row_margin_top" style="display:none ">
+            <label class="layui-form-label" style="margin-left: 85px">公示公告ID</label>
+            <input id="id" name="id" type="hidden" maxlength="20" value="<#if id??>${id}<#else></#if>"/>
+
+            <label class="layui-form-label" style="margin-left: 85px">公示IMG</label>
+            <div class="layui-input-inline"><input type="" id="imgPath" name="imgPath" value="" style="width: 400px;"/></div>
+
+        </div>
+
+
+        <div class="layui-form-item input_row_margin_top">
+
+            <label class="layui-form-label " style="margin-left: 1px">公示标题</label>
+            <div class="layui-input-inline">
+                <input id="title" name="title" lay-verify="required" style="width: 800px;" placeholder="请输入标题" maxlength="200"
+                       autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item input_row_margin_top" style="display:none ">
+
+            <label class="layui-form-label">支部ID</label>
+            <div class="layui-input-inline">
+                <input id="party_branch_id" name="party_branch_id" lay-verify="" placeholder="支部ID" maxlength="20"
+                       autocomplete="off" class="layui-input"
+                       value="<#if party_branch_id??>${party_branch_id}<#else></#if>">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">公示信息</label>
+            <div class="layui-input-block">
+                <textarea name="content" id="content" placeholder="请输入公示信息"
+                          style="width: 800px; border:1px solid #e6e6e6; font-size: 13px; line-height: 23px;color: #0c060f;
+                                  max-width: 1500px; height: 250px; max-height: 1000px; outline: 0;"><#if content??>${content}<#else></#if></textarea>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item input_row_margin_top">
+
+            <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
+            <div class="layui-input-inline" style="padding-top: 10px">
+                <label for="fileinp" id="btn">选择图片</label>
+                <input type="file" id="fileinp" name="file" onchange="reads(this)">
+                <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="250"
+                     width="400" alt="" style="margin-top: 10px">
+            </div>
+
+            <div class="layui-form-item input_row_margin_top">
+                <div class="layui-upload" style="margin-left: 60px;">
+                    <button type="button" class=" layui-btn-normal" id="uploadImg">公示图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="noticeImg" src="/images/defaultImg.jpg" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
+                        <p id="demoText"></p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-form-item input_row_margin_top">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+                    <#if id??><#else>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button></#if>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+        </div>
+    </div>
+<script>
+
+    $(function () {
+        /*layiu基础配件*/
+        layui.use(['element', 'laydate', 'form'], function () {
+            var form = layui.form;
+            var laydate = layui.laydate //日期
+                    , layer = layui.layer; //弹层
+            var element = layui.element;
+
+            laydate.render({
+                elem: '#year_limit' //指定元素
+            });
+
+
+            //上传凭证
+            upload.render({
+                elem: '#uploadImg'
+                ,accept: 'file'
+                ,url: '/upload/uploadImage'
+                ,auto: true
+                ,choose: function(obj){
+                    //将每次选择的文件追加到文件队列
+                    // var files = obj.pushFile();
+
+                    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                    obj.preview(function(index, file, result){
+                        //???????
+                        $('#noticeImg').attr('src', result); //图片链接（base64）
                     });
-
-                if (deletedPathArr.length > 0 || src == null) {
-                    finishImgPathArr.push(resImgPathArr);
-                    finishImgPathArr.push(deletedPathArr);
-
-                    alert("resImgPathArr: "+resImgPathArr);
-                    alert("finishImgPathArr: "+finishImgPathArr);
-                }else{
-                    initImgPathArr.push(resImgPathArr);
-                    finishImgPathArr.push(initImgPathArr);
-                    alert("initImgPathArr: "+initImgPathArr);
-                    alert("finishImgPathArr: "+finishImgPathArr);
                 }
+                ,done: function(res){
+                    //如果上传
+                    if(res.code == 0){
+
+                        //???? 图片路径数组
+                        $("#imgPath").val(res.src);
+                        layer.msg('上传成功');
+                    }
+                }
+                ,error: function(){
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
+                }
+            });
+
+
+
+
+            form.on('submit(formDemo)', function () {
+                var defalutImg = "/images/defaultImg.jpg";
+
+                if($("#imgPath").val() == ""){
+                    $('#imgPath').val(defalutImg);
+                }
+                $.ajax({
+                    url: "/notice/addNotice",
+                    type: 'post',
+                    data: {
+                        id: $("#id").val(),
+                        imgPath: $("#backimg").val(),
+                        title: $("#title").val(),
+                        content: $("#content").val()
+                    },
+                    success: function () {
+                        layer.msg('保存成功', {icon: 1});
+                        setTimeout(function () {
+                            window.location.href = '//frame/noticeList.ftl'
+                        }, 1500);
+                    }
+                });
+                return false;
+
+
+            });
+        });
+
+    });
+
+    /*图片上传辅助*/
+    function reads(obj) {
+        var file = obj.files[0];
+        if (file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#backimg").attr("src", ev.target.result);
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
