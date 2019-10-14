@@ -33,7 +33,16 @@ public class UploadController extends BaseController{
                 String[] strings = new String[files.length];
                 int i = 0;
                 for (MultipartFile file : files) {
-                    String saveFilename = file.getOriginalFilename();
+
+                    //获取真实的文件名
+                    String originalFilename = file.getOriginalFilename();
+                    //截取字符串，获取文件的扩展名
+                    String extendName = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    // 获取uuidName
+                    String uuidName = UUID.randomUUID().toString().replace("-", "");
+                    //唯一的文件名
+                    String saveFilename = uuidName + extendName;
+
                     Calendar now = Calendar.getInstance();
                     String year = String.valueOf(now.get(Calendar.YEAR));
                     String month = String.valueOf(now.get(Calendar.MONTH) + 1);
@@ -49,6 +58,7 @@ public class UploadController extends BaseController{
                         filePath.getParentFile().mkdirs();
                     }
                     file.transferTo(filePath);
+                    logger.debug("filePath");
                     strings[i] = file_path;
                     i++;
                 }

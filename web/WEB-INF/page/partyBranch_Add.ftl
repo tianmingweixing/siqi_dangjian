@@ -277,7 +277,7 @@
 
     function reads(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 5) {
+        if (file.size > 1024 * 1024 * 2) {
             alert('图片大小不能超过 2MB!');
             return false;
         }
@@ -289,7 +289,7 @@
     }
     function reads2(obj) {
         var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 5) {
+        if (file.size > 1024 * 1024 * 2) {
             alert('图片大小不能超过 2MB!');
             return false;
         }

@@ -48,7 +48,7 @@ public class Configuration extends BaseBean {
     private String comInfo;
 
     /**
-     * 公司简介
+     * 公司电话
      */
     @Column(name="com_phone",length = 20)
     private String comPhone;

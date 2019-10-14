@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sun.misc.BASE64Encoder;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigInteger;
@@ -35,37 +36,47 @@ public class CommonUtil {
 
     /**
      * 上传单张图片
+     *
      * @param file
      * @return path 返回图片路径
      * @throws IOException
      */
-    @RequestMapping(method = RequestMethod.POST)
-    public static String uploadImg(@RequestParam(value = "file", required = false) CommonsMultipartFile file) throws IOException {
+    public static String uploadImg(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request) throws IOException {
 
-            String fileName = UUID.randomUUID().toString() + file.getOriginalFilename();
-            Calendar now = Calendar.getInstance();
-            String year = String.valueOf(now.get(Calendar.YEAR));
-            String month = String.valueOf(now.get(Calendar.MONTH) + 1);
-            String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-            // 上传文件在服务器中的位置(目录绝对路径)
-//            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day);
-            String saveServerPath = CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day;
-            File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
-            if (!filePath.getParentFile().exists()) {
-                filePath.getParentFile().mkdirs();
-            }
-            file.transferTo(filePath);
-            String path =CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day +"/"+ fileName;// 保存文件的相对路径
-            return path;
+        //获取真实的文件名
+        String originalFilename = file.getOriginalFilename();
+        //截取字符串，获取文件的扩展名
+        String extendName = originalFilename.substring(originalFilename.lastIndexOf("."));
+        // 获取uuidName
+        String uuidName = UUID.randomUUID().toString().replace("-", "");
+        //唯一的文件名
+        String fileName = uuidName + extendName;
+
+        Calendar now = Calendar.getInstance();
+        String year = String.valueOf(now.get(Calendar.YEAR));
+        String month = String.valueOf(now.get(Calendar.MONTH) + 1);
+        String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
+        // 上传文件在服务器中的位置(目录绝对路径)
+        //String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH+CommonString.FILE_IMAGE_PATH+year+month+day);
+        String saveServerPath = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
+        File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + fileName);//文件的完整路径
+        if (!filePath.getParentFile().exists()) {
+            filePath.getParentFile().mkdirs();
+        }
+        file.transferTo(filePath);
+        String path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + fileName;// 保存文件的相对路径
+        return path;
 
     }
+
     /**
      * 截取http://localhost:8080/home/up_load/image/2019830/5ff9a806cd7579585f5314a708640e43.jpg
      * 截取为/home/up_load/image/2019830/5ff9a806cd7579585f5314a708640e43.jpg
+     *
      * @param img_path
      * @return path  图片相对路径
      */
-    public static  String subImgPathString(@RequestParam(value = "img_path", required = false) String img_path) {
+    public static String subImgPathString(@RequestParam(value = "img_path", required = false) String img_path) {
         //对字符处理,得到相对路径
         int index = img_path.indexOf("/", img_path.indexOf("/", img_path.indexOf("/") + 1) + 1);
         return img_path.substring(index);
@@ -73,6 +84,7 @@ public class CommonUtil {
 
     /**
      * 截取类名,ex:com.util.User,截取为User
+     *
      * @param className
      * @return
      */
@@ -101,13 +113,13 @@ public class CommonUtil {
         return builder.toString().substring(0, str_length - 4);//移除末尾的and
     }
 
-    public static String appendBlurStrWithTable(String sql, Map map,String tableAlias) {
+    public static String appendBlurStrWithTable(String sql, Map map, String tableAlias) {
         StringBuilder builder = new StringBuilder(sql);
         builder.append(" and");
         int count = 0;
         for (Object key : map.keySet()) {
             if (StringUtils.isNotEmpty((String) map.get(key))) {
-                builder.append(" " + tableAlias+"."+key + " like '%" + map.get(key) + "%' and");
+                builder.append(" " + tableAlias + "." + key + " like '%" + map.get(key) + "%' and");
                 count++;
             }
         }
@@ -136,7 +148,7 @@ public class CommonUtil {
      * 自定义时间查询
      * timeName 字段名称
      */
-    public static String appendCustomDateStr(String sql, Map map, String table_alies,String timeName) {
+    public static String appendCustomDateStr(String sql, Map map, String table_alies, String timeName) {
         StringBuilder builder = new StringBuilder(sql);
         builder.append(" and");
         for (Object key : map.keySet()) {
@@ -182,25 +194,24 @@ public class CommonUtil {
     }
 
 
-
-
     public static String[] removeArrayEmptyTextBackNewArray(String[] strArray) {
 
-        List<String> strList= Arrays.asList(strArray);
+        List<String> strList = Arrays.asList(strArray);
 
-        List<String> strListNew=new ArrayList<>();
+        List<String> strListNew = new ArrayList<>();
 
-        for (int i = 0; i <strList.size(); i++) {
+        for (int i = 0; i < strList.size(); i++) {
 
-            if (strList.get(i)!=null&&!strList.get(i).equals("")){
+            if (strList.get(i) != null && !strList.get(i).equals("")) {
 
-                strListNew.add(strList.get(i));            }
+                strListNew.add(strList.get(i));
+            }
 
         }
 
         String[] strNewArray = strListNew.toArray(new String[strListNew.size()]);
 
-        return   strNewArray;
+        return strNewArray;
 
     }
 
@@ -287,38 +298,39 @@ public class CommonUtil {
         return false;
     }
 
-    public static Date StringToDate(String dateStr,String format) throws ParseException {
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
-            return sdf.parse(dateStr);
+    public static Date StringToDate(String dateStr, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.parse(dateStr);
     }
 
 
     /**
      * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
+     *
      * @param strxml
      * @return
      * @throws
      * @throws IOException
      */
     @SuppressWarnings("rawtypes")
-    public static Map<String,String>  doXMLParse(String strxml) throws Exception {
-        if(null == strxml || "".equals(strxml)) {
+    public static Map<String, String> doXMLParse(String strxml) throws Exception {
+        if (null == strxml || "".equals(strxml)) {
             return null;
         }
 
-        Map<String,String> m = new HashMap<String,String>();
+        Map<String, String> m = new HashMap<String, String>();
         InputStream in = String2Inputstream(strxml);
         SAXBuilder builder = new SAXBuilder();
         Document doc = builder.build(in);
         Element root = doc.getRootElement();
         List list = root.getChildren();
         Iterator it = list.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Element e = (Element) it.next();
             String k = e.getName();
             String v = "";
             List children = e.getChildren();
-            if(children.isEmpty()) {
+            if (children.isEmpty()) {
                 v = e.getTextNormalize();
             } else {
                 v = getChildrenText(children);
@@ -339,21 +351,22 @@ public class CommonUtil {
 
     /**
      * 获取子结点的xml
+     *
      * @param children
      * @return String
      */
     @SuppressWarnings("rawtypes")
     private static String getChildrenText(List children) {
         StringBuffer sb = new StringBuffer();
-        if(!children.isEmpty()) {
+        if (!children.isEmpty()) {
             Iterator it = children.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 Element e = (Element) it.next();
                 String name = e.getName();
                 String value = e.getTextNormalize();
                 List list = e.getChildren();
                 sb.append("<" + name + ">");
-                if(!list.isEmpty()) {
+                if (!list.isEmpty()) {
                     sb.append(getChildrenText(list));
                 }
                 sb.append(value);
@@ -365,48 +378,39 @@ public class CommonUtil {
     }
 
     /**
-     *
      * 方法用途: 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序），并且生成url参数串<br>
      * 实现步骤: <br>
      *
-     * @param paraMap   要排序的Map对象
-     * @param urlEncode   是否需要URLENCODE
-     * @param keyToLower    是否需要将Key转换为全小写
-     *            true:key转化成小写，false:不转化
+     * @param paraMap    要排序的Map对象
+     * @param urlEncode  是否需要URLENCODE
+     * @param keyToLower 是否需要将Key转换为全小写
+     *                   true:key转化成小写，false:不转化
      * @return
      */
-    public static String formatUrlMap(Map<String, String> paraMap, boolean urlEncode, boolean keyToLower){
+    public static String formatUrlMap(Map<String, String> paraMap, boolean urlEncode, boolean keyToLower) {
         String buff = "";
         Map<String, String> tmpMap = paraMap;
-        try
-        {
+        try {
             List<Map.Entry<String, String>> infoIds = new ArrayList<Map.Entry<String, String>>(tmpMap.entrySet());
             // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
-            Collections.sort(infoIds, new Comparator<Map.Entry<String, String>>()
-            {
+            Collections.sort(infoIds, new Comparator<Map.Entry<String, String>>() {
                 @Override
-                public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2)
-                {
+                public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
                     return (o1.getKey()).toString().compareTo(o2.getKey());
                 }
             });
             // 构造URL 键值对的格式
             StringBuilder buf = new StringBuilder();
-            for (Map.Entry<String, String> item : infoIds)
-            {
-                if (StringUtils.isNotBlank(item.getKey()))
-                {
+            for (Map.Entry<String, String> item : infoIds) {
+                if (StringUtils.isNotBlank(item.getKey())) {
                     String key = item.getKey();
                     String val = item.getValue();
-                    if (urlEncode)
-                    {
+                    if (urlEncode) {
                         val = URLEncoder.encode(val, "utf-8");
                     }
-                    if (keyToLower)
-                    {
+                    if (keyToLower) {
                         buf.append(key.toLowerCase() + "=" + val);
-                    } else
-                    {
+                    } else {
                         buf.append(key + "=" + val);
                     }
                     buf.append("&");
@@ -414,12 +418,10 @@ public class CommonUtil {
 
             }
             buff = buf.toString();
-            if (buff.isEmpty() == false)
-            {
+            if (buff.isEmpty() == false) {
                 buff = buff.substring(0, buff.length() - 1);
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return null;
         }
         return buff;
@@ -452,14 +454,15 @@ public class CommonUtil {
     }
 
 
-    public static String timeStrToDateStr(String timeStr){
+    public static String timeStrToDateStr(String timeStr) {
         if (null == timeStr) {
-            return null; }
+            return null;
+        }
         System.out.print(timeStr);
 
         String dateStr = null;
         SimpleDateFormat sdf_input = new SimpleDateFormat("yyyyMMddhhmmss");//输入格式 SimpleDateFormat sdf_target =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //转化成为的目标格式
-        SimpleDateFormat sdf_target =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf_target = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             dateStr = sdf_target.format(sdf_input.parse(timeStr));
             System.out.println(dateStr);
@@ -470,7 +473,6 @@ public class CommonUtil {
 
         return dateStr;
     }
-
 
 
 }

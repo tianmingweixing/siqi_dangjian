@@ -42,7 +42,7 @@ public class PartyBranchController extends BaseController{
      */
     @RequestMapping("/addPartBranch")
     @ResponseBody
-    public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file,
+    public ModelMap addPartBranch(@RequestParam(value = "file", required = false) CommonsMultipartFile file, HttpServletRequest request,
                                   @RequestParam(value = "file2", required = false) CommonsMultipartFile file2,
                                   @RequestParam(value = "img_path", required = false) String img_path,
                                   @RequestParam(value = "structure_img", required = false) String structure_img,
@@ -61,7 +61,7 @@ public class PartyBranchController extends BaseController{
              partyBranch = new PartyBranch();
             String path = "";
             if (file != null) {
-                path = CommonUtil.uploadImg(file);//调用公共的上传单张图片方法
+                path = CommonUtil.uploadImg(file,request);//调用公共的上传单张图片方法
                 partyBranch.setPartyImg(path);
             }else{
                 path = CommonUtil.subImgPathString(img_path);//调用公共的截取字符串方法,获取图片相对路径
@@ -69,7 +69,7 @@ public class PartyBranchController extends BaseController{
             }
 
            if (file2 != null) {
-                path = CommonUtil.uploadImg(file2);//调用公共的上传单张图片方法
+                path = CommonUtil.uploadImg(file2,request);//调用公共的上传单张图片方法
                 partyBranch.setStructureImg(path);
             }else{
                 path = CommonUtil.subImgPathString(structure_img);//调用公共的截取字符串方法,获取图片相对路径
