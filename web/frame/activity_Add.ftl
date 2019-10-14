@@ -417,6 +417,7 @@
             ,url: '/upload/uploadImage'
             ,accept: 'images'
             ,multiple: true
+            ,size: 0
             ,auto: false
             ,bindAction: '#testListAction'
             ,choose: function(obj){

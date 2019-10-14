@@ -60,7 +60,7 @@ public class Configuration extends BaseBean {
     private String comImg;
 
     /**
-     * 图片1
+     * 轮播图片1
      */
     @Column(name="image_path_a",length = 100)
     private String imagePathA;

@@ -94,7 +94,7 @@ public class NoticeController extends BaseController {
                               @RequestParam(value = "title", required = false) String title,
                               @RequestParam(value = "content", required = false) String content) {
 
-        ModelMap modelMap = new ModelMap();
+        modelMap = new ModelMap();
         Notice notice;
         try {
 
