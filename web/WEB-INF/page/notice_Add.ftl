@@ -151,7 +151,7 @@
 
             <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
             <div class="layui-input-inline" style="padding-top: 10px">
-                <label for="fileinp" id="btn">选择图片</label>
+                <label for="fileinp" id="btn" >选择图片</label>
                 <input type="file" id="fileinp" name="file" onchange="reads(this)">
                 <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="250"
                      width="400" alt="" style="margin-top: 10px">
@@ -173,7 +173,125 @@
     </form>
         </div>
     </div>
+
+    <script type="text/javascript" src="/js/util/compressImg.js"></script>
 <script>
+    // 构建FormData
+    var formData = new FormData();
+
+    /*图片上传辅助*/
+    function reads(obj) {
+        var file = obj.files[0];
+        if (file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+
+        var files = obj.files;
+
+        if (files && files.length > 0) {
+            file = files[0];
+
+            resizeImage(file).then(function (result) {
+                return typeof result === 'string' ? convertToBlob(result, file.type) : result;
+            }).then(function (blob) {
+
+                //注意：此处第3个参数最好传入一个带后缀名的文件名，否则很有可能被后台认为不是有效的图片文件
+                formData.append("file", blob, file.name);
+            });
+        }
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#backimg").attr("src", ev.target.result);
+        }
+    }
+
+    /**
+     * 压缩裁剪图片
+     */
+    function resizeImage(file) {
+        return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                var img = new Image();
+
+                img.onload = function () {
+                    var w = this.naturalWidth;
+                    var h = this.naturalHeight;
+                    var maxW = 500;
+                    var maxH = 500;
+
+                    // 如果图片尺寸小于最大限制，则不压缩直接上传
+                    if (w <= maxW && h <= maxH) {
+                        resolve(file);
+                        return;
+                    }
+
+                    var level = 0.8;
+                    var multiple = Math.max(w / maxW, h / maxH);
+                    var resizeW = w / multiple;
+                    var resizeH = h / multiple;
+
+                    var canvas = document.createElement("canvas");
+
+                    canvas.width = resizeW;
+                    canvas.height = resizeH;
+
+                    var ctx = canvas.getContext("2d");
+
+                    ctx.drawImage(img, 0, 0, resizeW, resizeH);
+
+                    var base64Img = canvas.toDataURL(file.type, level);
+                    var arr = base64Img.split(",");
+
+                    resolve(arr[1]);
+                };
+
+                img.src = this.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    /**
+     * 将图片的base64字符串转换为Blob对象
+     */
+    function convertToBlob(base64Str, fileType) {
+        var base64 = window.atob(base64Str);
+        var len = base64.length;
+        var buff = new ArrayBuffer(len);
+        var uarr = new Uint8Array(buff);
+
+        for (var i = 0; i < len; i++) {
+            uarr[i] = base64.charCodeAt(i);
+        }
+
+        var blob = null;
+
+        try {
+            blob = new Blob([buff], { type: fileType });
+        } catch (e) {
+            var BlobBuilder = window.BlobBuilder = (
+                    window.BlobBuilder ||
+                    window.WebKitBlobBuilder ||
+                    window.MozBlobBuilder ||
+                    window.MSBlobBuilder
+            );
+
+            if (e.name === "TypeError" && BlobBuilder) {
+                var builder = new BlobBuilder();
+                builder.append(buff);
+                blob = builder.getBlob(fileType);
+            }
+        }
+
+        return blob;
+    }
+
 
     $(function () {
         /*layiu基础配件*/
@@ -189,11 +307,21 @@
 
 
             form.on('submit(formDemo)', function (data) {
-                var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+               /* var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
                 var file = document.fileForm.file.files[0];
-                if (file != null) {
-                    formData.append("file", file);
-                }
+                if (file != null ) {
+                    canvasDataURL(file, function (blob) {
+                        var aafile = new File([blob], file.name, {
+                            type: file.type
+                        })
+                        if (file != null) {
+                            formData.append("file", blob,file.name);
+                        }
+                    })
+                }*/
+
+
+
                 var img_path = document.fileForm.backimg.src;
                 // 图片正则
                 var patrn = /\.(png|jpe?g|gif|svg)(\?.*)?$/
@@ -227,19 +355,7 @@
 
     });
 
-    /*图片上传辅助*/
-    function reads(obj) {
-        var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
-            alert('图片大小不能超过 2MB!');
-            return false;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (ev) {
-            $("#backimg").attr("src", ev.target.result);
-        }
-    }
+
 
 
 </script>
