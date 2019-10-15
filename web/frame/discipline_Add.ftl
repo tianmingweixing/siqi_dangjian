@@ -90,6 +90,9 @@
     <div class="layui-form-item input_row_margin_top">
         <div class="layui-upload" style="margin-left: 60px;">
             <button type="button" class="layui-btn" id="uploadImg">上传违纪凭证</button>
+            <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
             <div class="layui-upload-list">
                 <img class="layui-upload-img" id="certificate" src="/images/defaultImg.jpg" style="width: 300px; height: 200px; border: 1px solid #CCCCCC;">
                 <p id="demoText"></p>

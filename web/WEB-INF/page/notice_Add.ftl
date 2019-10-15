@@ -150,8 +150,11 @@
         <div class="layui-form-item input_row_margin_top">
 
             <label class="layui-form-label " style="margin-left: 1px">公示图片</label>
-            <div class="layui-input-inline" style="padding-top: 10px">
-                <label for="fileinp" id="btn" >选择图片</label>
+            <div class="layui-input-inline" style="padding-top: 10px; width: 65%;">
+                <label for="fileinp" id="btn">选择图片</label>
+                <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
                 <input type="file" id="fileinp" name="file" onchange="reads(this)">
                 <img id="backimg" name="backimg" src="<#if image_path??>${image_path}<#else>/images/defaultImg.jpg</#if>" height="250"
                      width="400" alt="" style="margin-top: 10px">

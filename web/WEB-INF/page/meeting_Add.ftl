@@ -222,6 +222,9 @@
                                     <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
                     -->
                     <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
+                    <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
                 </div>
 
             </div>
@@ -275,7 +278,6 @@
 
 
 <script type="text/javascript" src="/js/layui/layui.all.js"></script>
-<script type="text/javascript" src="/js/util/compressImg.js"></script>
 
 <script id="img_template" type="text/html">
     <div class="upload-img" filename="{{ d.index }}">
@@ -416,13 +418,13 @@
 
         //多图片上传
         var uploadInst = upload.render({
-            elem: '#sele_imgs'  //开始
+            elem: '#sele_imgs' //开始
             , acceptMime: 'image/*'
             , url: '/upload/uploadImage'
             , auto: false
-            // , bindAction: '#upload_imgs'
+            , bindAction: '#upload_imgs'
             , multiple: true
-            , size: 1024 * 12
+            , size: 0
             , choose: function (obj) {  //选择图片后事件
                 var files = obj.pushFile(); //将每次选择的文件追加到文件队列
                 imgFiles = files;
@@ -430,37 +432,36 @@
                 for (var key in imgFiles) { //将上传的文件转为数组形式
                     filesArry.push(imgFiles[key])
                 }
+                var index = filesArry.length - 1;
+                var file = filesArry[index]; //获取最后选择的图片,即处理多选情况
 
-                for (let i = filesArry.length-1; i >= 0; i--) {
-                    var file = filesArry[i]; //获取最后选择的图片,即处理多选情况
-
-                    if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
-                            .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
-                        return obj.upload(index, file)
-                    }
-                    canvasDataURL(file, function (blob) {
-                        var aafile = new File([blob], file.name, {
-                            type: file.type
-                        })
-                        var isLt1M;
-                        if (file.size < aafile.size) {
-                            isLt1M = file.size
-                        } else {
-                            isLt1M = aafile.size
-                        }
-
-                        if (isLt1M / 1024 / 1024 > 2) {
-                            return layer.alert('上传图片过大！')
-                        } else {
-                            if (file.size < aafile.size) {
-                                return obj.upload(i, file)
-                            }
-                            obj.upload(i, aafile)
-                        }
-                    })
+                if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
+                        .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
+                    return obj.upload(index, file)
                 }
+                canvasDataURL(file, function (blob) {
+                    var aafile = new File([blob], file.name, {
+                        type: file.type
+                    })
+                    var isLt1M;
+                    if (file.size < aafile.size) {
+                        isLt1M = file.size
+                    } else {
+                        isLt1M = aafile.size
+                    }
 
-                // $('#upload_imgs').prop('disabled', false);
+                    if (isLt1M / 1024 / 1024 > 2) {
+                        return layer.alert('上传图片过大！')
+                    } else {
+                        if (file.size < aafile.size) {
+                            return obj.upload(index, file)
+                        }
+                        obj.upload(index, aafile)
+                    }
+                })
+
+
+                $('#upload_imgs').prop('disabled', false);
 
                 //预读本地文件
                 obj.preview(function (index, file, result) {
@@ -514,7 +515,37 @@
         });
 
 
+        function canvasDataURL(file, callback) { //压缩转化为base64
+            var reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (e) {
+                const img = new Image()
+                const quality = 0.8 // 图像质量
+                const canvas = document.createElement('canvas')
+                const drawer = canvas.getContext('2d')
+                img.src = this.result
+                img.onload = function () {
+                    canvas.width = img.width
+                    canvas.height = img.height
+                    drawer.drawImage(img, 0, 0, canvas.width, canvas.height)
+                    convertBase64UrlToBlob(canvas.toDataURL(file.type, quality), callback);
+                }
+            }
+        }
 
+        function convertBase64UrlToBlob(urlData, callback) { //将base64转化为文件格式
+            const arr = urlData.split(',')
+            const mime = arr[0].match(/:(.*?);/)[1]
+            const bstr = atob(arr[1])
+            let n = bstr.length
+            const u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            callback(new Blob([u8arr], {
+                type: mime
+            }));
+        }
 
 
         $(function () {
