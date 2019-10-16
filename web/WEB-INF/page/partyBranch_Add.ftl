@@ -165,7 +165,7 @@
             <div class="layui-form-item input_row_margin_top">
 
                 <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">支部图片</label>
-                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px;width: 70%;">
+                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px;width: 350px;">
                     <label for="fileinp" id="btn">选择图片</label>
                     <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
                         图片大小不超过200kb,尺寸为650 * 300。
@@ -179,7 +179,7 @@
             <div class="layui-form-item input_row_margin_top">
 
                 <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">组织结构图</label>
-                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px; width: 70%;">
+                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px; width: 350px;">
                     <label for="structure_img" id="btn2">选择图片</label>
                     <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
                         图片大小不超过200kb,尺寸为650 * 300。

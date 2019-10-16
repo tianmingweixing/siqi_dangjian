@@ -344,7 +344,7 @@
                             shade: false,
                             offset: 'auto',
                             maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '90%'],
+                            area: ['833px', '91%'],
                             content: ['./honor_Add.ftl'],
                             end: function () { //最后执行reload
                                 location.reload();
@@ -366,7 +366,7 @@
                             shade: false,
                             offset: 'auto',
                             maxmin: true, //开启最大化最小化按钮
-                            area: ['805px', '90%'],
+                            area: ['833px', '90%'],
                             content: ['./discipline_Add.ftl'],
                             end: function () { //最后执行reload
                                 location.reload();
@@ -394,7 +394,7 @@
                     shade: false,
                     offset: 'default',
                     maxmin: true, //开启最大化最小化按钮
-                    area: ['800px', '550px'],
+                    area: ['837px', '550px'],
                     content: ['./sympathy_Add.ftl'],
                     end: function () { //最后执行reload
                         location.reload();

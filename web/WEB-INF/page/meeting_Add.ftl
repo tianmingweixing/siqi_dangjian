@@ -281,7 +281,7 @@
 
 <script id="img_template" type="text/html">
     <div class="upload-img" filename="{{ d.index }}">
-        <input type="checkbox" name="" lay-skin="primary">
+        <input type="checkbox" name="checkbox" lay-skin="primary" style="display:block ">
         <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img">
     </div>
 </script>
@@ -557,6 +557,7 @@
                 };
 
                 if (data.name != "") {
+
                     //将预览html 追加
                     laytpl(img_template.innerHTML).render(data, function (html) {
                         $('#imgs').append(html);

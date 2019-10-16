@@ -47,10 +47,10 @@ public class UploadController extends BaseController{
                     String year = String.valueOf(now.get(Calendar.YEAR));
                     String month = String.valueOf(now.get(Calendar.MONTH) + 1);
                     String day = String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-                    //上传文件在本地的路径
+                    //本地的路径
                     String file_path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + saveFilename;
 
-                    // 上传文件在服务器中的位置(目录绝对路径)
+                    //服务器中的位置(目录绝对路径)
 //                    String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
                     String saveServerPath = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
                     File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + saveFilename);//文件的完整路径
@@ -58,7 +58,6 @@ public class UploadController extends BaseController{
                         filePath.getParentFile().mkdirs();
                     }
                     file.transferTo(filePath);
-                    logger.debug("filePath");
                     strings[i] = file_path;
                     i++;
                 }

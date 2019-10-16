@@ -192,8 +192,8 @@ public class MeetingController extends BaseController {
             meeting.setGuide(guide);
             meeting.setMeetingTypeId(meetingTypeId);
             meeting.setImagesA(images_a);
-            meeting.setEndTime(start_time);
-            meeting.setStartTime(end_time);
+            meeting.setEndTime(end_time);
+            meeting.setStartTime(start_time);
             meeting.setCanUse(1);
             meetingService.insertOrUpdate(meeting);
             setSuccess();

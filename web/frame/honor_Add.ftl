@@ -119,6 +119,7 @@
     </div>
 
 </form>
+<script type="text/javascript" src="/js/util/compressImg.js"></script>
 
 <script>
 
@@ -164,10 +165,46 @@
                 elem: '#uploadImg'
                 ,accept: 'file'
                 ,url: '/upload/uploadImage'
-                ,auto: true
+                ,auto: false
                 ,choose: function(obj){
                     //将每次选择的文件追加到文件队列
-                    // var files = obj.pushFile();
+                    var files = obj.pushFile();
+
+                    var imgFiles = files;
+                    var filesArry = [];
+                    for (var key in imgFiles) { //将上传的文件转为数组形式
+                        filesArry.push(imgFiles[key])
+                    }
+
+                    for (let i = filesArry.length-1; i >= 0; i--) {
+                        var file = filesArry[i]; //获取最后选择的图片,即处理多选情况
+
+                        if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
+                                .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
+                            return obj.upload(index, file)
+                        }
+                        canvasDataURL(file, function (blob) {
+                            var aafile = new File([blob], file.name, {
+                                type: file.type
+                            })
+                            var isLt1M;
+                            if (file.size < aafile.size) {
+                                isLt1M = file.size
+                            } else {
+                                isLt1M = aafile.size
+                            }
+
+                            if (isLt1M / 1024 / 1024 > 2) {
+                                return layer.alert('上传图片过大！')
+                            } else {
+                                if (file.size < aafile.size) {
+                                    return obj.upload(i, file)
+                                }
+                                obj.upload(i, aafile)
+                            }
+                        })
+                    }
+
 
                     //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                     obj.preview(function(index, file, result){

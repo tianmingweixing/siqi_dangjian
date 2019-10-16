@@ -196,6 +196,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         return count;
 
     }
+
+
+
     /**
      * 困难职工数量
      * @return

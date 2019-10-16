@@ -117,7 +117,6 @@ public class MiniProgramController extends BaseController {
 
                 if (StringUtils.isNotEmpty(openId)) {
                     User user = userService.wxLogin(openId);
-                    Long userId = user.getId();
                     if (user == null) {
                         user = new User();
                         user.setOpenId(openId);
