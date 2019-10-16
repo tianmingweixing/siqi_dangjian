@@ -26,6 +26,8 @@ public interface IUserDao {
 
     Map selectAll(Map blurParam, Map dateParam,Map intParam, int limit, int page) throws Exception;
 
+    Map selectAllByDifficultyType(Map blurParam,  Map intParam, List dutyIdArr, int limit, int page) throws Exception;
+
     Integer selectDifficultToPartyMembersCount(Long dutyid) throws Exception;
 
     Integer selectNeedyWorkerCount(Long dutyid) throws Exception;

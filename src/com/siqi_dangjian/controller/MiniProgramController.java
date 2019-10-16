@@ -1138,6 +1138,9 @@ public class MiniProgramController extends BaseController {
      * @apiDescription 获取展示的党员信息列表
      * @apiParam {String} username 用户名
      * @apiParam {String} company 公司
+     * @apiParam {String} dutyid 政治面貌
+     * @apiParam {String} difficulty_type 困难状态：0-非困难；1-困难；2：非常困难
+     * @apiParam {String} type 查询条件：1：普通党员查询；2：查选困难党员；3：查询困难职工
      * @apiParam {String} founding_time 入党时间
      * @apiParam {String} change_time 修改时间
      * @apiParam {Integer} limit 页大小
@@ -1148,6 +1151,8 @@ public class MiniProgramController extends BaseController {
     public ModelMap getUserList(@RequestParam(value = "username", required = false) String username,
                                 @RequestParam(value = "company", required = false) String company,
                                 @RequestParam(value = "dutyid", required = false) String dutyid,
+                                @RequestParam(value = "difficulty_type", required = false) String difficulty_type,
+                                @RequestParam(value = "type", required = false) String type,
                                 @RequestParam(value = "founding_time", required = false) String founding_time,
                                 @RequestParam(value = "change_time", required = false) String change_time,
                                 @RequestParam(value = "limit", required = false) Integer limit,
@@ -1167,9 +1172,6 @@ public class MiniProgramController extends BaseController {
             blurMap.put("username", username);
         }
 
-        if (StringUtils.isNotEmpty(dutyid)) {
-            intMap.put("dutyid", dutyid);
-        }
 
         if (StringUtils.isNotEmpty(founding_time)) {
             dateMap.put("founding_time", founding_time);
@@ -1185,13 +1187,59 @@ public class MiniProgramController extends BaseController {
         }
 
         try {
-            Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
-            List list = (List) map.get("list");
-            Integer count = (int) map.get("count");
-            setData("data", list);
-            setData("count", count);
-            setSuccess();
-            setMsg("查询用户信息成功 (>‿◠)✌");
+
+            //判断type查询所需党员信息
+            //1：根据dutyId查询党员
+            //2：根据困难状态查询党员
+            //3：根据困难状态查询职工
+            if(type.equals("1")){
+                if (StringUtils.isNotEmpty(dutyid)) {
+                    intMap.put("dutyid", dutyid);
+                }
+                Map map = userService.getUserList(blurMap, intMap, dateMap, limit, page);
+                List list = (List) map.get("list");
+                Integer count = (int) map.get("count");
+                setData("data", list);
+                setData("count", count);
+                setSuccess();
+                setMsg("查询用户信息成功 (>‿◠)✌");
+
+            }else if(type.equals("2")){
+                if (StringUtils.isNotEmpty(dutyid)) {
+                    intMap.put("difficulty_type", difficulty_type);
+                }
+                List dutyIdArr = new ArrayList();
+                dutyIdArr.add(5);
+                dutyIdArr.add(6);
+                Map map = userService.getUserListByDifficultyType(blurMap, intMap, dutyIdArr, limit, page);
+                List list = (List) map.get("list");
+                Integer count = (int) map.get("count");
+                setData("data", list);
+                setData("count", count);
+                setSuccess();
+                setMsg("查询用户信息成功 (>‿◠)✌");
+
+            }else if(type.equals("3")){
+                if (StringUtils.isNotEmpty(dutyid)) {
+                    intMap.put("difficulty_type", difficulty_type);
+                }
+                List dutyIdArr = new ArrayList();
+                dutyIdArr.add(2);
+                dutyIdArr.add(3);
+                dutyIdArr.add(4);
+                Map map = userService.getUserListByDifficultyType(blurMap, intMap, dutyIdArr, limit, page);
+                List list = (List) map.get("list");
+                Integer count = (int) map.get("count");
+                setData("data", list);
+                setData("count", count);
+                setSuccess();
+                setMsg("查询用户信息成功 (>‿◠)✌");
+
+            }else{
+                setFail("缺少参数type");
+                setCode(-1);
+            }
+
         } catch (Exception e) {
             setFail("查询用户信息失败");
             setCode(CommonString.BACK_EXPECTION);
@@ -1466,8 +1514,8 @@ public class MiniProgramController extends BaseController {
     public ModelMap selectUserGroupCount() {
         modelMap = new ModelMap();
         try {
-            Map map = userService.selectGroupCount();
-            setData("countList", map);
+            List list = userService.selectGroupCount();
+            setData("countList", list);
             setSuccess();
             setCode(CommonString.REQUEST_SUCCESS);
         } catch (Exception e) {

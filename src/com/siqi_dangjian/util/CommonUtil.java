@@ -193,6 +193,16 @@ public class CommonUtil {
         return builder.toString();
     }
 
+    public static String appendInSql2(String sql, List list, String column) {
+        StringBuilder builder = new StringBuilder(sql);
+        builder.append(" and " + column + " in (");
+        for (int i = 0; i < list.size(); i++) {
+            builder.append(list.get(i) + ",");
+        }
+        builder = new StringBuilder(builder.substring(0, builder.toString().length() - 1));
+        builder.append(")");
+        return builder.toString();
+    }
 
     public static String[] removeArrayEmptyTextBackNewArray(String[] strArray) {
 

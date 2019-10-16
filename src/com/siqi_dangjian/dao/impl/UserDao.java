@@ -312,6 +312,78 @@ public class UserDao extends BaseDao<User> implements IUserDao {
 
     }
 
+
+    @Override
+    public Map selectAllByDifficultyType(Map blurParam,  Map intParam, List dutyIdArr, int limit, int page) throws Exception {
+        session = sessionFactory.getCurrentSession();
+        String sql = "SELECT\n" +
+                "  u.id,\n" +
+                "  IFNULL(u.username, \"暂无信息\") username,\n" +
+                "  IFNULL(u.nick_name, \"暂无信息\") nick_name,\n" +
+                "  u.head_img,\n" +
+                "  u.profiles,\n" +
+                "  u.company_office,\n" +
+                "  u.party_posts,\n" +
+                "  if(u.sex='1','男','女')sex,\n" +
+                "  u.age,\n" +
+                "  (case u.education\n" +
+                "   when 1 then '初中'\n" +
+                "   when 2 then '高中'\n" +
+                "   when 3 then '中专'\n" +
+                "   when 4 then '大专'\n" +
+                "   when 5 then '本科'\n" +
+                "   when 6 then '硕士'\n" +
+                "   when 7 then '博士'\n" +
+                "   else '暂无信息'\n" +
+                "   end\n" +
+                "  )education,\n" +
+                "  u.company,\n" +
+                "  u.phone,\n" +
+                "  u.ID_cord,\n" +
+                "  d.type_name ,\n" +
+                "  (case u.difficulty_type\n" +
+                "   when 0 then '非困难'\n" +
+                "   when 1 then '困难'\n" +
+                "   when 2 then '非常困难'   else '暂无信息' end)difficulty_type,\n" +
+                "  DATE_FORMAT(u.join_time, '%Y-%m-%d') join_time,\n" +
+                "  DATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
+                "  u.address,\n" +
+                "  u.dutyid,\n" +
+                "  u.party_branch_id,\n" +
+                "  p.name party_branch_name,\n" +
+                "  u.party_groups_id,\n" +
+                "  u.party_team_id,\n" +
+                "  (select g.name from party_group g where u.party_groups_id = g.id) as groupName,\n" +
+                "  (select t.name from party_team t where u.party_groups_id = t.id) as teamName\n" +
+                "FROM\n" +
+                "  USER u\n" +
+                "  LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                "  join party_branch p on u.party_branch_id = p.id\n" +
+                "WHERE\n" +
+                "  u.can_use = 1 and p.can_use = 1 and d.can_use =1";
+
+        String sqlCount = "SELECT\n" +
+                " count(u.id) count\n" +
+                " FROM\n" +
+                " USER u\n" +
+                " LEFT JOIN duty d ON u.dutyid = d.id\n" +
+                " join party_branch p on u.party_branch_id = p.id\n" +
+                " WHERE\n" +
+                " u.can_use = 1 and p.can_use = 1 and d.can_use =1";
+        sql = CommonUtil.appendBlurStr(sql,blurParam);
+        sql = CommonUtil.appendInSql2(sql,dutyIdArr,"u.dutyid");
+        sql = CommonUtil.appendIntStr(sql,intParam,"u");
+        sqlCount = CommonUtil.appendBlurStr(sqlCount,blurParam);
+        sqlCount =  CommonUtil.appendInSql2(sqlCount,dutyIdArr,"u.dutyid");
+        sqlCount = CommonUtil.appendIntStr(sqlCount,intParam,"u");
+
+        sql = sql +" ORDER BY u.create_time DESC";
+
+        Map resMap = CommonUtil.queryList(session,sql,sqlCount,limit,page);
+        return resMap;
+
+    }
+
     @Override
     public Integer selectUserCountByTypeOrTeam(String coum, Long parem) throws Exception {
         session = sessionFactory.getCurrentSession();
