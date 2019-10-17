@@ -115,23 +115,23 @@ public class UserService implements IUserService {
         Map itemMap2 = new HashMap<>();
         Map itemMap3 = new HashMap<>();
         Map blurParam = new HashMap<>();
-        blurParam.put("type_name", "正式党员");
+        blurParam.put("type_name", "正式党员");//此type_name是DataBase字段值不可修改
         Long dutyId = dutyDao.selectByTypeName(blurParam);
         Integer difficultToPartyMembersCount = userDao.selectDifficultToPartyMembersCount(dutyId);//困难党员
         Integer needyWorkerCount = userDao.selectNeedyWorkerCount(dutyId);
         Integer partyGroupCount = userDao.selectUserCountOfGroup();
 
-        itemMap.put("type_name","困难党员");
+        itemMap.put("typeName","困难党员");
         itemMap.put("count",difficultToPartyMembersCount);
         itemMap.put("typeId",0);
         resList.add(itemMap);
 
-        itemMap2.put("type_name","困难职工");
+        itemMap2.put("typeName","困难职工");
         itemMap2.put("count",needyWorkerCount);
         itemMap2.put("typeId",0);
         resList.add(itemMap2);
 
-        itemMap3.put("type_name","班子成员");
+        itemMap3.put("typeName","班子成员");
         itemMap3.put("count",partyGroupCount);
         itemMap3.put("typeId",0);
         resList.add(itemMap3);

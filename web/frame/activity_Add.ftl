@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="/css/public.css">
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
-
+    <style type="text/css">
+        div{
+            width:100%;
+        }
+    </style>
 </head>
 <body>
 
