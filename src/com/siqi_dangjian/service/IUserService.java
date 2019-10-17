@@ -17,13 +17,15 @@ public interface IUserService {
 
     Map getUserList(Map blurMap, Map intMap, Map dateMap,Integer limit,Integer page) throws Exception;
 
+    Map getUserListByDifficultyType(Map blurMap, Map intMap, List dutyIdArr,Integer limit,Integer page) throws Exception;
+
     void addUser(User user) throws Exception;
 
     void deleteUser(List idList) throws Exception;
 
     void logicDeleteUser(List idList) throws Exception;
 
-    Map selectGroupCount() throws Exception;
+    List selectGroupCount() throws Exception;
 
     void saveOrUpDate(User user1) throws Exception;
 

@@ -197,6 +197,38 @@ var headImg = [];
 
         }
 
+        function canvasDataURL(file, callback) { //压缩转化为base64
+            var reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = function (e) {
+                const img = new Image()
+                const quality = 0.8 // 图像质量
+                const canvas = document.createElement('canvas')
+                const drawer = canvas.getContext('2d')
+                img.src = this.result
+                img.onload = function () {
+                    canvas.width = img.width
+                    canvas.height = img.height
+                    drawer.drawImage(img, 0, 0, canvas.width, canvas.height)
+                    convertBase64UrlToBlob(canvas.toDataURL(file.type, quality), callback);
+                }
+            }
+        }
+
+        function convertBase64UrlToBlob(urlData, callback) { //将base64转化为文件格式
+            const arr = urlData.split(',')
+            const mime = arr[0].match(/:(.*?);/)[1]
+            const bstr = atob(arr[1])
+            let n = bstr.length
+            const u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            callback(new Blob([u8arr], {
+                type: mime
+            }));
+        }
+
 
         layui.use(['laydate', 'layer','upload', 'table', 'carousel', 'element', 'form'], function () {
             var form = layui.form;
@@ -215,8 +247,44 @@ var headImg = [];
             //执行实例
             var uploadInst = upload.render({
                 elem: '#test1' //绑定元素
-                ,url: '/upload/uploadImage' //上传接口
+                , url: '/upload/uploadImage' //上传接口
+                , auto: false
+                , choose: function (obj) {  //选择图片后事件
+                    var files = obj.pushFile(); //将每次选择的文件追加到文件队列
 
+                    $('#upload_imgs').prop('disabled', false);
+
+                    //预读本地文件
+                    obj.preview(function (index, file, result) {
+
+                        if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
+                                .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
+                            return obj.upload(index, file)
+                        }
+
+                        canvasDataURL(file, function (blob) {
+                            var aafile = new File([blob], file.name, {
+                                type: file.type
+                            })
+                            var isLt1M;
+                            if (file.size < aafile.size) {
+                                isLt1M = file.size
+                            } else {
+                                isLt1M = aafile.size
+                            }
+
+                            if (isLt1M / 1024 / 1024 > 2) {
+                                return layer.alert('上传图片过大！')
+                            } else {
+                                if (file.size < aafile.size) {
+                                    return obj.upload(index, file)
+                                }
+                                obj.upload(index, aafile)
+                            }
+                        })
+
+                    });
+                }
                 ,done: function(res){
                     //上传完毕回调
                     headImg.push(res.src);

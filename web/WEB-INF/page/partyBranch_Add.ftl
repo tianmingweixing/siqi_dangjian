@@ -165,8 +165,11 @@
             <div class="layui-form-item input_row_margin_top">
 
                 <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">支部图片</label>
-                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
+                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px;width: 350px;">
                     <label for="fileinp" id="btn">选择图片</label>
+                    <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
                     <input type="file" id="fileinp" name="file" onchange="reads(this)">
                     <img id="backimg" name="backimg"
                          src="<#if party_img??>${party_img}<#else>\images\defaultImg.jpg</#if>" height="200" width="300"
@@ -176,8 +179,11 @@
             <div class="layui-form-item input_row_margin_top">
 
                 <label class="layui-form-label " style="margin-left: 1px; margin-top: 10px">组织结构图</label>
-                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px">
+                <div class="layui-input-inline" style="padding-top: 10px; margin-top: 10px; width: 350px;">
                     <label for="structure_img" id="btn2">选择图片</label>
+                    <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
                     <input type="file" id="structure_img" name="structure_img" onchange="reads2(this)">
                     <img id="imgbox" name="imgbox"
                          src="<#if structure_img??>${structure_img}<#else>\images\defaultImg.jpg</#if>" height="200" width="300"
@@ -202,7 +208,91 @@
 
 <script>
 
+    var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+
+
+    function canvasDataURL(file, callback) { //压缩转化为base64
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function (e) {
+            const img = new Image()
+            const quality = 0.8 // 图像质量
+            const canvas = document.createElement('canvas')
+            const drawer = canvas.getContext('2d')
+            img.src = this.result
+            img.onload = function () {
+                canvas.width = img.width
+                canvas.height = img.height
+                drawer.drawImage(img, 0, 0, canvas.width, canvas.height)
+                convertBase64UrlToBlob(canvas.toDataURL(file.type, quality), callback);
+            }
+        }
+    }
+
+    function convertBase64UrlToBlob(urlData, callback) { //将base64转化为文件格式
+        const arr = urlData.split(',')
+        const mime = arr[0].match(/:(.*?);/)[1]
+        const bstr = atob(arr[1])
+        let n = bstr.length
+        const u8arr = new Uint8Array(n)
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n)
+        }
+        callback(new Blob([u8arr], {
+            type: mime
+        }));
+    }
+
+    function reads(obj) {
+        var file = obj.files[0];
+        if (file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+
+        if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
+                .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
+            return obj.upload(index, file)
+        }
+
+        canvasDataURL(file, function (blob) {
+            var aafile = new File([blob], file.name, {
+                type: file.type
+            })
+            formData.append("file", aafile, file.name);
+        })
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#backimg").attr("src", ev.target.result);
+        }
+    }
+    function reads2(obj) {
+        var file = obj.files[0];
+        if (file.size > 1024 * 1024 * 2) {
+            alert('图片大小不能超过 2MB!');
+            return false;
+        }
+
+        canvasDataURL(file, function (blob) {
+            var aafile = new File([blob], file.name, {
+                type: file.type
+            })
+            formData.append("file2", aafile, file.name);
+        })
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (ev) {
+            $("#imgbox").attr("src", ev.target.result);
+        }
+    }
+
+
+
     $(function () {
+
         layui.use(['element', 'laydate', 'form'], function () {
             var form = layui.form;
             var laydate = layui.laydate //日期
@@ -222,17 +312,15 @@
             });
 
             form.on('submit(formDemo)', function () {
-
-                var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
-                var file = document.fileForm.file.files[0];
-                var file2 = document.fileForm.structure_img.files[0];
-
-                if (file != null) {
-                    formData.append("file", file);
-                }
-                if (file2 != null) {
-                    formData.append("file2", file2);
-                }
+                // var file = document.fileForm.file.files[0];
+                // var file2 = document.fileForm.structure_img.files[0];
+                //
+                // if (file != null) {
+                //     formData.append("file", file);
+                // }
+                // if (file2 != null) {
+                //     formData.append("file2", file2);
+                // }
 
                 var img_path = document.fileForm.backimg.src;
                 // 图片正则
@@ -275,30 +363,9 @@
         });
     });
 
-    function reads(obj) {
-        var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
-            alert('图片大小不能超过 2MB!');
-            return false;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (ev) {
-            $("#backimg").attr("src", ev.target.result);
-        }
-    }
-    function reads2(obj) {
-        var file = obj.files[0];
-        if (file.size > 1024 * 1024 * 2) {
-            alert('图片大小不能超过 2MB!');
-            return false;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (ev) {
-            $("#imgbox").attr("src", ev.target.result);
-        }
-    }
+
+
+
 
 </script>
 

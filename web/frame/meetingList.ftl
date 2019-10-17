@@ -92,12 +92,17 @@
 
 <script type="text/html" id="images_a">
 
-    {{# var srr=d.images_a.split(",");
-    for(var j in srr) { srr[j] }}
-    <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
-        <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}" />
-    </div>
-    {{# } }}
+    {{#
+            var srr=d.images_a.split(",");
+            for(var j in srr) {
+                srr[j]
+    }}
+                <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
+                    <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}" />
+                </div>
+    {{#
+            }
+    }}
 
 </script>
 

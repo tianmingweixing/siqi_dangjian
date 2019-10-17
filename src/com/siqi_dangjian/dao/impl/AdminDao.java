@@ -65,10 +65,8 @@ public class AdminDao extends BaseDao<Admin> implements IAdminDao {
     @Override
     public Map selectAll(Map blurParam, Map intParam, Map dateParam, int limit, int page) throws Exception {
         session = sessionFactory.getCurrentSession();
-//        "\tDATE_FORMAT(u.create_time, '%Y-%m-%d') create_time,\n" +
-//                "\tIFNULL(G.brief,\"暂无信息\") brief,\n" +
         String sql = "\tSELECT a.id," +
-                "a.username,a.account," +
+                "a.username,a.account,a.head_img," +
                 "IF(a.admin_type=1,'超级管理员','普通管理员') admin_type," +
                 "a.authority,a.party_branch_id,p.name" +
                 " FROM \n" +

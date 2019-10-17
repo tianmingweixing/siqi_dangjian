@@ -131,6 +131,39 @@
     }
 
 
+    function canvasDataURL(file, callback) { //压缩转化为base64
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function (e) {
+            const img = new Image()
+            const quality = 0.8 // 图像质量
+            const canvas = document.createElement('canvas')
+            const drawer = canvas.getContext('2d')
+            img.src = this.result
+            img.onload = function () {
+                canvas.width = img.width
+                canvas.height = img.height
+                drawer.drawImage(img, 0, 0, canvas.width, canvas.height)
+                convertBase64UrlToBlob(canvas.toDataURL(file.type, quality), callback);
+            }
+        }
+    }
+
+    function convertBase64UrlToBlob(urlData, callback) { //将base64转化为文件格式
+        const arr = urlData.split(',')
+        const mime = arr[0].match(/:(.*?);/)[1]
+        const bstr = atob(arr[1])
+        let n = bstr.length
+        const u8arr = new Uint8Array(n)
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n)
+        }
+        callback(new Blob([u8arr], {
+            type: mime
+        }));
+    }
+
+
     layui.use(['layer', 'element', 'upload', 'form' ], function(){
         var $ = layui.jquery;
         var layer = layui.layer //弹层
@@ -150,6 +183,8 @@
             ,bindAction: '#testListAction'
             ,choose: function(obj){
                 var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+
+
                 //读取本地文件
                 obj.preview(function(index, file, result){
                     var tr = $(['<tr id="upload-'+ index +'">'
@@ -161,6 +196,33 @@
                         ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
                         ,'</td>'
                         ,'</tr>'].join(''));
+
+                    if (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion.split(";")[1]
+                            .replace(/[ ]/g, "").replace("MSIE", "")) < 9) {
+                        return obj.upload(index, file)
+                    }
+
+                    canvasDataURL(file, function (blob) {
+                        var aafile = new File([blob], file.name, {
+                            type: file.type
+                        })
+                        var isLt1M;
+                        if (file.size < aafile.size) {
+                            isLt1M = file.size
+                        } else {
+                            isLt1M = aafile.size
+                        }
+
+                        if (isLt1M / 1024 / 1024 > 2) {
+                            return layer.alert('上传图片过大！')
+                        } else {
+                            if (file.size < aafile.size) {
+                                return obj.upload(index, file)
+                            }
+                            obj.upload(index, aafile)
+                        }
+                    })
+
 
                     //单个重传
                     tr.find('.demo-reload').on('click', function(){
@@ -235,7 +297,6 @@
                 tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
             }
         });
-
 
 
     });

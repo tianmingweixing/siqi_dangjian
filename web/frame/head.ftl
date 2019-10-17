@@ -20,7 +20,7 @@
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
             <a href="javascript:;">
-                <img src="../images/head.jpg" class="layui-nav-img">
+                <img id="headImg" src="../images/head.jpg" class="layui-nav-img">
                 <span id="adminName">贤心</span>
             </a>
             <dl class="layui-nav-child">
@@ -55,9 +55,10 @@
                 // party_branch_id: $("#party_branch_id").val(),
             },
             success: function (data) {
-                //console.log(data);
+                console.log(data);
                 if (data.code == 0){
                     $("#adminName").html(data.admin.userName);
+                    $("#headImg").attr('src',data.admin.headImg);
                 }
             }
         });

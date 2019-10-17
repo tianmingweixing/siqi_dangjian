@@ -222,6 +222,9 @@
                                     <button type="button" class="layui-btn" id="upload_imgs" disabled>开始上传</button>
                     -->
                     <button type="button" class="layui-btn layui-btn-danger" id="dele_imgs">删除选中图片</button>
+                    <span class="error-tips" style="color: #ff3100; font-size:13px; padding-left:10px;">
+                        图片大小不超过200kb,尺寸为650 * 300。
+                    </span>
                 </div>
 
             </div>
@@ -278,7 +281,7 @@
 
 <script id="img_template" type="text/html">
     <div class="upload-img" filename="{{ d.index }}">
-        <input type="checkbox" name="" lay-skin="primary">
+        <input type="checkbox" name="checkbox" lay-skin="primary" style="display:block ">
         <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img">
     </div>
 </script>
@@ -415,13 +418,13 @@
 
         //多图片上传
         var uploadInst = upload.render({
-            elem: '#sele_imgs'  //开始
+            elem: '#sele_imgs' //开始
             , acceptMime: 'image/*'
             , url: '/upload/uploadImage'
             , auto: false
             , bindAction: '#upload_imgs'
             , multiple: true
-            , size: 1024 * 12
+            , size: 0
             , choose: function (obj) {  //选择图片后事件
                 var files = obj.pushFile(); //将每次选择的文件追加到文件队列
                 imgFiles = files;
@@ -554,6 +557,7 @@
                 };
 
                 if (data.name != "") {
+
                     //将预览html 追加
                     laytpl(img_template.innerHTML).render(data, function (html) {
                         $('#imgs').append(html);
