@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>思齐党建后台 editor</title>
+    <script type="text/javascript" src="\ueditor\ueditor.config.js"></script>
+    <script type="text/javascript" src="\ueditor\ueditor.all.js"></script>
+
+    <style type="text/css">
+        div{
+            width:90%;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <script id="editor1" name="content" type="text/plain"></script>
+        <div class="con-split">-------------</div>
+    </div>
+
+    <div class="details">
+        <div>
+            <script type="text/plain" id="editor2"></script>
+            <div class="con-split">==============</div>
+        </div>
+    </div>
+
+    <div id="content" class="w900 border-style1 bg">
+        <div class="section">
+            <div class="details">
+                <div>
+                    <script type="text/plain" id="editor"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="btns">
+         <div>
+             <button onclick="getContent()">获得内容</button>
+             <button onclick="getContentTxt()">获得纯文本</button>
+             <button onclick="getPlainTxt()">获得带格式的纯文本</button>
+         </div>
+         <div>
+             <button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
+             <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
+             <button onclick=" UE.getEditor('editor').setHeight(500)">设置高度为300默认关闭了自动长高</button>
+         </div>
+    </div>
+
+    <script type="text/javascript">
+
+        //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，
+        // 如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        var ue = UE.getEditor('editor');
+
+        function getContent() {
+            var arr = [];
+            arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+            arr.push("内容为：");
+            arr.push(ue.getContent());
+            alert(arr.join("\n"));
+            console.log(arr);
+            console.log(ue.getContent());
+        }
+        function getPlainTxt() {
+            var arr = [];
+            arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+            arr.push("内容为：");
+            arr.push(UE.getEditor('editor').getPlainTxt());
+            alert(arr.join('\n'))
+        }
+
+        function getContentTxt() {
+            var arr = [];
+            arr.push("使用editor.getContentTxt()方法可以获得编辑器的纯文本内容");
+            arr.push("编辑器的纯文本内容为：");
+            arr.push(UE.getEditor('editor').getContentTxt());
+            alert(arr.join("\n"));
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

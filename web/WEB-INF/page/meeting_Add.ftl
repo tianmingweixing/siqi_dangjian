@@ -4,12 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title> 会议表后台</title>
-
     <link rel="stylesheet" href="../../js/layui/css/layui.css">
     <link rel="stylesheet" href="../../css/public.css">
     <script src="../../js/layui/layui.js"></script>
     <script src="../../js/jquery/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="../../ueditor/ueditor.all.js"></script>
+    <style type="text/css">
+        .ueditorDiv{
+            width:90%;
+        }
+    </style>
+
     <style>
         .layui-upload .mark_button {
             position: absolute;
@@ -176,18 +183,22 @@
 
             </div>
 
-            <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">会议内容</label>
-                    <div class="layui-input-block">
-                        <textarea name="content" id="content" placeholder="请输入会议内容"
-                                  class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
+
+            <div id="content" style="margin-left: 20px">
+                <div class="section">
+                    <div class="details">
+                        <div class="ueditorDiv">
+                            <script type="text/plain" id="editor"><#if content??>${content}<#else></#if></script>
+                        </div>
                     </div>
+                </div>
             </div>
+
 
             <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">会议指导</label>
                     <div class="layui-input-block">
-                        <textarea name="guide" id="guide" placeholder="请输入会议指导"
+                        <textarea name="guide" id="guide" placeholder="请输入会议指导" style="margin-left: -86px;"
                                   class="layui-textarea"><#if guide??>${guide}<#else></#if></textarea>
                     </div>
             </div>
@@ -196,7 +207,7 @@
             <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">会议签到</label>
                     <div class="layui-input-block">
-                        <textarea name="userName" id="userName" placeholder="会议签到" class="layui-textarea"
+                        <textarea name="userName" id="userName" placeholder="会议签到" class="layui-textarea" style="margin-left: -86px;"
                                   readonly><#if userName??>${userName}<#else></#if></textarea>
                     </div>
             </div>
@@ -294,6 +305,11 @@
     var indexArr = [];
     var finishImgPathArr = [];
 
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，
+    // 如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('editor');
 
     function addSignIn() {
         document.fileForm.name.value = $("#name").val();
@@ -614,6 +630,9 @@
 
 
         form.on('submit(formDemo)', function () {
+
+            console.log(ue.getContent());
+
             $("div[class=upload-img] img").each(function () {
                 var src = $(this).attr("src");
                 var patrn = /^([/0-9a-zA-Z_.]+)?$/;
@@ -626,8 +645,8 @@
             finishImgPathArr.push(resImgPathArr);
             finishImgPathArr.push(deletedPathArr);
             /*
-                                alert("resImgPathArr: "+resImgPathArr);
-                                alert("finishImgPathArr: "+finishImgPathArr);*/
+                alert("resImgPathArr: "+resImgPathArr);
+                alert("finishImgPathArr: "+finishImgPathArr);*/
 
             $.ajax({
                 url: "/meeting/addMeeting",
@@ -641,7 +660,8 @@
                     attendance: $("#attendance").val(),
                     address: $("#address").val(),
                     meeting_type_id: $("#meeting_type").val(),
-                    content: $("#content").val(),
+                    // content: $("#content").val(),
+                    content:ue.getContent(),
                     guide: $("#guide").val(),
                     imgPath: finishImgPathArr.toString(),
                     start_time: $("#start_time").val(),

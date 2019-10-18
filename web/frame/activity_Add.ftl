@@ -8,9 +8,13 @@
     <link rel="stylesheet" href="/css/public.css">
     <script src="/js/layui/layui.js"></script>
     <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="\ueditor\ueditor.config.js"></script>
+    <script type="text/javascript" src="\ueditor\ueditor.all.js"></script>
+
     <style type="text/css">
-        div{
-            width:100%;
+        .ueditorDiv{
+            width:90%;
+            z-index: 10;
         }
     </style>
 </head>
@@ -34,63 +38,47 @@
 
             </div>
 
-            <div class="layui-form-item input_row_margin_top">
+            <div class="layui-form-item ">
                 <label class="layui-form-label ">活动标题</label>
                 <div class="layui-input-inline">
                     <input id="title" name="title" lay-verify="required" placeholder="请输入活动标题" maxlength="20"
-                           autocomplete="off" class="layui-input" value="<#if title??>${title}<#else></#if>">
+                           autocomplete="off" style="display: block; width: 268%; padding-left: 8px; height: 38px; border-color: #D2D2D2!important; line-height: 1.3; line-height: 38px\9; border-width: 1px; border-style: solid; background-color: #fff; border-radius: 2px;" value="<#if title??>${title}<#else></#if>">
                 </div>
+            </div>
+
+          <#--  <div class="layui-form-item ">
                 <label class="layui-form-label" >活动类型</label>
                 <div class="layui-input-inline">
-                    <select id="type_search" name="type_search" lay-verify="">
+                    <select id="type_search" name="type_search" lay-verify="" style="z-index: 1000">
                     </select>
                 </div>
+            </div>-->
+
+            <br>
+
+            <div class="ueditorDiv" >
+                <script id="editor" name="content" type="text/plain"><#if content??>${content}<#else></#if></script>
             </div>
 
-            <div class="layui-form-item input_row_margin_top">
-                <label class="layui-form-label ">开始时间</label>
-                <div class="layui-input-inline">
-                    <input id="start_time" name="start_time" lay-verify="text" placeholder="开始时间"
-                           autocomplete="off" class="layui-input" value="<#if start_time??>${start_time}<#else></#if>">
+            <#--<div id="content" class="layui-form-item ">
+                <div class="section">
+                    <div class="details">
+                        <div class="ueditorDiv">
+                            <script type="text/plain" id="editor"><#if content??>${content}<#else></#if></script>
+                        </div>
+                    </div>
                 </div>
-                <label class="layui-form-label ">结束时间</label>
-                <div class="layui-input-inline">
-                    <input id="end_time" name="end_time" lay-verify="text" placeholder="结束时间"
-                           autocomplete="off" class="layui-input" value="<#if end_time??>${end_time}<#else></#if>">
-                </div>
-            </div>
+            </div>-->
 
-            <div class="layui-form-item input_row_margin_top">
-                <!--<label class="layui-form-label">活动状态</label>
-                <div class="layui-input-inline">
-                    <select id="status" name="status" lay-filter="select_first_category">
-                        <option value='0'>筹备中</option>
-                        <option value='1'>进行中</option>
-                        <option value='2'>已结束</option>
-                    </select>
-                </div>-->
-                <label class="layui-form-label ">截止报名</label>
-                <div class="layui-input-inline">
-                    <input id="end_join_time" name="end_join_time" lay-verify="text" placeholder="截止报名时间"
-                           autocomplete="off" class="layui-input" value="<#if end_join_time??>${end_join_time}<#else></#if>">
+            <#--<div id="btns">
+                <div>
+                    <button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
+                    <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
+                    <button class="layui-btn layui-btn-normal" onclick=" UE.getEditor('editor').setHeight(300)">设置高度为300默认关闭了自动长高</button>
                 </div>
-                <label class="layui-form-label" >活动品牌</label>
-                <div class="layui-input-inline">
-                    <select id="brand_search" name="brand_search" lay-verify="">
-                        <option value="">请选择</option>
-                    </select>
-                </div>
-            </div>
+            </div>-->
 
-            <div class="layui-form-item layui-form-text input_row_margin_top">
-                <label class="layui-form-label">活动内容</label>
-                <div class="layui-input-block">
-                <textarea name="content" id="content" placeholder="请输入活动内容" style="width: 500px; height: 200px;" maxlength="250"
-                      class="layui-textarea"><#if content??>${content}<#else></#if></textarea>
-                </div>
-            </div>
-
-            <#if id??>
+        <#--    <#if id??>
                     <div class="layui-form-item layui-form-text" >
                         <label class="layui-form-label">活动报名</label>
                         <div class="layui-input-inline">
@@ -103,10 +91,10 @@
                         </div>
                     </div>
             <#else>
-            </#if>
+            </#if>-->
 
 
-
+            <br>
             <div class="layui-form-item input_row_margin_top">
                 <div class="layui-upload" style="width: 620px;">
                     <button type="button" class="layui-btn layui-btn-normal" id="testList">选择图片</button>
@@ -168,10 +156,10 @@
         </div>
 
     </form>
-    <div class="layui-input-inline search_div" style="margin-left: 110px">
+  <#--  <div class="layui-input-inline search_div" style="margin-left: 110px">
         <button class="layui-btn layui-btn-normal" onclick="sign_in()">活动报名</button>
         <button class="layui-btn layui-btn-danger" onclick="cancelSignIn()">取消报名</button>
-    </div>
+    </div>-->
 
 </div>
 
@@ -180,6 +168,12 @@
     var category =<#if typeId??>${typeId}<#else>0</#if>;
     var count = <#if imgarr??>${imgarr?size}<#else >0</#if>;
     var pathArr = [];
+
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，
+    // 如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('editor');
 
 
     function addSignIn(){
@@ -566,6 +560,13 @@
 
 
         form.on('submit(formDemo)', function (data) {
+
+            // var ue = UE.getEditor('editor');
+            //使用editor.getContent()方法可以获得编辑器的内容
+            console.log(ue.getContent());
+
+
+
             var formData = new FormData();
 
             if(pathArr.length >2){
@@ -580,13 +581,13 @@
                     // party_branch_id: $("#party_branch_id").val(),
                     party_branch_id:1,
                     title: $("#title").val(),
-                    content: $("#content").val(),
+                    content: ue.getContent(),
                     type_id: $("#type_search").val(),
-                    brand_id: $("#brand_search").val(),
-                    start_time: $("#start_time").val(),
-                    end_time: $("#end_time").val(),
-                    end_join_time: $("#end_join_time").val(),
-                    status: 0,
+                    // brand_id: $("#brand_search").val(),
+                    // start_time: $("#start_time").val(),
+                    // end_time: $("#end_time").val(),
+                    // end_join_time: $("#end_join_time").val(),
+                    // status: 0,
                     image_path_a: pathArr[0],
                     image_path_b: pathArr[1],
                     id: id
