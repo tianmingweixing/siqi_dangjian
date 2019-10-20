@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css" media="all">
     <script type="text/javascript" src="../../ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="../../ueditor/ueditor.all.js"></script>
+
+    <!-- 语言包文件(建议手动加载语言包，避免在ie下，因为加载语言失败导致编辑器加载失败) -->
+    <script type="text/javascript" src="../../ueditor/lang/zh-cn/zh-cn.js"></script>
     <style type="text/css">
         .ueditorDiv{
             width:90%;
