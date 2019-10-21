@@ -20,7 +20,8 @@ import java.util.Date;
 public class UeditorController {
     @RequestMapping("/")
     private String showPage(){
-        return "index";
+//        return "UEditor";
+        return "WEB-INF/page/UEditor";
     }
 
     @RequestMapping(value="/setUeditorConfig")
@@ -52,8 +53,8 @@ public class UeditorController {
             String file_path = CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day + "/" + saveFilename;
 
             //服务器中的位置(目录绝对路径)
-//            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
-            String saveServerPath = "https://sqdjapi.ahyuntin.com"+ CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
+            String saveServerPath = request.getSession().getServletContext().getRealPath(CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day);
+//            String saveServerPath =  CommonString.FILE_PARENT_PATH + CommonString.FILE_IMAGE_PATH + year + month + day;
             File filePath = new File(new File(saveServerPath).getAbsolutePath() + "/" + saveFilename);//文件的完整路径
             if (!filePath.getParentFile().exists()) {
                 filePath.getParentFile().mkdirs();

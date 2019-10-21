@@ -1,5 +1,6 @@
 package com.siqi_dangjian.bean;
-
+//https://sqdjapi.ahyuntin.com
+//http://localhost:8080
 public class PublicMsg {
     public final static String UEDITOR_CONFIG = "{\n" +
             "    \"imageActionName\": \"uploadimage\",\n" +
@@ -9,32 +10,32 @@ public class PublicMsg {
             "    \"imageCompressEnable\": true,\n" +
             "    \"imageCompressBorder\": 1600,\n" +
             "    \"imageInsertAlign\": \"none\",\n" +
-            "    \"imageUrlPrefix\": \"https://sqdjapi.ahyuntin.com\",\n" +
+            "    \"imageUrlPrefix\": \"http://localhost:8080\",\n" +
             "    \"imagePathFormat\": \"/home/up_load/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "\n" +
             "    \"scrawlActionName\": \"uploadscrawl\",\n" +
             "    \"scrawlFieldName\": \"upfile\",\n" +
-            "    \"scrawlPathFormat\": \"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
+            "    \"scrawlPathFormat\": \"/home/up_load/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "    \"scrawlMaxSize\": 2048000,\n" +
             "    \"scrawlUrlPrefix\": \"\",\n" +
             "    \"scrawlInsertAlign\": \"none\",\n" +
             "\n" +
             "    \"snapscreenActionName\": \"uploadimage\",\n" +
-            "    \"snapscreenPathFormat\": \"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
+            "    \"snapscreenPathFormat\": \"/home/up_load/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "    \"snapscreenUrlPrefix\": \"\",\n" +
             "    \"snapscreenInsertAlign\": \"none\",\n" +
             "\n" +
             "    \"catcherLocalDomain\": [\"127.0.0.1\", \"localhost\", \"img.baidu.com\"],\n" +
             "    \"catcherActionName\": \"catchimage\",\n" +
             "    \"catcherFieldName\": \"source\",\n" +
-            "    \"catcherPathFormat\": \"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
+            "    \"catcherPathFormat\": \"/home/up_load/image/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "    \"catcherUrlPrefix\": \"\",\n" +
             "    \"catcherMaxSize\": 2048000,\n" +
             "    \"catcherAllowFiles\": [\".png\", \".jpg\", \".jpeg\", \".gif\", \".bmp\"],\n" +
             "\n" +
             "    \"videoActionName\": \"uploadvideo\",\n" +
             "    \"videoFieldName\": \"upfile\",\n" +
-            "    \"videoPathFormat\": \"/ueditor/jsp/upload/video/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
+            "    \"videoPathFormat\": \"/home/up_load/video/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "    \"videoUrlPrefix\": \"\",\n" +
             "    \"videoMaxSize\": 102400000,\n" +
             "    \"videoAllowFiles\": [\n" +
@@ -43,7 +44,7 @@ public class PublicMsg {
             "\n" +
             "    \"fileActionName\": \"uploadfile\",\n" +
             "    \"fileFieldName\": \"upfile\",\n" +
-            "    \"filePathFormat\": \"/ueditor/jsp/upload/file/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
+            "    \"filePathFormat\": \"/home/up_load/file/{yyyy}{mm}{dd}/{time}{rand:6}\",\n" +
             "    \"fileUrlPrefix\": \"\",\n" +
             "    \"fileMaxSize\": 51200000,\n" +
             "    \"fileAllowFiles\": [\n" +
@@ -55,14 +56,14 @@ public class PublicMsg {
             "    ],\n" +
             "\n" +
             "    \"imageManagerActionName\": \"listimage\",\n" +
-            "    \"imageManagerListPath\": \"/ueditor/jsp/upload/image/\",\n" +
+            "    \"imageManagerListPath\": \"/home/up_load/image/\",\n" +
             "    \"imageManagerListSize\": 20,\n" +
             "    \"imageManagerUrlPrefix\": \"\",\n" +
             "    \"imageManagerInsertAlign\": \"none\",\n" +
             "    \"imageManagerAllowFiles\": [\".png\", \".jpg\", \".jpeg\", \".gif\", \".bmp\"],\n" +
             "\n" +
             "    \"fileManagerActionName\": \"listfile\",\n" +
-            "    \"fileManagerListPath\": \"/ueditor/jsp/upload/file/\",\n" +
+            "    \"fileManagerListPath\": \"/home/up_load/file/\",\n" +
             "    \"fileManagerUrlPrefix\": \"\",\n" +
             "    \"fileManagerListSize\": 20,\n" +
             "    \"fileManagerAllowFiles\": [\n" +

@@ -313,6 +313,16 @@
     //建议使用工厂方法getEditor创建和引用编辑器实例，
     // 如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function(action) {
+        if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
+            // return 'http://localhost:8080/ueditor/imgUpload';
+            return 'https://sqdjapi.ahyuntin.com/ueditor/imgUpload';
+            //为方法imgUpload的访问地址
+        } else {
+            return this._bkGetActionUrl.call(this, action);
+        }
+    };
 
     function addSignIn() {
         document.fileForm.name.value = $("#name").val();

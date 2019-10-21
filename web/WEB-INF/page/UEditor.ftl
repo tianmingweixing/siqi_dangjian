@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">-->
     <title>思齐党建后台 editor</title>
-    <script type="text/javascript" src="\ueditor\ueditor.config.js"></script>
-    <script type="text/javascript" src="\ueditor\ueditor.all.js"></script>
+    <script type="text/javascript" src="../../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="../../ueditor/ueditor.all.js"></script>
 
     <style type="text/css">
         div{
@@ -17,6 +17,15 @@
 
 
 <body>
+    <div>
+        <script id="editor1" name="content" type="text/plain"></script>
+    </div>
+
+    <div class="details">
+        <div>
+            <script type="text/plain" id="editor2"></script>
+        </div>
+    </div>
 
     <div id="content" class="w900 border-style1 bg">
         <div class="section">
@@ -39,11 +48,8 @@
         UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
         UE.Editor.prototype.getActionUrl = function(action) {
             if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
-                // return 'http://localhost:8080/ueditor/imgUpload';
-                return 'https://sqdjapi.ahyuntin.com/ueditor/imgUpload';
-                //为方法imgUpload的访问地址
-            } else if (action == 'uploadvideo') {
-                return 'https://sqdjapi.ahyuntin.com/ueditor/videoUpload';
+                return 'http://localhost:8080/ueditor/imgUpload';
+                //'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
             } else {
                 return this._bkGetActionUrl.call(this, action);
             }
